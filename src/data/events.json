@@ -1,0 +1,30 @@
+[
+    {
+        "id": "coronation-feast",
+        "characterId": "butler",
+
+        "pages": [
+            "Majestad, soy Oswald. Seré vuestro mayordomo y estaré a vuestro servicio mientras ocupéis el trono.",
+            "Vuestra coronación ha despertado entusiasmo en todo Astaria. Los habitantes de la capital esperan celebraciones, música y banquetes. ¿Deseáis celebrarlos?"
+        ],
+
+        "yesResultPages": [
+            "Los festejos comenzarán al amanecer y durarán varios días.",
+            "El pueblo verá con buenos ojos a su nuevo monarca."
+        ],
+        "yesEffects": {
+            "gold": -20,
+            "prestige": 5
+        },
+        "yesFutureEvents": [],
+
+        "noResultPages": [
+            "Muchos esperaban algún tipo de celebración.",
+            "Aunque las arcas permanecen intactas, algunos consideran vuestra decisión demasiado fría para el comienzo de un reinado."
+        ],
+        "noEffects": {
+            "prestige": -10
+        },
+        "noFutureEvents": []
+    }
+]

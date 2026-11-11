@@ -1,0 +1,12 @@
+[
+    {
+        "id": "peace",
+        "name": "Paz",
+        "description": "El reino vive tiempos tranquilos."
+    },
+    {
+        "id": "war",
+        "name": "Guerra",
+        "description": "Astaria se encuentra en guerra."
+    }
+]
