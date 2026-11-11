@@ -1,15 +1,5 @@
-export interface Effects {
-    gold?: number;
-    population?: number;
-    army?: number;
-    faith?: number;
-    prestige?: number;
-}
-
-export interface FutureEvent {
-    eventId: string;
-    daysLater: number;
-}
+import type { Effects } from "./Effects";
+import type { FutureEvent } from "./FutureEvent";
 
 export interface Event {
     id: string;
@@ -17,11 +7,15 @@ export interface Event {
 
     pages: string[];
 
-    yesResultPages: string[];
-    yesEffects: Effects;
-    yesFutureEvents: FutureEvent[];
+    yesResultPages?: string[];
+    yesEffects?: Effects;
+    yesFutureEvent?: FutureEvent;
+    yesAddedModifierId?: string;
+    yesRemovedModifierId?: string;
 
-    noResultPages: string[];
-    noEffects: Effects;
-    noFutureEvents: FutureEvent[];
+    noResultPages?: string[];
+    noEffects?: Effects;
+    noFutureEvent?: FutureEvent;
+    noAddedModifierId?: string;
+    noRemovedModifierId?: string;
 }
