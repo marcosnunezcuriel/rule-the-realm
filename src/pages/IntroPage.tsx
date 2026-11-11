@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 
+interface HomePageProps {
+    onFinished: () => void;
+}
+
 const introPages = [
     "Durante cuarenta años, tu padre gobernó Astaria.",
     "Bajo su reinado se levantaron ciudades, se abrieron rutas comerciales y los campos dieron cosechas abundantes. Hubo guerras, hambrunas y tiempos difíciles, pero el reino resistió.",
@@ -22,17 +26,18 @@ const introPages = [
     "Larga vida al rey."
 ]
 
-export function IntroPage() {
+export function IntroPage({onFinished}: HomePageProps) {
     const [page, setPage] = useState(0);
 
     useEffect(() => {
         const handleKeydown = (event: KeyboardEvent) => {
             if (event.code === "Space") {
-                setPage((currentPage) => {
-                    if (currentPage < introPages.length - 1) {
-                        return currentPage + 1;
+                setPage((page) => {
+                    if (page < introPages.length - 1) {
+                        return page + 1;
                     }
-                    return currentPage;
+                    onFinished();
+                    return page;
                 });
             }
         }

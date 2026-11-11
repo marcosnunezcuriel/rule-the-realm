@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { HomePage } from "./pages/HomePage";
 import { IntroPage } from "./pages/IntroPage";
+import { GamePage } from "./pages/GamePage";
 
 function App() {
     const [screen, setScreen] = useState("home");
@@ -8,10 +9,13 @@ function App() {
     return (
         <>
             {screen === "home" && (
-                <HomePage onNewGame={() => setScreen("intro")} />
+                <HomePage onNewGame = {() => setScreen("intro")} />
             )}
             {screen === "intro" && (
-                <IntroPage />
+                <IntroPage onFinished = {() => setScreen("game")}/>
+            )}
+            {screen === "game" && (
+                <GamePage />
             )}
         </>
     )
