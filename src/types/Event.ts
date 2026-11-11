@@ -11,7 +11,7 @@ export interface FutureEvent {
     daysLater: number;
 }
 
-export interface GameEvent {
+export interface Event {
     id: string;
     characterId: string;
 
