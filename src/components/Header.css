@@ -1,0 +1,125 @@
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    min-height: 118px;
+    padding: 20px 44px;
+
+    background-color: #121c2a;
+    border-bottom: 1px solid #253143;
+}
+
+/* Logo y nombre del juego */
+
+.site-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.site-header__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+
+    border: 1px solid #b58a4d;
+}
+
+.site-header__logo svg {
+    width: 42px;
+    height: 42px;
+
+    fill: none;
+    stroke: #d7aa65;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+}
+
+/* Título y subtítulo */
+
+.site-header__identity h1 {
+    margin: 0;
+
+    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+    letter-spacing: 4px;
+}
+
+.site-header__identity p {
+    margin: 8px 0 0;
+
+    color: #a3aebd;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* Capítulo y día */
+
+.site-header__status {
+    padding: 16px 22px;
+
+    border: 1px solid #59472f;
+    border-radius: 6px;
+
+    color: #d5a96d;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.site-header__separator {
+    margin: 0 12px;
+    color: #756247;
+}
+
+/* Adaptación a pantallas pequeñas */
+
+@media (max-width: 700px) {
+    .site-header {
+        flex-wrap: wrap;
+        padding: 16px 20px;
+    }
+
+    .site-header__brand {
+        width: 100%;
+        gap: 12px;
+    }
+
+    .site-header__logo {
+        width: 52px;
+        height: 52px;
+    }
+
+    .site-header__logo svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .site-header__identity h1 {
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+
+    .site-header__identity p {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .site-header__status {
+        margin-left: auto;
+        padding: 10px 14px;
+        font-size: 12px;
+    }
+}
