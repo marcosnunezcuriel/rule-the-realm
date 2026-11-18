@@ -11,3 +11,19 @@ body {
 button {
   font: inherit;
 }
+
+#root {
+  width: 100%;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+  height: 100dvh;
+}
+
+.site-header {
+  flex-shrink: 0;
+}

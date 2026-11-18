@@ -1,16 +1,12 @@
 import Header from "./components/Header";
+import ThroneScene from "./components/ThroneScene";
 
 function App() {
 	return (
-		<>
+		<div className="app">
 			<Header chapter="I" day={1} />
-			
-			<main>
-				<h1>Rule the Realm</h1>
-				<p>Las crónicas de Astaria</p>
-				<img src="/public/assets/characters/royalty/king.png" alt="" />
-			</main>
-		</>
+			<ThroneScene timeOfDay="night" />
+		</div>
 	);
 }
 
