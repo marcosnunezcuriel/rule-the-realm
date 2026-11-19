@@ -1,0 +1,130 @@
+
+/* Pantalla de resumen */
+
+.day-summary {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+
+    background-color: #0f1723;
+    color: #e8dfd0;
+}
+
+/* Panel principal */
+
+.day-summary__panel {
+    width: 100%;
+    max-width: 950px;
+
+    padding: 36px;
+
+    background-color: #121c2a;
+    border: 2px solid #b58a4d;
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.day-summary__panel h2 {
+    margin: 0;
+
+    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+}
+
+.day-summary__subtitle {
+    margin: 12px 0 32px;
+    color: #a3aebd;
+}
+
+.day-summary__panel h3 {
+    margin: 28px 0 16px;
+
+    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 21px;
+    text-align: left;
+}
+
+/* Estadísticas */
+
+.day-summary__stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+.day-summary__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+
+    padding: 20px 10px;
+
+    background-color: #1d2a3b;
+    border: 1px solid #59472f;
+    border-radius: 8px;
+}
+
+.day-summary__stat span {
+    color: #a3aebd;
+    font-size: 15px;
+}
+
+.day-summary__stat strong {
+    color: #e6b875;
+    font-size: 28px;
+}
+
+/* Modificadores */
+
+.day-summary__modifiers {
+    padding: 24px;
+
+    background-color: #1d2a3b;
+    border: 1px solid #59472f;
+    border-radius: 8px;
+
+    color: #a3aebd;
+    text-align: left;
+}
+
+.day-summary__modifiers p {
+    margin: 0;
+}
+
+/* Mensaje provisional */
+
+.day-summary__notice {
+    margin: 24px 0;
+
+    color: #a3aebd;
+    font-size: 13px;
+}
+
+/* Botón para avanzar */
+
+.day-summary__next {
+    padding: 14px 30px;
+
+    background-color: #293748;
+    border: 1px solid #b58a4d;
+    border-radius: 6px;
+
+    color: #e6b875;
+    font-size: 17px;
+
+    cursor: pointer;
+}
+
+.day-summary__next:hover {
+    background-color: #40536a;
+}

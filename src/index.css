@@ -27,3 +27,45 @@ button {
 .site-header {
   flex-shrink: 0;
 }
+
+
+/* Contenedor del escenario o del resumen */
+
+.game-content {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+/* Capa de transición */
+
+.screen-fade {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+
+    background-color: #000000;
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 0.7s ease-in-out;
+}
+
+/* Oscurecer el contenido */
+
+.screen-fade--visible {
+    opacity: 1;
+}
+
+/* Bloquear clics durante la transición */
+
+.screen-fade--active {
+    pointer-events: auto;
+}

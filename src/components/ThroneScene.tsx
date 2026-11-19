@@ -3,37 +3,68 @@ import type { ReactNode } from "react";
 
 import "../styles/ThroneScene.css";
 
-type VisitorPhase = "entering" | "speaking" | "exiting" | "finished";
+type VisitorPhase =
+    | "entering"
+    | "speaking"
+    | "exiting"
+    | "transitioning"
+    | "waiting";
 
 type ThroneSceneProps = {
     timeOfDay: "morning" | "evening" | "night";
     visitorPhase: VisitorPhase;
+    visitorImage: string;
+    visitorName: string;
     onVisitorAnimationEnd: () => void;
     children?: ReactNode;
 };
 
+const backgrounds = [
+    {
+        time: "morning",
+        src: "/assets/backgrounds/background-morning.png",
+    },
+    {
+        time: "evening",
+        src: "/assets/backgrounds/background-evening.png",
+    },
+    {
+        time: "night",
+        src: "/assets/backgrounds/background-night.png",
+    },
+] as const;
+
 function ThroneScene({
     timeOfDay,
     visitorPhase,
+    visitorImage,
+    visitorName,
     onVisitorAnimationEnd,
     children,
 }: ThroneSceneProps) {
-    const backgroundMap = {
-        morning: "/assets/backgrounds/background-morning.png",
-        evening: "/assets/backgrounds/background-evening.png",
-        night: "/assets/backgrounds/background-night.png",
-    };
+    const showVisitor =
+        visitorPhase === "entering" ||
+        visitorPhase === "speaking" ||
+        visitorPhase === "exiting";
 
     return (
         <main className="throne-scene">
             <div className="throne-stage">
-                <img
-                    className="throne-stage__background"
-                    src={backgroundMap[timeOfDay]}
-                    alt=""
-                    aria-hidden="true"
-                    draggable={false}
-                />
+
+                {backgrounds.map((background) => (
+                    <img
+                        key={background.time}
+                        className={`throne-stage__background ${
+                            timeOfDay === background.time
+                                ? "throne-stage__background--active"
+                                : ""
+                        }`}
+                        src={background.src}
+                        alt=""
+                        aria-hidden="true"
+                        draggable={false}
+                    />
+                ))}
 
                 <img
                     className="character character--king"
@@ -42,8 +73,9 @@ function ThroneScene({
                     draggable={false}
                 />
 
-                {visitorPhase !== "finished" && (
+                {showVisitor && (
                     <div
+                        key={visitorImage}
                         className={`character character--visitor visitor--${visitorPhase}`}
                         onAnimationEnd={(event) => {
                             if (event.target === event.currentTarget) {
@@ -53,8 +85,8 @@ function ThroneScene({
                     >
                         <img
                             className="visitor__image"
-                            src="/assets/characters/courtiers/royal-advisor.png"
-                            alt="Consejera real"
+                            src={visitorImage}
+                            alt={visitorName}
                             draggable={false}
                         />
                     </div>

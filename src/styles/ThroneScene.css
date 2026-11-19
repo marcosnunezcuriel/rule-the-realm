@@ -26,16 +26,30 @@
   overflow: hidden;
 }
 
-/* Fondo */
+
+/* Fondos superpuestos */
 
 .throne-stage__background {
-  display: block;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    inset: 0;
 
-  object-fit: contain;
-  user-select: none;
-  pointer-events: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    opacity: 0;
+
+    transition: opacity 1.5s ease-in-out;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Fondo visible */
+
+.throne-stage__background--active {
+    opacity: 1;
 }
 
 /* Personajes */

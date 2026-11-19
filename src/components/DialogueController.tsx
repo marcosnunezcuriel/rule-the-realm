@@ -12,12 +12,15 @@ import type {
 type DialogueControllerProps = {
     event: DialogueEvent;
     onContinue: () => void;
+    continueLabel?: string;
 };
 
 function DialogueController({
     event,
     onContinue,
+    continueLabel = "Continuar",
 }: DialogueControllerProps) {
+
     const [decision, setDecision] = useState<Decision | null>(null);
     const [lineIndex, setLineIndex] = useState(0);
 
@@ -26,9 +29,10 @@ function DialogueController({
 
     // Seleccionar los textos correspondientes.
     const lines =
-        decision === null
+        decision === null || !event.responses
             ? event.introduction
             : event.responses[decision];
+
 
     const isLastLine = lineIndex === lines.length - 1;
 
@@ -85,18 +89,20 @@ function DialogueController({
                     </button>
                 )}
 
-                {isTextComplete && isLastLine && decision !== null && (
-                    <button
-                        type="button"
-                        className="speech-bubble__next"
-                        onClick={onContinue}
-                    >
-                        Continuar
-                    </button>
-                )}
+                {isTextComplete &&
+                    isLastLine &&
+                    (decision !== null || !event.responses) && (
+                        <button
+                            type="button"
+                            className="speech-bubble__next"
+                            onClick={onContinue}
+                        >
+                            {continueLabel}
+                        </button>
+                    )}
             </SpeechBubble>
 
-            {decision === null && isLastLine && isTextComplete && (
+            {event.responses && decision === null && isLastLine && isTextComplete && (
                 <SpeechBubble variant="king">
                     <div className="speech-bubble__choices">
                         <button
@@ -105,7 +111,7 @@ function DialogueController({
                             aria-label="Sí"
                             onClick={() => handleDecision("yes")}
                         >
-                            y
+                            Y
                         </button>
 
                         <span
@@ -121,7 +127,7 @@ function DialogueController({
                             aria-label="No"
                             onClick={() => handleDecision("no")}
                         >
-                            n
+                            N
                         </button>
                     </div>
                 </SpeechBubble>

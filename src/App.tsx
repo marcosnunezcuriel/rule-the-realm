@@ -1,71 +1,243 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/Header";
 import ThroneScene from "./components/ThroneScene";
 import DialogueController from "./components/DialogueController";
+import DaySummary from "./components/DaySummary";
 
-import { demoDialogue } from "./data/demoDialogue";
+import {
+    demoAudiences,
+    closingDialogue,
+} from "./data/demoAudiences";
 
-type AudiencePhase = "entering" | "speaking" | "exiting" | "finished";
+type AudiencePhase =
+    | "entering"
+    | "speaking"
+    | "exiting"
+    | "transitioning"
+    | "waiting";
+
+type GameScreen = "scene" | "summary";
+
+type TransitionStage =
+    | "idle"
+    | "darkening"
+    | "lightening";
+
+const BACKGROUND_TRANSITION_DURATION = 1500;
 
 function App() {
+    const [day, setDay] = useState(1);
+    const [screen, setScreen] = useState<GameScreen>("scene");
     const [phase, setPhase] = useState<AudiencePhase>("entering");
 
-    // Cambiar de fase al terminar una animación.
-    function handleVisitorAnimationEnd() {
-        setPhase((current) => {
-            if (current === "entering") {
-                return "speaking";
-            }
+    const [audienceIndex, setAudienceIndex] = useState(0);
+    const [isClosing, setIsClosing] = useState(false);
 
-            if (current === "exiting") {
-                return "finished";
-            }
+    // Control del fundido entre pantallas.
+    const [transitionStage, setTransitionStage] =
+        useState<TransitionStage>("idle");
 
-            return current;
-        });
+    const [transitionTarget, setTransitionTarget] =
+        useState<GameScreen | null>(null);
+
+    // Audiencias disponibles.
+    const availableAudiences = demoAudiences;
+    const currentAudience = availableAudiences[audienceIndex];
+
+    const morningCount = Math.ceil(
+        availableAudiences.length / 2
+    );
+
+    // Seleccionar el momento del día.
+    const timeOfDay = isClosing
+        ? "night"
+        : audienceIndex < morningCount
+            ? "morning"
+            : "evening";
+
+    // Seleccionar el visitante y su diálogo.
+    const visitorImage = isClosing
+        ? "/assets/characters/courtiers/royal-advisor.png"
+        : currentAudience.image;
+
+    const dialogue = isClosing
+        ? closingDialogue
+        : currentAudience.dialogue;
+
+    // Esperar al fundido del fondo antes de que entre
+    // el siguiente personaje.
+    useEffect(() => {
+        if (phase !== "transitioning") {
+            return;
+        }
+
+        const timeoutId = window.setTimeout(() => {
+            setPhase("entering");
+        }, BACKGROUND_TRANSITION_DURATION);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [phase]);
+
+    // Iniciar el fundido entre escenario y resumen.
+    function startScreenTransition(target: GameScreen) {
+        if (transitionStage !== "idle") {
+            return;
+        }
+
+        setTransitionTarget(target);
+        setTransitionStage("darkening");
     }
 
-    // Iniciar la salida del personaje.
+    // Controlar el final de cada animación del visitante.
+    function handleVisitorAnimationEnd() {
+        if (phase === "entering") {
+            setPhase("speaking");
+            return;
+        }
+
+        if (phase !== "exiting") {
+            return;
+        }
+
+        // La consejera ha salido después del cierre.
+        if (isClosing) {
+            startScreenTransition("summary");
+            return;
+        }
+
+        const nextIndex = audienceIndex + 1;
+
+        // Quedan audiencias normales.
+        if (nextIndex < availableAudiences.length) {
+            const nextTimeOfDay =
+                nextIndex < morningCount
+                    ? "morning"
+                    : "evening";
+
+            setAudienceIndex(nextIndex);
+
+            // Esperar solo si cambia el fondo.
+            setPhase(
+                nextTimeOfDay !== timeOfDay
+                    ? "transitioning"
+                    : "entering"
+            );
+
+            return;
+        }
+
+        // No quedan audiencias: comienza el cierre nocturno.
+        setIsClosing(true);
+        setPhase("transitioning");
+    }
+
+    // El jugador ha terminado un diálogo.
     function handleContinue() {
         setPhase("exiting");
     }
 
-    // Repetir la audiencia de prueba.
-    function handleRestart() {
-        setPhase("entering");
+    // Controlar el fundido a negro y su desaparición.
+    function handleScreenFadeEnd() {
+        // La pantalla acaba de oscurecerse.
+        if (
+            transitionStage === "darkening" &&
+            transitionTarget !== null
+        ) {
+            if (transitionTarget === "scene") {
+                // Preparar el siguiente día.
+                setDay((previous) => previous + 1);
+                setAudienceIndex(0);
+                setIsClosing(false);
+
+                // Esperar a que el escenario sea visible.
+                setPhase("waiting");
+            }
+
+            // Sustituir el contenido mientras está negro.
+            setScreen(transitionTarget);
+            setTransitionStage("lightening");
+
+            return;
+        }
+
+        // La nueva pantalla ya es totalmente visible.
+        if (transitionStage === "lightening") {
+            if (transitionTarget === "scene") {
+                setPhase("entering");
+            }
+
+            setTransitionStage("idle");
+            setTransitionTarget(null);
+        }
+    }
+
+    // El jugador pulsa Siguiente día desde el resumen.
+    function handleNextDay() {
+        startScreenTransition("scene");
     }
 
     return (
         <div className="app">
-            <Header chapter="I" day={1} />
+            <Header chapter="I" day={day} />
 
-            <ThroneScene
-                timeOfDay="morning"
-                visitorPhase={phase}
-                onVisitorAnimationEnd={handleVisitorAnimationEnd}
-            >
-                {phase === "speaking" && (
-                    <DialogueController
-                        event={demoDialogue}
-                        onContinue={handleContinue}
+            <div className="game-content">
+                {screen === "summary" ? (
+                    <DaySummary
+                        day={day}
+                        onNextDay={handleNextDay}
                     />
+                ) : (
+                    <ThroneScene
+                        timeOfDay={timeOfDay}
+                        visitorPhase={phase}
+                        visitorImage={visitorImage}
+                        visitorName={dialogue.speaker}
+                        onVisitorAnimationEnd={handleVisitorAnimationEnd}
+                    >
+                        {phase === "speaking" && (
+                            <DialogueController
+                                key={
+                                    isClosing
+                                        ? "closing"
+                                        : currentAudience.id
+                                }
+                                event={dialogue}
+                                continueLabel={
+                                    isClosing
+                                        ? "Terminar día"
+                                        : "Continuar"
+                                }
+                                onContinue={handleContinue}
+                            />
+                        )}
+                    </ThroneScene>
                 )}
 
-                {phase === "finished" && (
-                    <div className="audience-demo-end">
-                        <p>La audiencia de prueba ha terminado.</p>
-
-                        <button
-                            type="button"
-                            onClick={handleRestart}
-                        >
-                            Repetir audiencia
-                        </button>
-                    </div>
-                )}
-            </ThroneScene>
+                <div
+                    className={[
+                        "screen-fade",
+                        transitionStage === "darkening"
+                            ? "screen-fade--visible"
+                            : "",
+                        transitionStage !== "idle"
+                            ? "screen-fade--active"
+                            : "",
+                    ].filter(Boolean).join(" ")}
+                    aria-hidden="true"
+                    onTransitionEnd={(event) => {
+                        if (
+                            event.target === event.currentTarget &&
+                            event.propertyName === "opacity"
+                        ) {
+                            handleScreenFadeEnd();
+                        }
+                    }}
+                />
+            </div>
         </div>
     );
 }
