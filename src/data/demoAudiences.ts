@@ -1,16 +1,23 @@
+
 import type { DialogueEvent } from "../types/dialogue";
+import type { StatChanges } from "../types/stats";
+import type { Decision } from "../types/dialogue";
+
 import { demoDialogue } from "./demoDialogue";
 
 type DemoAudience = {
     id: string;
     image: string;
     dialogue: DialogueEvent;
+    effects: Record<Decision, StatChanges>;
 };
 
 export const demoAudiences: DemoAudience[] = [
     {
         id: "mayordomo",
+
         image: "/assets/characters/courtiers/butler.png",
+
         dialogue: {
             speaker: "Mayordomo",
 
@@ -36,11 +43,36 @@ export const demoAudiences: DemoAudience[] = [
                 ],
             },
         },
+
+        effects: {
+            yes: {
+                gold: -10,
+                prestige: 5,
+            },
+
+            no: {
+                prestige: -5,
+            },
+        },
     },
+
     {
         id: "consejera",
+
         image: "/assets/characters/courtiers/royal-advisor.png",
+
         dialogue: demoDialogue,
+
+        effects: {
+            yes: {
+                gold: -20,
+                prestige: 5,
+            },
+
+            no: {
+                prestige: -10,
+            },
+        },
     },
 ];
 

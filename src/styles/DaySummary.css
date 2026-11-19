@@ -53,35 +53,80 @@
     text-align: left;
 }
 
+
 /* Estadísticas */
 
 .day-summary__stats {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
 }
+
+/* Tarjeta de cada variable */
 
 .day-summary__stat {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 14px;
 
+    min-width: 0;
+    min-height: 160px;
     padding: 20px 10px;
 
     background-color: #1d2a3b;
-    border: 1px solid #59472f;
+    border: 1px solid var(--stat-color);
     border-radius: 8px;
 }
 
-.day-summary__stat span {
-    color: #a3aebd;
+/* Icono y nombre */
+
+.day-summary__stat-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    color: var(--stat-color);
     font-size: 15px;
+    font-weight: bold;
 }
 
-.day-summary__stat strong {
-    color: #e6b875;
-    font-size: 28px;
+/* Valor final */
+
+.day-summary__stat-value {
+    color: var(--stat-color);
+
+    font-size: 32px;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Variación diaria */
+
+.day-summary__stat-change {
+    font-size: 15px;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Ganancias */
+
+.day-summary__stat-change--positive {
+    color: #72d6a0;
+}
+
+/* Pérdidas */
+
+.day-summary__stat-change--negative {
+    color: #f08080;
+}
+
+/* Sin cambios */
+
+.day-summary__stat-change--neutral {
+    color: #a3aebd;
 }
 
 /* Modificadores */

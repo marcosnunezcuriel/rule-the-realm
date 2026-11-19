@@ -10,7 +10,9 @@ import KingdomStats from "./components/KingdomStats";
 import { demoAudiences, closingDialogue, } from "./data/demoAudiences";
 
 import { initialKingdomValues } from "./game/initialState";
+import { applyStatChanges } from "./game/applyStatChanges";
 
+import type { Decision } from "./types/dialogue";
 import type { KingdomValues } from "./types/stats";
 
 type AudiencePhase =
@@ -43,7 +45,13 @@ function App() {
     const [transitionTarget, setTransitionTarget] =
         useState<GameScreen | null>(null);
 
-    const [stats] = useState<KingdomValues>(initialKingdomValues);
+    const [stats, setStats] = useState<KingdomValues>(
+        initialKingdomValues
+    );
+    const [dayStartStats, setDayStartStats] = useState<KingdomValues>({
+        ...initialKingdomValues,
+    });
+
 
     // Audiencias disponibles.
     const availableAudiences = demoAudiences;
@@ -138,6 +146,19 @@ function App() {
         setPhase("transitioning");
     }
 
+    // Aplicar las consecuencias de una decisión.
+    function handleDecision(answer: Decision) {
+        if (isClosing || phase !== "speaking") {
+            return;
+        }
+
+        const changes = currentAudience.effects[answer];
+
+        setStats((previous) => {
+            return applyStatChanges(previous, changes);
+        });
+    }
+
     // El jugador ha terminado un diálogo.
     function handleContinue() {
         setPhase("exiting");
@@ -151,12 +172,13 @@ function App() {
             transitionTarget !== null
         ) {
             if (transitionTarget === "scene") {
-                // Preparar el siguiente día.
+                // Guardar las estadísticas iniciales del nuevo día.
+                setDayStartStats({ ...stats });
+
                 setDay((previous) => previous + 1);
                 setAudienceIndex(0);
                 setIsClosing(false);
 
-                // Esperar a que el escenario sea visible.
                 setPhase("waiting");
             }
 
@@ -196,6 +218,7 @@ function App() {
                     <DaySummary
                         day={day}
                         stats={stats}
+                        startStats={dayStartStats}
                         onNextDay={handleNextDay}
                     />
                 ) : (
@@ -206,21 +229,16 @@ function App() {
                         visitorName={dialogue.speaker}
                         onVisitorAnimationEnd={handleVisitorAnimationEnd}
                     >
-                        {phase === "speaking" && (
-                            <DialogueController
-                                key={
-                                    isClosing
-                                        ? "closing"
-                                        : currentAudience.id
-                                }
-                                event={dialogue}
-                                continueLabel={
-                                    isClosing
-                                        ? "Terminar día"
-                                        : "Continuar"
-                                }
-                                onContinue={handleContinue}
-                            />
+                        {phase === "speaking" && (                     
+                    <DialogueController
+                        key={isClosing ? "closing" : currentAudience.id}
+                        event={dialogue}
+                        continueLabel={
+                            isClosing ? "Terminar día" : "Continuar"
+                        }
+                        onDecision={handleDecision}
+                        onContinue={handleContinue}
+                    />
                         )}
                     </ThroneScene>
                 )}

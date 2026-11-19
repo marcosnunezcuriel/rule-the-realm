@@ -1,5 +1,5 @@
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import SpeechBubble from "./SpeechBubble";
 import TypewriterText from "./TypewriterText";
@@ -12,12 +12,14 @@ import type {
 type DialogueControllerProps = {
     event: DialogueEvent;
     onContinue: () => void;
+    onDecision: (answer: Decision) => void;
     continueLabel?: string;
 };
 
 function DialogueController({
     event,
     onContinue,
+    onDecision,
     continueLabel = "Continuar",
 }: DialogueControllerProps) {
 
@@ -26,6 +28,8 @@ function DialogueController({
 
     const [isTextComplete, setIsTextComplete] = useState(false);
     const [skipTyping, setSkipTyping] = useState(false);
+
+    const decisionLocked = useRef(false);
 
     // Seleccionar los textos correspondientes.
     const lines =
@@ -54,6 +58,14 @@ function DialogueController({
 
     // Guardar la decisión y comenzar su respuesta.
     function handleDecision(answer: Decision) {
+        if (decisionLocked.current) {
+            return;
+        }
+
+        decisionLocked.current = true;
+
+        onDecision(answer);
+
         setDecision(answer);
         setLineIndex(0);
 

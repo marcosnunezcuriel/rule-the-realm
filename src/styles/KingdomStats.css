@@ -20,66 +20,48 @@
 /* Recuadros */
 
 .kingdom-stats__card {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
     align-items: center;
+    gap: 12px;
 
     min-height: 76px;
-    padding: 16px 20px;
+    padding: 14px 16px;
 
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background-color: #1d2a3b;
+    border: 1px solid var(--stat-color);
+    border-left-width: 4px;
     border-radius: 8px;
 
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
+/* Icono de la variable */
+
+.kingdom-stats__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--stat-color);
+}
+
 /* Nombre de la variable */
 
 .kingdom-stats__label {
+    color: #e8dfd0;
+
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 19px;
+    font-size: 17px;
     font-weight: bold;
 }
 
-/* Cantidad actual */
+/* Valor actual */
 
 .kingdom-stats__value {
+    color: var(--stat-color);
+
     font-size: 25px;
     font-weight: bold;
     font-variant-numeric: tabular-nums;
-}
-
-/* Oro */
-
-.kingdom-stats__card--gold {
-    background-color: #d4a73e;
-    color: #121c2a;
-}
-
-/* Prestigio */
-
-.kingdom-stats__card--prestige {
-    background-color: #e58a35;
-    color: #121c2a;
-}
-
-/* Fe */
-
-.kingdom-stats__card--faith {
-    background-color: #bf4347;
-    color: #121c2a;
-}
-
-/* Población */
-
-.kingdom-stats__card--population {
-    background-color: #397fb9;
-    color: #121c2a;
-}
-
-/* Ejército */
-
-.kingdom-stats__card--army {
-    background-color: #368a5d;
-    color: #121c2a;
 }

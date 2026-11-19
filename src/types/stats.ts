@@ -5,3 +5,5 @@ export type KingdomValues = {
     population: number;
     army: number;
 };
+
+export type StatChanges = Partial<KingdomValues>;

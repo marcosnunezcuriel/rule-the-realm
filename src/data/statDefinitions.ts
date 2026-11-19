@@ -1,12 +1,36 @@
+
 import type { KingdomValues } from "../types/stats";
 
-export const statDefinitions: {
+type StatDefinition = {
     key: keyof KingdomValues;
     label: string;
-}[] = [
-    { key: "gold", label: "Oro" },
-    { key: "prestige", label: "Prestigio" },
-    { key: "faith", label: "Fe" },
-    { key: "population", label: "Población" },
-    { key: "army", label: "Ejército" },
+    color: string;
+};
+
+export const statDefinitions: StatDefinition[] = [
+    {
+        key: "gold",
+        label: "Oro",
+        color: "#d4a73e",
+    },
+    {
+        key: "prestige",
+        label: "Prestigio",
+        color: "#e58a35",
+    },
+    {
+        key: "faith",
+        label: "Fe",
+        color: "#bf4347",
+    },
+    {
+        key: "population",
+        label: "Población",
+        color: "#397fb9",
+    },
+    {
+        key: "army",
+        label: "Ejército",
+        color: "#368a5d",
+    },
 ];
