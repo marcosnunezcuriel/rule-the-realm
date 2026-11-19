@@ -1,0 +1,186 @@
+/* Estilo general de los bocadillos */
+
+.speech-bubble {
+  position: absolute;
+  z-index: 3;
+
+  padding: 16px 20px;
+
+  border: 2px solid #b58a4d;
+  border-radius: 16px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* Bocadillo del visitante */
+
+.speech-bubble--visitor {
+  bottom: 60%;
+  left: 41%;
+  width: 43%;
+
+  background-color: #121c2a;
+  color: #e8dfd0;
+}
+
+/* Pico del bocadillo del visitante */
+
+.speech-bubble--visitor::after {
+  content: "";
+  position: absolute;
+
+  right: 14%;
+  bottom: -11px;
+
+  width: 18px;
+  height: 18px;
+
+  background-color: #121c2a;
+
+  border-right: 2px solid #b58a4d;
+  border-bottom: 2px solid #b58a4d;
+
+  transform: rotate(45deg);
+}
+
+/* Nombre del personaje */
+
+.speech-bubble__speaker {
+  margin: 0 0 10px;
+
+  color: #e6b875;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+}
+
+/* Texto */
+
+.speech-bubble__text {
+  margin: 0;
+
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Botones Siguiente y Continuar */
+
+.speech-bubble__next {
+  display: block;
+
+  margin: 14px 0 0 auto;
+  padding: 8px 16px;
+
+  background-color: #293748;
+  border: 1px solid #b58a4d;
+  border-radius: 5px;
+
+  color: #e6b875;
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.speech-bubble__next:hover {
+  background-color: #40536a;
+}
+
+/* Bocadillo del rey */
+
+.speech-bubble--king {
+  top: 50%;
+  left: 31%;
+
+  min-width: 155px;
+  padding: 12px 16px;
+
+  background-color: #e8dac0;
+}
+
+/* Pico del bocadillo del rey */
+
+.speech-bubble--king::after {
+  content: "";
+  position: absolute;
+
+  left: 16%;
+  bottom: -11px;
+
+  width: 18px;
+  height: 18px;
+
+  background-color: #e8dac0;
+
+  border-right: 2px solid #b58a4d;
+  border-bottom: 2px solid #b58a4d;
+
+  transform: rotate(45deg);
+}
+
+/* Opciones Y / N */
+
+.speech-bubble__choices {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.speech-bubble__choice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 43px;
+  height: 43px;
+
+  border: none;
+  border-radius: 50%;
+
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.speech-bubble__choice--yes {
+  background-color: #238b55;
+}
+
+.speech-bubble__choice--no {
+  background-color: #b33e47;
+}
+
+.speech-bubble__choice--yes:hover {
+  background-color: #2eaa6b;
+}
+
+.speech-bubble__choice--no:hover {
+  background-color: #d64c56;
+}
+
+/* Barra decorativa */
+
+.speech-bubble__separator {
+  color: #121c2a;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Accesibilidad al navegar con teclado */
+
+.speech-bubble button:focus-visible {
+  outline: 3px solid #e6b875;
+  outline-offset: 3px;
+}
+
+/* El bocadillo se puede pulsar mientras escribe */
+
+.speech-bubble--visitor[role="button"] {
+    cursor: pointer;
+}
+
+.speech-bubble--visitor[role="button"]:focus-visible {
+    outline: 3px solid #e6b875;
+    outline-offset: 3px;
+}
