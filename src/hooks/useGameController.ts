@@ -4,6 +4,7 @@ import { closingDialogue } from "../data/demoAudiences";
 import { applyDailyModifiers } from "../game/applyDailyModifiers";
 import { applyStatChanges } from "../game/applyStatChanges";
 import { getDayEvents } from "../game/getDayEvents";
+import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
 import { initialKingdomValues } from "../game/initialState";
 
 import type { Decision } from "../types/dialogue";
@@ -47,6 +48,10 @@ export function useGameController() {
 
     const [activeModifierIds, setActiveModifierIds] =
         useState<ModifierId[]>([]);
+
+    // Tema visual fijado al comienzo de cada jornada.
+    const [sceneModifierIds, setSceneModifierIds] =
+        useState<ModifierId[]>([]);
     const [modifierReport, setModifierReport] =
         useState<DailyModifierReport>({
             appliedIds: [],
@@ -66,7 +71,6 @@ export function useGameController() {
     const currentAudience = dayEvents[audienceIndex];
     const morningCount = Math.ceil(dayEvents.length / 2);
 
-    
     const timeOfDay: "morning" | "evening" | "night" = isClosing
         ? "night"
         : audienceIndex < morningCount
@@ -90,6 +94,7 @@ export function useGameController() {
         : "Continuar";
 
     const visibleStats = closingStats ?? stats;
+    const backgroundMap = getSceneBackgrounds(sceneModifierIds);
 
     // El personaje no entra hasta que termina el cambio de fondo.
     useEffect(() => {
@@ -237,6 +242,10 @@ export function useGameController() {
 
     // Prepara la nueva jornada sin perder el progreso del reino.
     function prepareNextDay() {
+        // El escenario refleja los modificadores al INICIO del nuevo día.
+        // Los cambios durante la jornada no alteran sus fondos.
+        setSceneModifierIds([...activeModifierIds]);
+
         const nextDay = day + 1;
         const nextDayEvents = getDayEvents(nextDay, unlockedEventIds);
 
@@ -289,6 +298,7 @@ export function useGameController() {
         screen,
         phase,
         timeOfDay,
+        backgroundMap,
         visitorImage,
         dialogue,
         dialogueKey,

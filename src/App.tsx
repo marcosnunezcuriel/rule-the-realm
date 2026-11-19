@@ -12,6 +12,7 @@ function App() {
         screen,
         phase,
         timeOfDay,
+        backgroundMap,
         visitorImage,
         dialogue,
         dialogueKey,
@@ -59,6 +60,7 @@ function App() {
                 ) : (
                     <ThroneScene
                         timeOfDay={timeOfDay}
+                        backgroundMap={backgroundMap}
                         visitorPhase={phase}
                         visitorImage={visitorImage}
                         visitorName={dialogue.speaker}

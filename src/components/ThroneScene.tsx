@@ -1,5 +1,6 @@
-
 import type { ReactNode } from "react";
+
+import type { SceneBackgroundMap } from "../data/sceneThemes";
 
 import "../styles/ThroneScene.css";
 
@@ -17,22 +18,8 @@ type ThroneSceneProps = {
     visitorName: string;
     onVisitorAnimationEnd: () => void;
     children?: ReactNode;
+    backgroundMap: SceneBackgroundMap;
 };
-
-const backgrounds = [
-    {
-        time: "morning",
-        src: "/assets/backgrounds/background-morning.png",
-    },
-    {
-        time: "evening",
-        src: "/assets/backgrounds/background-evening.png",
-    },
-    {
-        time: "night",
-        src: "/assets/backgrounds/background-night.png",
-    },
-] as const;
 
 function ThroneScene({
     timeOfDay,
@@ -41,11 +28,27 @@ function ThroneScene({
     visitorName,
     onVisitorAnimationEnd,
     children,
+    backgroundMap
 }: ThroneSceneProps) {
     const showVisitor =
         visitorPhase === "entering" ||
         visitorPhase === "speaking" ||
         visitorPhase === "exiting";
+
+    const backgrounds = [
+        {
+            time: "morning",
+            src: backgroundMap.morning,
+        },
+        {
+            time: "evening",
+            src: backgroundMap.evening,
+        },
+        {
+            time: "night",
+            src: backgroundMap.night,
+        },
+    ] as const;
 
     return (
         <main className="throne-scene">
