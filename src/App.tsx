@@ -7,7 +7,8 @@ import DialogueController from "./components/DialogueController";
 import DaySummary from "./components/DaySummary";
 import KingdomStats from "./components/KingdomStats";
 
-import { demoAudiences, closingDialogue, } from "./data/demoAudiences";
+import { closingDialogue } from "./data/demoAudiences";
+import { getDayEvents } from "./game/getDayEvents";
 
 import { initialKingdomValues } from "./game/initialState";
 import { applyStatChanges } from "./game/applyStatChanges";
@@ -52,9 +53,16 @@ function App() {
         ...initialKingdomValues,
     });
 
+    // Eventos desbloqueados por decisiones anteriores.
+    const [unlockedEventIds, setUnlockedEventIds] = useState<string[]>([]);
+
+    // Audiencias que corresponden a la jornada actual.
+    const [dayEvents, setDayEvents] = useState(() => {
+        return getDayEvents(1, []);
+    });
 
     // Audiencias disponibles.
-    const availableAudiences = demoAudiences;
+    const availableAudiences = dayEvents;
     const currentAudience = availableAudiences[audienceIndex];
 
     const morningCount = Math.ceil(
@@ -69,11 +77,11 @@ function App() {
             : "evening";
 
     // Seleccionar el visitante y su diálogo.
-    const visitorImage = isClosing
+    const visitorImage = isClosing || !currentAudience
         ? "/assets/characters/courtiers/royal-advisor.png"
         : currentAudience.image;
 
-    const dialogue = isClosing
+    const dialogue = isClosing || !currentAudience
         ? closingDialogue
         : currentAudience.dialogue;
 
@@ -146,17 +154,37 @@ function App() {
         setPhase("transitioning");
     }
 
-    // Aplicar las consecuencias de una decisión.
+    // Aplicar las consecuencias de la decisión.
     function handleDecision(answer: Decision) {
-        if (isClosing || phase !== "speaking") {
+        if (
+            isClosing ||
+            phase !== "speaking" ||
+            !currentAudience
+        ) {
             return;
         }
 
+        // Aplicar las consecuencias inmediatas.
         const changes = currentAudience.effects[answer];
 
         setStats((previous) => {
             return applyStatChanges(previous, changes);
         });
+
+        // Comprobar si la elección desbloquea eventos.
+        const newUnlocks =
+            currentAudience.unlocks?.[answer] ?? [];
+
+        if (newUnlocks.length > 0) {
+            setUnlockedEventIds((previous) => {
+                return [
+                    ...new Set([
+                        ...previous,
+                        ...newUnlocks,
+                    ]),
+                ];
+            });
+        }
     }
 
     // El jugador ha terminado un diálogo.
@@ -172,13 +200,26 @@ function App() {
             transitionTarget !== null
         ) {
             if (transitionTarget === "scene") {
-                // Guardar las estadísticas iniciales del nuevo día.
+                const nextDay = day + 1;
+
+                // Calcular qué eventos están disponibles.
+                const nextDayEvents = getDayEvents(
+                    nextDay,
+                    unlockedEventIds
+                );
+
+                // Guardar las estadísticas de inicio de jornada.
                 setDayStartStats({ ...stats });
 
-                setDay((previous) => previous + 1);
+                // Preparar el nuevo día.
+                setDay(nextDay);
+                setDayEvents(nextDayEvents);
                 setAudienceIndex(0);
-                setIsClosing(false);
 
+                // Si no hay eventos, preparar el cierre nocturno.
+                setIsClosing(nextDayEvents.length === 0);
+
+                // Esperar a que termine la transición visual.
                 setPhase("waiting");
             }
 
@@ -231,7 +272,11 @@ function App() {
                     >
                         {phase === "speaking" && (                     
                     <DialogueController
-                        key={isClosing ? "closing" : currentAudience.id}
+                        key={
+                            isClosing
+                                ? "closing"
+                                : (currentAudience?.id ?? "no-audiences")
+                        }
                         event={dialogue}
                         continueLabel={
                             isClosing ? "Terminar día" : "Continuar"
