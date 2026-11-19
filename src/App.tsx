@@ -1,337 +1,42 @@
-
-import { useEffect, useRef, useState } from "react";
-
 import Header from "./components/Header";
 import ThroneScene from "./components/ThroneScene";
 import DialogueController from "./components/DialogueController";
 import DaySummary from "./components/DaySummary";
 import KingdomStats from "./components/KingdomStats";
 
-import { closingDialogue } from "./data/demoAudiences";
-import { getDayEvents } from "./game/getDayEvents";
-
-import { initialKingdomValues } from "./game/initialState";
-import { applyStatChanges } from "./game/applyStatChanges";
-import { applyDailyModifiers } from "./game/applyDailyModifiers";
-
-import type { Decision } from "./types/dialogue";
-import type { KingdomValues } from "./types/stats";
-import type { ModifierId, DailyModifierReport } from "./types/modifiers";
-
-type AudiencePhase =
-    | "entering"
-    | "speaking"
-    | "exiting"
-    | "transitioning"
-    | "waiting";
-
-type GameScreen = "scene" | "summary";
-
-type TransitionStage =
-    | "idle"
-    | "darkening"
-    | "lightening";
-
-const BACKGROUND_TRANSITION_DURATION = 1500;
+import { useGameController } from "./hooks/useGameController";
 
 function App() {
-    const [day, setDay] = useState(1);
-    const [screen, setScreen] = useState<GameScreen>("scene");
-    const [phase, setPhase] = useState<AudiencePhase>("entering");
-    const [audienceIndex, setAudienceIndex] = useState(0);
-    const [isClosing, setIsClosing] = useState(false);
+    const {
+        day,
+        screen,
+        phase,
+        timeOfDay,
+        visitorImage,
+        dialogue,
+        dialogueKey,
+        continueLabel,
+        stats,
+        visibleStats,
+        dayStartStats,
+        modifierReport,
+        transitionStage,
+        handleVisitorAnimationEnd,
+        handleDecision,
+        handleContinue,
+        handleScreenFadeEnd,
+        handleNextDay,
+    } = useGameController();
 
-    // Control del fundido entre pantallas.
-    const [transitionStage, setTransitionStage] =
-        useState<TransitionStage>("idle");
-
-    const [transitionTarget, setTransitionTarget] =
-        useState<GameScreen | null>(null);
-
-    const [stats, setStats] = useState<KingdomValues>(
-        initialKingdomValues
-    );
-    const [dayStartStats, setDayStartStats] = useState<KingdomValues>({
-        ...initialKingdomValues,
-    });
-    // Estadísticas visibles durante la salida nocturna.
-    const [closingStats, setClosingStats] =
-        useState<KingdomValues | null>(null);
-
-    // Modificadores que tiene activos el reino.
-    const [activeModifierIds, setActiveModifierIds] = useState<
-        ModifierId[]
-    >([]);
-
-    // Efectos de los modificadores aplicados al cerrar el día.
-    const [modifierReport, setModifierReport] =
-        useState<DailyModifierReport>({
-            appliedIds: [],
-            totalChanges: {},
-        });
-
-    // Impide cerrar dos veces una misma jornada.
-    const dayClosedRef = useRef(false);
-
-    // Eventos desbloqueados por decisiones anteriores.
-    const [unlockedEventIds, setUnlockedEventIds] = useState<string[]>([]);
-
-    // Audiencias que corresponden a la jornada actual.
-    const [dayEvents, setDayEvents] = useState(() => {
-        return getDayEvents(1, []);
-    });
-
-    // Audiencias disponibles.
-    const availableAudiences = dayEvents;
-    const currentAudience = availableAudiences[audienceIndex];
-
-    const morningCount = Math.ceil(
-        availableAudiences.length / 2
-    );
-
-    // Seleccionar el momento del día.
-    const timeOfDay = isClosing
-        ? "night"
-        : audienceIndex < morningCount
-            ? "morning"
-            : "evening";
-
-    // Seleccionar el visitante y su diálogo.
-    const visitorImage = isClosing || !currentAudience
-        ? "/assets/characters/courtiers/royal-advisor.png"
-        : currentAudience.image;
-
-    const dialogue = isClosing || !currentAudience
-        ? closingDialogue
-        : currentAudience.dialogue;
-
-    // Esperar al fundido del fondo antes de que entre
-    // el siguiente personaje.
-    useEffect(() => {
-        if (phase !== "transitioning") {
-            return;
-        }
-
-        const timeoutId = window.setTimeout(() => {
-            setPhase("entering");
-        }, BACKGROUND_TRANSITION_DURATION);
-
-        return () => {
-            window.clearTimeout(timeoutId);
-        };
-    }, [phase]);
-
-    // Iniciar el fundido entre escenario y resumen.
-    function startScreenTransition(target: GameScreen) {
-        if (transitionStage !== "idle") {
-            return;
-        }
-
-        setTransitionTarget(target);
-        setTransitionStage("darkening");
-    }
-
-    // Controlar el final de cada animación del visitante.
-    function handleVisitorAnimationEnd() {
-        if (phase === "entering") {
-            setPhase("speaking");
-            return;
-        }
-
-        if (phase !== "exiting") {
-            return;
-        }
-
-        // La consejera ha salido después del cierre.
-        if (isClosing) {
-            startScreenTransition("summary");
-            return;
-        }
-
-        const nextIndex = audienceIndex + 1;
-
-        // Quedan audiencias normales.
-        if (nextIndex < availableAudiences.length) {
-            const nextTimeOfDay =
-                nextIndex < morningCount
-                    ? "morning"
-                    : "evening";
-
-            setAudienceIndex(nextIndex);
-
-            // Esperar solo si cambia el fondo.
-            setPhase(
-                nextTimeOfDay !== timeOfDay
-                    ? "transitioning"
-                    : "entering"
-            );
-
-            return;
-        }
-
-        // No quedan audiencias: comienza el cierre nocturno.
-        setIsClosing(true);
-        setPhase("transitioning");
-    }
-
-    // Aplicar las consecuencias de la decisión.
-    function handleDecision(answer: Decision) {
-        if (
-            isClosing ||
-            phase !== "speaking" ||
-            !currentAudience
-        ) {
-            return;
-        }
-
-        // Aplicar consecuencias inmediatas.
-        const changes = currentAudience.effects?.[answer];
-
-        if (changes) {
-            setStats((previous) => {
-                return applyStatChanges(previous, changes);
-            });
-        }
-
-        // Desbloquear eventos futuros.
-        const newUnlocks =
-            currentAudience.unlocks?.[answer] ?? [];
-
-        if (newUnlocks.length > 0) {
-            setUnlockedEventIds((previous) => {
-                return [
-                    ...new Set([
-                        ...previous,
-                        ...newUnlocks,
-                    ]),
-                ];
-            });
-        }
-
-        // Activar modificadores.
-        const newModifiers =
-            currentAudience.addModifiers?.[answer] ?? [];
-
-        if (newModifiers.length > 0) {
-            setActiveModifierIds((previous) => {
-                return [
-                    ...new Set([
-                        ...previous,
-                        ...newModifiers,
-                    ]),
-                ];
-            });
-        }
-    }
-
-    // El jugador ha terminado un diálogo.
-    function handleContinue() {
-        if (phase !== "speaking") {
-            return;
-        }
-
-        if (isClosing) {
-            if (dayClosedRef.current) {
-                return;
-            }
-
-            dayClosedRef.current = true;
-
-            // Guardar las cantidades anteriores al cierre.
-            setClosingStats({ ...stats });
-
-            // Calcular los modificadores del día.
-            const result = applyDailyModifiers(
-                stats,
-                activeModifierIds
-            );
-
-            // Actualizar las estadísticas reales.
-            setStats(result.nextStats);
-
-            // Guardar los modificadores aplicados.
-            setModifierReport(result.report);
-        } else {
-            const modifiersToRemove =
-                currentAudience?.removeModifiersOnComplete ?? [];
-
-            if (modifiersToRemove.length > 0) {
-                setActiveModifierIds((previous) => {
-                    return previous.filter(
-                        (id) => !modifiersToRemove.includes(id)
-                    );
-                });
-            }
-        }
-
-        setPhase("exiting");
-    }
-
-    // Controlar el fundido a negro y su desaparición.
-    function handleScreenFadeEnd() {
-        // La pantalla acaba de oscurecerse.
-        if (
-            transitionStage === "darkening" &&
-            transitionTarget !== null
-        ) {
-            if (transitionTarget === "scene") {
-                // La nueva jornada vuelve a mostrar los valores reales.
-                setClosingStats(null);
-
-                // Permitir que la nueva jornada se cierre una vez.
-                dayClosedRef.current = false;
-
-                // Limpiar el informe del día anterior.
-                setModifierReport({
-                    appliedIds: [],
-                    totalChanges: {},
-                });
-
-                const nextDay = day + 1;
-
-                // Calcular qué eventos están disponibles.
-                const nextDayEvents = getDayEvents(
-                    nextDay,
-                    unlockedEventIds
-                );
-
-                // Guardar las estadísticas de inicio de jornada.
-                setDayStartStats({ ...stats });
-
-                // Preparar el nuevo día.
-                setDay(nextDay);
-                setDayEvents(nextDayEvents);
-                setAudienceIndex(0);
-
-                // Si no hay eventos, preparar el cierre nocturno.
-                setIsClosing(nextDayEvents.length === 0);
-
-                // Esperar a que termine la transición visual.
-                setPhase("waiting");
-            }
-
-            // Sustituir el contenido mientras está negro.
-            setScreen(transitionTarget);
-            setTransitionStage("lightening");
-
-            return;
-        }
-
-        // La nueva pantalla ya es totalmente visible.
-        if (transitionStage === "lightening") {
-            if (transitionTarget === "scene") {
-                setPhase("entering");
-            }
-
-            setTransitionStage("idle");
-            setTransitionTarget(null);
-        }
-    }
-
-    // El jugador pulsa Siguiente día desde el resumen.
-    function handleNextDay() {
-        startScreenTransition("scene");
-    }
+    const fadeClassName = [
+        "screen-fade",
+        transitionStage === "darkening"
+            ? "screen-fade--visible"
+            : "",
+        transitionStage !== "idle"
+            ? "screen-fade--active"
+            : "",
+    ].filter(Boolean).join(" ");
 
     return (
         <div className="app">
@@ -339,7 +44,7 @@ function App() {
 
             <div className="game-content">
                 {screen === "scene" && (
-                    <KingdomStats stats={closingStats ?? stats} />
+                    <KingdomStats stats={visibleStats} />
                 )}
 
                 {screen === "summary" ? (
@@ -347,7 +52,7 @@ function App() {
                         day={day}
                         stats={stats}
                         startStats={dayStartStats}
-                        animatedFromStats={closingStats ?? stats}
+                        animatedFromStats={visibleStats}
                         modifierReport={modifierReport}
                         onNextDay={handleNextDay}
                     />
@@ -359,34 +64,20 @@ function App() {
                         visitorName={dialogue.speaker}
                         onVisitorAnimationEnd={handleVisitorAnimationEnd}
                     >
-                        {phase === "speaking" && (                     
-                    <DialogueController
-                        key={
-                            isClosing
-                                ? "closing"
-                                : (currentAudience?.id ?? "no-audiences")
-                        }
-                        event={dialogue}
-                        continueLabel={
-                            isClosing ? "Terminar día" : "Continuar"
-                        }
-                        onDecision={handleDecision}
-                        onContinue={handleContinue}
-                    />
+                        {phase === "speaking" && (
+                            <DialogueController
+                                key={dialogueKey}
+                                event={dialogue}
+                                continueLabel={continueLabel}
+                                onDecision={handleDecision}
+                                onContinue={handleContinue}
+                            />
                         )}
                     </ThroneScene>
                 )}
 
                 <div
-                    className={[
-                        "screen-fade",
-                        transitionStage === "darkening"
-                            ? "screen-fade--visible"
-                            : "",
-                        transitionStage !== "idle"
-                            ? "screen-fade--active"
-                            : "",
-                    ].filter(Boolean).join(" ")}
+                    className={fadeClassName}
                     aria-hidden="true"
                     onTransitionEnd={(event) => {
                         if (
