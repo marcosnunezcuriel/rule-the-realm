@@ -1,0 +1,85 @@
+
+/* Contenedor de las estadísticas */
+
+.kingdom-stats {
+    position: absolute;
+    z-index: 2;
+
+    top: 50%;
+    left: 36px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    width: 230px;
+}
+
+/* Recuadros */
+
+.kingdom-stats__card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    min-height: 76px;
+    padding: 16px 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Nombre de la variable */
+
+.kingdom-stats__label {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+/* Cantidad actual */
+
+.kingdom-stats__value {
+    font-size: 25px;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Oro */
+
+.kingdom-stats__card--gold {
+    background-color: #d4a73e;
+    color: #121c2a;
+}
+
+/* Prestigio */
+
+.kingdom-stats__card--prestige {
+    background-color: #e58a35;
+    color: #121c2a;
+}
+
+/* Fe */
+
+.kingdom-stats__card--faith {
+    background-color: #bf4347;
+    color: #121c2a;
+}
+
+/* Población */
+
+.kingdom-stats__card--population {
+    background-color: #397fb9;
+    color: #121c2a;
+}
+
+/* Ejército */
+
+.kingdom-stats__card--army {
+    background-color: #368a5d;
+    color: #121c2a;
+}

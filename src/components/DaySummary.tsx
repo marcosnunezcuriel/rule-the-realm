@@ -1,19 +1,21 @@
+
+import type { KingdomValues } from "../types/stats";
+
+import { statDefinitions } from "../data/statDefinitions";
+
 import "../styles/DaySummary.css";
 
 type DaySummaryProps = {
     day: number;
+    stats: KingdomValues;
     onNextDay: () => void;
 };
 
-const statistics = [
-    "Oro",
-    "Prestigio",
-    "Fe",
-    "Población",
-    "Ejército",
-];
-
-function DaySummary({ day, onNextDay }: DaySummaryProps) {
+function DaySummary({
+    day,
+    stats,
+    onNextDay,
+}: DaySummaryProps) {
     return (
         <main className="day-summary">
             <div className="day-summary__panel">
@@ -26,13 +28,13 @@ function DaySummary({ day, onNextDay }: DaySummaryProps) {
                 <h3>Estado del reino</h3>
 
                 <div className="day-summary__stats">
-                    {statistics.map((statistic) => (
+                    {statDefinitions.map(({ key, label }) => (
                         <div
                             className="day-summary__stat"
-                            key={statistic}
+                            key={key}
                         >
-                            <span>{statistic}</span>
-                            <strong>—</strong>
+                            <span>{label}</span>
+                            <strong>{stats[key]}</strong>
                         </div>
                     ))}
                 </div>
@@ -47,8 +49,7 @@ function DaySummary({ day, onNextDay }: DaySummaryProps) {
                 </div>
 
                 <p className="day-summary__notice">
-                    Vista provisional. Las estadísticas y los
-                    modificadores todavía no están implementados.
+                    Los modificadores todavía no están implementados.
                 </p>
 
                 <button

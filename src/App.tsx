@@ -5,11 +5,13 @@ import Header from "./components/Header";
 import ThroneScene from "./components/ThroneScene";
 import DialogueController from "./components/DialogueController";
 import DaySummary from "./components/DaySummary";
+import KingdomStats from "./components/KingdomStats";
 
-import {
-    demoAudiences,
-    closingDialogue,
-} from "./data/demoAudiences";
+import { demoAudiences, closingDialogue, } from "./data/demoAudiences";
+
+import { initialKingdomValues } from "./game/initialState";
+
+import type { KingdomValues } from "./types/stats";
 
 type AudiencePhase =
     | "entering"
@@ -31,7 +33,6 @@ function App() {
     const [day, setDay] = useState(1);
     const [screen, setScreen] = useState<GameScreen>("scene");
     const [phase, setPhase] = useState<AudiencePhase>("entering");
-
     const [audienceIndex, setAudienceIndex] = useState(0);
     const [isClosing, setIsClosing] = useState(false);
 
@@ -41,6 +42,8 @@ function App() {
 
     const [transitionTarget, setTransitionTarget] =
         useState<GameScreen | null>(null);
+
+    const [stats] = useState<KingdomValues>(initialKingdomValues);
 
     // Audiencias disponibles.
     const availableAudiences = demoAudiences;
@@ -185,9 +188,14 @@ function App() {
             <Header chapter="I" day={day} />
 
             <div className="game-content">
+                {screen === "scene" && (
+                    <KingdomStats stats={stats} />
+                )}
+
                 {screen === "summary" ? (
                     <DaySummary
                         day={day}
+                        stats={stats}
                         onNextDay={handleNextDay}
                     />
                 ) : (
