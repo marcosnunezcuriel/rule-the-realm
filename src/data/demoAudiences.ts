@@ -163,6 +163,77 @@ export const demoAudiences: GameEvent[] = [
             },
         },
     },
+    {
+        id: "6",
+        day: 2,
+        order: 3,
+
+        image: "/assets/characters/courtiers/royal-advisor.png",
+
+        dialogue: {
+            speaker: "Consejera Real",
+
+            introduction: [
+                "Majestad, os traigo noticias alegres desde las puertas de la capital.",
+
+                "Un gran circo ambulante ha instalado sus coloridas carpas en las afueras.",
+
+                "Su director solicita permiso para actuar ante el pueblo y los nobles. ¿Permitimos que ofrezcan sus espectáculos?",
+            ],
+
+            responses: {
+                yes: [
+                    "¡Excelente elección, Majestad! Las funciones han comenzado y el dinero entra a raudales en las arcas gracias a las entradas.",
+
+                    "Además, he oído que un juglar del circo está tan inspirado que quiere actuar directamente en la plaza mayor.",
+                ],
+
+                no: [
+                    "Como mandéis, Majestad. He ordenado a la guardia que rechace a los artistas.",
+
+                    "Las calles seguirán tranquilas, aunque el pueblo se ha quedado con ganas de un poco de diversión.",
+                ],
+            },
+        },
+
+        effects: {
+            yes: {
+                gold: 20,
+            },
+
+            no: {
+                prestige: -3,
+            },
+        },
+
+        unlocks: {
+            yes: ["6.1", "6.2"],
+        },
+
+        addModifiers: {
+            yes: ["traveling-circus"],
+        },
+    },
+    {
+        id: "6.2",
+        day: 7,
+        order: 1,
+        requiresUnlock: true,
+
+        image: "/assets/characters/commoners/circus-ringmaster.png",
+
+        dialogue: {
+            speaker: "Director del circo",
+
+            introduction: [
+                "Majestad, vuestra hospitalidad ha sido maravillosa, pero las carpas deben desmontarse.",
+
+                "Nuestros caminos siguen hacia otros reinos, llevándonos los aplausos y los recuerdos de Astaria.",
+            ],
+        },
+
+        removeModifiersOnComplete: ["traveling-circus"],
+    }
 ];
 
 export const closingDialogue: DialogueEvent = {

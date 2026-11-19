@@ -1,8 +1,14 @@
+
 import type { CSSProperties } from "react";
+
 import type { KingdomValues } from "../types/stats";
+import type { DailyModifierReport } from "../types/modifiers";
 
 import { statDefinitions } from "../data/statDefinitions";
+import { modifierDefinitions } from "../data/modifiers";
+
 import StatIcon from "./StatIcon";
+import AnimatedNumber from "./AnimatedNumber";
 
 import "../styles/DaySummary.css";
 
@@ -10,6 +16,8 @@ type DaySummaryProps = {
     day: number;
     stats: KingdomValues;
     startStats: KingdomValues;
+    animatedFromStats: KingdomValues;
+    modifierReport: DailyModifierReport;
     onNextDay: () => void;
 };
 
@@ -17,6 +25,8 @@ function DaySummary({
     day,
     stats,
     startStats,
+    animatedFromStats,
+    modifierReport,
     onNextDay,
 }: DaySummaryProps) {
     return (
@@ -52,7 +62,9 @@ function DaySummary({
                                 key={key}
                                 className="day-summary__stat"
                                 style={
-                                    { "--stat-color": color } as CSSProperties
+                                    {
+                                        "--stat-color": color,
+                                    } as CSSProperties
                                 }
                             >
                                 <div className="day-summary__stat-heading">
@@ -61,11 +73,18 @@ function DaySummary({
                                 </div>
 
                                 <strong className="day-summary__stat-value">
-                                    {stats[key]}
+                                    <AnimatedNumber
+                                        value={stats[key]}
+                                        initialValue={animatedFromStats[key]}
+                                        delayMs={800}
+                                    />
                                 </strong>
 
                                 <span
-                                    className={`day-summary__stat-change day-summary__stat-change--${changeType}`}
+                                    className={
+                                        `day-summary__stat-change ` +
+                                        `day-summary__stat-change--${changeType}`
+                                    }
                                 >
                                     {formattedDifference} hoy
                                 </span>
@@ -74,18 +93,66 @@ function DaySummary({
                     })}
                 </div>
 
-                <h3>Modificadores activos</h3>
+                <h3>Modificadores aplicados hoy</h3>
 
                 <div className="day-summary__modifiers">
-                    <p>
-                        Los modificadores y sus efectos
-                        diarios se mostrarán aquí.
-                    </p>
-                </div>
+                    {modifierReport.appliedIds.length === 0 ? (
+                        <p className="day-summary__empty">
+                            No se aplicaron modificadores este día.
+                        </p>
+                    ) : (
+                        modifierReport.appliedIds.map((modifierId) => {
+                            const modifier =
+                                modifierDefinitions[modifierId];
 
-                <p className="day-summary__notice">
-                    Los modificadores todavía no están implementados.
-                </p>
+                            return (
+                                <article
+                                    key={modifierId}
+                                    className="day-summary__modifier"
+                                >
+                                    <h4 className="day-summary__modifier-name">
+                                        {modifier.name}
+                                    </h4>
+
+                                    <p className="day-summary__modifier-description">
+                                        {modifier.description}
+                                    </p>
+
+                                    <div className="day-summary__modifier-effects">
+                                        {statDefinitions
+                                            .filter(({ key }) => {
+                                                return (
+                                                    modifier.dailyChanges[key] ?? 0
+                                                ) !== 0;
+                                            })
+                                            .map(({ key, label }) => {
+                                                const amount =
+                                                    modifier.dailyChanges[key] ?? 0;
+
+                                                const changeType =
+                                                    amount > 0
+                                                        ? "positive"
+                                                        : "negative";
+
+                                                return (
+                                                    <span
+                                                        key={key}
+                                                        className={
+                                                            `day-summary__modifier-effect ` +
+                                                            `day-summary__modifier-effect--${changeType}`
+                                                        }
+                                                    >
+                                                        {amount > 0 ? "+" : ""}
+                                                        {amount} {label}
+                                                    </span>
+                                                );
+                                            })}
+                                    </div>
+                                </article>
+                            );
+                        })
+                    )}
+                </div>
 
                 <button
                     type="button"

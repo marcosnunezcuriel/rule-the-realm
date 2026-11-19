@@ -1,86 +1,102 @@
-
-/* Pantalla de resumen */
+/* Pantalla del resumen */
 
 .day-summary {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 40px;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 20px 24px;
+
+    box-sizing: border-box;
+    overflow: hidden;
 
     background-color: #0f1723;
-    color: #e8dfd0;
 }
 
 /* Panel principal */
 
 .day-summary__panel {
-    width: 100%;
-    max-width: 950px;
+    width: min(100%, 1020px);
+    max-height: 100%;
+    padding: 28px 32px;
 
-    padding: 36px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     background-color: #121c2a;
     border: 2px solid #b58a4d;
-    border-radius: 12px;
+    border-radius: 14px;
 
+    scrollbar-width: thin;
+    scrollbar-color: #b58a4d #121c2a;
+}
+
+/* Título */
+
+.day-summary__panel h2 {
+    margin: 0 0 8px;
+
+    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 34px;
     text-align: center;
 }
 
-.day-summary__panel h2 {
-    margin: 0;
-
-    color: #e6b875;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 32px;
-}
+/* Subtítulo */
 
 .day-summary__subtitle {
-    margin: 12px 0 32px;
-    color: #a3aebd;
+    margin: 0 0 26px;
+
+    color: #a3b4cd;
+    font-size: 16px;
+    text-align: center;
 }
 
+/* Encabezados de sección */
+
 .day-summary__panel h3 {
-    margin: 28px 0 16px;
+    margin: 0 0 14px;
 
     color: #e6b875;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 21px;
-    text-align: left;
+    font-size: 23px;
 }
 
-
-/* Estadísticas */
+/* Contenedor de estadísticas */
 
 .day-summary__stats {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
+
+    margin-bottom: 28px;
 }
 
-/* Tarjeta de cada variable */
+/* Tarjeta de estadística */
 
 .day-summary__stat {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 10px;
 
     min-width: 0;
-    min-height: 160px;
-    padding: 20px 10px;
+    min-height: 130px;
+    padding: 14px 8px;
+
+    box-sizing: border-box;
 
     background-color: #1d2a3b;
     border: 1px solid var(--stat-color);
     border-radius: 8px;
 }
 
-/* Icono y nombre */
+/* Nombre e icono */
 
 .day-summary__stat-heading {
     display: flex;
@@ -98,78 +114,141 @@
 .day-summary__stat-value {
     color: var(--stat-color);
 
-    font-size: 32px;
+    font-size: 31px;
     font-weight: bold;
     font-variant-numeric: tabular-nums;
 }
 
-/* Variación diaria */
+/* Variación del día */
 
 .day-summary__stat-change {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     font-variant-numeric: tabular-nums;
 }
-
-/* Ganancias */
 
 .day-summary__stat-change--positive {
     color: #72d6a0;
 }
 
-/* Pérdidas */
-
 .day-summary__stat-change--negative {
     color: #f08080;
 }
 
-/* Sin cambios */
-
 .day-summary__stat-change--neutral {
-    color: #a3aebd;
+    color: #a3b4cd;
 }
 
-/* Modificadores */
+/* Contenedor de modificadores */
 
 .day-summary__modifiers {
-    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-bottom: 24px;
+}
+
+/* Tarjeta de modificador */
+
+.day-summary__modifier {
+    padding: 16px 20px;
 
     background-color: #1d2a3b;
     border: 1px solid #59472f;
     border-radius: 8px;
-
-    color: #a3aebd;
-    text-align: left;
 }
 
-.day-summary__modifiers p {
+/* Nombre del modificador */
+
+.day-summary__modifier-name {
+    margin: 0 0 6px;
+
+    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 20px;
+}
+
+/* Descripción */
+
+.day-summary__modifier-description {
+    margin: 0 0 12px;
+
+    color: #a3b4cd;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Efectos */
+
+.day-summary__modifier-effects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.day-summary__modifier-effect {
+    padding: 6px 10px;
+
+    background-color: #172435;
+    border: 1px solid #59472f;
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.day-summary__modifier-effect--positive {
+    color: #72d6a0;
+}
+
+.day-summary__modifier-effect--negative {
+    color: #f08080;
+}
+
+/* Cuando no hay modificadores */
+
+.day-summary__empty {
     margin: 0;
-}
+    padding: 18px;
 
-/* Mensaje provisional */
+    color: #a3b4cd;
+    text-align: center;
 
-.day-summary__notice {
-    margin: 24px 0;
-
-    color: #a3aebd;
-    font-size: 13px;
+    background-color: #1d2a3b;
+    border: 1px solid #59472f;
+    border-radius: 8px;
 }
 
 /* Botón para avanzar */
 
 .day-summary__next {
-    padding: 14px 30px;
+    display: block;
 
-    background-color: #293748;
+    margin: 0 auto;
+    padding: 12px 28px;
+
+    color: #e6b875;
+    background-color: #253449;
+
     border: 1px solid #b58a4d;
     border-radius: 6px;
 
-    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 17px;
 
     cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .day-summary__next:hover {
-    background-color: #40536a;
+    background-color: #344762;
+    border-color: #e6b875;
+}
+
+.day-summary__next:focus-visible {
+    outline: 2px solid #e6b875;
+    outline-offset: 3px;
 }

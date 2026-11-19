@@ -1,13 +1,18 @@
-
 import { useEffect, useRef, useState } from "react";
 
 type AnimatedNumberProps = {
     value: number;
+    initialValue?: number;
+    delayMs?: number;
 };
 
-function AnimatedNumber({ value }: AnimatedNumberProps) {
-    const [displayedValue, setDisplayedValue] = useState(value);
-    const displayedRef = useRef(value);
+function AnimatedNumber({
+    value,
+    initialValue = value,
+    delayMs = 0,
+}: AnimatedNumberProps) {
+    const [displayedValue, setDisplayedValue] = useState(initialValue);
+    const displayedRef = useRef(initialValue);
 
     useEffect(() => {
         const startValue = displayedRef.current;
@@ -17,14 +22,14 @@ function AnimatedNumber({ value }: AnimatedNumberProps) {
             return;
         }
 
-        // 25 ms por unidad, con un máximo de 650 ms.
         const duration = Math.min(
             Math.max(difference * 25, 120),
             650
         );
 
         let startTime: number | null = null;
-        let frameId: number;
+        let frameId = 0;
+        let timeoutId = 0;
 
         function animate(currentTime: number) {
             if (startTime === null) {
@@ -48,12 +53,19 @@ function AnimatedNumber({ value }: AnimatedNumberProps) {
             }
         }
 
-        frameId = window.requestAnimationFrame(animate);
+        if (delayMs > 0) {
+            timeoutId = window.setTimeout(() => {
+                frameId = window.requestAnimationFrame(animate);
+            }, delayMs);
+        } else {
+            frameId = window.requestAnimationFrame(animate);
+        }
 
         return () => {
+            window.clearTimeout(timeoutId);
             window.cancelAnimationFrame(frameId);
         };
-    }, [value]);
+    }, [value, delayMs]);
 
     return <span>{displayedValue}</span>;
 }

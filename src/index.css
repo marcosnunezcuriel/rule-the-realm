@@ -69,3 +69,13 @@ button {
 .screen-fade--active {
     pointer-events: auto;
 }
+
+/* Evitar seleccionar texto durante las audiencias */
+
+.game-content {
+    user-select: none;
+    -webkit-user-select: none;
+
+    min-height: 0;
+    overflow: hidden;
+}

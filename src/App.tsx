@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Header from "./components/Header";
 import ThroneScene from "./components/ThroneScene";
@@ -12,9 +12,11 @@ import { getDayEvents } from "./game/getDayEvents";
 
 import { initialKingdomValues } from "./game/initialState";
 import { applyStatChanges } from "./game/applyStatChanges";
+import { applyDailyModifiers } from "./game/applyDailyModifiers";
 
 import type { Decision } from "./types/dialogue";
 import type { KingdomValues } from "./types/stats";
+import type { ModifierId, DailyModifierReport } from "./types/modifiers";
 
 type AudiencePhase =
     | "entering"
@@ -52,6 +54,24 @@ function App() {
     const [dayStartStats, setDayStartStats] = useState<KingdomValues>({
         ...initialKingdomValues,
     });
+    // Estadísticas visibles durante la salida nocturna.
+    const [closingStats, setClosingStats] =
+        useState<KingdomValues | null>(null);
+
+    // Modificadores que tiene activos el reino.
+    const [activeModifierIds, setActiveModifierIds] = useState<
+        ModifierId[]
+    >([]);
+
+    // Efectos de los modificadores aplicados al cerrar el día.
+    const [modifierReport, setModifierReport] =
+        useState<DailyModifierReport>({
+            appliedIds: [],
+            totalChanges: {},
+        });
+
+    // Impide cerrar dos veces una misma jornada.
+    const dayClosedRef = useRef(false);
 
     // Eventos desbloqueados por decisiones anteriores.
     const [unlockedEventIds, setUnlockedEventIds] = useState<string[]>([]);
@@ -164,14 +184,16 @@ function App() {
             return;
         }
 
-        // Aplicar las consecuencias inmediatas.
-        const changes = currentAudience.effects[answer];
+        // Aplicar consecuencias inmediatas.
+        const changes = currentAudience.effects?.[answer];
 
-        setStats((previous) => {
-            return applyStatChanges(previous, changes);
-        });
+        if (changes) {
+            setStats((previous) => {
+                return applyStatChanges(previous, changes);
+            });
+        }
 
-        // Comprobar si la elección desbloquea eventos.
+        // Desbloquear eventos futuros.
         const newUnlocks =
             currentAudience.unlocks?.[answer] ?? [];
 
@@ -185,10 +207,63 @@ function App() {
                 ];
             });
         }
+
+        // Activar modificadores.
+        const newModifiers =
+            currentAudience.addModifiers?.[answer] ?? [];
+
+        if (newModifiers.length > 0) {
+            setActiveModifierIds((previous) => {
+                return [
+                    ...new Set([
+                        ...previous,
+                        ...newModifiers,
+                    ]),
+                ];
+            });
+        }
     }
 
     // El jugador ha terminado un diálogo.
     function handleContinue() {
+        if (phase !== "speaking") {
+            return;
+        }
+
+        if (isClosing) {
+            if (dayClosedRef.current) {
+                return;
+            }
+
+            dayClosedRef.current = true;
+
+            // Guardar las cantidades anteriores al cierre.
+            setClosingStats({ ...stats });
+
+            // Calcular los modificadores del día.
+            const result = applyDailyModifiers(
+                stats,
+                activeModifierIds
+            );
+
+            // Actualizar las estadísticas reales.
+            setStats(result.nextStats);
+
+            // Guardar los modificadores aplicados.
+            setModifierReport(result.report);
+        } else {
+            const modifiersToRemove =
+                currentAudience?.removeModifiersOnComplete ?? [];
+
+            if (modifiersToRemove.length > 0) {
+                setActiveModifierIds((previous) => {
+                    return previous.filter(
+                        (id) => !modifiersToRemove.includes(id)
+                    );
+                });
+            }
+        }
+
         setPhase("exiting");
     }
 
@@ -200,6 +275,18 @@ function App() {
             transitionTarget !== null
         ) {
             if (transitionTarget === "scene") {
+                // La nueva jornada vuelve a mostrar los valores reales.
+                setClosingStats(null);
+
+                // Permitir que la nueva jornada se cierre una vez.
+                dayClosedRef.current = false;
+
+                // Limpiar el informe del día anterior.
+                setModifierReport({
+                    appliedIds: [],
+                    totalChanges: {},
+                });
+
                 const nextDay = day + 1;
 
                 // Calcular qué eventos están disponibles.
@@ -252,7 +339,7 @@ function App() {
 
             <div className="game-content">
                 {screen === "scene" && (
-                    <KingdomStats stats={stats} />
+                    <KingdomStats stats={closingStats ?? stats} />
                 )}
 
                 {screen === "summary" ? (
@@ -260,6 +347,8 @@ function App() {
                         day={day}
                         stats={stats}
                         startStats={dayStartStats}
+                        animatedFromStats={closingStats ?? stats}
+                        modifierReport={modifierReport}
                         onNextDay={handleNextDay}
                     />
                 ) : (
