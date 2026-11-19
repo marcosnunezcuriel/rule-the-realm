@@ -1,43 +1,73 @@
+
 import { useState } from "react";
 
 import Header from "./components/Header";
 import ThroneScene from "./components/ThroneScene";
 import DialogueController from "./components/DialogueController";
-import SpeechBubble from "./components/SpeechBubble";
 
 import { demoDialogue } from "./data/demoDialogue";
 
+type AudiencePhase = "entering" | "speaking" | "exiting" | "finished";
+
 function App() {
-	const [finished, setFinished] = useState(false);
+    const [phase, setPhase] = useState<AudiencePhase>("entering");
 
-	return (
-		<div className="app">
-			<Header chapter="I" day={1} />
+    // Cambiar de fase al terminar una animación.
+    function handleVisitorAnimationEnd() {
+        setPhase((current) => {
+            if (current === "entering") {
+                return "speaking";
+            }
 
-			<ThroneScene timeOfDay="morning">
-				{finished ? (
-					<SpeechBubble variant="visitor" speaker="Consejera Real" >
-						<p className="speech-bubble__text">
-							La audiencia de prueba ha terminado.
-						</p>
+            if (current === "exiting") {
+                return "finished";
+            }
 
-						<button
-							type="button"
-							className="speech-bubble__next"
-							onClick={() => setFinished(false)}
-						>
-							Repetir prueba
-						</button>
-					</SpeechBubble>
-					) : (
-					<DialogueController
-						event={demoDialogue}
-						onContinue={() => setFinished(true)}
-					/>
-				)}
-			</ThroneScene>
-		</div>
-	);
+            return current;
+        });
+    }
+
+    // Iniciar la salida del personaje.
+    function handleContinue() {
+        setPhase("exiting");
+    }
+
+    // Repetir la audiencia de prueba.
+    function handleRestart() {
+        setPhase("entering");
+    }
+
+    return (
+        <div className="app">
+            <Header chapter="I" day={1} />
+
+            <ThroneScene
+                timeOfDay="morning"
+                visitorPhase={phase}
+                onVisitorAnimationEnd={handleVisitorAnimationEnd}
+            >
+                {phase === "speaking" && (
+                    <DialogueController
+                        event={demoDialogue}
+                        onContinue={handleContinue}
+                    />
+                )}
+
+                {phase === "finished" && (
+                    <div className="audience-demo-end">
+                        <p>La audiencia de prueba ha terminado.</p>
+
+                        <button
+                            type="button"
+                            onClick={handleRestart}
+                        >
+                            Repetir audiencia
+                        </button>
+                    </div>
+                )}
+            </ThroneScene>
+        </div>
+    );
 }
 
 export default App;
