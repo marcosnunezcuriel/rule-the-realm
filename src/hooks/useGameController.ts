@@ -5,6 +5,7 @@ import {
     treasuryWarningDialogue,
     getDefeatAnnouncementDialogue,
 } from "../data/specialAudiences";
+import { demoAudiences } from "../data/demoAudiences";
 
 import { applyDailyModifiers } from "../game/applyDailyModifiers";
 import { applyStatChanges } from "../game/applyStatChanges";
@@ -12,6 +13,12 @@ import { getDayEvents } from "../game/getDayEvents";
 import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
 import { initialKingdomValues } from "../game/initialState";
 import { checkGameOver } from "../game/checkGameOver";
+
+import {
+    loadGame,
+    saveGame,
+    clearSavedGame,
+} from "../storage/gameStorage";
 
 import type { GameOverReason } from "../types/gameOver";
 import type { Decision } from "../types/dialogue";
@@ -25,30 +32,67 @@ import type {
     ModifierId,
 } from "../types/modifiers";
 import type { KingdomValues } from "../types/stats";
+import type { GameEvent } from "../types/events";
+import type { SaveGameV1 } from "../types/saveGame";
 
 const BACKGROUND_TRANSITION_DURATION = 1500;
 const ROYAL_ADVISOR_IMAGE =
     "/assets/characters/courtiers/royal-advisor.png";
 
 export function useGameController() {
+    // Recuperar el guardado al montar el controlador.
+    const [initialSave] = useState(() => loadGame());
+
     // Estado principal de la jornada y de la interfaz.
-    const [day, setDay] = useState(1);
-    const [screen, setScreen] = useState<GameScreen>("scene");
+    const [day, setDay] = useState(
+        initialSave?.day ?? 1
+    );
+
+    const [screen, setScreen] = useState<GameScreen>(() => {
+        // Si el cierre ya aplicó los modificadores,
+        // recuperar el resumen en lugar de repetirlo.
+        if (
+            initialSave?.dayClosed &&
+            initialSave.screen === "scene"
+        ) {
+            return "summary";
+        }
+
+        return initialSave?.screen ?? "scene";
+    });
+
     const [phase, setPhase] = useState<AudiencePhase>("entering");
-    const [audienceIndex, setAudienceIndex] = useState(0);
-    const [isClosing, setIsClosing] = useState(false);
+
+    const [audienceIndex, setAudienceIndex] = useState(
+        initialSave?.audienceIndex ?? 0
+    );
+
+    const [isClosing, setIsClosing] = useState(
+        initialSave?.isClosing ?? false
+    );
+
     // Tipo de audiencia extraordinaria en curso.
     const [specialAudience, setSpecialAudience] = useState<
         "treasury-warning" | "defeat" | null
-    >(null);
+    >(initialSave?.specialAudience ?? null);
 
     // Aviso económico pendiente de presentar.
-    const [pendingTreasuryWarning, setPendingTreasuryWarning] =
-        useState(false);
+    const [
+        pendingTreasuryWarning,
+        setPendingTreasuryWarning,
+    ] = useState(
+        initialSave?.pendingTreasuryWarning ?? false
+    );
 
     // Causa de la derrota, si existe.
-    const [gameOverReason, setGameOverReason] =
-        useState<GameOverReason | null>(null);
+    const [gameOverReason, setGameOverReason] = useState<
+        GameOverReason | null
+    >(initialSave?.gameOverReason ?? null);
+
+    // Decisión ya aplicada en la audiencia actual.
+    const [selectedDecision, setSelectedDecision] = useState<
+        Decision | null
+    >(initialSave?.selectedDecision ?? null);
 
     const [transitionStage, setTransitionStage] =
         useState<TransitionStage>("idle");
@@ -57,34 +101,68 @@ export function useGameController() {
 
     // Datos del reino; estos serán relevantes para guardar partidas.
     const [stats, setStats] = useState<KingdomValues>(
-        initialKingdomValues
+        initialSave?.stats ?? initialKingdomValues
     );
-    const [dayStartStats, setDayStartStats] = useState<KingdomValues>({
-        ...initialKingdomValues,
-    });
-    const [closingStats, setClosingStats] =
-        useState<KingdomValues | null>(null);
 
-    const [activeModifierIds, setActiveModifierIds] =
-        useState<ModifierId[]>([]);
+    const [dayStartStats, setDayStartStats] = useState<
+        KingdomValues
+    >(
+        initialSave?.dayStartStats ?? {
+            ...initialKingdomValues,
+        }
+    );
+
+    const [closingStats, setClosingStats] = useState<
+        KingdomValues | null
+    >(
+        initialSave?.closingStats ?? null
+    );
+
+    const [activeModifierIds, setActiveModifierIds] = useState<
+        ModifierId[]
+    >(
+        initialSave?.activeModifierIds ?? []
+    );
 
     // Tema visual fijado al comienzo de cada jornada.
-    const [sceneModifierIds, setSceneModifierIds] =
-        useState<ModifierId[]>([]);
-    const [modifierReport, setModifierReport] =
-        useState<DailyModifierReport>({
+    const [sceneModifierIds, setSceneModifierIds] = useState<
+        ModifierId[]
+    >(
+        initialSave?.sceneModifierIds ?? []
+    );
+
+    const [modifierReport, setModifierReport] = useState<
+        DailyModifierReport
+    >(
+        initialSave?.modifierReport ?? {
             appliedIds: [],
             totalChanges: {},
-        });
+        }
+    );
 
-    const [unlockedEventIds, setUnlockedEventIds] =
-        useState<string[]>([]);
-    const [dayEvents, setDayEvents] = useState(() => {
-        return getDayEvents(1, []);
+    const [unlockedEventIds, setUnlockedEventIds] = useState<
+        string[]
+    >(
+        initialSave?.unlockedEventIds ?? []
+    );
+
+    // Mantener exactamente las audiencias que tenía la jornada guardada.
+    const [dayEvents, setDayEvents] = useState<GameEvent[]>(() => {
+        if (initialSave === null) {
+            return getDayEvents(1, []);
+        }
+
+        return initialSave.dayEventIds
+            .map((id) => {
+                return demoAudiences.find((event) => event.id === id);
+            })
+            .filter((event): event is GameEvent => {
+                return event !== undefined;
+            });
     });
 
     // Protege de un segundo cierre de la misma jornada.
-    const dayClosedRef = useRef(false);
+    const dayClosedRef = useRef(initialSave?.dayClosed ?? false);
 
     // Datos derivados: no necesitamos guardarlos en otros useState.
     const currentAudience = dayEvents[audienceIndex];
@@ -128,6 +206,51 @@ export function useGameController() {
     const visibleStats = closingStats ?? stats;
     const backgroundMap = getSceneBackgrounds(sceneModifierIds);
 
+    // Guardar el estado lógico tras cada cambio relevante.
+    // Las fases de animación no se guardan: al cargar se reinicia
+    // la entrada del personaje o se recupera la pantalla actual.
+    useEffect(() => {
+        const savedState: SaveGameV1 = {
+            version: 1,
+            day,
+            screen,
+            stats,
+            dayStartStats,
+            closingStats,
+            audienceIndex,
+            dayEventIds: dayEvents.map((event) => event.id),
+            isClosing,
+            dayClosed: dayClosedRef.current,
+            selectedDecision,
+            unlockedEventIds,
+            activeModifierIds,
+            sceneModifierIds,
+            modifierReport,
+            specialAudience,
+            pendingTreasuryWarning,
+            gameOverReason,
+        };
+
+        saveGame(savedState);
+    }, [
+        day,
+        screen,
+        stats,
+        dayStartStats,
+        closingStats,
+        audienceIndex,
+        dayEvents,
+        isClosing,
+        selectedDecision,
+        unlockedEventIds,
+        activeModifierIds,
+        sceneModifierIds,
+        modifierReport,
+        specialAudience,
+        pendingTreasuryWarning,
+        gameOverReason,
+    ]);
+
     // El personaje no entra hasta que termina el cambio de fondo.
     useEffect(() => {
         if (phase !== "transitioning") {
@@ -164,6 +287,9 @@ export function useGameController() {
         if (phase !== "exiting") {
             return;
         }
+
+        // La siguiente intervención no debe heredar la decisión anterior.
+        setSelectedDecision(null);
 
         // Ha terminado el anuncio de derrota.
         if (specialAudience === "defeat") {
@@ -237,10 +363,14 @@ export function useGameController() {
             isClosing ||
             specialAudience !== null ||
             phase !== "speaking" ||
+            selectedDecision !== null ||
             !currentAudience
         ) {
             return;
         }
+
+        // La respuesta queda guardada incluso antes de terminar el diálogo.
+        setSelectedDecision(answer);
 
         // Consecuencias inmediatas.
         const changes = currentAudience.effects?.[answer];
@@ -383,6 +513,7 @@ export function useGameController() {
         setDay(nextDay);
         setDayEvents(nextDayEvents);
         setAudienceIndex(0);
+        setSelectedDecision(null);
 
         // Limpiar las advertencias anteriores.
         setPendingTreasuryWarning(false);
@@ -435,6 +566,7 @@ export function useGameController() {
     }
 
     function handleRestart() {
+        clearSavedGame();
         window.location.reload();
     }
 
@@ -447,6 +579,7 @@ export function useGameController() {
         visitorImage,
         dialogue,
         dialogueKey,
+        selectedDecision,
         continueLabel,
         stats,
         visibleStats,
@@ -459,6 +592,6 @@ export function useGameController() {
         handleScreenFadeEnd,
         handleNextDay,
         gameOverReason,
-        handleRestart
+        handleRestart,
     };
 }

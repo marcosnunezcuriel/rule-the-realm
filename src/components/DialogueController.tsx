@@ -14,6 +14,7 @@ type DialogueControllerProps = {
     onContinue: () => void;
     onDecision: (answer: Decision) => void;
     continueLabel?: string;
+    initialDecision?: Decision | null;
 };
 
 function DialogueController({
@@ -21,15 +22,21 @@ function DialogueController({
     onContinue,
     onDecision,
     continueLabel = "Continuar",
+    initialDecision = null,
 }: DialogueControllerProps) {
 
-    const [decision, setDecision] = useState<Decision | null>(null);
+    const [decision, setDecision] = useState<
+        Decision | null
+    >(initialDecision);
+
     const [lineIndex, setLineIndex] = useState(0);
 
     const [isTextComplete, setIsTextComplete] = useState(false);
     const [skipTyping, setSkipTyping] = useState(false);
 
-    const decisionLocked = useRef(false);
+    const decisionLocked = useRef(
+        initialDecision !== null
+    );
 
     // Seleccionar los textos correspondientes.
     const lines =

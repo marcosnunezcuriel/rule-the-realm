@@ -17,6 +17,7 @@ function App() {
         visitorImage,
         dialogue,
         dialogueKey,
+        selectedDecision,
         continueLabel,
         stats,
         visibleStats,
@@ -29,7 +30,7 @@ function App() {
         handleContinue,
         handleScreenFadeEnd,
         handleNextDay,
-        handleRestart,
+        handleRestart
     } = useGameController();
 
     const fadeClassName = [
@@ -81,6 +82,7 @@ function App() {
                             <DialogueController
                                 key={dialogueKey}
                                 event={dialogue}
+                                initialDecision={selectedDecision}
                                 continueLabel={continueLabel}
                                 onDecision={handleDecision}
                                 onContinue={handleContinue}
