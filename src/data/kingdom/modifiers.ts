@@ -1,7 +1,7 @@
 import type {
     ModifierDefinition,
     ModifierId,
-} from "../types/modifiers";
+} from "../../types/modifiers";
 
 export const modifierDefinitions: Record<
     ModifierId,

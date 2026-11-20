@@ -1,4 +1,4 @@
-import type { ModifierId } from "../types/modifiers";
+import type { ModifierId } from "../../types/modifiers";
 
 export type SceneTime = "morning" | "evening" | "night";
 
