@@ -31,7 +31,7 @@ function GameOver({
         (stat) => stat.key === message.stat
     );
 
-    const color = statDefinition?.color ?? "#e6b875";
+    const color = statDefinition?.color ?? "var(--colour-gold)";
 
     return (
         <main className="game-over">
@@ -65,7 +65,7 @@ function GameOver({
                 <p className="game-over__day">
                     Capítulo {chapter} · Día {day}
                 </p>
-       
+
                 <button
                     type="button"
                     className="game-over__button"

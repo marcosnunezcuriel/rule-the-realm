@@ -1,254 +1,225 @@
 /* Pantalla del resumen */
-
 .day-summary {
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 100%;
     height: 100%;
     min-height: 0;
-    padding: 20px 24px;
-
-    box-sizing: border-box;
+    padding: var(--space-5) var(--space-6);
     overflow: hidden;
-
-    background-color: #0f1723;
+    background-color: var(--colour-background);
 }
-
-/* Panel principal */
 
 .day-summary__panel {
-    width: min(100%, 1020px);
+    width: min(100%, var(--size-day-panel-max));
     max-height: 100%;
-    padding: 28px 32px;
-
-    box-sizing: border-box;
+    padding: var(--space-7) var(--space-8);
     overflow-y: auto;
     overflow-x: hidden;
-
-    background-color: #121c2a;
-    border: 2px solid #b58a4d;
-    border-radius: 14px;
-
+    background-color: var(--colour-panel);
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-2xl);
     scrollbar-width: thin;
-    scrollbar-color: #b58a4d #121c2a;
+    scrollbar-color: var(--colour-border-gold) var(--colour-panel);
 }
-
-/* Título */
 
 .day-summary__panel h2 {
-    margin: 0 0 8px;
-
-    color: #e6b875;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 34px;
+    margin: 0 0 var(--space-2);
+    color: var(--colour-gold);
+    font-family: var(--font-display);
+    font-size: var(--font-size-34);
     text-align: center;
 }
-
-/* Subtítulo */
 
 .day-summary__subtitle {
-    margin: 0 0 26px;
-
-    color: #a3b4cd;
-    font-size: 16px;
+    margin: 0 0 var(--space-6-5);
+    color: var(--colour-text-muted);
+    font-size: var(--font-size-16);
     text-align: center;
 }
 
-/* Encabezados de sección */
-
 .day-summary__panel h3 {
-    margin: 0 0 14px;
-
-    color: #e6b875;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 23px;
+    margin: 0 0 var(--space-3-5);
+    color: var(--colour-gold);
+    font-family: var(--font-display);
+    font-size: var(--font-size-23);
 }
 
 /* Contenedor de estadísticas */
-
 .day-summary__stats {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 12px;
-
-    margin-bottom: 28px;
+    gap: var(--space-3);
+    margin-bottom: var(--space-7);
 }
-
-/* Tarjeta de estadística */
 
 .day-summary__stat {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-
+    gap: var(--space-2-5);
     min-width: 0;
-    min-height: 130px;
-    padding: 14px 8px;
-
-    box-sizing: border-box;
-
-    background-color: #1d2a3b;
-    border: 1px solid var(--stat-color);
-    border-radius: 8px;
+    min-height: var(--size-day-card-min-height);
+    padding: var(--space-3-5) var(--space-2);
+    background-color: var(--colour-card);
+    border: var(--border-thin) solid var(--stat-color);
+    border-radius: var(--radius-md);
 }
-
-/* Nombre e icono */
 
 .day-summary__stat-heading {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-
+    gap: var(--space-2);
     color: var(--stat-color);
-    font-size: 15px;
-    font-weight: bold;
+    font-size: var(--font-size-15);
+    font-weight: var(--font-weight-bold);
 }
-
-/* Valor final */
 
 .day-summary__stat-value {
     color: var(--stat-color);
-
-    font-size: 31px;
-    font-weight: bold;
+    font-size: var(--font-size-31);
+    font-weight: var(--font-weight-bold);
     font-variant-numeric: tabular-nums;
 }
 
-/* Variación del día */
-
 .day-summary__stat-change {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-bold);
     font-variant-numeric: tabular-nums;
 }
 
 .day-summary__stat-change--positive {
-    color: #72d6a0;
+    color: var(--colour-positive);
 }
 
 .day-summary__stat-change--negative {
-    color: #f08080;
+    color: var(--colour-negative);
 }
 
 .day-summary__stat-change--neutral {
-    color: #a3b4cd;
+    color: var(--colour-text-muted);
 }
 
 /* Contenedor de modificadores */
-
 .day-summary__modifiers {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-
-    margin-bottom: 24px;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
 }
-
-/* Tarjeta de modificador */
 
 .day-summary__modifier {
-    padding: 16px 20px;
-
-    background-color: #1d2a3b;
-    border: 1px solid #59472f;
-    border-radius: 8px;
+    padding: var(--space-4) var(--space-5);
+    background-color: var(--colour-card);
+    border: var(--border-thin) solid var(--colour-border-muted);
+    border-radius: var(--radius-md);
 }
-
-/* Nombre del modificador */
 
 .day-summary__modifier-name {
-    margin: 0 0 6px;
-
-    color: #e6b875;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 20px;
+    margin: 0 0 var(--space-1-5);
+    color: var(--colour-gold);
+    font-family: var(--font-display);
+    font-size: var(--font-size-20);
 }
-
-/* Descripción */
 
 .day-summary__modifier-description {
-    margin: 0 0 12px;
-
-    color: #a3b4cd;
-    font-size: 14px;
-    line-height: 1.5;
+    margin: 0 0 var(--space-3);
+    color: var(--colour-text-muted);
+    font-size: var(--font-size-14);
+    line-height: var(--line-height-body);
 }
-
-/* Efectos */
 
 .day-summary__modifier-effects {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: var(--space-2-5);
 }
 
 .day-summary__modifier-effect {
-    padding: 6px 10px;
-
-    background-color: #172435;
-    border: 1px solid #59472f;
-    border-radius: 6px;
-
-    font-size: 14px;
-    font-weight: bold;
+    padding: var(--space-1-5) var(--space-2-5);
+    background-color: var(--colour-card-inset);
+    border: var(--border-thin) solid var(--colour-border-muted);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-bold);
 }
 
 .day-summary__modifier-effect--positive {
-    color: #72d6a0;
+    color: var(--colour-positive);
 }
 
 .day-summary__modifier-effect--negative {
-    color: #f08080;
+    color: var(--colour-negative);
 }
-
-/* Cuando no hay modificadores */
 
 .day-summary__empty {
     margin: 0;
-    padding: 18px;
-
-    color: #a3b4cd;
+    padding: var(--space-4-5);
+    color: var(--colour-text-muted);
     text-align: center;
-
-    background-color: #1d2a3b;
-    border: 1px solid #59472f;
-    border-radius: 8px;
+    background-color: var(--colour-card);
+    border: var(--border-thin) solid var(--colour-border-muted);
+    border-radius: var(--radius-md);
 }
 
 /* Botón para avanzar */
-
 .day-summary__next {
     display: block;
-
     margin: 0 auto;
-    padding: 12px 28px;
-
-    color: #e6b875;
-    background-color: #253449;
-
-    border: 1px solid #b58a4d;
-    border-radius: 6px;
-
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 17px;
-
+    padding: var(--space-3) var(--space-7);
+    color: var(--colour-gold);
+    background-color: var(--colour-button);
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-size: var(--font-size-17);
     cursor: pointer;
     transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
+        background-color var(--duration-fast) var(--ease-default),
+        border-color var(--duration-fast) var(--ease-default);
 }
 
 .day-summary__next:hover {
-    background-color: #344762;
-    border-color: #e6b875;
+    background-color: var(--colour-button-hover);
+    border-color: var(--colour-gold);
 }
 
 .day-summary__next:focus-visible {
-    outline: 2px solid #e6b875;
-    outline-offset: 3px;
+    outline: var(--border-medium) solid var(--colour-gold);
+    outline-offset: var(--space-0-75);
+}
+
+@media (max-width: 48rem) {
+    .day-summary {
+        padding: var(--space-3);
+    }
+
+    .day-summary__panel {
+        padding: var(--space-5);
+    }
+
+    .day-summary__stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .day-summary__stat {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 30rem) {
+    .day-summary__panel h2 {
+        font-size: var(--font-size-24);
+    }
+
+    .day-summary__stats {
+        gap: var(--space-2);
+    }
+
+    .day-summary__stat-value {
+        font-size: var(--font-size-25);
+    }
 }

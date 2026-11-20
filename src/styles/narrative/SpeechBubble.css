@@ -1,186 +1,142 @@
 /* Estilo general de los bocadillos */
-
 .speech-bubble {
-  position: absolute;
-  z-index: 3;
-
-  padding: 16px 20px;
-
-  border: 2px solid #b58a4d;
-  border-radius: 16px;
-
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+    position: absolute;
+    z-index: 3;
+    padding: var(--space-4) var(--space-5);
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-bubble);
+    box-shadow: var(--shadow-bubble);
 }
 
 /* Bocadillo del visitante */
-
 .speech-bubble--visitor {
-  bottom: 60%;
-  left: 41%;
-  width: 43%;
-
-  background-color: #121c2a;
-  color: #e8dfd0;
+    bottom: 60%;
+    left: 41%;
+    width: 43%;
+    background-color: var(--colour-panel);
+    color: var(--colour-text);
 }
 
 /* Pico del bocadillo del visitante */
-
 .speech-bubble--visitor::after {
-  content: "";
-  position: absolute;
-
-  right: 14%;
-  bottom: -11px;
-
-  width: 18px;
-  height: 18px;
-
-  background-color: #121c2a;
-
-  border-right: 2px solid #b58a4d;
-  border-bottom: 2px solid #b58a4d;
-
-  transform: rotate(45deg);
+    content: "";
+    position: absolute;
+    right: 14%;
+    bottom: -0.6875rem;
+    width: var(--size-speech-tail);
+    height: var(--size-speech-tail);
+    background-color: var(--colour-panel);
+    border-right: var(--border-medium) solid var(--colour-border-gold);
+    border-bottom: var(--border-medium) solid var(--colour-border-gold);
+    transform: rotate(45deg);
 }
-
-/* Nombre del personaje */
 
 .speech-bubble__speaker {
-  margin: 0 0 10px;
-
-  color: #e6b875;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 20px;
+    margin: 0 0 var(--space-2-5);
+    color: var(--colour-gold);
+    font-family: var(--font-display);
+    font-size: var(--font-size-20);
 }
 
-/* Texto */
-
 .speech-bubble__text {
-  margin: 0;
-
-  font-size: 16px;
-  line-height: 1.5;
+    margin: 0;
+    font-size: var(--font-size-16);
+    line-height: var(--line-height-body);
 }
 
 /* Botones Siguiente y Continuar */
-
 .speech-bubble__next {
-  display: block;
-
-  margin: 14px 0 0 auto;
-  padding: 8px 16px;
-
-  background-color: #293748;
-  border: 1px solid #b58a4d;
-  border-radius: 5px;
-
-  color: #e6b875;
-  font-size: 14px;
-
-  cursor: pointer;
+    display: block;
+    margin: var(--space-3-5) 0 0 auto;
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--colour-button-alt);
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-xs);
+    color: var(--colour-gold);
+    font-size: var(--font-size-14);
+    cursor: pointer;
 }
 
 .speech-bubble__next:hover {
-  background-color: #40536a;
+    background-color: var(--colour-button-alt-hover);
 }
 
 /* Bocadillo del rey */
-
 .speech-bubble--king {
-  top: 50%;
-  left: 31%;
-
-  min-width: 155px;
-  padding: 12px 16px;
-
-  background-color: #e8dac0;
+    top: 50%;
+    left: 31%;
+    min-width: var(--size-king-bubble-min);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--colour-king-bubble);
 }
-
-/* Pico del bocadillo del rey */
 
 .speech-bubble--king::after {
-  content: "";
-  position: absolute;
-
-  left: 16%;
-  bottom: -11px;
-
-  width: 18px;
-  height: 18px;
-
-  background-color: #e8dac0;
-
-  border-right: 2px solid #b58a4d;
-  border-bottom: 2px solid #b58a4d;
-
-  transform: rotate(45deg);
+    content: "";
+    position: absolute;
+    left: 16%;
+    bottom: -0.6875rem;
+    width: var(--size-speech-tail);
+    height: var(--size-speech-tail);
+    background-color: var(--colour-king-bubble);
+    border-right: var(--border-medium) solid var(--colour-border-gold);
+    border-bottom: var(--border-medium) solid var(--colour-border-gold);
+    transform: rotate(45deg);
 }
 
-/* Opciones Y / N */
-
 .speech-bubble__choices {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3-5);
 }
 
 .speech-bubble__choice {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 43px;
-  height: 43px;
-
-  border: none;
-  border-radius: 50%;
-
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: bold;
-
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--size-choice);
+    height: var(--size-choice);
+    border: none;
+    border-radius: var(--radius-round);
+    color: var(--colour-white);
+    font-size: var(--font-size-22);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
 }
 
 .speech-bubble__choice--yes {
-  background-color: #238b55;
+    background-color: var(--colour-choice-yes);
 }
 
 .speech-bubble__choice--no {
-  background-color: #b33e47;
+    background-color: var(--colour-choice-no);
 }
 
 .speech-bubble__choice--yes:hover {
-  background-color: #2eaa6b;
+    background-color: var(--colour-choice-yes-hover);
 }
 
 .speech-bubble__choice--no:hover {
-  background-color: #d64c56;
+    background-color: var(--colour-choice-no-hover);
 }
 
-/* Barra decorativa */
-
 .speech-bubble__separator {
-  color: #121c2a;
-  font-size: 26px;
-  font-weight: bold;
+    color: var(--colour-panel);
+    font-size: var(--font-size-26);
+    font-weight: var(--font-weight-bold);
 }
 
 /* Accesibilidad al navegar con teclado */
-
 .speech-bubble button:focus-visible {
-  outline: 3px solid #e6b875;
-  outline-offset: 3px;
+    outline: var(--border-heavy) solid var(--colour-gold);
+    outline-offset: var(--space-0-75);
 }
-
-/* El bocadillo se puede pulsar mientras escribe */
 
 .speech-bubble--visitor[role="button"] {
     cursor: pointer;
 }
 
 .speech-bubble--visitor[role="button"]:focus-visible {
-    outline: 3px solid #e6b875;
-    outline-offset: 3px;
+    outline: var(--border-heavy) solid var(--colour-gold);
+    outline-offset: var(--space-0-75);
 }

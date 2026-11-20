@@ -6,30 +6,32 @@ type StatDefinition = {
     color: string;
 };
 
+// Los colores proceden de src/utils/colours.css.
+// Los componentes reciben el nombre de la variable, no un color duplicado.
 export const statDefinitions: StatDefinition[] = [
     {
         key: "gold",
         label: "Oro",
-        color: "#d4a73e",
+        color: "var(--colour-stat-gold)",
     },
     {
         key: "prestige",
         label: "Prestigio",
-        color: "#e58a35",
+        color: "var(--colour-stat-prestige)",
     },
     {
         key: "faith",
         label: "Fe",
-        color: "#a77bd8",
+        color: "var(--colour-stat-faith)",
     },
     {
         key: "population",
         label: "Población",
-        color: "#397fb9",
+        color: "var(--colour-stat-population)",
     },
     {
         key: "army",
         label: "Ejército",
-        color: "#368a5d",
+        color: "var(--colour-stat-army)",
     },
 ];

@@ -1,115 +1,81 @@
-
 /* Contenedor principal de la escena */
-
 .throne-scene {
-  flex: 1;
-  min-height: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 16px;
-  overflow: hidden;
-  background-color: #0f1723;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-4);
+    overflow: hidden;
+    background-color: var(--colour-background);
 }
 
 /* Escenario del juego */
-
 .throne-stage {
-  position: relative;
-
-  aspect-ratio: 4 / 3;
-  height: 100%;
-  max-width: 100%;
-
-  overflow: hidden;
+    position: relative;
+    aspect-ratio: var(--aspect-stage);
+    height: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
-
 /* Fondos superpuestos */
-
 .throne-stage__background {
     position: absolute;
     inset: 0;
-
     display: block;
     width: 100%;
     height: 100%;
-
     object-fit: contain;
     opacity: 0;
-
-    transition: opacity 1.5s ease-in-out;
-
+    transition: opacity var(--duration-background) var(--ease-standard);
     user-select: none;
     pointer-events: none;
 }
-
-/* Fondo visible */
 
 .throne-stage__background--active {
     opacity: 1;
 }
 
 /* Personajes */
-
 .character {
-  position: absolute;
-  bottom: 3%;
-
-  width: 38%;
-  height: auto;
-
-  object-fit: contain;
-  user-select: none;
-  pointer-events: none;
+    position: absolute;
+    bottom: 3%;
+    width: 38%;
+    height: auto;
+    object-fit: contain;
+    user-select: none;
+    pointer-events: none;
 }
-
-/* Rey */
 
 .character--king {
-  left: 4%;
-  z-index: 1;
+    left: 4%;
+    z-index: 1;
 }
-
-/* Visitante */
 
 .character--visitor {
-  right: 4%;
-  z-index: 2;
+    right: 4%;
+    z-index: 2;
 }
-
-
-/* Imagen del visitante */
 
 .visitor__image {
     display: block;
     width: 100%;
     height: auto;
-
-    transition: transform 0.2s ease;
+    transition: transform var(--duration-fast) var(--ease-default);
 }
-
-/* Entrada del visitante */
 
 .visitor--entering {
-    animation: visitor-enter 2s ease-out both;
+    animation: visitor-enter var(--duration-visitor-in) var(--ease-out) both;
 }
-
-/* Salida del visitante */
 
 .visitor--exiting {
-    animation: visitor-exit 1.8s ease-in both;
+    animation: visitor-exit var(--duration-visitor-out) var(--ease-in) both;
 }
-
-/* Girar al personaje al salir */
 
 .visitor--exiting .visitor__image {
     transform: scaleX(-1);
 }
-
-/* Animación de entrada */
 
 @keyframes visitor-enter {
     from {
@@ -120,8 +86,6 @@
         transform: translateX(0);
     }
 }
-
-/* Animación de salida */
 
 @keyframes visitor-exit {
     0% {
@@ -137,38 +101,37 @@
     }
 }
 
-
-/* Pantalla temporal de fin de audiencia */
-
+/* Pantalla auxiliar de fin de audiencia (conservada por compatibilidad visual) */
 .audience-demo-end {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-
-    padding: 24px 32px;
+    padding: var(--space-6) var(--space-8);
     text-align: center;
-
-    background-color: #121c2a;
-    border: 2px solid #b58a4d;
-    border-radius: 10px;
-
-    color: #e8dfd0;
+    background-color: var(--colour-panel);
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-lg);
+    color: var(--colour-text);
 }
 
 .audience-demo-end button {
-    margin-top: 12px;
-    padding: 10px 20px;
-
-    background-color: #293748;
-    border: 1px solid #b58a4d;
-    border-radius: 5px;
-
-    color: #e6b875;
+    margin-top: var(--space-3);
+    padding: var(--space-2-5) var(--space-5);
+    background-color: var(--colour-button-alt);
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-xs);
+    color: var(--colour-gold);
     cursor: pointer;
 }
 
 .audience-demo-end button:hover {
-    background-color: #40536a;
+    background-color: var(--colour-button-alt-hover);
+}
+
+@media (max-width: 48rem) {
+    .throne-scene {
+        padding: var(--space-2);
+    }
 }

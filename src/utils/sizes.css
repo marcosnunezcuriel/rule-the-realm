@@ -1,0 +1,37 @@
+/* Medidas compartidas de paneles, controles y elementos visuales. */
+:root {
+    --size-min-viewport: 20rem;
+    --size-header-height: 5.25rem;
+    --size-header-logo: 3.5rem;
+    --size-header-logo-image: 2.375rem;
+    --size-header-control: 2.875rem;
+    --size-header-icon: 1.625rem;
+
+    --size-stats-width: 14.375rem;
+    --size-stats-card-height: 4.75rem;
+    --size-stat-icon: 1.375rem;
+    --size-day-card-min-height: 8.125rem;
+    --size-day-panel-max: 63.75rem;
+
+    --size-menu-panel-max: 38.75rem;
+    --size-menu-emblem: 6rem;
+    --size-menu-emblem-image: 4.25rem;
+    --size-menu-actions: 17.5rem;
+    --size-menu-confirm-max: 33.125rem;
+
+    --size-parchment-max: 53.125rem;
+    --size-parchment-height: 35rem;
+    --size-parchment-emblem: 2.75rem;
+    --size-parchment-divider: 12.5rem;
+
+    --size-game-over-max: 47.5rem;
+    --size-game-over-icon: 4.5rem;
+    --size-game-over-svg: 2.25rem;
+    --size-game-over-description: 36.25rem;
+    --size-game-over-result: 15rem;
+
+    --size-choice: 2.6875rem;
+    --size-speech-tail: 1.125rem;
+    --size-king-bubble-min: 9.6875rem;
+    --aspect-stage: 4 / 3;
+}

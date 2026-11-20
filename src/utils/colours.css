@@ -1,0 +1,71 @@
+/* Paleta central de Rule the Realm.
+   Cambiar estos valores actualiza todas las pantallas. */
+:root {
+    --colour-black: #000000;
+    --colour-white: #ffffff;
+
+    /* Fondos y superficies */
+    --colour-background: #0f1723;
+    --colour-panel: #121c2a;
+    --colour-card: #1d2a3b;
+    --colour-card-inset: #172435;
+    --colour-card-critical: #35212a;
+    --colour-header-border: #253143;
+
+    /* Textos y detalles dorados */
+    --colour-text: #e8dfd0;
+    --colour-text-muted: #a3b4cd;
+    --colour-text-header-muted: #a3aebd;
+    --colour-gold: #e6b875;
+    --colour-gold-soft: #d5a96d;
+    --colour-gold-dim: #756247;
+    --colour-border-gold: #b58a4d;
+    --colour-border-muted: #59472f;
+
+    /* Botones oscuros */
+    --colour-button: #253449;
+    --colour-button-hover: #344762;
+    --colour-button-alt: #293748;
+    --colour-button-alt-hover: #40536a;
+
+    /* Valores de las estadísticas del reino */
+    --colour-stat-gold: #d4a73e;
+    --colour-stat-prestige: #e58a35;
+    --colour-stat-faith: #a77bd8;
+    --colour-stat-population: #397fb9;
+    --colour-stat-army: #368a5d;
+
+    /* Valores por defecto; los componentes pueden sobrescribirlos. */
+    --stat-color: var(--colour-gold);
+    --game-over-color: var(--colour-gold);
+
+    /* Consecuencias y decisiones */
+    --colour-positive: #72d6a0;
+    --colour-negative: #f08080;
+    --colour-choice-yes: #238b55;
+    --colour-choice-yes-hover: #2eaa6b;
+    --colour-choice-no: #b33e47;
+    --colour-choice-no-hover: #d64c56;
+    --colour-king-bubble: #e8dac0;
+
+    /* Pergamino narrativo */
+    --colour-parchment-light: #f9eccc;
+    --colour-parchment-middle: #e8d2a4;
+    --colour-parchment-dark: #c9ab78;
+    --colour-parchment-text: #3c2b1b;
+    --colour-parchment-muted: #775a38;
+    --colour-parchment-divider: #a28151;
+    --colour-parchment-border: #9d753d;
+    --colour-parchment-button: #634521;
+    --colour-parchment-button-hover: #79582b;
+    --colour-parchment-button-border: #8f6834;
+    --colour-parchment-button-text: #f7e8c8;
+
+    /* Colores con transparencia: sombras y capas */
+    --colour-shadow-25: rgba(0, 0, 0, 0.25);
+    --colour-shadow-35: rgba(0, 0, 0, 0.35);
+    --colour-shadow-45: rgba(0, 0, 0, 0.45);
+    --colour-overlay: rgba(0, 0, 0, 0.75);
+    --colour-parchment-shadow: rgba(99, 58, 20, 0.22);
+    --colour-critical-glow: rgba(240, 128, 128, 0.2);
+}

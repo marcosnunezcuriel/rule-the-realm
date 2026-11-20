@@ -5,182 +5,193 @@
     justify-content: center;
     flex: 1;
     min-height: 0;
-    padding: 32px;
-
-    background-color: #0f1723;
-    color: #e8dfd0;
+    padding: var(--space-8);
+    background-color: var(--colour-background);
+    color: var(--colour-text);
 }
 
 .main-menu__panel {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    width: min(100%, 620px);
-    padding: 50px 60px;
-
-    background-color: #121c2a;
-    border: 2px solid #b58a4d;
-    border-radius: 14px;
-
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    width: min(100%, var(--size-menu-panel-max));
+    padding: var(--space-12-5) var(--space-15);
+    background-color: var(--colour-panel);
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-menu);
     text-align: center;
 }
 
 /* Emblema y nombre */
-
 .main-menu__emblem {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    width: 96px;
-    height: 96px;
-
-    border: 1px solid #b58a4d;
+    width: var(--size-menu-emblem);
+    height: var(--size-menu-emblem);
+    border: var(--border-thin) solid var(--colour-border-gold);
 }
 
 .main-menu__emblem img {
-    width: 68px;
-    height: 68px;
+    width: var(--size-menu-emblem-image);
+    height: var(--size-menu-emblem-image);
     object-fit: contain;
 }
 
 .main-menu__title {
-    margin: 26px 0 0;
-
-    color: #e6b875;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 42px;
-    letter-spacing: 4px;
+    margin: var(--space-6-5) 0 0;
+    color: var(--colour-gold);
+    font-family: var(--font-display);
+    font-size: var(--font-size-42);
+    letter-spacing: var(--tracking-4);
 }
 
 .main-menu__subtitle {
-    margin: 9px 0 0;
-
-    color: #a3b4cd;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 4px;
+    margin: var(--space-2-25) 0 0;
+    color: var(--colour-text-muted);
+    font-size: var(--font-size-13);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--tracking-4);
     text-transform: uppercase;
 }
 
 /* Botones principales */
-
 .main-menu__actions {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-
-    width: 280px;
+    gap: var(--space-4);
+    width: var(--size-menu-actions);
     max-width: 100%;
-    margin-top: 42px;
+    margin-top: var(--space-10-5);
 }
 
 .main-menu__actions button,
 .main-menu__confirmation-actions button,
 .main-menu__achievements {
-    padding: 14px 22px;
-
-    color: #e6b875;
-    background-color: #253449;
-    border: 1px solid #b58a4d;
-    border-radius: 6px;
-
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 18px;
-
+    padding: var(--space-3-5) var(--space-5-5);
+    color: var(--colour-gold);
+    background-color: var(--colour-button);
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-size: var(--font-size-18);
     cursor: pointer;
 }
 
 .main-menu__actions button:hover:not(:disabled),
 .main-menu__confirmation-actions button:hover,
 .main-menu__achievements:hover {
-    background-color: #344762;
+    background-color: var(--colour-button-hover);
 }
 
 .main-menu__actions button:disabled {
-    opacity: 0.4;
+    opacity: var(--opacity-disabled);
     cursor: not-allowed;
 }
 
 /* Logros, apartado del panel principal */
-
 .main-menu__achievements {
     position: absolute;
-    right: 30px;
-    bottom: 28px;
-
+    right: var(--space-7-5);
+    bottom: var(--space-7);
     display: flex;
     align-items: center;
-    gap: 10px;
-
-    font-size: 15px;
-    letter-spacing: 1px;
+    gap: var(--space-2-5);
+    font-size: var(--font-size-15);
+    letter-spacing: var(--tracking-1);
     text-transform: uppercase;
 }
 
 /* Confirmación de partida nueva */
-
 .main-menu__backdrop {
     position: absolute;
     inset: 0;
     z-index: 2;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: var(--colour-overlay);
 }
 
 .main-menu__confirmation {
-    width: min(100% - 48px, 530px);
-    padding: 32px;
-
-    color: #e8dfd0;
-    background-color: #121c2a;
-
-    border: 2px solid #b58a4d;
-    border-radius: 12px;
-
+    width: min(calc(100% - var(--space-12)), var(--size-menu-confirm-max));
+    padding: var(--space-8);
+    color: var(--colour-text);
+    background-color: var(--colour-panel);
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-xl);
     text-align: center;
 }
 
 .main-menu__confirmation h2 {
-    margin: 0 0 16px;
-
-    color: #e6b875;
-    font-family: Georgia, "Times New Roman", serif;
+    margin: 0 0 var(--space-4);
+    color: var(--colour-gold);
+    font-family: var(--font-display);
 }
 
 .main-menu__confirmation p {
     margin: 0;
-    font-size: 17px;
-    line-height: 1.6;
+    font-size: var(--font-size-17);
+    line-height: var(--line-height-dialog);
 }
 
 .main-menu__confirmation-actions {
     display: flex;
     justify-content: center;
-    gap: 12px;
-
-    margin-top: 28px;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
 }
 
 .main-menu__confirmation-actions button {
-    font-size: 15px;
+    font-size: var(--font-size-15);
 }
 
 .main-menu button:focus-visible {
-    outline: 2px solid #e6b875;
-    outline-offset: 3px;
+    outline: var(--border-medium) solid var(--colour-gold);
+    outline-offset: var(--space-0-75);
 }
 
-/* Medalla SVG del botón Logros */
-
 .main-menu__achievements svg {
-    width: 22px;
-    height: 22px;
+    width: var(--size-stat-icon);
+    height: var(--size-stat-icon);
     flex-shrink: 0;
+}
+
+@media (max-width: 48rem) {
+    .main-menu {
+        padding: var(--space-4);
+    }
+
+    .main-menu__panel {
+        padding: var(--space-8) var(--space-5);
+    }
+
+    .main-menu__title {
+        font-size: var(--font-size-34);
+    }
+
+    .main-menu__achievements {
+        right: var(--space-4);
+        bottom: var(--space-3);
+    }
+}
+
+@media (max-width: 30rem) {
+    .main-menu__panel {
+        padding: var(--space-6) var(--space-4);
+    }
+
+    .main-menu__title {
+        font-size: var(--font-size-27);
+        letter-spacing: var(--tracking-2);
+    }
+
+    .main-menu__subtitle {
+        letter-spacing: var(--tracking-2);
+    }
+
+    .main-menu__confirmation-actions {
+        flex-direction: column;
+    }
 }

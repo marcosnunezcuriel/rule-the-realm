@@ -1,16 +1,12 @@
 /* Fundido entre menú, introducción y partida */
-
 .navigation-fade {
     position: fixed;
     inset: 0;
     z-index: 100;
-
-    background-color: #000000;
+    background-color: var(--colour-black);
     opacity: 0;
-
     pointer-events: none;
-
-    transition: opacity 0.7s ease-in-out;
+    transition: opacity var(--duration-fade) var(--ease-standard);
 }
 
 .navigation-fade--visible {
@@ -22,7 +18,6 @@
 }
 
 /* Fundido que también cubre el header al cambiar de capítulo */
-
 .screen-fade--full-screen {
     position: fixed;
     z-index: 50;

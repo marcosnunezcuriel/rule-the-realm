@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import TypewriterText from "../shared/TypewriterText";
 
-import "../../styles/narrative/WelcomeIntroduction.css";
+import "../../styles/narrative/NarrativeParchment.css";
 
 type NarrativeParchmentProps = {
     title: string;
@@ -75,11 +75,11 @@ function NarrativeParchment({
     }
 
     return (
-        <main className="welcome">
+        <main className="narrative-parchment">
             {topActionLabel && onTopAction && (
                 <button
                     type="button"
-                    className="welcome__skip"
+                    className="narrative-parchment__skip"
                     onClick={onTopAction}
                 >
                     {topActionLabel}
@@ -88,9 +88,9 @@ function NarrativeParchment({
 
             <section
                 className={[
-                    "welcome__parchment",
+                    "narrative-parchment__sheet",
                     !textComplete
-                        ? "welcome__parchment--typing"
+                        ? "narrative-parchment__sheet--typing"
                         : "",
                 ].filter(Boolean).join(" ")}
                 onClick={handleParchmentClick}
@@ -115,19 +115,19 @@ function NarrativeParchment({
                 }
             >
                 <img
-                    className="welcome__emblem"
+                    className="narrative-parchment__emblem"
                     src="/assets/ui/astaria-emblem.png"
                     alt=""
                     draggable={false}
                 />
 
-                <h1 className="welcome__title">
+                <h1 className="narrative-parchment__title">
                     {title}
                 </h1>
 
-                <div className="welcome__divider" />
+                <div className="narrative-parchment__divider" />
 
-                <div className="welcome__text">
+                <div className="narrative-parchment__text">
                     <TypewriterText
                         key={paragraphIndex}
                         text={paragraphs[paragraphIndex] ?? ""}
@@ -137,17 +137,17 @@ function NarrativeParchment({
                     />
                 </div>
 
-                <div className="welcome__footer">
-                    <span className="welcome__page">
+                <div className="narrative-parchment__footer">
+                    <span className="narrative-parchment__page">
                         {paragraphIndex + 1} / {paragraphs.length}
                     </span>
 
                     <button
                         type="button"
                         className={[
-                            "welcome__button",
+                            "narrative-parchment__button",
                             !textComplete
-                                ? "welcome__button--hidden"
+                                ? "narrative-parchment__button--hidden"
                                 : "",
                         ].filter(Boolean).join(" ")}
                         onClick={handleNext}
@@ -163,7 +163,7 @@ function NarrativeParchment({
                 </div>
 
                 {finishNotice && isLastParagraph && textComplete && (
-                    <p className="welcome__availability">
+                    <p className="narrative-parchment__availability">
                         {finishNotice}
                     </p>
                 )}
