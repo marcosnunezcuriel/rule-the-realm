@@ -14,14 +14,14 @@ type GameOverProps = {
     reason: GameOverReason;
     day: number;
     stats: KingdomValues;
-    onRestart: () => void;
+    onMenu: () => void;
 };
 
 function GameOver({
     reason,
     day,
     stats,
-    onRestart,
+    onMenu,
 }: GameOverProps) {
     const message = gameOverMessages[reason];
 
@@ -63,13 +63,13 @@ function GameOver({
                 <p className="game-over__day">
                     Capítulo I · Día {day}
                 </p>
-
+       
                 <button
                     type="button"
                     className="game-over__button"
-                    onClick={onRestart}
+                    onClick={onMenu}
                 >
-                    Comenzar nueva partida
+                    Volver al menú principal
                 </button>
             </div>
         </main>

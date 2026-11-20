@@ -14,11 +14,7 @@ import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
 import { initialKingdomValues } from "../game/initialState";
 import { checkGameOver } from "../game/checkGameOver";
 
-import {
-    loadGame,
-    saveGame,
-    clearSavedGame,
-} from "../storage/gameStorage";
+import { loadGame, saveGame } from "../storage/gameStorage";
 
 import type { GameOverReason } from "../types/gameOver";
 import type { Decision } from "../types/dialogue";
@@ -565,11 +561,6 @@ export function useGameController() {
         startScreenTransition("scene");
     }
 
-    function handleRestart() {
-        clearSavedGame();
-        window.location.reload();
-    }
-
     return {
         day,
         screen,
@@ -591,7 +582,6 @@ export function useGameController() {
         handleContinue,
         handleScreenFadeEnd,
         handleNextDay,
-        gameOverReason,
-        handleRestart,
+        gameOverReason
     };
 }

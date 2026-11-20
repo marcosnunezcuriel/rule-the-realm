@@ -38,7 +38,7 @@ export const demoAudiences: GameEvent[] = [
 
         effects: {
             yes: {
-                gold: -10,
+                gold: -300,
                 prestige: 5,
             },
 

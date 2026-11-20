@@ -1,0 +1,186 @@
+.main-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 0;
+    padding: 32px;
+
+    background-color: #0f1723;
+    color: #e8dfd0;
+}
+
+.main-menu__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: min(100%, 620px);
+    padding: 50px 60px;
+
+    background-color: #121c2a;
+    border: 2px solid #b58a4d;
+    border-radius: 14px;
+
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    text-align: center;
+}
+
+/* Emblema y nombre */
+
+.main-menu__emblem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 96px;
+    height: 96px;
+
+    border: 1px solid #b58a4d;
+}
+
+.main-menu__emblem img {
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+}
+
+.main-menu__title {
+    margin: 26px 0 0;
+
+    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 42px;
+    letter-spacing: 4px;
+}
+
+.main-menu__subtitle {
+    margin: 9px 0 0;
+
+    color: #a3b4cd;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* Botones principales */
+
+.main-menu__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    width: 280px;
+    max-width: 100%;
+    margin-top: 42px;
+}
+
+.main-menu__actions button,
+.main-menu__confirmation-actions button,
+.main-menu__achievements {
+    padding: 14px 22px;
+
+    color: #e6b875;
+    background-color: #253449;
+    border: 1px solid #b58a4d;
+    border-radius: 6px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+.main-menu__actions button:hover:not(:disabled),
+.main-menu__confirmation-actions button:hover,
+.main-menu__achievements:hover {
+    background-color: #344762;
+}
+
+.main-menu__actions button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Logros, apartado del panel principal */
+
+.main-menu__achievements {
+    position: absolute;
+    right: 30px;
+    bottom: 28px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Confirmación de partida nueva */
+
+.main-menu__backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.main-menu__confirmation {
+    width: min(100% - 48px, 530px);
+    padding: 32px;
+
+    color: #e8dfd0;
+    background-color: #121c2a;
+
+    border: 2px solid #b58a4d;
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.main-menu__confirmation h2 {
+    margin: 0 0 16px;
+
+    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.main-menu__confirmation p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.main-menu__confirmation-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+.main-menu__confirmation-actions button {
+    font-size: 15px;
+}
+
+.main-menu button:focus-visible {
+    outline: 2px solid #e6b875;
+    outline-offset: 3px;
+}
+
+/* Medalla SVG del botón Logros */
+
+.main-menu__achievements svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
