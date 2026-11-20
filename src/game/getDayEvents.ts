@@ -1,4 +1,4 @@
-import { demoAudiences } from "../data/demoAudiences";
+import { getEventsForDay } from "../data/events/eventRegistry";
 
 import type { GameEvent } from "../types/events";
 
@@ -6,13 +6,8 @@ export function getDayEvents(
     day: number,
     unlockedEventIds: string[]
 ): GameEvent[] {
-    return demoAudiences
+    return getEventsForDay(day)
         .filter((event) => {
-            // El evento debe corresponder al día actual.
-            if (event.day !== day) {
-                return false;
-            }
-
             // Los eventos habituales siempre están disponibles.
             if (!event.requiresUnlock) {
                 return true;

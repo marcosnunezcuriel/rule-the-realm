@@ -1,4 +1,4 @@
-import { welcomeParagraphs } from "../data/welcomeMessage";
+import { welcomeParagraphs } from "../data/narrative/welcomeMessage";
 
 import NarrativeParchment from "./NarrativeParchment";
 

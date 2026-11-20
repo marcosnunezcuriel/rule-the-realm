@@ -1,78 +1,6 @@
-import type { GameEvent } from "../types/events";
+import type { GameEvent } from "../../../types/events";
 
-import { demoDialogue } from "./demoDialogue";
-
-export const demoAudiences: GameEvent[] = [
-    {
-        id: "1",
-        day: 1,
-        order: 1,
-
-        image: "/assets/characters/courtiers/butler.png",
-
-        dialogue: {
-            speaker: "Mayordomo",
-
-            introduction: [
-                "Buenos días, Majestad. Seré vuestro humilde mayordomo y me encargaré de que la corte funcione como un reloj.",
-
-                "El antiguo rey dejó los aposentos reales bastante descuidados y el personal es escaso.",
-
-                "¿Debo contratar más servidumbre para recibir dignamente a vuestros invitados?",
-            ],
-
-            responses: {
-                yes: [
-                    "¡Excelente decisión! El castillo brillará como el oro.",
-
-                    "Los nobles notarán al instante la majestuosidad de vuestra corte.",
-                ],
-
-                no: [
-                    "Como ordenéis, Majestad. Nos apañaremos con lo que tenemos.",
-
-                    "Al menos ahorraremos unas cuantas monedas de oro para asuntos más urgentes.",
-                ],
-            },
-        },
-
-        effects: {
-            yes: {
-                gold: -10,
-                prestige: 5,
-            },
-
-            no: {
-                prestige: -5,
-            },
-        },
-    },
-
-    {
-        id: "2",
-        day: 1,
-        order: 2,
-
-        image: "/assets/characters/courtiers/royal-advisor.png",
-
-        dialogue: demoDialogue,
-
-        effects: {
-            yes: {
-                gold: -20,
-                prestige: 5,
-            },
-
-            no: {
-                prestige: -10,
-            },
-        },
-
-        unlocks: {
-            yes: ["2.1", "2.2"],
-        },
-    },
-
+export const day02Events: GameEvent[] = [
     {
         id: "2.1",
         day: 2,
@@ -162,6 +90,7 @@ export const demoAudiences: GameEvent[] = [
             },
         },
     },
+
     {
         id: "6",
         day: 2,
@@ -213,25 +142,4 @@ export const demoAudiences: GameEvent[] = [
             yes: ["traveling-circus"],
         },
     },
-    {
-        id: "6.2",
-        day: 7,
-        order: 1,
-        requiresUnlock: true,
-
-        image: "/assets/characters/commoners/circus-ringmaster.png",
-
-        dialogue: {
-            speaker: "Director del circo",
-
-            introduction: [
-                "Majestad, vuestra hospitalidad ha sido maravillosa, pero las carpas deben desmontarse.",
-
-                "Nuestros caminos siguen hacia otros reinos, llevándonos los aplausos y los recuerdos de Astaria.",
-            ],
-        },
-
-        removeModifiersOnComplete: ["traveling-circus"],
-    }
 ];
-

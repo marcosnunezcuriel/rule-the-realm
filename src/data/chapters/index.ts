@@ -1,4 +1,3 @@
-
 export type ChapterDefinition = {
     number: number;
     title: string;

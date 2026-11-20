@@ -1,5 +1,5 @@
-import type { DialogueEvent } from "../types/dialogue";
-import type { GameOverReason } from "../types/gameOver";
+import type { DialogueEvent } from "../../types/dialogue";
+import type { GameOverReason } from "../../types/gameOver";
 
 import { gameOverMessages } from "./gameOverMessages";
 

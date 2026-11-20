@@ -3,8 +3,8 @@ import type { CSSProperties } from "react";
 import type { GameOverReason } from "../types/gameOver";
 import type { KingdomValues } from "../types/stats";
 
-import { gameOverMessages } from "../data/gameOverMessages";
-import { statDefinitions } from "../data/statDefinitions";
+import { gameOverMessages } from "../data/narrative/gameOverMessages";
+import { statDefinitions } from "../data/kingdom/statDefinitions";
 
 import StatIcon from "./StatIcon";
 

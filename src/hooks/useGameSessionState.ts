@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { demoAudiences } from "../data/demoAudiences";
+import { getEventById } from "../data/events/eventRegistry";
 import { getDayEvents } from "../game/getDayEvents";
 import { initialKingdomValues } from "../game/initialState";
 import { loadGame } from "../storage/gameStorage";
@@ -129,10 +129,10 @@ export function useGameSessionState() {
             return getDayEvents(1, []);
         }
 
+        // Recuperar las mismas audiencias, en el mismo orden,
+        // mediante el registro central de eventos.
         return initialSave.dayEventIds
-            .map((id) => {
-                return demoAudiences.find((event) => event.id === id);
-            })
+            .map((id) => getEventById(id))
             .filter((event): event is GameEvent => {
                 return event !== undefined;
             });

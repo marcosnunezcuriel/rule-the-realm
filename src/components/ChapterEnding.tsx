@@ -34,6 +34,8 @@ function ChapterEnding({
                 `Fin del Capítulo ${toRomanNumber(chapter.number)}`
             }
             paragraphs={chapter.endingParagraphs}
+            initialParagraphIndex={initialParagraphIndex}
+            onParagraphChange={onParagraphChange}
             finishLabel={
                 `Comenzar capítulo ${nextChapterNumber}`
             }

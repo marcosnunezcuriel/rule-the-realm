@@ -1,11 +1,10 @@
-
 import type { CSSProperties } from "react";
 
 import type { KingdomValues } from "../types/stats";
 import type { DailyModifierReport } from "../types/modifiers";
 
-import { statDefinitions } from "../data/statDefinitions";
-import { modifierDefinitions } from "../data/modifiers";
+import { statDefinitions } from "../data/kingdom/statDefinitions";
+import { modifierDefinitions } from "../data/kingdom/modifiers";
 
 import StatIcon from "./StatIcon";
 import AnimatedNumber from "./AnimatedNumber";

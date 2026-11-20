@@ -1,4 +1,4 @@
-import { modifierDefinitions } from "../data/modifiers";
+import { modifierDefinitions } from "../data/kingdom/modifiers";
 import { applyStatChanges } from "./applyStatChanges";
 
 import type {

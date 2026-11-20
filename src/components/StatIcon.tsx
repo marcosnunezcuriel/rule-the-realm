@@ -1,4 +1,3 @@
-
 import type { KingdomValues } from "../types/stats";
 
 type StatIconProps = {

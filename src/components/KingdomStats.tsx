@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { KingdomValues } from "../types/stats";
 
-import { statDefinitions } from "../data/statDefinitions";
+import { statDefinitions } from "../data/kingdom/statDefinitions";
 
 import AnimatedNumber from "./AnimatedNumber";
 import StatIcon from "./StatIcon";

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import type { SceneBackgroundMap } from "../data/sceneThemes";
+import type { SceneBackgroundMap } from "../data/scenes/sceneThemes";
 
 import "../styles/ThroneScene.css";
 

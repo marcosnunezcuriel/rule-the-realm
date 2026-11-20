@@ -1,9 +1,9 @@
 import {
     defaultSceneBackgrounds,
     sceneThemes,
-} from "../data/sceneThemes";
+} from "../data/scenes/sceneThemes";
 
-import type { SceneBackgroundMap } from "../data/sceneThemes";
+import type { SceneBackgroundMap } from "../data/scenes/sceneThemes";
 import type { ModifierId } from "../types/modifiers";
 
 export function getSceneBackgrounds(

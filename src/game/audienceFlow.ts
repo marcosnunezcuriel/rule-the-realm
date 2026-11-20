@@ -2,7 +2,7 @@ import {
     closingDialogue,
     treasuryWarningDialogue,
     getDefeatAnnouncementDialogue,
-} from "../data/specialAudiences";
+} from "../data/narrative/specialAudiences";
 import { applyStatChanges } from "./applyStatChanges";
 import { checkGameOver } from "./checkGameOver";
 

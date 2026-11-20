@@ -1,5 +1,4 @@
-
-import type { KingdomValues } from "../types/stats";
+import type { KingdomValues } from "../../types/stats";
 
 type StatDefinition = {
     key: keyof KingdomValues;
