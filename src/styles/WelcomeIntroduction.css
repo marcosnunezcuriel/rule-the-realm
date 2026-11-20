@@ -162,3 +162,18 @@
 .welcome__button--hidden {
     visibility: hidden;
 }
+
+/* Aviso para capítulos que todavía no están disponibles */
+
+.welcome__availability {
+    margin: 10px 0 0;
+
+    color: #775a38;
+    font-size: 13px;
+    text-align: center;
+}
+
+.welcome__button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}

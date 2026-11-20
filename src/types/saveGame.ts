@@ -13,6 +13,8 @@ export type SaveGameV1 = {
     day: number;
     screen: GameScreen;
 
+    chapterEndingParagraphIndex?: number;
+
     stats: KingdomValues;
     dayStartStats: KingdomValues;
     closingStats: KingdomValues | null;

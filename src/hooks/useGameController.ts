@@ -6,6 +6,12 @@ import {
     getDefeatAnnouncementDialogue,
 } from "../data/specialAudiences";
 import { demoAudiences } from "../data/demoAudiences";
+import {
+    getChapterForDay,
+    getChapterForDisplay,
+    getNextChapter,
+    toRomanNumber,
+} from "../data/chapters";
 
 import { applyDailyModifiers } from "../game/applyDailyModifiers";
 import { applyStatChanges } from "../game/applyStatChanges";
@@ -57,6 +63,13 @@ export function useGameController() {
         return initialSave?.screen ?? "scene";
     });
 
+    const [
+        chapterEndingParagraphIndex,
+        setChapterEndingParagraphIndex,
+    ] = useState(
+        initialSave?.chapterEndingParagraphIndex ?? 0
+    );
+
     const [phase, setPhase] = useState<AudiencePhase>("entering");
 
     const [audienceIndex, setAudienceIndex] = useState(
@@ -92,8 +105,12 @@ export function useGameController() {
 
     const [transitionStage, setTransitionStage] =
         useState<TransitionStage>("idle");
+
     const [transitionTarget, setTransitionTarget] =
         useState<GameScreen | null>(null);
+
+    const [fullScreenFade, setFullScreenFade] =
+        useState(false);
 
     // Datos del reino; estos serán relevantes para guardar partidas.
     const [stats, setStats] = useState<KingdomValues>(
@@ -202,6 +219,19 @@ export function useGameController() {
     const visibleStats = closingStats ?? stats;
     const backgroundMap = getSceneBackgrounds(sceneModifierIds);
 
+    // Capítulo al que pertenece la jornada actual.
+    const chapter = getChapterForDisplay(day);
+
+    // Un capítulo termina después del resumen
+    // nocturno, siempre que el reino siga en pie.
+    const isChapterFinalDay =
+        day === chapter.lastDay &&
+        checkGameOver(stats) === null;
+
+    const summaryContinueLabel = isChapterFinalDay
+        ? `Fin capítulo ${toRomanNumber(chapter.number)}`
+        : "Siguiente día";
+
     // Guardar el estado lógico tras cada cambio relevante.
     // Las fases de animación no se guardan: al cargar se reinicia
     // la entrada del personaje o se recupera la pantalla actual.
@@ -225,6 +255,7 @@ export function useGameController() {
             specialAudience,
             pendingTreasuryWarning,
             gameOverReason,
+            chapterEndingParagraphIndex,
         };
 
         saveGame(savedState);
@@ -245,6 +276,7 @@ export function useGameController() {
         specialAudience,
         pendingTreasuryWarning,
         gameOverReason,
+        chapterEndingParagraphIndex,
     ]);
 
     // El personaje no entra hasta que termina el cambio de fondo.
@@ -266,6 +298,13 @@ export function useGameController() {
         if (transitionStage !== "idle") {
             return;
         }
+
+        // Los cambios desde o hacia un epílogo
+        // deben oscurecer toda la ventana.
+        setFullScreenFade(
+            target === "chapter-ending" ||
+            screen === "chapter-ending"
+        );
 
         setTransitionTarget(target);
         setTransitionStage("darkening");
@@ -487,11 +526,15 @@ export function useGameController() {
         // Fijar los fondos visuales del nuevo día.
         setSceneModifierIds([...activeModifierIds]);
 
-        // Obtener las audiencias habituales.
-        const nextDayEvents = getDayEvents(
-            nextDay,
-            unlockedEventIds
-        );
+        // Si los modificadores nocturnos provocaron una derrota,
+        // el nuevo día no tendrá audiencias normales.
+        // Únicamente aparecerá la Consejera Real.
+        const nextDayEvents = defeat !== null
+            ? []
+            : getDayEvents(
+                nextDay,
+                unlockedEventIds
+            );
 
         // Preparar las estadísticas de la nueva jornada.
         setClosingStats(null);
@@ -554,10 +597,46 @@ export function useGameController() {
 
             setTransitionStage("idle");
             setTransitionTarget(null);
+            setFullScreenFade(false);
         }
     }
 
     function handleNextDay() {
+        const currentChapter = getChapterForDay(day);
+
+        const chapterFinished =
+            currentChapter !== null &&
+            day === currentChapter.lastDay &&
+            checkGameOver(stats) === null;
+
+        if (chapterFinished) {
+            setChapterEndingParagraphIndex(0);
+            // La jornada ha terminado y el reino sigue en pie.
+            // Mostrar el epílogo sin avanzar todavía de día.
+            startScreenTransition("chapter-ending");
+            return;
+        }
+
+        // Jornada normal o derrota por modificadores.
+        // En este último caso, la consejera anunciará
+        // la derrota al comenzar el día siguiente.
+        startScreenTransition("scene");
+    }
+
+    function handleStartNextChapter() {
+        if (screen !== "chapter-ending") {
+            return;
+        }
+
+        const nextChapter = getNextChapter(chapter);
+
+        if (nextChapter === null) {
+            return;
+        }
+
+        setChapterEndingParagraphIndex(0);
+
+        // Preparar la primera jornada del siguiente capítulo.
         startScreenTransition("scene");
     }
 
@@ -582,6 +661,12 @@ export function useGameController() {
         handleContinue,
         handleScreenFadeEnd,
         handleNextDay,
-        gameOverReason
+        gameOverReason,
+        chapter,
+        summaryContinueLabel,
+        fullScreenFade,
+        handleStartNextChapter,
+        chapterEndingParagraphIndex,
+        setChapterEndingParagraphIndex,
     };
 }

@@ -20,3 +20,10 @@
 .navigation-fade--active {
     pointer-events: auto;
 }
+
+/* Fundido que también cubre el header al cambiar de capítulo */
+
+.screen-fade--full-screen {
+    position: fixed;
+    z-index: 50;
+}

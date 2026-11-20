@@ -19,6 +19,7 @@ type DaySummaryProps = {
     animatedFromStats: KingdomValues;
     modifierReport: DailyModifierReport;
     onNextDay: () => void;
+    nextLabel?: string;
 };
 
 function DaySummary({
@@ -28,6 +29,7 @@ function DaySummary({
     animatedFromStats,
     modifierReport,
     onNextDay,
+    nextLabel = "Siguiente día",
 }: DaySummaryProps) {
     return (
         <main className="day-summary">
@@ -153,13 +155,13 @@ function DaySummary({
                         })
                     )}
                 </div>
-
+                
                 <button
                     type="button"
                     className="day-summary__next"
                     onClick={onNextDay}
                 >
-                    Siguiente día
+                    {nextLabel}
                 </button>
             </div>
         </main>

@@ -6,9 +6,11 @@ import DialogueController from "./components/DialogueController";
 import DaySummary from "./components/DaySummary";
 import KingdomStats from "./components/KingdomStats";
 import GameOver from "./components/GameOver";
-
 import MainMenu from "./components/MainMenu";
 import WelcomeIntroduction from "./components/WelcomeIntroduction";
+import ChapterEnding from "./components/ChapterEnding";
+
+import { toRomanNumber } from "./data/chapters";
 
 import { useGameController } from "./hooks/useGameController";
 
@@ -58,6 +60,12 @@ function GameSession({
         handleContinue,
         handleScreenFadeEnd,
         handleNextDay,
+        chapter,
+        summaryContinueLabel,
+        fullScreenFade,
+        handleStartNextChapter,
+        chapterEndingParagraphIndex,
+        setChapterEndingParagraphIndex,
     } = useGameController();
 
     const fadeClassName = [
@@ -70,29 +78,44 @@ function GameSession({
         transitionStage !== "idle"
             ? "screen-fade--active"
             : "",
+
+        fullScreenFade
+            ? "screen-fade--full-screen"
+            : "",
     ].filter(Boolean).join(" ");
 
     return (
         <>       
-            <Header
-                chapter="I"
-                day={day}
-                onMenu={
-                    gameOverReason !== null
-                        ? onGameOverMenu
-                        : onOpenMenu
-                }
-            />
+            {screen !== "chapter-ending" && (
+                <Header
+                    chapter={toRomanNumber(chapter.number)}
+                    day={day}
+                    onMenu={
+                        gameOverReason !== null
+                            ? onGameOverMenu
+                            : onOpenMenu
+                    }
+                />
+            )}
 
             <div className="game-content">
                 {screen === "scene" && (
                     <KingdomStats stats={visibleStats} />
                 )}
 
-                {screen === "gameover" &&
+                {screen === "chapter-ending" ? ( 
+                    <ChapterEnding
+                        chapter={chapter}
+                        initialParagraphIndex={chapterEndingParagraphIndex}
+                        onParagraphChange={setChapterEndingParagraphIndex}
+                        onNextChapter={handleStartNextChapter}
+                        onMenu={onOpenMenu}
+                    />
+                ) : screen === "gameover" &&
                 gameOverReason !== null ? (
                     <GameOver
                         reason={gameOverReason}
+                        chapter={toRomanNumber(chapter.number)}
                         day={day}
                         stats={stats}
                         onMenu={onGameOverMenu}
@@ -104,6 +127,7 @@ function GameSession({
                         startStats={dayStartStats}
                         animatedFromStats={visibleStats}
                         modifierReport={modifierReport}
+                        nextLabel={summaryContinueLabel}
                         onNextDay={handleNextDay}
                     />
                 ) : (

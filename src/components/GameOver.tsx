@@ -12,6 +12,7 @@ import "../styles/GameOver.css";
 
 type GameOverProps = {
     reason: GameOverReason;
+    chapter: string;
     day: number;
     stats: KingdomValues;
     onMenu: () => void;
@@ -19,6 +20,7 @@ type GameOverProps = {
 
 function GameOver({
     reason,
+    chapter,
     day,
     stats,
     onMenu,
@@ -61,7 +63,7 @@ function GameOver({
                 </div>
 
                 <p className="game-over__day">
-                    Capítulo I · Día {day}
+                    Capítulo {chapter} · Día {day}
                 </p>
        
                 <button

@@ -77,7 +77,8 @@ function isSaveGame(value: unknown): value is SaveGameV1 {
         (
             value.screen === "scene" ||
             value.screen === "summary" ||
-            value.screen === "gameover"
+            value.screen === "gameover" ||
+            value.screen === "chapter-ending"
         ) &&
         isStats(value.stats) &&
         isStats(value.dayStartStats) &&
@@ -107,6 +108,13 @@ function isSaveGame(value: unknown): value is SaveGameV1 {
             value.specialAudience === "defeat"
         ) &&
         typeof value.pendingTreasuryWarning === "boolean" &&
+        (
+            value.chapterEndingParagraphIndex === undefined ||
+            (
+                Number.isInteger(value.chapterEndingParagraphIndex) &&
+                Number(value.chapterEndingParagraphIndex) >= 0
+            )
+        ) &&
         (
             value.gameOverReason === null ||
             (
