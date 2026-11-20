@@ -7,13 +7,13 @@ import type {
 } from "./modifiers";
 import type { KingdomValues } from "./stats";
 
-export type SaveGameV1 = {
-    version: 1;
-
+// Único formato de guardado del juego.
+// Se actualizará cuando evolucionen las mecánicas.
+export type SaveGame = {
     day: number;
     screen: GameScreen;
 
-    chapterEndingParagraphIndex?: number;
+    chapterEndingParagraphIndex: number;
 
     stats: KingdomValues;
     dayStartStats: KingdomValues;

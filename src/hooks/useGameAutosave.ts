@@ -4,10 +4,10 @@ import { saveGame } from "../storage/gameStorage";
 
 import type { RefObject } from "react";
 import type { GameEvent } from "../types/events";
-import type { SaveGameV1 } from "../types/saveGame";
+import type { SaveGame } from "../types/saveGame";
 
 type GameAutosaveInput = Omit<
-    SaveGameV1,
+    SaveGame,
     "version" | "dayClosed" | "dayEventIds"
 > & {
     dayEvents: GameEvent[];
@@ -37,8 +37,7 @@ export function useGameAutosave({
     chapterEndingParagraphIndex,
 }: GameAutosaveInput): void {
     useEffect(() => {
-        const savedState: SaveGameV1 = {
-            version: 1,
+        const savedState: SaveGame = {
             day,
             screen,
             stats,

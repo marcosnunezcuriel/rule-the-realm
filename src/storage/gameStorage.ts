@@ -1,132 +1,23 @@
-import type { SaveGameV1 } from "../types/saveGame";
+import { isSaveGame } from "./validateSave";
 
-const SAVE_KEY = "rule-the-realm.save.v1";
+import type { SaveGame } from "../types/saveGame";
 
-const STAT_KEYS = new Set([
-    "gold",
-    "prestige",
-    "faith",
-    "population",
-    "army",
-]);
+// Clave única y estable para el guardado de partidas.
+export const SAVE_KEY = "rule-the-realm.save";
 
-const GAME_OVER_REASONS = new Set([
-    "bankruptcy",
-    "abandoned",
-    "invasion",
-    "religious-crisis",
-    "overthrown",
-]);
-
-function isRecord(
-    value: unknown
-): value is Record<string, unknown> {
-    return (
-        typeof value === "object" &&
-        value !== null &&
-        !Array.isArray(value)
-    );
-}
-
-function isStringArray(value: unknown): value is string[] {
-    return (
-        Array.isArray(value) &&
-        value.every((item) => typeof item === "string")
-    );
-}
-
-function isStats(value: unknown): boolean {
-    if (!isRecord(value)) {
-        return false;
-    }
-
-    return [...STAT_KEYS].every((key) => {
-        const amount = value[key];
-
-        return (
-            typeof amount === "number" &&
-            Number.isFinite(amount)
+// Eliminar un guardado que no pueda recuperarse.
+function discardInvalidSave(): void {
+    try {
+        window.localStorage.removeItem(SAVE_KEY);
+    } catch {
+        console.warn(
+            "No se pudo eliminar un guardado incompatible."
         );
-    });
-}
-
-function isChanges(value: unknown): boolean {
-    return (
-        isRecord(value) &&
-        Object.entries(value).every(([key, amount]) => {
-            return (
-                STAT_KEYS.has(key) &&
-                typeof amount === "number" &&
-                Number.isFinite(amount)
-            );
-        })
-    );
-}
-
-function isSaveGame(value: unknown): value is SaveGameV1 {
-    if (!isRecord(value)) {
-        return false;
     }
-
-    const report = value.modifierReport;
-
-    return (
-        value.version === 1 &&
-        Number.isInteger(value.day) &&
-        Number(value.day) >= 1 &&
-        (
-            value.screen === "scene" ||
-            value.screen === "summary" ||
-            value.screen === "gameover" ||
-            value.screen === "chapter-ending"
-        ) &&
-        isStats(value.stats) &&
-        isStats(value.dayStartStats) &&
-        (
-            value.closingStats === null ||
-            isStats(value.closingStats)
-        ) &&
-        Number.isInteger(value.audienceIndex) &&
-        Number(value.audienceIndex) >= 0 &&
-        isStringArray(value.dayEventIds) &&
-        typeof value.isClosing === "boolean" &&
-        typeof value.dayClosed === "boolean" &&
-        (
-            value.selectedDecision === null ||
-            value.selectedDecision === "yes" ||
-            value.selectedDecision === "no"
-        ) &&
-        isStringArray(value.unlockedEventIds) &&
-        isStringArray(value.activeModifierIds) &&
-        isStringArray(value.sceneModifierIds) &&
-        isRecord(report) &&
-        isStringArray(report.appliedIds) &&
-        isChanges(report.totalChanges) &&
-        (
-            value.specialAudience === null ||
-            value.specialAudience === "treasury-warning" ||
-            value.specialAudience === "defeat"
-        ) &&
-        typeof value.pendingTreasuryWarning === "boolean" &&
-        (
-            value.chapterEndingParagraphIndex === undefined ||
-            (
-                Number.isInteger(value.chapterEndingParagraphIndex) &&
-                Number(value.chapterEndingParagraphIndex) >= 0
-            )
-        ) &&
-        (
-            value.gameOverReason === null ||
-            (
-                typeof value.gameOverReason === "string" &&
-                GAME_OVER_REASONS.has(value.gameOverReason)
-            )
-        )
-    );
 }
 
-// Recuperar una partida del navegador.
-export function loadGame(): SaveGameV1 | null {
+// Recuperar una partida válida del navegador.
+export function loadGame(): SaveGame | null {
     try {
         const raw = window.localStorage.getItem(SAVE_KEY);
 
@@ -136,14 +27,22 @@ export function loadGame(): SaveGameV1 | null {
 
         const parsed: unknown = JSON.parse(raw);
 
-        return isSaveGame(parsed) ? parsed : null;
+        if (!isSaveGame(parsed)) {
+            discardInvalidSave();
+            return null;
+        }
+
+        return parsed;
     } catch {
+        // Si el contenido es incorrecto o no se puede leer,
+        // descartamos el guardado para evitar errores futuros.
+        discardInvalidSave();
         return null;
     }
 }
 
 // Guardar el estado actual.
-export function saveGame(game: SaveGameV1): void {
+export function saveGame(game: SaveGame): void {
     try {
         window.localStorage.setItem(
             SAVE_KEY,

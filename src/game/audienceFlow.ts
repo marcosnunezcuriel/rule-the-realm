@@ -11,11 +11,11 @@ import type { GameEvent } from "../types/events";
 import type { AudiencePhase } from "../types/game";
 import type { GameOverReason } from "../types/gameOver";
 import type { ModifierId } from "../types/modifiers";
-import type { SaveGameV1 } from "../types/saveGame";
+import type { SaveGame } from "../types/saveGame";
 import type { KingdomValues } from "../types/stats";
 
 type TimeOfDay = "morning" | "evening" | "night";
-type SpecialAudience = SaveGameV1["specialAudience"];
+type SpecialAudience = SaveGame["specialAudience"];
 
 type AudiencePresentationInput = {
     dayEvents: GameEvent[];
