@@ -1,5 +1,8 @@
 import type { Decision } from "./dialogue";
-import type { GameScreen } from "./game";
+import type {
+    GameScreen,
+    SpecialAudience,
+} from "./game";
 import type { GameOverReason } from "./gameOver";
 import type {
     DailyModifierReport,
@@ -33,7 +36,7 @@ export type SaveGame = {
 
     modifierReport: DailyModifierReport;
 
-    specialAudience: "treasury-warning" | "defeat" | null;
+    specialAudience: SpecialAudience;
     pendingTreasuryWarning: boolean;
     gameOverReason: GameOverReason | null;
 };

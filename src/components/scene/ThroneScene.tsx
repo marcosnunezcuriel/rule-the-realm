@@ -1,19 +1,16 @@
 import type { ReactNode } from "react";
 
-import type { SceneBackgroundMap } from "../../data/scenes/sceneThemes";
+import type { AudiencePhase } from "../../types/game";
+import type {
+    SceneBackgroundMap,
+    SceneTime,
+} from "../../types/scene";
 
 import "../../styles/scene/ThroneScene.css";
 
-type VisitorPhase =
-    | "entering"
-    | "speaking"
-    | "exiting"
-    | "transitioning"
-    | "waiting";
-
 type ThroneSceneProps = {
-    timeOfDay: "morning" | "evening" | "night";
-    visitorPhase: VisitorPhase;
+    timeOfDay: SceneTime;
+    visitorPhase: AudiencePhase;
     visitorImage: string;
     visitorName: string;
     visitorKey: string;

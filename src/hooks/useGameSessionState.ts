@@ -7,7 +7,11 @@ import { loadGame } from "../storage/gameStorage";
 
 import type { Decision } from "../types/dialogue";
 import type { GameEvent } from "../types/events";
-import type { AudiencePhase, GameScreen } from "../types/game";
+import type {
+    AudiencePhase,
+    GameScreen,
+    SpecialAudience,
+} from "../types/game";
 import type { GameOverReason } from "../types/gameOver";
 import type { DailyModifierReport, ModifierId } from "../types/modifiers";
 import type { KingdomValues } from "../types/stats";
@@ -54,9 +58,10 @@ export function useGameSessionState() {
     );
 
     // Tipo de audiencia extraordinaria en curso.
-    const [specialAudience, setSpecialAudience] = useState<
-        "treasury-warning" | "defeat" | null
-    >(initialSave?.specialAudience ?? null);
+    const [specialAudience, setSpecialAudience] =
+        useState<SpecialAudience>(
+            initialSave?.specialAudience ?? null
+        );
 
     // Aviso económico pendiente de presentar.
     const [

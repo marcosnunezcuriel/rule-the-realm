@@ -3,19 +3,20 @@ import {
     treasuryWarningDialogue,
     getDefeatAnnouncementDialogue,
 } from "../data/narrative/specialAudiences";
+import { BANKRUPTCY_LIMIT } from "../data/kingdom/rules";
 import { applyStatChanges } from "./applyStatChanges";
 import { checkGameOver } from "./checkGameOver";
 
 import type { DialogueEvent, Decision } from "../types/dialogue";
 import type { GameEvent } from "../types/events";
-import type { AudiencePhase } from "../types/game";
+import type {
+    AudiencePhase,
+    SpecialAudience,
+} from "../types/game";
+import type { SceneTime } from "../types/scene";
 import type { GameOverReason } from "../types/gameOver";
 import type { ModifierId } from "../types/modifiers";
-import type { SaveGame } from "../types/saveGame";
 import type { KingdomValues } from "../types/stats";
-
-type TimeOfDay = "morning" | "evening" | "night";
-type SpecialAudience = SaveGame["specialAudience"];
 
 type AudiencePresentationInput = {
     dayEvents: GameEvent[];
@@ -34,7 +35,7 @@ export function getAudiencePresentation({
 }: AudiencePresentationInput): {
     currentAudience: GameEvent | undefined;
     morningCount: number;
-    timeOfDay: TimeOfDay;
+    timeOfDay: SceneTime;
     visitorImage: string;
     dialogue: DialogueEvent;
     dialogueKey: string;
@@ -43,7 +44,7 @@ export function getAudiencePresentation({
     const currentAudience = dayEvents[audienceIndex];
     const morningCount = Math.ceil(dayEvents.length / 2);
 
-    const timeOfDay: TimeOfDay = isClosing
+    const timeOfDay: SceneTime = isClosing
         ? "night"
         : dayEvents.length === 0 || audienceIndex < morningCount
             ? "morning"
@@ -91,7 +92,7 @@ type AudienceExitInput = {
     audienceIndex: number;
     dayEventsCount: number;
     morningCount: number;
-    timeOfDay: TimeOfDay;
+    timeOfDay: SceneTime;
 };
 
 export type AudienceExit =
@@ -184,7 +185,7 @@ export function getDecisionConsequences(
         nextStats !== null &&
         stats.gold > 0 &&
         nextStats.gold <= 0 &&
-        nextStats.gold > -50 &&
+        nextStats.gold > BANKRUPTCY_LIMIT &&
         checkGameOver(nextStats) === null;
 
     return {

@@ -1,10 +1,12 @@
+import { BANKRUPTCY_LIMIT } from "../data/kingdom/rules";
+
 import type { KingdomValues } from "../types/stats";
 import type { GameOverReason } from "../types/gameOver";
 
 export function checkGameOver(
     stats: KingdomValues
 ): GameOverReason | null {
-    if (stats.gold <= -50) {
+    if (stats.gold <= BANKRUPTCY_LIMIT) {
         return "bankruptcy";
     }
 

@@ -4,7 +4,7 @@ import type { Dispatch, SetStateAction } from "react";
 import type {
     AudiencePhase,
     GameScreen,
-    TransitionStage,
+    FadeStage,
 } from "../types/game";
 
 const BACKGROUND_TRANSITION_DURATION = 1500;
@@ -27,7 +27,7 @@ export function useGameTransitions({
     prepareNextDay,
 }: GameTransitionsInput) {
     const [transitionStage, setTransitionStage] =
-        useState<TransitionStage>("idle");
+        useState<FadeStage>("idle");
 
     const [transitionTarget, setTransitionTarget] =
         useState<GameScreen | null>(null);

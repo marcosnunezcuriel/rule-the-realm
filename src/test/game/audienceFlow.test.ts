@@ -125,6 +125,45 @@ describe("Consecuencias de las decisiones", () => {
         expect(result.nextStats?.gold).toBe(-60);
         expect(result.showTreasuryWarning).toBe(false);
     });
+        
+    it("muestra el aviso económico cuando el oro llega a -49", () => {
+        const expensiveAudience: GameEvent = {
+            ...testAudience,
+            effects: {
+                yes: { gold: -59 },
+                no: {},
+            },
+        };
+
+        const result = getDecisionConsequences(
+            expensiveAudience,
+            "yes",
+            createStats({ gold: 10 })
+        );
+
+        expect(result.nextStats?.gold).toBe(-49);
+        expect(result.showTreasuryWarning).toBe(true);
+    });
+
+    it("no muestra el aviso económico al alcanzar exactamente -50", () => {
+        const expensiveAudience: GameEvent = {
+            ...testAudience,
+            effects: {
+                yes: { gold: -60 },
+                no: {},
+            },
+        };
+
+        const result = getDecisionConsequences(
+            expensiveAudience,
+            "yes",
+            createStats({ gold: 10 })
+        );
+
+        expect(result.nextStats?.gold).toBe(-50);
+        expect(result.showTreasuryWarning).toBe(false);
+    });
+
 });
 
 describe("Presentación de audiencias", () => {

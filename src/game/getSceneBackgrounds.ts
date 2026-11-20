@@ -3,7 +3,7 @@ import {
     sceneThemes,
 } from "../data/scenes/sceneThemes";
 
-import type { SceneBackgroundMap } from "../data/scenes/sceneThemes";
+import type { SceneBackgroundMap } from "../types/scene";
 import type { ModifierId } from "../types/modifiers";
 
 export function getSceneBackgrounds(

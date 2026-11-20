@@ -11,12 +11,9 @@ import {
 
 import "./styles/layout/Navigation.css";
 
-type AppView = "menu" | "intro" | "game";
+import type { FadeStage } from "./types/game";
 
-type NavigationStage =
-    | "idle"
-    | "darkening"
-    | "lightening";
+type AppView = "menu" | "intro" | "game";
 
 function App() {
     // La web siempre comienza en el menú principal.
@@ -31,7 +28,7 @@ function App() {
 
     // Control del fundido entre las pantallas principales.
     const [navigationStage, setNavigationStage] =
-        useState<NavigationStage>("idle");
+        useState<FadeStage>("idle");
 
     const [navigationTarget, setNavigationTarget] =
         useState<AppView | null>(null);

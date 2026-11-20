@@ -1,8 +1,5 @@
 import type { ModifierId } from "../../types/modifiers";
-
-export type SceneTime = "morning" | "evening" | "night";
-
-export type SceneBackgroundMap = Record<SceneTime, string>;
+import type { SceneBackgroundMap } from "../../types/scene";
 
 type SceneTheme = {
     modifierId: ModifierId;
