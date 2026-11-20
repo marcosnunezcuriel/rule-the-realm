@@ -1,14 +1,15 @@
-import Header from "./Header";
-import ThroneScene from "./ThroneScene";
-import DialogueController from "./DialogueController";
+import Header from "../layout/Header";
+import ThroneScene from "../scene/ThroneScene";
+import DialogueController from "../narrative/DialogueController";
 import DaySummary from "./DaySummary";
-import KingdomStats from "./KingdomStats";
+import KingdomStats from "../kingdom/KingdomStats";
 import GameOver from "./GameOver";
 import ChapterEnding from "./ChapterEnding";
 
-import { toRomanNumber } from "../data/chapters";
+import { toRomanNumber } from "../../data/chapters";
 
-import { useGameController } from "../hooks/useGameController";
+import { useGameController } from "../../hooks/useGameController";
+
 
 type GameSessionProps = {
     onOpenMenu: () => void;

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import "../styles/SpeechBubble.css";
+import "../../styles/narrative/SpeechBubble.css";
 
 type SpeechBubbleProps = {
     variant: "visitor" | "king";

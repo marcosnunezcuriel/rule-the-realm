@@ -1,4 +1,4 @@
-import "../styles/MainMenu.css";
+import "../../styles/screens/MainMenu.css";
 
 type MainMenuProps = {
     hasSave: boolean;

@@ -1,6 +1,6 @@
-import { welcomeParagraphs } from "../data/narrative/welcomeMessage";
+import { welcomeParagraphs } from "../../data/narrative/welcomeMessage";
 
-import NarrativeParchment from "./NarrativeParchment";
+import NarrativeParchment from "../narrative/NarrativeParchment";
 
 type WelcomeIntroductionProps = {
     onFinish: () => void;

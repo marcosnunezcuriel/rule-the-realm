@@ -2,12 +2,12 @@
 import { useCallback, useRef, useState } from "react";
 
 import SpeechBubble from "./SpeechBubble";
-import TypewriterText from "./TypewriterText";
+import TypewriterText from "../shared/TypewriterText";
 
 import type {
     Decision,
     DialogueEvent,
-} from "../types/dialogue";
+} from "../../types/dialogue";
 
 type DialogueControllerProps = {
     event: DialogueEvent;

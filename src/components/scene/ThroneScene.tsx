@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 
-import type { SceneBackgroundMap } from "../data/scenes/sceneThemes";
+import type { SceneBackgroundMap } from "../../data/scenes/sceneThemes";
 
-import "../styles/ThroneScene.css";
+import "../../styles/scene/ThroneScene.css";
 
 type VisitorPhase =
     | "entering"

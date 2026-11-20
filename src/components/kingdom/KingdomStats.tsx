@@ -1,12 +1,13 @@
 import type { CSSProperties } from "react";
-import type { KingdomValues } from "../types/stats";
 
-import { statDefinitions } from "../data/kingdom/statDefinitions";
+import type { KingdomValues } from "../../types/stats";
 
-import AnimatedNumber from "./AnimatedNumber";
+import { statDefinitions } from "../../data/kingdom/statDefinitions";
+
+import AnimatedNumber from "../shared/AnimatedNumber";
 import StatIcon from "./StatIcon";
 
-import "../styles/KingdomStats.css";
+import "../../styles/kingdom/KingdomStats.css";
 
 type KingdomStatsProps = {
     stats: KingdomValues;

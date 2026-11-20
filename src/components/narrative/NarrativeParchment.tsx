@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 
-import TypewriterText from "./TypewriterText";
+import TypewriterText from "../shared/TypewriterText";
 
-import "../styles/WelcomeIntroduction.css";
+import "../../styles/narrative/WelcomeIntroduction.css";
 
 type NarrativeParchmentProps = {
     title: string;

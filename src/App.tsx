@@ -1,15 +1,15 @@
 import { useState } from "react";
 
-import MainMenu from "./components/MainMenu";
-import WelcomeIntroduction from "./components/WelcomeIntroduction";
-import GameSession from "./components/GameSession";
+import MainMenu from "./components/screens/MainMenu";
+import WelcomeIntroduction from "./components/screens/WelcomeIntroduction";
+import GameSession from "./components/screens/GameSession";
 
 import {
     clearSavedGame,
     hasSavedGame,
 } from "./storage/gameStorage";
 
-import "./styles/Navigation.css";
+import "./styles/layout/Navigation.css";
 
 type AppView = "menu" | "intro" | "game";
 

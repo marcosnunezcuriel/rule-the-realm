@@ -1,4 +1,4 @@
-import "../styles/Header.css";
+import "../../styles/layout/Header.css";
 
 type HeaderProps = {
     chapter: string;
