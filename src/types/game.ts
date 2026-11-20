@@ -5,7 +5,7 @@ export type AudiencePhase =
     | "transitioning"
     | "waiting";
 
-export type GameScreen = "scene" | "summary";
+export type GameScreen = "scene" | "summary" | "gameover";
 
 export type TransitionStage =
     | "idle"

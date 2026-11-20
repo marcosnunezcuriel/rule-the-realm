@@ -1,12 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 
-import { closingDialogue } from "../data/demoAudiences";
+import {
+    closingDialogue,
+    treasuryWarningDialogue,
+    getDefeatAnnouncementDialogue,
+} from "../data/specialAudiences";
+
 import { applyDailyModifiers } from "../game/applyDailyModifiers";
 import { applyStatChanges } from "../game/applyStatChanges";
 import { getDayEvents } from "../game/getDayEvents";
 import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
 import { initialKingdomValues } from "../game/initialState";
+import { checkGameOver } from "../game/checkGameOver";
 
+import type { GameOverReason } from "../types/gameOver";
 import type { Decision } from "../types/dialogue";
 import type {
     AudiencePhase,
@@ -30,6 +37,18 @@ export function useGameController() {
     const [phase, setPhase] = useState<AudiencePhase>("entering");
     const [audienceIndex, setAudienceIndex] = useState(0);
     const [isClosing, setIsClosing] = useState(false);
+    // Tipo de audiencia extraordinaria en curso.
+    const [specialAudience, setSpecialAudience] = useState<
+        "treasury-warning" | "defeat" | null
+    >(null);
+
+    // Aviso económico pendiente de presentar.
+    const [pendingTreasuryWarning, setPendingTreasuryWarning] =
+        useState(false);
+
+    // Causa de la derrota, si existe.
+    const [gameOverReason, setGameOverReason] =
+        useState<GameOverReason | null>(null);
 
     const [transitionStage, setTransitionStage] =
         useState<TransitionStage>("idle");
@@ -73,21 +92,34 @@ export function useGameController() {
 
     const timeOfDay: "morning" | "evening" | "night" = isClosing
         ? "night"
-        : audienceIndex < morningCount
+        : dayEvents.length === 0 || audienceIndex < morningCount
             ? "morning"
             : "evening";
 
-    const visitorImage = isClosing || !currentAudience
-        ? ROYAL_ADVISOR_IMAGE
-        : currentAudience.image;
+    const visitorImage =
+        isClosing ||
+        specialAudience !== null ||
+        !currentAudience
+            ? ROYAL_ADVISOR_IMAGE
+            : currentAudience.image;
 
-    const dialogue = isClosing || !currentAudience
-        ? closingDialogue
-        : currentAudience.dialogue;
+    const dialogue =
+        specialAudience === "defeat" && gameOverReason !== null
+            ? getDefeatAnnouncementDialogue(gameOverReason)
+            : specialAudience === "treasury-warning"
+                ? treasuryWarningDialogue
+                : isClosing || !currentAudience
+                    ? closingDialogue
+                    : currentAudience.dialogue;
 
-    const dialogueKey = isClosing
-        ? "closing"
-        : (currentAudience?.id ?? "no-audiences");
+    const dialogueKey =
+        specialAudience === "defeat"
+            ? `defeat-${gameOverReason}`
+            : specialAudience === "treasury-warning"
+                ? "treasury-warning"
+                : isClosing
+                    ? "closing"
+                    : currentAudience?.id ?? "no-audiences";
 
     const continueLabel = isClosing
         ? "Terminar día"
@@ -122,69 +154,145 @@ export function useGameController() {
 
     // Termina la entrada o salida del personaje actual.
     function handleVisitorAnimationEnd() {
+        // El visitante acaba de entrar.
         if (phase === "entering") {
             setPhase("speaking");
             return;
         }
 
+        // Ignorar cualquier otra animación.
         if (phase !== "exiting") {
             return;
         }
 
+        // Ha terminado el anuncio de derrota.
+        if (specialAudience === "defeat") {
+            startScreenTransition("gameover");
+            return;
+        }
+
+        // Ha terminado el cierre nocturno habitual.
         if (isClosing) {
             startScreenTransition("summary");
             return;
         }
 
+        if (specialAudience === "treasury-warning") {
+            // La advertencia termina y continuamos
+            // con la siguiente audiencia normal.
+            setSpecialAudience(null);
+        } else {
+            // La audiencia normal acaba de finalizar.
+            // Comprobar si sus consecuencias han causado
+            // la derrota del reino.
+            const defeat = checkGameOver(stats);
+
+            if (defeat !== null) {
+                setGameOverReason(defeat);
+                setPendingTreasuryWarning(false);
+                setSpecialAudience("defeat");
+                setPhase("entering");
+                return;
+            }
+
+            // Si no hay derrota, mostrar la advertencia
+            // económica pendiente antes de avanzar.
+            if (pendingTreasuryWarning) {
+                setPendingTreasuryWarning(false);
+                setSpecialAudience("treasury-warning");
+                setPhase("entering");
+                return;
+            }
+        }
+
+        // Reanudar el orden de audiencias normales.
         const nextIndex = audienceIndex + 1;
 
         if (nextIndex < dayEvents.length) {
-            const nextTimeOfDay = nextIndex < morningCount
-                ? "morning"
-                : "evening";
+            const nextTimeOfDay =
+                nextIndex < morningCount
+                    ? "morning"
+                    : "evening";
 
             setAudienceIndex(nextIndex);
+
             setPhase(
                 nextTimeOfDay !== timeOfDay
                     ? "transitioning"
                     : "entering"
             );
+
             return;
         }
 
-        // No quedan audiencias normales: empieza el cierre nocturno.
+        // No quedan audiencias normales.
+        // Comienza el cierre nocturno.
         setIsClosing(true);
         setPhase("transitioning");
     }
 
     // Una respuesta produce efectos inmediatos y desbloqueos futuros.
     function handleDecision(answer: Decision) {
-        if (isClosing || phase !== "speaking" || !currentAudience) {
+        if (
+            isClosing ||
+            specialAudience !== null ||
+            phase !== "speaking" ||
+            !currentAudience
+        ) {
             return;
         }
 
+        // Consecuencias inmediatas.
         const changes = currentAudience.effects?.[answer];
 
         if (changes) {
-            setStats((previous) => {
-                return applyStatChanges(previous, changes);
-            });
+            const nextStats = applyStatChanges(stats, changes);
+
+            // Detectar cuándo las arcas se agotan.
+            const treasuryExhausted =
+                stats.gold > 0 &&
+                nextStats.gold <= 0 &&
+                nextStats.gold > -50;
+
+            // No mostrar una advertencia si la decisión
+            // ha provocado directamente una derrota.
+            if (
+                treasuryExhausted &&
+                checkGameOver(nextStats) === null
+            ) {
+                setPendingTreasuryWarning(true);
+            }
+
+            setStats(nextStats);
         }
 
-        const newUnlocks = currentAudience.unlocks?.[answer] ?? [];
+        // Desbloquear eventos futuros.
+        const newUnlocks =
+            currentAudience.unlocks?.[answer] ?? [];
 
         if (newUnlocks.length > 0) {
             setUnlockedEventIds((previous) => {
-                return [...new Set([...previous, ...newUnlocks])];
+                return [
+                    ...new Set([
+                        ...previous,
+                        ...newUnlocks,
+                    ]),
+                ];
             });
         }
 
+        // Activar modificadores.
         const newModifiers =
             currentAudience.addModifiers?.[answer] ?? [];
 
         if (newModifiers.length > 0) {
             setActiveModifierIds((previous) => {
-                return [...new Set([...previous, ...newModifiers])];
+                return [
+                    ...new Set([
+                        ...previous,
+                        ...newModifiers,
+                    ]),
+                ];
             });
         }
     }
@@ -233,7 +341,9 @@ export function useGameController() {
             if (!closeDay()) {
                 return;
             }
-        } else {
+        } else if (specialAudience === null) {
+            // Solo las audiencias normales pueden
+            // finalizar eventos y eliminar modificadores.
             completeAudience();
         }
 
@@ -242,25 +352,56 @@ export function useGameController() {
 
     // Prepara la nueva jornada sin perder el progreso del reino.
     function prepareNextDay() {
-        // El escenario refleja los modificadores al INICIO del nuevo día.
-        // Los cambios durante la jornada no alteran sus fondos.
+        const nextDay = day + 1;
+
+        // Comprobar las estadísticas finales,
+        // después de los modificadores nocturnos.
+        const defeat = checkGameOver(stats);
+
+        // Fijar los fondos visuales del nuevo día.
         setSceneModifierIds([...activeModifierIds]);
 
-        const nextDay = day + 1;
-        const nextDayEvents = getDayEvents(nextDay, unlockedEventIds);
+        // Obtener las audiencias habituales.
+        const nextDayEvents = getDayEvents(
+            nextDay,
+            unlockedEventIds
+        );
 
+        // Preparar las estadísticas de la nueva jornada.
         setClosingStats(null);
+        setDayStartStats({ ...stats });
+
+        // Reiniciar el cierre diario.
         dayClosedRef.current = false;
+
         setModifierReport({
             appliedIds: [],
             totalChanges: {},
         });
 
-        setDayStartStats({ ...stats });
+        // Avanzar al nuevo día.
         setDay(nextDay);
         setDayEvents(nextDayEvents);
         setAudienceIndex(0);
-        setIsClosing(nextDayEvents.length === 0);
+
+        // Limpiar las advertencias anteriores.
+        setPendingTreasuryWarning(false);
+
+        // Si los modificadores provocaron la derrota,
+        // anunciarla al comenzar el día siguiente.
+        setGameOverReason(defeat);
+
+        setSpecialAudience(
+            defeat !== null ? "defeat" : null
+        );
+
+        // Si existe una derrota pendiente, no entraremos
+        // en el cierre nocturno aunque no haya eventos.
+        setIsClosing(
+            defeat === null && nextDayEvents.length === 0
+        );
+
+        // Esperar a que termine el fundido de pantalla.
         setPhase("waiting");
     }
 
@@ -293,6 +434,10 @@ export function useGameController() {
         startScreenTransition("scene");
     }
 
+    function handleRestart() {
+        window.location.reload();
+    }
+
     return {
         day,
         screen,
@@ -313,5 +458,7 @@ export function useGameController() {
         handleContinue,
         handleScreenFadeEnd,
         handleNextDay,
+        gameOverReason,
+        handleRestart
     };
 }

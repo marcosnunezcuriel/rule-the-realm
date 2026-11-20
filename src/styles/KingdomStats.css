@@ -65,3 +65,34 @@
     font-weight: bold;
     font-variant-numeric: tabular-nums;
 }
+
+
+/* Estado crítico de las estadísticas */
+
+.kingdom-stats__card--critical {
+    background-color: #35212a;
+    border-color: #f08080;
+
+    box-shadow:
+        0 0 14px rgba(240, 128, 128, 0.2),
+        0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.kingdom-stats__card--critical .kingdom-stats__icon,
+.kingdom-stats__card--critical .kingdom-stats__value {
+    color: #f08080;
+}
+
+/* Aviso exclusivo del oro */
+
+.kingdom-stats__treasury-warning {
+    grid-column: 1 / -1;
+
+    color: #f08080;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+}
+

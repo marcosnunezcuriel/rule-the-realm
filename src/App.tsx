@@ -3,6 +3,7 @@ import ThroneScene from "./components/ThroneScene";
 import DialogueController from "./components/DialogueController";
 import DaySummary from "./components/DaySummary";
 import KingdomStats from "./components/KingdomStats";
+import GameOver from "./components/GameOver";
 
 import { useGameController } from "./hooks/useGameController";
 
@@ -22,11 +23,13 @@ function App() {
         dayStartStats,
         modifierReport,
         transitionStage,
+        gameOverReason,
         handleVisitorAnimationEnd,
         handleDecision,
         handleContinue,
         handleScreenFadeEnd,
         handleNextDay,
+        handleRestart,
     } = useGameController();
 
     const fadeClassName = [
@@ -48,7 +51,14 @@ function App() {
                     <KingdomStats stats={visibleStats} />
                 )}
 
-                {screen === "summary" ? (
+                {screen === "gameover" && gameOverReason !== null ? (
+                    <GameOver
+                        reason={gameOverReason}
+                        day={day}
+                        stats={stats}
+                        onRestart={handleRestart}
+                    />
+                ) : screen === "summary" ? (
                     <DaySummary
                         day={day}
                         stats={stats}
@@ -64,6 +74,7 @@ function App() {
                         visitorPhase={phase}
                         visitorImage={visitorImage}
                         visitorName={dialogue.speaker}
+                        visitorKey={dialogueKey}
                         onVisitorAnimationEnd={handleVisitorAnimationEnd}
                     >
                         {phase === "speaking" && (

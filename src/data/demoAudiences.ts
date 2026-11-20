@@ -1,5 +1,4 @@
 import type { GameEvent } from "../types/events";
-import type { DialogueEvent } from "../types/dialogue";
 
 import { demoDialogue } from "./demoDialogue";
 
@@ -236,10 +235,3 @@ export const demoAudiences: GameEvent[] = [
     }
 ];
 
-export const closingDialogue: DialogueEvent = {
-    speaker: "Consejera Real",
-
-    introduction: [
-        "Ya no quedan más audiencias por hoy, Majestad.",
-    ],
-};

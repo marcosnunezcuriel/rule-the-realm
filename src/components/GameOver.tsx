@@ -1,0 +1,79 @@
+import type { CSSProperties } from "react";
+
+import type { GameOverReason } from "../types/gameOver";
+import type { KingdomValues } from "../types/stats";
+
+import { gameOverMessages } from "../data/gameOverMessages";
+import { statDefinitions } from "../data/statDefinitions";
+
+import StatIcon from "./StatIcon";
+
+import "../styles/GameOver.css";
+
+type GameOverProps = {
+    reason: GameOverReason;
+    day: number;
+    stats: KingdomValues;
+    onRestart: () => void;
+};
+
+function GameOver({
+    reason,
+    day,
+    stats,
+    onRestart,
+}: GameOverProps) {
+    const message = gameOverMessages[reason];
+
+    const statDefinition = statDefinitions.find(
+        (stat) => stat.key === message.stat
+    );
+
+    const color = statDefinition?.color ?? "#e6b875";
+
+    return (
+        <main className="game-over">
+            <div
+                className="game-over__panel"
+                style={
+                    { "--game-over-color": color } as CSSProperties
+                }
+            >
+                <div className="game-over__symbol">
+                    <StatIcon stat={message.stat} />
+                </div>
+
+                <h1 className="game-over__heading">
+                    El fin de tu reinado
+                </h1>
+
+                <h2 className="game-over__title">
+                    {message.title}
+                </h2>
+
+                <p className="game-over__description">
+                    {message.ending}
+                </p>
+
+                <div className="game-over__result">
+                    <span>{statDefinition?.label}</span>
+                    <strong>{stats[message.stat]}</strong>
+                </div>
+
+                <p className="game-over__day">
+                    Capítulo I · Día {day}
+                </p>
+
+                <button
+                    type="button"
+                    className="game-over__button"
+                    onClick={onRestart}
+                >
+                    Comenzar nueva partida
+                </button>
+            </div>
+        </main>
+    );
+}
+
+export default GameOver;

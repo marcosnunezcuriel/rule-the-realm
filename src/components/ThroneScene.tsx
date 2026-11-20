@@ -16,6 +16,7 @@ type ThroneSceneProps = {
     visitorPhase: VisitorPhase;
     visitorImage: string;
     visitorName: string;
+    visitorKey: string;
     onVisitorAnimationEnd: () => void;
     children?: ReactNode;
     backgroundMap: SceneBackgroundMap;
@@ -26,6 +27,7 @@ function ThroneScene({
     visitorPhase,
     visitorImage,
     visitorName,
+    visitorKey,
     onVisitorAnimationEnd,
     children,
     backgroundMap
@@ -78,7 +80,7 @@ function ThroneScene({
 
                 {showVisitor && (
                     <div
-                        key={visitorImage}
+                        key={visitorKey}
                         className={`character character--visitor visitor--${visitorPhase}`}
                         onAnimationEnd={(event) => {
                             if (event.target === event.currentTarget) {

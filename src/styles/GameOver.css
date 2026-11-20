@@ -1,0 +1,150 @@
+/* Pantalla de derrota */
+
+.game-over {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 24px;
+
+    background-color: #0f1723;
+    overflow: hidden;
+}
+
+/* Panel principal */
+
+.game-over__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    width: min(100%, 760px);
+    max-height: 100%;
+    padding: 44px 50px;
+
+    overflow-y: auto;
+
+    background-color: #121c2a;
+    border: 2px solid #b58a4d;
+    border-radius: 14px;
+
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35);
+
+    text-align: center;
+}
+
+/* Icono */
+
+.game-over__symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 72px;
+    height: 72px;
+
+    color: var(--game-over-color);
+    background-color: #1d2a3b;
+
+    border: 1px solid var(--game-over-color);
+    border-radius: 50%;
+}
+
+.game-over__symbol svg {
+    width: 36px;
+    height: 36px;
+}
+
+/* Títulos */
+
+.game-over__heading {
+    margin: 0;
+
+    color: #e6b875;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+}
+
+.game-over__title {
+    margin: 0;
+
+    color: var(--game-over-color);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px;
+}
+
+/* Narración */
+
+.game-over__description {
+    max-width: 580px;
+    margin: 0;
+
+    color: #e8dfd0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+/* Estadística que provocó la derrota */
+
+.game-over__result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+
+    width: 240px;
+    padding: 14px 20px;
+
+    color: #e8dfd0;
+    background-color: #1d2a3b;
+
+    border: 1px solid var(--game-over-color);
+    border-radius: 8px;
+
+    font-size: 18px;
+}
+
+.game-over__result strong {
+    color: var(--game-over-color);
+    font-size: 24px;
+}
+
+/* Día de la derrota */
+
+.game-over__day {
+    margin: 0;
+
+    color: #a3b4cd;
+    font-size: 15px;
+}
+
+/* Botón de reinicio */
+
+.game-over__button {
+    padding: 13px 28px;
+
+    color: #e6b875;
+    background-color: #253449;
+
+    border: 1px solid #b58a4d;
+    border-radius: 6px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+
+    cursor: pointer;
+}
+
+.game-over__button:hover {
+    background-color: #344762;
+}
+
+.game-over__button:focus-visible {
+    outline: 2px solid #e6b875;
+    outline-offset: 3px;
+}

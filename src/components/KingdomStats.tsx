@@ -1,8 +1,8 @@
-
 import type { CSSProperties } from "react";
 import type { KingdomValues } from "../types/stats";
 
 import { statDefinitions } from "../data/statDefinitions";
+
 import AnimatedNumber from "./AnimatedNumber";
 import StatIcon from "./StatIcon";
 
@@ -18,27 +18,47 @@ function KingdomStats({ stats }: KingdomStatsProps) {
             className="kingdom-stats"
             aria-label="Estadísticas del reino"
         >
-            {statDefinitions.map(({ key, label, color }) => (
-                <div
-                    key={key}
-                    className="kingdom-stats__card"
-                    style={
-                        { "--stat-color": color } as CSSProperties
-                    }
-                >
-                    <span className="kingdom-stats__icon">
-                        <StatIcon stat={key} />
-                    </span>
+            {statDefinitions.map(({ key, label, color }) => {
+                const isTreasuryEmpty =
+                    key === "gold" &&
+                    stats.gold <= 0;
 
-                    <span className="kingdom-stats__label">
-                        {label}
-                    </span>
+                const isCritical = key === "gold"
+                    ? stats.gold <= 0
+                    : stats[key] <= 0;
 
-                    <strong className="kingdom-stats__value">
-                        <AnimatedNumber value={stats[key]} />
-                    </strong>
-                </div>
-            ))}
+                return (
+                    <div
+                        key={key}                 
+                        className={
+                            isCritical
+                                ? "kingdom-stats__card kingdom-stats__card--critical"
+                                : "kingdom-stats__card"
+                        }
+                        style={
+                            { "--stat-color": color } as CSSProperties
+                        }
+                    >
+                        <span className="kingdom-stats__icon">
+                            <StatIcon stat={key} />
+                        </span>
+
+                        <span className="kingdom-stats__label">
+                            {label}
+                        </span>
+
+                        <strong className="kingdom-stats__value">
+                            <AnimatedNumber value={stats[key]} />
+                        </strong>
+
+                        {isTreasuryEmpty && (
+                            <span className="kingdom-stats__treasury-warning">
+                                Arcas vacías
+                            </span>
+                        )}
+                    </div>
+                );
+            })}
         </aside>
     );
 }

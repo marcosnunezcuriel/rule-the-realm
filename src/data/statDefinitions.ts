@@ -21,7 +21,7 @@ export const statDefinitions: StatDefinition[] = [
     {
         key: "faith",
         label: "Fe",
-        color: "#bf4347",
+        color: "#a77bd8",
     },
     {
         key: "population",
