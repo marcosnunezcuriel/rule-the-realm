@@ -176,10 +176,16 @@ export function getDecisionConsequences(
     unlocks: string[];
     addModifiers: ModifierId[];
 } {
+    // Sumar los efectos comunes del acontecimiento y los de
+    // la decisión, sin perder valores de una misma estadística.
+    const baseStats = audience.baseEffects
+        ? applyStatChanges(stats, audience.baseEffects)
+        : null;
+
     const changes = audience.effects?.[answer];
     const nextStats = changes
-        ? applyStatChanges(stats, changes)
-        : null;
+        ? applyStatChanges(baseStats ?? stats, changes)
+        : baseStats;
 
     const showTreasuryWarning =
         nextStats !== null &&

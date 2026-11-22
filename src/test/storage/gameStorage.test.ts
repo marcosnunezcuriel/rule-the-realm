@@ -23,7 +23,7 @@ function createSave(): SaveGame {
         dayStartStats: createStats(),
         closingStats: null,
         audienceIndex: 0,
-        dayEventIds: ["1", "2"],
+        dayEventIds: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
         isClosing: false,
         dayClosed: false,
         selectedDecision: null,
@@ -151,10 +151,10 @@ describe("Guardado de partidas", () => {
     it("rechaza audiencias que pertenecen a otro día", () => {
         storeRaw({
             ...createSave(),
-            dayEventIds: ["6"],
+            dayEventIds: ["11"],
         });
 
-        // El evento 6 pertenece al día 2, no al día 1.
+        // El evento 11 pertenece al día 2, no al día 1.
         expect(loadGame()).toBeNull();
     });
 
@@ -170,7 +170,7 @@ describe("Guardado de partidas", () => {
     it("permite desbloqueos futuros aún no implementados", () => {
         const save: SaveGame = {
             ...createSave(),
-            unlockedEventIds: ["6.1", "6.2"],
+            unlockedEventIds: ["chapter2-bankers-claim", "chapter2-hospitals"],
         };
 
         saveGame(save);
@@ -192,7 +192,7 @@ describe("Guardado de partidas", () => {
             ...createSave(),
             day: 7,
             screen: "chapter-ending",
-            dayEventIds: ["6.2"],
+            dayEventIds: ["41", "42", "43", "44", "45", "46"],
             chapterEndingParagraphIndex: 2,
         };
 

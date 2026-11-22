@@ -1,145 +1,267 @@
 import type { GameEvent } from "../../../types/events";
 
+// Capítulo I · día 02. Orden y textos del PDF definitivo.
+
 export const day02Events: GameEvent[] = [
+    // Evento 2.1 — Caballero vencedor
     {
         id: "2.1",
         day: 2,
         order: 1,
         requiresUnlock: true,
+        image: "/assets/characters/commoners/knight-champion.png",
+        dialogue: {
+            speaker: "Caballero campeón",
+            introduction: [
+                "¡Salud, soberano! Fui yo quien alzó la espada victorioso en el gran torneo de la coronación.",
+                "La gloria está muy bien, pero la sangre derramada y el esfuerzo merecen una recompensa real.",
+                "Exijo la bolsa de oro prometida al campeón.",
+            ],
+            responses: {
+                yes: [
+                    "Juro lealtad eterna a vuestra espada y me uno humildemente a vuestras filas.",
+                ],
+                no: [
+                    "¿Me negáis el oro que gané con sudor y acero?",
+                    "¡Esto es una afrenta imperdonable para un caballero!",
+                    "Me voy de vuestra corte con mis hombres. Buscaos a otros héroes que os salven el pellejo.",
+                ],
+            },
+        },
+        effects: {
+            yes: { gold: -15, army: 10 },
+            no: { army: -10 },
+        },
+    },
 
+    // Evento 3.1 — Pelea en la taberna
+    {
+        id: "3.1",
+        day: 2,
+        order: 2,
+        requiresUnlock: true,
         image: "/assets/characters/commoners/tavern-keeper.png",
-
         dialogue: {
             speaker: "Tabernera",
-
             introduction: [
-                "¡Majestad, una desgracia! Con los festejos de la coronación, mi taberna en el cruce se convirtió en un campo de batalla.",
-
+                "¡Majestad, una desgracia! Con los miles de visitantes que han llegado a la capital, mi taberna en el cruce se convirtió en un campo de batalla.",
                 "Los ánimos se caldearon, rompieron todo el mobiliario y los malhechores escaparon.",
-
                 "Exijo una compensación por los destrozos y que la guardia persiga a los culpables.",
             ],
-
             responses: {
                 yes: [
                     "Gracias por los fondos para reparar mi local…",
-
                     "… y por enviar las patrullas para capturar a los vándalos.",
                 ],
-
                 no: [
                     "¿No os importa vuestro pueblo?",
                 ],
             },
         },
-
         effects: {
-            yes: {
-                gold: -3,
-                prestige: 5,
-            },
-
-            no: {
-                prestige: -5,
-            },
+            yes: { gold: -3, prestige: 5 },
+            no: { prestige: -5 },
         },
     },
 
+    // Evento 11 — Ha llegado el circo
     {
-        id: "2.2",
-        day: 2,
-        order: 2,
-        requiresUnlock: true,
-
-        image: "/assets/characters/commoners/knight-champion.png",
-
-        dialogue: {
-            speaker: "Caballero campeón",
-
-            introduction: [
-                "¡Salud, soberano! Fui yo quien alzó la espada victorioso en el gran torneo de la coronación.",
-
-                "La gloria está muy bien, pero la sangre derramada y el esfuerzo merecen una recompensa real.",
-
-                "Exijo la bolsa de oro prometida al campeón.",
-            ],
-
-            responses: {
-                yes: [
-                    "Juro lealtad eterna a vuestra espada y me uno humildemente a vuestras filas.",
-                ],
-
-                no: [
-                    "¿Me negáis el oro que gané con sudor y acero?",
-
-                    "¡Esto es una afrenta imperdonable para un caballero!",
-
-                    "Me voy de vuestra corte con mis hombres. Buscaos a otros héroes que os salven el pellejo.",
-                ],
-            },
-        },
-
-        effects: {
-            yes: {
-                gold: -15,
-                army: 10,
-            },
-
-            no: {
-                army: -10,
-            },
-        },
-    },
-
-    {
-        id: "6",
+        id: "11",
         day: 2,
         order: 3,
-
         image: "/assets/characters/courtiers/royal-advisor.png",
-
         dialogue: {
             speaker: "Consejera Real",
-
             introduction: [
                 "Majestad, os traigo noticias alegres desde las puertas de la capital.",
-
                 "Un gran circo ambulante ha instalado sus coloridas carpas en las afueras.",
-
                 "Su director solicita permiso para actuar ante el pueblo y los nobles. ¿Permitimos que ofrezcan sus espectáculos?",
             ],
-
             responses: {
                 yes: [
                     "¡Excelente elección, Majestad! Las funciones han comenzado y el dinero entra a raudales en las arcas gracias a las entradas.",
-
                     "Además, he oído que un juglar del circo está tan inspirado que quiere actuar directamente en la plaza mayor.",
                 ],
-
                 no: [
                     "Como mandéis, Majestad. He ordenado a la guardia que rechace a los artistas.",
-
                     "Las calles seguirán tranquilas, aunque el pueblo se ha quedado con ganas de un poco de diversión.",
                 ],
             },
         },
-
         effects: {
-            yes: {
-                gold: 20,
-            },
-
-            no: {
-                prestige: -3,
-            },
+            yes: { gold: 20 },
+            no: { prestige: -3 },
         },
-
         unlocks: {
-            yes: ["6.1", "6.2"],
+            yes: ["11.1", "11.2"],
         },
-
         addModifiers: {
             yes: ["traveling-circus"],
         },
     },
+
+    // Evento 12 — Exploración de las montañas del este
+    {
+        id: "12",
+        day: 2,
+        order: 4,
+        image: "/assets/characters/commoners/cartographer.png",
+        dialogue: {
+            speaker: "Cartógrafo",
+            introduction: [
+                "Majestad, durante mis viajes he oído historias sobre las montañas del este.",
+                "Las leyendas hablan de riquezas ocultas entre sus cuevas y barrancos Necesitaré financiación para organizar una expedición. ¿Deseáis apoyarla?",
+            ],
+            responses: {
+                yes: [
+                    "Reuniré a mis mejores hombres y partiremos cuanto antes.",
+                    "Esperemos que las leyendas sean ciertas…",
+                ],
+                no: [
+                    "Comprendo vuestra decisión, Majestad.",
+                    "Las montañas permanecerán inexploradas.",
+                ],
+            },
+        },
+        effects: {
+            yes: { gold: -30, prestige: 1 },
+            no: { prestige: -3 },
+        },
+        unlocks: {
+            yes: ["12.1"],
+        },
+    },
+
+    // Evento 13 — El mendigo pide limosna
+    {
+        id: "13",
+        day: 2,
+        order: 5,
+        image: "/assets/characters/commoners/beggar.png",
+        dialogue: {
+            speaker: "Mendigo",
+            introduction: [
+                "¡Piedad, Majestad! Llevo días sin probar bocado y el frío de las calles cala hasta los huesos.",
+                "¿Podríais concederle unas pocas monedas a este humilde súbdito para comprar algo de pan?",
+            ],
+            responses: {
+                yes: [
+                    "¡Que los cielos os bendigan, mi buen Rey! Jamás olvidaré vuestra generosidad.",
+                ],
+                no: [
+                    "Entiendo... los reyes tenéis asuntos más importantes que la miseria de un pobre viejo.",
+                ],
+            },
+        },
+        effects: {
+            yes: { gold: -1, prestige: 3 },
+            no: { prestige: -3 },
+        },
+        unlocks: {
+            yes: ["13.1"],
+        },
+    },
+
+    // Evento 14 — El recaudador ofrece aumentar los impuestos
+    {
+        id: "14",
+        day: 2,
+        order: 6,
+        image: "/assets/characters/courtiers/tax-collector.png",
+        dialogue: {
+            speaker: "Recaudador de impuestos",
+            introduction: [
+                "Majestad, las arcas reales necesitan un respiro. He preparado un nuevo decreto fiscal.",
+                "Si endurecemos los cobros y aumentamos los impuestos a los comerciantes y al pueblo, ingresaremos mucho más oro de inmediato.",
+                "¿Deseáis que aplique esta nueva medida de recaudación?",
+            ],
+            responses: {
+                yes: [
+                    "¡Una decisión muy acertada para la economía de la corona, Majestad!",
+                    "Las arcas se llenarán rápidamente, aunque he visto caras muy largas en el mercado.",
+                ],
+                no: [
+                    "Como mandéis, Majestad. Dejaremos las tasas como están por ahora.",
+                ],
+            },
+        },
+        effects: {
+            yes: {},
+            no: { prestige: 5 },
+        },
+        unlocks: {
+            yes: ["14.1"],
+        },
+        addModifiers: {
+            yes: ["high-taxes"],
+        },
+    },
+
+    // Evento 15 — La crisis del trigo
+    {
+        id: "15",
+        day: 2,
+        order: 7,
+        image: "/assets/characters/commoners/baker.png",
+        dialogue: {
+            speaker: "Panadero",
+            introduction: [
+                "Majestad, el precio del grano en los mercados se ha disparado por la nubes.",
+                "El pueblo apenas puede permitirse comprar una simple hogaza de pan.",
+                "¿Os dignaríais a subvencionar el precio del trigo para aliviar nuestra hambre?",
+            ],
+            responses: {
+                yes: [
+                    "¡Sois un rey magnánimo, Majestad!",
+                    "Las familias podrán alimentarse con tranquilidad este mes.",
+                ],
+                no: [
+                    "Comprendo… Las arcas reales son sagradas.",
+                    "El hambre en las calles empieza a volverse peligrosa",
+                ],
+            },
+        },
+        effects: {
+            yes: { gold: -15, prestige: 5 },
+            no: { prestige: -5 },
+        },
+        unlocks: {
+            yes: ["15.1"],
+            no: ["15.2"],
+        },
+    },
+
+    // Evento 16 — El primer decreto
+    {
+        id: "16",
+        day: 2,
+        order: 8,
+        image: "/assets/characters/courtiers/herald.png",
+        dialogue: {
+            speaker: "Heraldo Real",
+            introduction: [
+                "¡Majestad! Vuestro reinado ha comenzado y los primeros decretos de la corona ya han sido proclamados en la capital.",
+                "Sin embargo, Astaria es un reino extenso. En las aldeas más alejadas, muchos campesinos todavía desconocen las órdenes de su nuevo soberano.",
+                "Si me concedéis fondos para contratar mensajeros y escribas, enviaremos copias de vuestros decretos a todos los rincones del reino.",
+                "Así, hasta el más humilde de vuestros súbditos conocerá las leyes y la voluntad de su rey.",
+                "¿Autorizáis su distribución?",
+            ],
+            responses: {
+                yes: [
+                    "¡Excelente decisión, Majestad!",
+                    "Los escribas comenzarán a trabajar de inmediato y los mensajeros partirán hacia todas las provincias.",
+                    "Pronto no habrá una sola aldea en Astaria que desconozca la autoridad de su nuevo monarca.",
+                ],
+                no: [
+                    "Como ordenéis, Majestad. Nos limitaremos a proclamar vuestros decretos en la capital.",
+                    "Aunque me temo que muchos súbditos seguirán sin conocer vuestras órdenes y algunos señores locales podrían aprovecharse de ello.",
+                ],
+            },
+        },
+        effects: {
+            yes: { gold: -10, prestige: 15 },
+            no: { prestige: -10 },
+        },
+    },
+
 ];

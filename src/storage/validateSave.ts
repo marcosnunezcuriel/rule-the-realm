@@ -1,8 +1,9 @@
 import { getChapterForDisplay } from "../data/chapters";
-import { getEventById } from "../data/events/eventRegistry";
 import { modifierDefinitions } from "../data/kingdom/modifiers";
 import { statDefinitions } from "../data/kingdom/statDefinitions";
 import { gameOverMessages } from "../data/narrative/gameOverMessages";
+
+import { getDayEvents } from "../game/getDayEvents";
 
 import type { ModifierId } from "../types/modifiers";
 import type { SaveGame } from "../types/saveGame";
@@ -93,14 +94,22 @@ function isModifierArray(
 // realmente a la jornada que se está recuperando.
 function isDayEventArray(
     value: unknown,
-    day: number
+    day: number,
+    unlockedEventIds: unknown
 ): value is string[] {
+    if (
+        !isStringArray(value) ||
+        !isStringArray(unlockedEventIds)
+    ) {
+        return false;
+    }
+
+    const expectedIds = getDayEvents(day, unlockedEventIds)
+        .map((event) => event.id);
+
     return (
-        isStringArray(value) &&
-        new Set(value).size === value.length &&
-        value.every((id) => {
-            return getEventById(id)?.day === day;
-        })
+        value.length === expectedIds.length &&
+        value.every((id, index) => id === expectedIds[index])
     );
 }
 
@@ -163,7 +172,12 @@ export function isSaveGame(
         typeof value.audienceIndex === "number" &&
         Number.isInteger(value.audienceIndex) &&
         value.audienceIndex >= 0 &&
-        isDayEventArray(value.dayEventIds, day) &&
+        isStringArray(value.unlockedEventIds) &&
+        isDayEventArray(
+            value.dayEventIds,
+            day,
+            value.unlockedEventIds
+        ) &&
         value.audienceIndex <= value.dayEventIds.length &&
         typeof value.isClosing === "boolean" &&
         typeof value.dayClosed === "boolean" &&
@@ -174,7 +188,6 @@ export function isSaveGame(
         ) &&
         // Los desbloqueos futuros pueden existir antes
         // de que su evento esté implementado.
-        isStringArray(value.unlockedEventIds) &&
         isModifierArray(value.activeModifierIds) &&
         isModifierArray(value.sceneModifierIds) &&
         isRecord(report) &&

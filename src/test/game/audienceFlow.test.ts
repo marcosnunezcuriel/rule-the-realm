@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { getEventById } from "../../data/events/eventRegistry";
+
 import {
     getAudienceExit,
     getAudiencePresentation,
@@ -290,5 +292,33 @@ describe("Finalización de audiencias", () => {
             kind: "closing",
             clearTreasuryWarning: false,
         });
+    });
+
+    it("suma la recompensa inicial y el coste de construir la mina", () => {
+        const expedition = getEventById("12.1");
+        if (!expedition) throw new Error("Falta el evento 12.1");
+
+        const result = getDecisionConsequences(
+            expedition,
+            "yes",
+            createStats()
+        );
+
+        expect(result.nextStats?.gold).toBe(225);
+        expect(result.nextStats?.prestige).toBe(105);
+    });
+
+    it("la tragedia minera resta diez habitantes con ambas decisiones", () => {
+        const explosion = getEventById("12.2");
+        if (!explosion) throw new Error("Falta el evento 12.2");
+
+        const result = getDecisionConsequences(
+            explosion,
+            "no",
+            createStats()
+        );
+
+        expect(result.nextStats?.population).toBe(90);
+        expect(result.nextStats?.prestige).toBe(85);
     });
 });

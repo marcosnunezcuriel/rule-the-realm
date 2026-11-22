@@ -5,6 +5,7 @@ import {
 } from "../data/chapters";
 
 import { applyDailyModifiers } from "../game/applyDailyModifiers";
+import { getEventCompletionConsequences } from "../game/getEventCompletionConsequences";
 import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
 
 import {
@@ -122,6 +123,9 @@ export function useGameController() {
     });
 
     // Termina la entrada o salida del personaje actual.
+    // El cierre de una audiencia se confirma cuando termina
+    // la animación de salida. Así los efectos informativos
+    // y los modificadores se procesan junto con el avance.
     function handleVisitorAnimationEnd() {
         if (phase === "entering") {
             setPhase("speaking");
@@ -132,14 +136,57 @@ export function useGameController() {
             return;
         }
 
-        // La siguiente intervención no hereda la decisión anterior.
+        let exitStats = stats;
+        let exitTreasuryWarning = pendingTreasuryWarning;
+
+        if (
+            !isClosing &&
+            specialAudience === null &&
+            currentAudience !== undefined
+        ) {
+            const completion = getEventCompletionConsequences(
+                currentAudience,
+                stats
+            );
+
+            if (completion.nextStats !== null) {
+                exitStats = completion.nextStats;
+                setStats(completion.nextStats);
+            }
+
+            if (completion.showTreasuryWarning) {
+                exitTreasuryWarning = true;
+                setPendingTreasuryWarning(true);
+            }
+
+            if (completion.unlocks.length > 0) {
+                setUnlockedEventIds((previous) => [
+                    ...new Set([...previous, ...completion.unlocks]),
+                ]);
+            }
+
+            if (completion.addModifiers.length > 0) {
+                setActiveModifierIds((previous) => [
+                    ...new Set([...previous, ...completion.addModifiers]),
+                ]);
+            }
+
+            if (completion.removeModifiers.length > 0) {
+                setActiveModifierIds((previous) => {
+                    return previous.filter((id) => {
+                        return !completion.removeModifiers.includes(id);
+                    });
+                });
+            }
+        }
+
         setSelectedDecision(null);
 
         const exit = getAudienceExit({
             specialAudience,
             isClosing,
-            stats,
-            pendingTreasuryWarning,
+            stats: exitStats,
+            pendingTreasuryWarning: exitTreasuryWarning,
             audienceIndex,
             dayEventsCount: dayEvents.length,
             morningCount,
@@ -229,22 +276,6 @@ export function useGameController() {
         }
     }
 
-    // Finaliza un evento narrativo, retirando modificadores si procede.
-    function completeAudience() {
-        const modifiersToRemove =
-            currentAudience?.removeModifiersOnComplete ?? [];
-
-        if (modifiersToRemove.length === 0) {
-            return;
-        }
-
-        setActiveModifierIds((previous) => {
-            return previous.filter((id) => {
-                return !modifiersToRemove.includes(id);
-            });
-        });
-    }
-
     // Los efectos diarios se calculan exactamente una vez.
     function closeDay() {
         if (dayClosedRef.current) {
@@ -269,14 +300,8 @@ export function useGameController() {
             return;
         }
 
-        if (isClosing) {
-            if (!closeDay()) {
-                return;
-            }
-        } else if (specialAudience === null) {
-            // Solo las audiencias normales pueden
-            // finalizar eventos y eliminar modificadores.
-            completeAudience();
+        if (isClosing && !closeDay()) {
+            return;
         }
 
         setPhase("exiting");
