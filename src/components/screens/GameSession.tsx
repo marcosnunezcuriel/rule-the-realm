@@ -7,20 +7,31 @@ import GameOver from "./GameOver";
 import ChapterEnding from "./ChapterEnding";
 
 import { toRomanNumber } from "../../data/chapters";
+import type { AchievementId } from "../../data/achievements";
 
 import { useGameController } from "../../hooks/useGameController";
+
+import AchievementToast from "../shared/AchievementToast";
 
 
 type GameSessionProps = {
     onOpenMenu: () => void;
     onGameOverMenu: () => void;
+
+    onAchievementUnlocked: (id: AchievementId) => void;
+    achievementNotification: AchievementId | null;
+    onDismissAchievement: () => void;
 };
+
 
 // Presentación de la partida activa.
 // El controlador solo existe mientras estamos jugando.
 function GameSession({
     onOpenMenu,
     onGameOverMenu,
+    onAchievementUnlocked,
+    achievementNotification,
+    onDismissAchievement,
 }: GameSessionProps) {
     const {
         day,
@@ -50,7 +61,7 @@ function GameSession({
         handleStartNextChapter,
         chapterEndingParagraphIndex,
         setChapterEndingParagraphIndex,
-    } = useGameController();
+    } = useGameController(onAchievementUnlocked);
 
     const fadeClassName = [
         "screen-fade",
@@ -83,6 +94,14 @@ function GameSession({
             )}
 
             <div className="game-content">
+                {achievementNotification !== null && (
+                    <AchievementToast
+                        key={achievementNotification}
+                        achievementId={achievementNotification}
+                        onDismiss={onDismissAchievement}
+                    />
+                )}
+
                 {screen === "scene" && (
                     <KingdomStats stats={visibleStats} />
                 )}

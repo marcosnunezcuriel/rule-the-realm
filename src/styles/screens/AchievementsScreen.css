@@ -1,0 +1,125 @@
+.achievements-screen {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--space-8);
+
+    background-color: var(--colour-background);
+    color: var(--colour-text);
+}
+
+.achievements-screen__container {
+    width: min(100%, 75rem);
+    margin: 0 auto;
+}
+
+.achievements-screen__back {
+    padding: var(--space-2-5) var(--space-4);
+    color: var(--colour-gold);
+    background-color: var(--colour-button);
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.achievements-screen__title {
+    margin: var(--space-7) 0 var(--space-2);
+    color: var(--colour-gold);
+    font-family: var(--font-display);
+    font-size: var(--font-size-42);
+    text-align: center;
+}
+
+.achievements-screen__subtitle,
+.achievements-screen__progress {
+    color: var(--colour-text-muted);
+    text-align: center;
+}
+
+.achievements-screen__progress {
+    margin: var(--space-5) 0 var(--space-8);
+    color: var(--colour-gold);
+    font-weight: var(--font-weight-bold);
+}
+
+.achievements-screen__grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, 19rem), 1fr)
+    );
+    gap: var(--space-4);
+}
+
+.achievements-screen__card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    min-height: 10rem;
+    padding: var(--space-5);
+
+    background-color: var(--colour-card);
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-md);
+}
+
+
+/* Logros conseguidos: borde y resplandor dorados */
+.achievements-screen__card--unlocked {
+    background-color: color-mix(
+        in srgb,
+        var(--colour-card) 92%,
+        var(--colour-gold) 8%
+    );
+
+    border-color: var(--colour-gold);
+
+    box-shadow:
+        0 0 var(--space-6)
+        color-mix(
+            in srgb,
+            var(--colour-gold) 30%,
+            transparent
+        );
+}
+
+.achievements-screen__card--locked {
+    opacity: 0.55;
+    border-color: var(--colour-text-muted);
+}
+
+.achievements-screen__icon {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    color: var(--colour-gold);
+}
+
+.achievements-screen__name {
+    margin: 0 0 var(--space-2);
+    color: var(--colour-gold);
+    font-family: var(--font-display);
+    font-size: var(--font-size-20);
+}
+
+.achievements-screen__description {
+    margin: 0 0 var(--space-3);
+    font-size: var(--font-size-14);
+    line-height: var(--line-height-body);
+}
+
+.achievements-screen__status {
+    color: var(--colour-gold);
+    font-size: var(--font-size-13);
+    font-weight: var(--font-weight-bold);
+}
+
+.achievements-screen__back:hover {
+    background-color: var(--colour-button-hover);
+}
+
+.achievements-screen__back:focus-visible {
+    outline: var(--border-medium) solid var(--colour-gold);
+    outline-offset: var(--space-0-75);
+}
+

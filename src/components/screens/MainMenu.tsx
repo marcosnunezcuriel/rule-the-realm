@@ -9,6 +9,7 @@ type MainMenuProps = {
     onContinue: () => void;
     onConfirmNewGame: () => void;
     onCancelNewGame: () => void;
+    onAchievements: () => void;
 };
 
 function MainMenu({
@@ -18,6 +19,7 @@ function MainMenu({
     onContinue,
     onConfirmNewGame,
     onCancelNewGame,
+    onAchievements,
 }: MainMenuProps) {
     return (
         <main className="main-menu">
@@ -55,10 +57,11 @@ function MainMenu({
                     </button>
                 </div>
             </div>
-       
+
             <button
                 type="button"
                 className="main-menu__achievements"
+                onClick={onAchievements}
             >
                 <svg
                     viewBox="0 0 24 24"

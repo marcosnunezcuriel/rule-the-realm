@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import MainMenu from "./components/screens/MainMenu";
+import AchievementsScreen from "./components/screens/AchievementsScreen";
 import WelcomeIntroduction from "./components/screens/WelcomeIntroduction";
 import GameSession from "./components/screens/GameSession";
 
@@ -9,14 +10,20 @@ import {
     hasSavedGame,
 } from "./storage/gameStorage";
 
-import "./styles/layout/Navigation.css";
+import { unlockAchievement } from "./storage/achievementsStorage";
 
+import type { AchievementId } from "./data/achievements";
 import type { FadeStage } from "./types/game";
 
-type AppView = "menu" | "intro" | "game";
+import "./styles/layout/Navigation.css";
+
+type AppView =
+    | "menu"
+    | "achievements"
+    | "intro"
+    | "game";
 
 function App() {
-    // La web siempre comienza en el menú principal.
     const [view, setView] = useState<AppView>("menu");
 
     const [savedAvailable, setSavedAvailable] = useState(
@@ -26,7 +33,6 @@ function App() {
     const [confirmNewGame, setConfirmNewGame] =
         useState(false);
 
-    // Control del fundido entre las pantallas principales.
     const [navigationStage, setNavigationStage] =
         useState<FadeStage>("idle");
 
@@ -35,6 +41,25 @@ function App() {
 
     const [discardSaveOnMenu, setDiscardSaveOnMenu] =
         useState(false);
+
+    // Los logros permanecen aunque se cambie de partida.
+    const [achievementQueue, setAchievementQueue] =
+        useState<AchievementId[]>([]);
+
+    function handleAchievementUnlocked(id: AchievementId) {
+        if (!unlockAchievement(id)) {
+            return;
+        }
+
+        setAchievementQueue((previous) => [
+            ...previous,
+            id,
+        ]);
+    }
+
+    const handleDismissAchievement = useCallback(() => {
+        setAchievementQueue((previous) => previous.slice(1));
+    }, []);
 
     function navigateTo(
         target: AppView,
@@ -49,7 +74,6 @@ function App() {
         setNavigationStage("darkening");
     }
 
-    // Nueva partida: pedir confirmación si hay un guardado.
     function startNewGame() {
         if (savedAvailable) {
             setConfirmNewGame(true);
@@ -59,7 +83,6 @@ function App() {
         confirmStartNewGame();
     }
 
-    // Eliminar el progreso anterior y abrir la introducción.
     function confirmStartNewGame() {
         clearSavedGame();
 
@@ -69,7 +92,6 @@ function App() {
         navigateTo("intro");
     }
 
-    // Recuperar la partida guardada.
     function continueGame() {
         if (!hasSavedGame()) {
             setSavedAvailable(false);
@@ -79,25 +101,20 @@ function App() {
         navigateTo("game");
     }
 
-    // Cambiar de pantalla cuando el fundido está negro.
     function handleNavigationFadeEnd() {
         if (
             navigationStage === "darkening" &&
             navigationTarget !== null
         ) {
-            // Actualizar el guardado antes de mostrar el menú.
             if (navigationTarget === "menu") {
                 if (discardSaveOnMenu) {
-                    // El reinado terminó: eliminar la partida.
                     clearSavedGame();
                     setSavedAvailable(false);
                 } else {
-                    // Regreso normal: conservar la partida.
                     setSavedAvailable(hasSavedGame());
                 }
             }
 
-            // Cambiar de pantalla mientras está negra.
             setView(navigationTarget);
             setNavigationStage("lightening");
 
@@ -131,10 +148,17 @@ function App() {
                     showNewGameConfirmation={confirmNewGame}
                     onNewGame={startNewGame}
                     onContinue={continueGame}
+                    onAchievements={() => {
+                        navigateTo("achievements");
+                    }}
                     onConfirmNewGame={confirmStartNewGame}
                     onCancelNewGame={() => {
                         setConfirmNewGame(false);
                     }}
+                />
+            ) : view === "achievements" ? (
+                <AchievementsScreen
+                    onBack={() => navigateTo("menu")}
                 />
             ) : view === "intro" ? (
                 <WelcomeIntroduction
@@ -144,6 +168,11 @@ function App() {
                 <GameSession
                     onOpenMenu={() => navigateTo("menu")}
                     onGameOverMenu={() => navigateTo("menu", true)}
+                    onAchievementUnlocked={handleAchievementUnlocked}
+                    achievementNotification={
+                        achievementQueue[0] ?? null
+                    }
+                    onDismissAchievement={handleDismissAchievement}
                 />
             )}
 

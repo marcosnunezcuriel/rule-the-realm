@@ -3,6 +3,12 @@ import {
     getNextChapter,
     toRomanNumber,
 } from "../data/chapters";
+import {
+    getDecisionAchievements,
+    getEventCompletionAchievements,
+    getChapterCompletionAchievements,
+} from "../data/achievements";
+import type { AchievementId } from "../data/achievements";
 
 import { applyDailyModifiers } from "../game/applyDailyModifiers";
 import { getEventCompletionConsequences } from "../game/getEventCompletionConsequences";
@@ -21,7 +27,9 @@ import { useGameTransitions } from "./useGameTransitions";
 
 import type { Decision } from "../types/dialogue";
 
-export function useGameController() {
+export function useGameController(
+    onAchievementUnlocked: (id: AchievementId) => void
+) {
     // Estado y carga inicial, separados de las reglas del juego.
     const {
         day,
@@ -178,6 +186,14 @@ export function useGameController() {
                     });
                 });
             }
+
+            const earnedAchievements = getEventCompletionAchievements(
+                currentAudience.id
+            );
+
+            for (const achievementId of earnedAchievements) {
+                onAchievementUnlocked(achievementId);
+            }
         }
 
         setSelectedDecision(null);
@@ -274,6 +290,15 @@ export function useGameController() {
                 ...new Set([...previous, ...consequences.addModifiers]),
             ]);
         }
+
+        const earnedAchievements = getDecisionAchievements(
+            currentAudience.id,
+            answer
+        );
+
+        for (const achievementId of earnedAchievements) {
+            onAchievementUnlocked(achievementId);
+        }
     }
 
     // Los efectos diarios se calculan exactamente una vez.
@@ -343,6 +368,13 @@ export function useGameController() {
 
     function handleNextDay() {
         if (hasCompletedChapter(day, stats)) {
+            const earnedAchievements =
+                getChapterCompletionAchievements(chapter.number);
+
+            for (const achievementId of earnedAchievements) {
+                onAchievementUnlocked(achievementId);
+            }
+
             setChapterEndingParagraphIndex(0);
 
             // La jornada ha terminado y el reino sigue en pie.
