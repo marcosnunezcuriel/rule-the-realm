@@ -1,5 +1,7 @@
 import "../../styles/screens/MainMenu.css";
 
+import { assetUrl } from "../../utils/assetUrl";
+
 type MainMenuProps = {
     hasSave: boolean;
     showNewGameConfirmation: boolean;
@@ -22,7 +24,7 @@ function MainMenu({
             <div className="main-menu__panel">
                 <div className="main-menu__emblem">
                     <img
-                        src="/assets/ui/astaria-emblem.png"
+                        src={assetUrl("/assets/ui/astaria-emblem.png")}
                         alt=""
                         draggable={false}
                     />

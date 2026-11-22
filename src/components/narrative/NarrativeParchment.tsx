@@ -4,6 +4,8 @@ import TypewriterText from "../shared/TypewriterText";
 
 import "../../styles/narrative/NarrativeParchment.css";
 
+import { assetUrl } from "../../utils/assetUrl";
+
 type NarrativeParchmentProps = {
     title: string;
     paragraphs: readonly string[];
@@ -116,7 +118,7 @@ function NarrativeParchment({
             >
                 <img
                     className="narrative-parchment__emblem"
-                    src="/assets/ui/astaria-emblem.png"
+                    src={assetUrl("/assets/ui/astaria-emblem.png")}
                     alt=""
                     draggable={false}
                 />

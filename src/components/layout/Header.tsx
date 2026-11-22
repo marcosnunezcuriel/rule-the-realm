@@ -1,5 +1,7 @@
 import "../../styles/layout/Header.css";
 
+import { assetUrl } from "../../utils/assetUrl";
+
 type HeaderProps = {
     chapter: string;
     day: number;
@@ -16,7 +18,7 @@ function Header({
             <div className="site-header__brand">
                 <div className="site-header__logo">
                     <img
-                        src="/assets/ui/astaria-emblem.png"
+                        src={assetUrl("/assets/ui/astaria-emblem.png")}
                         alt="Emblema de Astaria"
                         draggable={false}
                     />

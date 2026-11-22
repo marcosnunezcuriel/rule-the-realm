@@ -8,6 +8,8 @@ import type {
 
 import "../../styles/scene/ThroneScene.css";
 
+import { assetUrl } from "../../utils/assetUrl";
+
 type ThroneSceneProps = {
     timeOfDay: SceneTime;
     visitorPhase: AudiencePhase;
@@ -61,7 +63,7 @@ function ThroneScene({
                                 ? "throne-stage__background--active"
                                 : ""
                         }`}
-                        src={background.src}
+                        src={assetUrl(background.src)}
                         alt=""
                         aria-hidden="true"
                         draggable={false}
@@ -70,7 +72,7 @@ function ThroneScene({
 
                 <img
                     className="character character--king"
-                    src="/assets/characters/royalty/king.png"
+                    src={assetUrl("/assets/characters/royalty/king.png")}
                     alt="Rey de Astaria"
                     draggable={false}
                 />
@@ -87,7 +89,7 @@ function ThroneScene({
                     >
                         <img
                             className="visitor__image"
-                            src={visitorImage}
+                            src={assetUrl(visitorImage)}
                             alt={visitorName}
                             draggable={false}
                         />
