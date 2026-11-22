@@ -13,22 +13,28 @@ import type { AchievementId } from "../data/achievements";
 import { applyDailyModifiers } from "../game/applyDailyModifiers";
 import { getEventCompletionConsequences } from "../game/getEventCompletionConsequences";
 import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
-
 import {
     getAudienceExit,
     getAudiencePresentation,
     getDecisionConsequences,
 } from "../game/audienceFlow";
 import { getNextDayPlan, hasCompletedChapter } from "../game/dayFlow";
+import { getModifierTransition } from "../game/getModifierTransition";
 
 import { useGameAutosave } from "./useGameAutosave";
 import { useGameSessionState } from "./useGameSessionState";
 import { useGameTransitions } from "./useGameTransitions";
 
 import type { Decision } from "../types/dialogue";
+import type { ModifierId } from "../types/modifiers";
+import type { ModifierChange } from "../types/notifications";
 
 export function useGameController(
-    onAchievementUnlocked: (id: AchievementId) => void
+    onAchievementUnlocked: (id: AchievementId) => void,
+    onModifierChanged: (
+        id: ModifierId,
+        change: ModifierChange
+    ) => void
 ) {
     // Estado y carga inicial, separados de las reglas del juego.
     const {
@@ -130,6 +136,35 @@ export function useGameController(
         prepareNextDay,
     });
 
+    // Cambiar modificadores y anunciar las diferencias reales.
+    function applyModifierChanges(
+        toAdd: ModifierId[] = [],
+        toRemove: ModifierId[] = []
+    ) {
+        const transition = getModifierTransition(
+            activeModifierIds,
+            toAdd,
+            toRemove
+        );
+
+        if (
+            transition.added.length === 0 &&
+            transition.removed.length === 0
+        ) {
+            return;
+        }
+
+        setActiveModifierIds(transition.next);
+
+        for (const id of transition.added) {
+            onModifierChanged(id, "added");
+        }
+
+        for (const id of transition.removed) {
+            onModifierChanged(id, "removed");
+        }
+    }
+
     // Termina la entrada o salida del personaje actual.
     // El cierre de una audiencia se confirma cuando termina
     // la animación de salida. Así los efectos informativos
@@ -173,18 +208,14 @@ export function useGameController(
                 ]);
             }
 
-            if (completion.addModifiers.length > 0) {
-                setActiveModifierIds((previous) => [
-                    ...new Set([...previous, ...completion.addModifiers]),
-                ]);
-            }
-
-            if (completion.removeModifiers.length > 0) {
-                setActiveModifierIds((previous) => {
-                    return previous.filter((id) => {
-                        return !completion.removeModifiers.includes(id);
-                    });
-                });
+            if (
+                completion.addModifiers.length > 0 ||
+                completion.removeModifiers.length > 0
+            ) {
+                applyModifierChanges(
+                    completion.addModifiers,
+                    completion.removeModifiers
+                );
             }
 
             const earnedAchievements = getEventCompletionAchievements(
@@ -286,9 +317,7 @@ export function useGameController(
         }
 
         if (consequences.addModifiers.length > 0) {
-            setActiveModifierIds((previous) => [
-                ...new Set([...previous, ...consequences.addModifiers]),
-            ]);
+            applyModifierChanges(consequences.addModifiers);
         }
 
         const earnedAchievements = getDecisionAchievements(

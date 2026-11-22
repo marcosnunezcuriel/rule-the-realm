@@ -1,19 +1,25 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import MainMenu from "./components/screens/MainMenu";
 import AchievementsScreen from "./components/screens/AchievementsScreen";
 import WelcomeIntroduction from "./components/screens/WelcomeIntroduction";
 import GameSession from "./components/screens/GameSession";
 
+import type { AchievementId } from "./data/achievements";
+
 import {
     clearSavedGame,
     hasSavedGame,
 } from "./storage/gameStorage";
-
 import { unlockAchievement } from "./storage/achievementsStorage";
 
-import type { AchievementId } from "./data/achievements";
 import type { FadeStage } from "./types/game";
+import type { ModifierId } from "./types/modifiers";
+import type {
+    GameNotification,
+    ModifierChange,
+} from "./types/notifications";
+
 
 import "./styles/layout/Navigation.css";
 
@@ -42,23 +48,60 @@ function App() {
     const [discardSaveOnMenu, setDiscardSaveOnMenu] =
         useState(false);
 
-    // Los logros permanecen aunque se cambie de partida.
-    const [achievementQueue, setAchievementQueue] =
-        useState<AchievementId[]>([]);
+    
+    // Una sola cola para logros y cambios de modificadores.
+    const [notificationQueue, setNotificationQueue] =
+        useState<GameNotification[]>([]);
 
+    // Cada aparición tiene un identificador diferente.
+    const nextNotificationId = useRef(0);
+
+    // Desbloquear y anunciar un logro nuevo.
     function handleAchievementUnlocked(id: AchievementId) {
         if (!unlockAchievement(id)) {
             return;
         }
 
-        setAchievementQueue((previous) => [
+        nextNotificationId.current += 1;
+
+        const sequence = nextNotificationId.current;
+
+        setNotificationQueue((previous) => [
             ...previous,
-            id,
+            {
+                sequence,
+                kind: "achievement",
+                id,
+            },
         ]);
     }
 
-    const handleDismissAchievement = useCallback(() => {
-        setAchievementQueue((previous) => previous.slice(1));
+    // Anunciar la activación o eliminación de un modificador.
+    function handleModifierChanged(
+        id: ModifierId,
+        change: ModifierChange
+    ) {
+        nextNotificationId.current += 1;
+
+        const sequence = nextNotificationId.current;
+
+        setNotificationQueue((previous) => [
+            ...previous,
+            {
+                sequence,
+                kind: change === "added"
+                    ? "modifier-added"
+                    : "modifier-removed",
+                id,
+            },
+        ]);
+    }
+
+    // Mostrar la siguiente notificación.
+    const handleDismissNotification = useCallback(() => {
+        setNotificationQueue(
+            (previous) => previous.slice(1)
+        );
     }, []);
 
     function navigateTo(
@@ -107,6 +150,7 @@ function App() {
             navigationTarget !== null
         ) {
             if (navigationTarget === "menu") {
+                setNotificationQueue([]);
                 if (discardSaveOnMenu) {
                     clearSavedGame();
                     setSavedAvailable(false);
@@ -169,10 +213,9 @@ function App() {
                     onOpenMenu={() => navigateTo("menu")}
                     onGameOverMenu={() => navigateTo("menu", true)}
                     onAchievementUnlocked={handleAchievementUnlocked}
-                    achievementNotification={
-                        achievementQueue[0] ?? null
-                    }
-                    onDismissAchievement={handleDismissAchievement}
+                    onModifierChanged={handleModifierChanged}
+                    notification={notificationQueue[0] ?? null}
+                    onDismissNotification={handleDismissNotification}
                 />
             )}
 

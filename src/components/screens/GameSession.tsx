@@ -10,8 +10,13 @@ import { toRomanNumber } from "../../data/chapters";
 import type { AchievementId } from "../../data/achievements";
 
 import { useGameController } from "../../hooks/useGameController";
+import NotificationToast from "../shared/NotificationToast";
 
-import AchievementToast from "../shared/AchievementToast";
+import type { ModifierId } from "../../types/modifiers";
+import type {
+    GameNotification,
+    ModifierChange,
+} from "../../types/notifications";
 
 
 type GameSessionProps = {
@@ -19,8 +24,13 @@ type GameSessionProps = {
     onGameOverMenu: () => void;
 
     onAchievementUnlocked: (id: AchievementId) => void;
-    achievementNotification: AchievementId | null;
-    onDismissAchievement: () => void;
+    onModifierChanged: (
+        id: ModifierId,
+        change: ModifierChange
+    ) => void;
+
+    notification: GameNotification | null;
+    onDismissNotification: () => void;
 };
 
 
@@ -30,9 +40,11 @@ function GameSession({
     onOpenMenu,
     onGameOverMenu,
     onAchievementUnlocked,
-    achievementNotification,
-    onDismissAchievement,
+    onModifierChanged,
+    notification,
+    onDismissNotification,
 }: GameSessionProps) {
+
     const {
         day,
         screen,
@@ -61,7 +73,10 @@ function GameSession({
         handleStartNextChapter,
         chapterEndingParagraphIndex,
         setChapterEndingParagraphIndex,
-    } = useGameController(onAchievementUnlocked);
+    } = useGameController(
+        onAchievementUnlocked,
+        onModifierChanged
+    );
 
     const fadeClassName = [
         "screen-fade",
@@ -94,11 +109,11 @@ function GameSession({
             )}
 
             <div className="game-content">
-                {achievementNotification !== null && (
-                    <AchievementToast
-                        key={achievementNotification}
-                        achievementId={achievementNotification}
-                        onDismiss={onDismissAchievement}
+                {notification !== null && (
+                    <NotificationToast
+                        key={notification.sequence}
+                        notification={notification}
+                        onDismiss={onDismissNotification}
                     />
                 )}
 

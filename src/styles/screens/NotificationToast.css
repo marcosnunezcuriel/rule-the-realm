@@ -1,4 +1,5 @@
-.achievement-toast {
+/* Estilo común para todas las notificaciones */
+.notification-toast {
     position: absolute;
     z-index: 5;
     top: var(--space-3);
@@ -14,44 +15,63 @@
     padding: var(--space-3);
 
     background-color: var(--colour-panel);
-    border: var(--border-medium) solid var(--colour-border-gold);
+    border: var(--border-medium) solid var(--notification-color);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-card);
 
     pointer-events: none;
 
-    animation: achievement-toast-motion 5s ease-in-out both;
+    animation: notification-toast-motion 5s ease-in-out both;
 }
 
-.achievement-toast__icon {
+/* Dorado: logro conseguido */
+.notification-toast--achievement {
+    --notification-color: var(--colour-border-gold);
+    --notification-text-color: var(--colour-gold);
+}
+
+/* Verde: modificador añadido */
+.notification-toast--modifier-added {
+    --notification-color: var(--colour-positive);
+    --notification-text-color: var(--colour-positive);
+}
+
+/* Rojo: modificador eliminado */
+.notification-toast--modifier-removed {
+    --notification-color: var(--colour-negative);
+    --notification-text-color: var(--colour-negative);
+}
+
+.notification-toast__icon {
     flex-shrink: 0;
     width: 2rem;
     height: 2rem;
-    color: var(--colour-gold);
+    color: var(--notification-text-color);
 }
 
-.achievement-toast__content {
+.notification-toast__content {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
     min-width: 0;
 }
 
-.achievement-toast__label {
-    color: var(--colour-gold);
+.notification-toast__label {
+    color: var(--notification-text-color);
     font-size: var(--font-size-11);
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
 }
 
-.achievement-toast__name {
+.notification-toast__name {
     color: var(--colour-text);
     font-family: var(--font-display);
     font-size: var(--font-size-17);
     overflow-wrap: anywhere;
 }
 
-@keyframes achievement-toast-motion {
+/* Entrada, permanencia y salida por la izquierda */
+@keyframes notification-toast-motion {
     0% {
         transform: translateX(calc(-100% - var(--space-9)));
         opacity: 0;
@@ -72,3 +92,4 @@
         opacity: 0;
     }
 }
+
