@@ -31,7 +31,7 @@ export const modifierDefinitions: Record<
         dailyChanges: {
             gold: 12,
             population: -3,
-            prestige: .3,
+            prestige: -3,
         },
     },
     "silk-road": {

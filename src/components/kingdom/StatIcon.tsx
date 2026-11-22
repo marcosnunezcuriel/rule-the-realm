@@ -34,11 +34,27 @@ function StatIcon({ stat }: StatIconProps) {
             )}
 
             {stat === "faith" && (
-                <>
-                    <path d="M12 3v12M8 7h8" />
-                    <path d="M5 21v-7l7-4 7 4v7" />
-                    <path d="M3 21h18" />
-                </>
+                <path
+                    d="
+                        M12 2
+                        L14.2 7.7
+                        L19.1 4.9
+                        L16.3 9.8
+                        L22 12
+                        L16.3 14.2
+                        L19.1 19.1
+                        L14.2 16.3
+                        L12 22
+                        L9.8 16.3
+                        L4.9 19.1
+                        L7.7 14.2
+                        L2 12
+                        L7.7 9.8
+                        L4.9 4.9
+                        L9.8 7.7
+                        Z
+                    "
+                />
             )}
 
             {stat === "population" && (

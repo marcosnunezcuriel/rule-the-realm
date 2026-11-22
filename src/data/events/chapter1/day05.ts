@@ -53,12 +53,46 @@ export const day05Events: GameEvent[] = [
         },
         baseEffects: { gold: 100, faith: 50 },
     },
+    // Evento 26.1 - Herraduras para los nuevos corceles
+    {
+        id: "26.1",
+        day: 5,
+        order: 3,
+        requiresUnlock: true,
+        image: "/assets/characters/commoners/blacksmith.png",
+        dialogue: {
+            speaker: "Herrero",
+            introduction: [
+                "¡Majestad! Me han llegado noticias de que el Caballerizo Mayor ha adquirido una magnífica remesa de caballos para los establos de la corona.",
+                "He tenido ocasión de echarles un vistazo y debo reconocer que son unas bestias extraordinarias, pero hay un pequeño problema.",
+                "Muchos no tienen herraduras adecuadas y algunos incluso han perdido alguna por el camino viniendo a la capital.",
+                "Puedo fabricarles unas herraduras reforzadas, resistentes y ligeras, para que vuestros mensajeros y soldados cabalguen sin temor a lesionarlos.",
+                "Solo necesitaré unas pocas monedas para comprar hierro y dedicar varios días a herrar todos los caballos.",
+                "¿Me autorizáis a realizar el trabajo?",
+            ],
+            responses: {
+                yes: [
+                    "¡Excelente decisión, Majestad!",
+                    "¡No habrá en todo Astaria un caballo mejor herrado que los de vuestra corona!",
+                ],
+                no: [
+                    "Como ordenéis, Majestad.",
+                    "Mantendremos las herraduras que traen por ahora.",
+                    "Algunos caballos han comenzado a cojear durante los entrenamientos y tendrán que permanecer en los establos hasta recuperarse.",
+                ],
+            },
+        },
+        effects: {
+            yes: { gold: -10, prestige: 5, army: 10 },
+            no: { army: -5 },
+        },
+    },
 
     // Evento 29 — El puente derrumbado
     {
         id: "29",
         day: 5,
-        order: 3,
+        order: 4,
         image: "/assets/characters/commoners/builder.png",
         dialogue: {
             speaker: "Constructor",
@@ -91,7 +125,7 @@ export const day05Events: GameEvent[] = [
     {
         id: "30",
         day: 5,
-        order: 4,
+        order: 5,
         image: "/assets/characters/commoners/inventor.png",
         dialogue: {
             speaker: "Inventor",
@@ -126,7 +160,7 @@ export const day05Events: GameEvent[] = [
     {
         id: "31",
         day: 5,
-        order: 5,
+        order: 6,
         image: "/assets/characters/army/grand-admiral-royal-fleet.png",
         dialogue: {
             speaker: "Gran Almirante de la Flota Real",
@@ -140,7 +174,7 @@ export const day05Events: GameEvent[] = [
                 yes: [
                     "¡A vuestras órdenes, Majestad!",
                     "No dejaremos un barril sin abrir ni un contrabandista sin multa.",
-                    "Aunque los comerciantes extranjeros y estibadores se quejarán de los abusos y retrasos",
+                    "Aunque los comerciantes extranjeros y estibadores se quejarán de los abusos y retrasos.",
                 ],
                 no: [
                     "Como mandéis, Majestad.",
@@ -158,7 +192,7 @@ export const day05Events: GameEvent[] = [
     {
         id: "32",
         day: 5,
-        order: 6,
+        order: 7,
         image: "/assets/characters/foreigners/geisha.png",
         dialogue: {
             speaker: "Geisha",
@@ -193,14 +227,15 @@ export const day05Events: GameEvent[] = [
     {
         id: "33",
         day: 5,
-        order: 7,
+        order: 8,
         image: "/assets/characters/fantasy/forest-guardian.png",
         dialogue: {
             speaker: "Guardián del bosque",
             introduction: [
                 "Saludos, soberano de Astaria. Soy el Guardián del Bosque Encantado y he venido a solicitar vuestra protección.",
                 "En lo más profundo de mis dominios se encuentra una arboleda milenaria. Sus árboles han permanecido en pie durante siglos y, bajo sus ramas, generaciones de vuestros súbditos han acudido a rezar a la Estrella de Ocho Puntas.",
-                "Pero un grupo de comerciantes ha descubierto el extraordinario valor de su madera y solicita permiso a la corona para talar los árboles y venderlos en los mercados del continente. Os ofrecen una generosa suma de oro a cambio de los derechos de explotación.",
+                "Pero un grupo de comerciantes ha descubierto el extraordinario valor de su madera y solicita permiso a la corona para talar los árboles y venderlos en los mercados del continente.",
+                "Os ofrecen una generosa suma de oro a cambio de los derechos de explotación.",
                 "Os ruego que no permitáis semejante sacrilegio. Si destináis algunos fondos a proteger la arboleda, podremos preservar este lugar sagrado para las generaciones venideras.",
                 "¿Qué decidís, Majestad? ¿Protegeréis los árboles sagrados?",
             ],
@@ -227,7 +262,7 @@ export const day05Events: GameEvent[] = [
     {
         id: "34",
         day: 5,
-        order: 8,
+        order: 9,
         image: "/assets/characters/religious/street-prophet.png",
         dialogue: {
             speaker: "Profeta callejero",

@@ -54,7 +54,8 @@
 }
 
 .character--visitor {
-    right: 4%;
+    right: 6%;
+    width: 33%;
     z-index: 2;
 }
 
@@ -128,10 +129,4 @@
 
 .audience-demo-end button:hover {
     background-color: var(--colour-button-alt-hover);
-}
-
-@media (max-width: 48rem) {
-    .throne-scene {
-        padding: var(--space-2);
-    }
 }

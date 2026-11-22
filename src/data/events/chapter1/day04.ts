@@ -116,8 +116,9 @@ export const day04Events: GameEvent[] = [
             speaker: "Músico de la corte",
             introduction: [
                 "¡Majestad! Acabo de tener una idea que podría pasar a la historia de nuestro reino.",
-                "Astaria cuenta con canciones populares, marchas militares y cánticos religiosos, pero ¿sabíais que nunca hemos tenido un himno oficial que represente a toda nuestra nación?",
-                "Me gustaría componer un himno en honor a Astaria y a la Corona de las Estrellas.",
+                "Astaria cuenta con canciones populares, marchas militares y cánticos religiosos, pero...",
+                "¿Sabíais que nunca hemos tenido un himno oficial que represente a toda nuestra nación?",
+                "Me gustaría componer un himno en honor a Astaria y la Corona de las Estrellas.",
                 "Solo necesitaré unas monedas para contratar a los mejores músicos y dedicarme por completo a la composición. ¿Me concedéis vuestro permiso para crear el himno de Astaria?",
             ],
             responses: {
@@ -150,7 +151,8 @@ export const day04Events: GameEvent[] = [
             speaker: "Ladrón",
             introduction: [
                 "¡Piedad, Majestad!",
-                "Los guardias me atraparon robando en los puestos y el juez ha dictado sentencia Mañana al alba me cortarán la mano en la plaza.",
+                "Los guardias me atraparon robando en los puestos y el juez ha dictado sentencia.",
+                "Mañana al alba me cortarán la mano en la plaza.",
                 "Admito mis crímenes y os juro por mi vida que estoy arrepentido.",
                 "Si ordenáis que detengan el castigo, os entregaré todo el botín que tengo escondido para compensar mis delitos.",
                 "¿Me perdonáis?",
@@ -167,8 +169,8 @@ export const day04Events: GameEvent[] = [
             },
         },
         effects: {
-            yes: { gold: 50 },
-            no: { prestige: 1 },
+            yes: { gold: 50, prestige: -5},
+            no: { prestige: 3 },
         },
     },
 
@@ -194,8 +196,11 @@ export const day04Events: GameEvent[] = [
             },
         },
         effects: {
-            yes: { gold: -10, prestige: 5, army: 5 },
+            yes: { gold: -10, prestige: 5, army: 10 },
             no: { army: -5, prestige: -5 },
+        }, 
+        unlocks: {
+            yes: ["26.1"],
         },
     },
 

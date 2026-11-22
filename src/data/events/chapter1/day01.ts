@@ -76,7 +76,7 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Comandante de la Guardia Real",
             introduction: [
-                "A vuestras órdenes, Majestad!",
+                "¡A vuestras órdenes, Majestad!",
                 "La coronación ha atraído a miles de visitantes de todos los rincones de Astaria. Las calles están abarrotadas y mis hombres apenas pueden mantener el orden.",
                 "Temo que los ladrones y alborotadores aprovechen las celebraciones para causar problemas.",
                 "Solicito vuestro permiso para contratar refuerzos y aumentar la vigilancia durante estos primeros días de reinado.",

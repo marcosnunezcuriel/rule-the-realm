@@ -10,7 +10,7 @@
 
 /* Bocadillo del visitante */
 .speech-bubble--visitor {
-    bottom: 60%;
+    bottom: 52%;
     left: 41%;
     width: 43%;
     background-color: var(--colour-panel);

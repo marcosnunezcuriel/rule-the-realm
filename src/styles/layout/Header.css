@@ -106,36 +106,3 @@
     outline: var(--border-medium) solid var(--colour-gold);
     outline-offset: var(--space-0-75);
 }
-
-@media (max-width: 48rem) {
-    .site-header {
-        gap: var(--space-3);
-        padding: var(--space-2) var(--space-4);
-    }
-
-    .site-header__identity h1 {
-        font-size: var(--font-size-20);
-        letter-spacing: var(--tracking-1);
-    }
-
-    .site-header__identity p {
-        font-size: var(--font-size-11);
-        letter-spacing: var(--tracking-1);
-    }
-
-    .site-header__status {
-        padding: 0 var(--space-2);
-        font-size: var(--font-size-11);
-        letter-spacing: var(--tracking-1);
-    }
-}
-
-@media (max-width: 30rem) {
-    .site-header__logo {
-        display: none;
-    }
-
-    .site-header__right {
-        gap: var(--space-2);
-    }
-}

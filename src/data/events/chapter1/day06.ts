@@ -223,7 +223,6 @@ export const day06Events: GameEvent[] = [
                 "Un espejo de plata en la torre norte ha sido maldecido con magia negra.",
                 "Envenenará el juicio de quien se refleje en él.",
                 "Puedo romper el hechizo ahora mismo con mis ungüentos y conjuros.",
-                "Pero el ritual requiere un pago a cambio de mis artes oscuras.",
                 "¿Me permitís entrar en el castillo y romper la maldición?",
             ],
             responses: {
@@ -237,8 +236,8 @@ export const day06Events: GameEvent[] = [
             },
         },
         effects: {
-            yes: { gold: -10, faith: 25, prestige: 25 },
-            no: { faith: -10, prestige: -10 },
+            yes: { faith: -10, prestige: 10 },
+            no: { faith: 10, prestige: -10 },
         },
     },
 

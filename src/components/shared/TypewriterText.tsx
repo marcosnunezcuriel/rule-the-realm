@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import FormattedText from "./FormattedText";
+
 type TypewriterTextProps = {
     text: string;
     skip: boolean;
@@ -48,7 +50,10 @@ function TypewriterText({
 
     return (
         <p className="speech-bubble__text">
-            {characters.slice(0, displayedLength).join("")}
+            <FormattedText
+                text={text}
+                visibleLength={displayedLength}
+            />
         </p>
     );
 }

@@ -125,23 +125,27 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Herrero",
             introduction: [
-                "¡Saludos, Majestad! Vuestros soldados llevan semanas patrullando con espadas melladas y escudos viejos que apenas resistirían un golpe fuerte.",
-                "Si invertís una buena suma en mis forjas, me encargaré de equipar a vuestras tropas con las mejores corazas de todo el reino. ¿Trato hecho?",
+                "¡Saludos, Majestad! Disculpad que me presente ante vos con las manos ennegrecidas, pero apenas he tenido tiempo de apartarme del yunque.",
+                "Durante estos últimos días, los campesinos de las aldeas cercanas no han dejado de acudir a mi fragua. Sus arados están rotos, las azadas desgastadas y muchas hoces ya no cortan ni una brizna de trigo.",
+                "Me gustaría fabricar nuevas herramientas para repartirlas entre los agricultores, pero el hierro escasea y la mayoría de esas pobres gentes apenas tiene monedas para pagarme.",
+                "Si la corona me concede algunos fondos, podré contratar ayudantes y poner mis forjas a trabajar para los campesinos del reino. ¿Me concederéis el oro necesario, Majestad?",
             ],
             responses: {
                 yes: [
                     "Así se habla, Majestad!",
-                    "Mis herreros trabajarán día y noche hasta que el ejército luzca como se merece.",
+                    "Encenderemos las forjas día y noche hasta que no quede un solo campesino sin sus herramientas.",
+                    "Con los campos nuevamente en marcha, algunas familias que habían abandonado sus aldeas regresarán para trabajar la tierra."
                 ],
                 no: [
                     "Es una lástima, Majestad…",
-                    "Espero que no tengáis que lamentar esta tacañería cuando estalle una guerra en los caminos.",
+                    "Haré cuanto pueda con el poco hierro que me queda, pero no podré ayudar a todos.",
+                    "Algunos campesinos tendrán que abandonar sus tierras y buscar trabajo en otras regiones.",
                 ],
             },
         },
         effects: {
-            yes: { gold: -15, army: 15 },
-            no: { army: -5, prestige: -5 },
+            yes: { gold: -10, population: 10, prestige: 5 },
+            no: { population: -5, prestige: -5 },
         },
     },
 
@@ -154,7 +158,9 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Maestro de armas",
             introduction: [
-                "¡A vuestras órdenes, Majestad! Las murallas están seguras, pero las filas del ejército necesitan sangre nueva para proteger el reino en estos tiempos de cambio. Pido vuestra autorización y oro para abrir una academia de entrenamiento donde convertir a los campesinos novatos en soldados leales y disciplinados. ¿Deseáis financiarla?",
+                "¡A vuestras órdenes, Majestad!",
+                "Las murallas están seguras, pero las filas del ejército necesitan sangre nueva para proteger el reino en estos tiempos de cambio.",
+                "Pido vuestra autorización y oro para abrir una academia de entrenamiento donde convertir a los campesinos novatos en soldados leales y disciplinados. ¿Deseáis financiarla?",
             ],
             responses: {
                 yes: [

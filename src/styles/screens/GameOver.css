@@ -111,22 +111,3 @@
     outline: var(--border-medium) solid var(--colour-gold);
     outline-offset: var(--space-0-75);
 }
-
-@media (max-width: 48rem) {
-    .game-over {
-        padding: var(--space-3);
-    }
-
-    .game-over__panel {
-        gap: var(--space-3);
-        padding: var(--space-6) var(--space-5);
-    }
-
-    .game-over__heading {
-        font-size: var(--font-size-24);
-    }
-
-    .game-over__description {
-        font-size: var(--font-size-16);
-    }
-}

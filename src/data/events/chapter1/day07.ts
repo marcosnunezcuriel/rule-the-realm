@@ -365,7 +365,7 @@ export const day07Events: GameEvent[] = [
         id: "46",
         day: 7,
         order: 15,
-        image: "/assets/characters/courtiers/herald.png",
+        image: "/assets/characters/courtiers/royal-herald.png",
         dialogue: {
             speaker: "Heraldo",
             introduction: [

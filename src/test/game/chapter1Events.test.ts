@@ -6,9 +6,9 @@ import { getDayEvents } from "../../game/getDayEvents";
 const byId = new Map(chapter1Events.map((event) => [event.id, event]));
 
 describe("Capítulo I definitivo", () => {
-    it("contiene los 68 acontecimientos, sin identificadores duplicados", () => {
-        expect(chapter1Events).toHaveLength(68);
-        expect(byId.size).toBe(68);
+    it("contiene los 69 acontecimientos, sin identificadores duplicados", () => {
+        expect(chapter1Events).toHaveLength(69);
+        expect(byId.size).toBe(69);
     });
 
     it("contiene los diez acontecimientos iniciales del día 1", () => {
