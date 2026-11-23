@@ -1,6 +1,6 @@
-import "../../styles/screens/MainMenu.css";
-
 import { assetUrl } from "../../utils/assetUrl";
+
+import "../../styles/screens/MainMenu.css";
 
 type MainMenuProps = {
     hasSave: boolean;
@@ -23,10 +23,29 @@ function MainMenu({
 }: MainMenuProps) {
     return (
         <main className="main-menu">
+            {/* Mapa decorativo de Astaria */}
+            <div
+                className="main-menu__map"
+                aria-hidden="true"
+            >
+                <div className="main-menu__map-frame">
+                    <img
+                        src={assetUrl(
+                            "/assets/ui/astaria-map.png"
+                        )}
+                        alt=""
+                        draggable={false}
+                    />
+                </div>
+            </div>
+
+            {/* Panel principal centrado */}
             <div className="main-menu__panel">
                 <div className="main-menu__emblem">
                     <img
-                        src={assetUrl("/assets/ui/astaria-emblem.png")}
+                        src={assetUrl(
+                            "/assets/ui/astaria-emblem.png"
+                        )}
                         alt=""
                         draggable={false}
                     />
@@ -58,6 +77,12 @@ function MainMenu({
                 </div>
             </div>
 
+            {/* Créditos en el borde inferior */}
+            <p className="main-menu__credit">
+                Hecho por Marcos Núñez Curiel
+            </p>
+
+            {/* Botón de logros */}
             <button
                 type="button"
                 className="main-menu__achievements"
@@ -74,12 +99,15 @@ function MainMenu({
                 >
                     <circle cx="12" cy="8" r="5" />
 
-                    <path d="M8.2 12.5 6.9 22l5.1-3 5.1 3-1.3-9.5" />
+                    <path
+                        d="M8.2 12.5 6.9 22l5.1-3 5.1 3-1.3-9.5"
+                    />
                 </svg>
 
                 Logros
             </button>
 
+            {/* Confirmación al comenzar otra partida */}
             {showNewGameConfirmation && (
                 <div className="main-menu__backdrop">
                     <div

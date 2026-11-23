@@ -1,3 +1,4 @@
+/* Pantalla principal */
 .main-menu {
     position: relative;
     display: flex;
@@ -6,30 +7,42 @@
     flex: 1;
     min-height: 0;
     padding: var(--space-8);
+    overflow: hidden;
     background-color: var(--colour-background);
     color: var(--colour-text);
 }
 
+/* Panel central del menú */
 .main-menu__panel {
+    position: relative;
+    z-index: 1;
+
     display: flex;
     flex-direction: column;
     align-items: center;
+
     width: min(100%, var(--size-menu-panel-max));
+    flex-shrink: 0;
+
     padding: var(--space-12-5) var(--space-15);
+
     background-color: var(--colour-panel);
     border: var(--border-medium) solid var(--colour-border-gold);
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-menu);
+
     text-align: center;
 }
 
-/* Emblema y nombre */
+/* Emblema del reino */
 .main-menu__emblem {
     display: flex;
     align-items: center;
     justify-content: center;
+
     width: var(--size-menu-emblem);
     height: var(--size-menu-emblem);
+
     border: var(--border-thin) solid var(--colour-border-gold);
 }
 
@@ -39,6 +52,7 @@
     object-fit: contain;
 }
 
+/* Título del juego */
 .main-menu__title {
     margin: var(--space-6-5) 0 0;
     color: var(--colour-gold);
@@ -61,6 +75,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
+
     width: var(--size-menu-actions);
     max-width: 100%;
     margin-top: var(--space-10-5);
@@ -70,12 +85,16 @@
 .main-menu__confirmation-actions button,
 .main-menu__achievements {
     padding: var(--space-3-5) var(--space-5-5);
+
     color: var(--colour-gold);
     background-color: var(--colour-button);
+
     border: var(--border-thin) solid var(--colour-border-gold);
     border-radius: var(--radius-sm);
+
     font-family: var(--font-display);
     font-size: var(--font-size-18);
+
     cursor: pointer;
 }
 
@@ -90,37 +109,127 @@
     cursor: not-allowed;
 }
 
-/* Logros, apartado del panel principal */
+/* Mapa decorativo: esquina superior derecha */
+.main-menu__map {
+    position: absolute;
+    top: var(--space-7);
+    right: var(--space-7);
+    z-index: 0;
+
+    width: min(20vw, 19rem);
+
+    pointer-events: none;
+}
+
+/* Marco decorativo del mapa */
+.main-menu__map-frame {
+    position: relative;
+    padding: var(--space-2-5);
+
+    background: linear-gradient(
+        135deg,
+        var(--colour-button),
+        var(--colour-panel)
+    );
+
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-xl);
+
+    box-shadow:
+        0 0 0 3px rgba(181, 138, 77, 0.18),
+        var(--shadow-menu);
+}
+
+/* Línea interior del marco */
+.main-menu__map-frame::before {
+    content: "";
+    position: absolute;
+    inset: var(--space-1-5);
+
+    border: var(--border-thin) solid var(--colour-gold-dim);
+    border-radius: var(--radius-md);
+
+    pointer-events: none;
+}
+
+.main-menu__map img {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+
+    user-select: none;
+}
+
+/* Créditos inferiores */
+.main-menu__credit {
+    position: absolute;
+    bottom: var(--space-3);
+    left: 50%;
+    z-index: 1;
+
+    transform: translateX(-50%);
+
+    margin: 0;
+    color: var(--colour-text-muted);
+
+    font-size: var(--font-size-13);
+    letter-spacing: var(--tracking-1);
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Botón de logros: esquina inferior derecha */
 .main-menu__achievements {
     position: absolute;
     right: var(--space-7-5);
     bottom: var(--space-7);
+    z-index: 1;
+
     display: flex;
     align-items: center;
     gap: var(--space-2-5);
+
     font-size: var(--font-size-15);
     letter-spacing: var(--tracking-1);
     text-transform: uppercase;
+}
+
+.main-menu__achievements svg {
+    width: var(--size-stat-icon);
+    height: var(--size-stat-icon);
+    flex-shrink: 0;
 }
 
 /* Confirmación de partida nueva */
 .main-menu__backdrop {
     position: absolute;
     inset: 0;
-    z-index: 2;
+    z-index: 5;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     background-color: var(--colour-overlay);
 }
 
 .main-menu__confirmation {
-    width: min(calc(100% - var(--space-12)), var(--size-menu-confirm-max));
+    width: min(
+        calc(100% - var(--space-12)),
+        var(--size-menu-confirm-max)
+    );
+
     padding: var(--space-8);
+
     color: var(--colour-text);
     background-color: var(--colour-panel);
+
     border: var(--border-medium) solid var(--colour-border-gold);
     border-radius: var(--radius-xl);
+
     text-align: center;
 }
 
@@ -150,10 +259,4 @@
 .main-menu button:focus-visible {
     outline: var(--border-medium) solid var(--colour-gold);
     outline-offset: var(--space-0-75);
-}
-
-.main-menu__achievements svg {
-    width: var(--size-stat-icon);
-    height: var(--size-stat-icon);
-    flex-shrink: 0;
 }
