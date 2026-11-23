@@ -55,7 +55,9 @@ export function useGameTransitions({
 
         setFullScreenFade(
             target === "chapter-ending" ||
-            screen === "chapter-ending"
+            screen === "chapter-ending" ||
+            target === "sleep" ||
+            screen === "sleep"
         );
 
         setTransitionTarget(target);

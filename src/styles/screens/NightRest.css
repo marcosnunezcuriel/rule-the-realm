@@ -1,0 +1,29 @@
+/* Descanso de la familia real entre jornadas */
+.night-rest {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: var(--space-6);
+
+    background-color: var(--colour-background);
+    overflow: hidden;
+}
+
+.night-rest__image {
+    display: block;
+    width: min(100%, 36rem);
+    max-height: 100%;
+    height: auto;
+    aspect-ratio: 1;
+
+    object-fit: contain;
+
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-menu);
+}

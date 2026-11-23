@@ -44,7 +44,7 @@ export function useGameSessionState() {
             // Solo saltar al resumen si no queda ninguna
             // audiencia especial pendiente de completar.
             if (pendingDebtAudience === null) {
-                return "summary";
+                return "sleep";
             }
         }
 

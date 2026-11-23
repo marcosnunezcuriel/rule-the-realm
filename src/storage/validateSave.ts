@@ -155,6 +155,7 @@ export function isSaveGame(
     return (
         (
             value.screen === "scene" ||
+            value.screen === "sleep" ||
             value.screen === "summary" ||
             value.screen === "gameover" ||
             value.screen === "chapter-ending"

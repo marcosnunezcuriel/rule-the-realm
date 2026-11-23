@@ -276,4 +276,22 @@ describe("Guardado de partidas", () => {
             "treasury-recovery"
         );
     });
+
+    it("conserva el descanso nocturno al recuperar la partida", () => {
+        const save: SaveGame = {
+            ...createSave(),
+            screen: "sleep",
+            dayClosed: true,
+            isClosing: true,
+            closingStats: createStats(),
+        };
+
+        saveGame(save);
+
+        const recovered = loadGame();
+
+        expect(recovered).not.toBeNull();
+        expect(recovered?.screen).toBe("sleep");
+        expect(recovered?.dayClosed).toBe(true);
+    });
 });

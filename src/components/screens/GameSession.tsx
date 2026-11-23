@@ -18,6 +18,7 @@ import type {
     ModifierChange,
 } from "../../types/notifications";
 
+import NightRest from "./NightRest";
 
 type GameSessionProps = {
     onOpenMenu: () => void;
@@ -65,6 +66,7 @@ function GameSession({
         handleVisitorAnimationEnd,
         handleDecision,
         handleContinue,
+        handleSleepFinished,
         handleScreenFadeEnd,
         handleNextDay,
         chapter,
@@ -96,7 +98,7 @@ function GameSession({
 
     return (
         <>
-            {screen !== "chapter-ending" && (
+            {screen !== "chapter-ending" && screen !== "sleep" && (
                 <Header
                     chapter={toRomanNumber(chapter.number)}
                     day={day}
@@ -129,6 +131,8 @@ function GameSession({
                         onNextChapter={handleStartNextChapter}
                         onMenu={onOpenMenu}
                     />
+                ) : screen === "sleep" ? (
+                    <NightRest onFinish={handleSleepFinished} />
                 ) : screen === "gameover" &&
                 gameOverReason !== null ? (
                     <GameOver

@@ -274,7 +274,7 @@ export function useGameController(
                 return;
 
             case "summary":
-                startScreenTransition("summary");
+                startScreenTransition("sleep");
                 return;
 
             case "defeat":
@@ -402,6 +402,15 @@ export function useGameController(
         setPhase("exiting");
     }
 
+    // Terminar el descanso nocturno y abrir el resumen.
+    function handleSleepFinished() {
+        if (screen !== "sleep") {
+            return;
+        }
+
+        startScreenTransition("summary");
+    }
+
     // Prepara la nueva jornada sin perder el progreso del reino.
     function prepareNextDay() {
         const plan = getNextDayPlan(
@@ -500,6 +509,7 @@ export function useGameController(
         handleVisitorAnimationEnd,
         handleDecision,
         handleContinue,
+        handleSleepFinished,
         handleScreenFadeEnd,
         handleNextDay,
         gameOverReason,
