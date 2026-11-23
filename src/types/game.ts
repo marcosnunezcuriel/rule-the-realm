@@ -16,6 +16,7 @@ export type GameScreen =
 // Audiencias extraordinarias de la Consejera Real.
 export type SpecialAudience =
     | "treasury-warning"
+    | "treasury-recovery"
     | "defeat"
     | null;
 

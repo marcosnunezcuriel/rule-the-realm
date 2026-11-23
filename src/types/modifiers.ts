@@ -6,7 +6,8 @@ export type ModifierId =
     | "silk-road"
     | "emerald-mine"
     | "modern-windmills"
-    | "black-fever";
+    | "black-fever"
+    | "indebted";
 
 export type ModifierDefinition = {
     id: ModifierId;

@@ -4,6 +4,7 @@ import { getEventById } from "../data/events/eventRegistry";
 import { getDayEvents } from "../game/getDayEvents";
 import { initialKingdomValues } from "../game/initialState";
 import { loadGame } from "../storage/gameStorage";
+import { getDebtAudience } from "../game/debtFlow";
 
 import type { Decision } from "../types/dialogue";
 import type { GameEvent } from "../types/events";
@@ -28,13 +29,23 @@ export function useGameSessionState() {
     );
 
     const [screen, setScreen] = useState<GameScreen>(() => {
-        // Si el cierre ya aplicó los modificadores,
-        // recuperar el resumen en lugar de repetirlo.
         if (
             initialSave?.dayClosed &&
             initialSave.screen === "scene"
         ) {
-            return "summary";
+            const pendingDebtAudience =
+                initialSave.specialAudience === null
+                    ? getDebtAudience(
+                        initialSave.stats,
+                        initialSave.activeModifierIds
+                    )
+                    : initialSave.specialAudience;
+
+            // Solo saltar al resumen si no queda ninguna
+            // audiencia especial pendiente de completar.
+            if (pendingDebtAudience === null) {
+                return "summary";
+            }
         }
 
         return initialSave?.screen ?? "scene";
@@ -59,9 +70,28 @@ export function useGameSessionState() {
 
     // Tipo de audiencia extraordinaria en curso.
     const [specialAudience, setSpecialAudience] =
-        useState<SpecialAudience>(
-            initialSave?.specialAudience ?? null
-        );
+        useState<SpecialAudience>(() => {
+            if (initialSave === null) {
+                return null;
+            }
+
+            if (initialSave.specialAudience !== null) {
+                return initialSave.specialAudience;
+            }
+
+            if (
+                initialSave.dayClosed &&
+                initialSave.screen === "scene" &&
+                initialSave.isClosing
+            ) {
+                return getDebtAudience(
+                    initialSave.stats,
+                    initialSave.activeModifierIds
+                );
+            }
+
+            return null;
+        });
 
     // Aviso económico pendiente de presentar.
     const [

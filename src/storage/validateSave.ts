@@ -196,6 +196,7 @@ export function isSaveGame(
         (
             value.specialAudience === null ||
             value.specialAudience === "treasury-warning" ||
+            value.specialAudience === "treasury-recovery" ||
             value.specialAudience === "defeat"
         ) &&
         typeof value.pendingTreasuryWarning === "boolean" &&

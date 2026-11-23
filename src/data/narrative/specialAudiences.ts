@@ -13,18 +13,38 @@ export const closingDialogue: DialogueEvent = {
 };
 
 // Advertencia cuando las arcas se agotan.
+// Advertencia al entrar en deuda.
 export const treasuryWarningDialogue: DialogueEvent = {
     speaker: "Consejera Real",
 
     introduction: [
-        "Majestad, las arcas reales se han agotado.",
+        "Majestad, las arcas reales han entrado en números negativos.",
 
-        "El tesoro de Astaria está vacío y la corona " +
-        "ha comenzado a acumular deudas.",
+        "La Corona ha comenzado a acumular deudas y nuestros " +
+        "acreedores exigen intereses.",
 
-        "Debemos recuperar ingresos cuanto antes. " +
+        "Hasta que recuperemos el tesoro, deberemos pagar " +
+        "cinco monedas de oro cada jornada.",
+
+        "Debemos conseguir nuevos ingresos cuanto antes. " +
         "Si llegamos a deber cincuenta monedas de oro, " +
         "el reino entrará en bancarrota.",
+    ],
+};
+
+// Anuncio de recuperación económica.
+export const treasuryRecoveryDialogue: DialogueEvent = {
+    speaker: "Consejera Real",
+
+    introduction: [
+        "¡Majestad, buenas noticias!",
+
+        "La Corona ha saldado sus deudas y las arcas reales " +
+        "vuelven a llenarse.",
+
+        "Nuestros acreedores han quedado satisfechos. " +
+        "Ya no tendremos que pagar cinco monedas de oro " +
+        "diarias en intereses.",
     ],
 };
 

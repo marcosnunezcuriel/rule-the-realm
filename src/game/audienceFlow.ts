@@ -1,11 +1,14 @@
 import {
     closingDialogue,
     treasuryWarningDialogue,
+    treasuryRecoveryDialogue,
     getDefeatAnnouncementDialogue,
 } from "../data/narrative/specialAudiences";
 import { BANKRUPTCY_LIMIT } from "../data/kingdom/rules";
 import { applyStatChanges } from "./applyStatChanges";
 import { checkGameOver } from "./checkGameOver";
+
+import { getDebtAudience } from "./debtFlow";
 
 import type { DialogueEvent, Decision } from "../types/dialogue";
 import type { GameEvent } from "../types/events";
@@ -60,18 +63,22 @@ export function getAudiencePresentation({
             ? getDefeatAnnouncementDialogue(gameOverReason)
             : specialAudience === "treasury-warning"
                 ? treasuryWarningDialogue
-                : isClosing || !currentAudience
-                    ? closingDialogue
-                    : currentAudience.dialogue;
+                : specialAudience === "treasury-recovery"
+                    ? treasuryRecoveryDialogue
+                    : isClosing || !currentAudience
+                        ? closingDialogue
+                        : currentAudience.dialogue;
 
     const dialogueKey =
         specialAudience === "defeat"
             ? `defeat-${gameOverReason}`
             : specialAudience === "treasury-warning"
                 ? "treasury-warning"
-                : isClosing
-                    ? "closing"
-                    : currentAudience?.id ?? "no-audiences";
+                : specialAudience === "treasury-recovery"
+                    ? "treasury-recovery"
+                    : isClosing
+                        ? "closing"
+                        : currentAudience?.id ?? "no-audiences";
 
     return {
         currentAudience,
@@ -80,7 +87,10 @@ export function getAudiencePresentation({
         visitorImage,
         dialogue,
         dialogueKey,
-        continueLabel: isClosing ? "Terminar día" : "Continuar",
+        continueLabel:
+            isClosing && specialAudience === null
+                ? "Terminar día"
+                : "Continuar",
     };
 }
 
@@ -93,6 +103,7 @@ type AudienceExitInput = {
     dayEventsCount: number;
     morningCount: number;
     timeOfDay: SceneTime;
+    activeModifierIds: ModifierId[];
 };
 
 export type AudienceExit =
@@ -100,15 +111,16 @@ export type AudienceExit =
     | { kind: "summary" }
     | { kind: "defeat"; reason: GameOverReason }
     | { kind: "treasury-warning" }
+    | { kind: "treasury-recovery" }
     | {
         kind: "next-audience";
         index: number;
         phase: AudiencePhase;
-        clearTreasuryWarning: boolean;
+        clearSpecialAudience: boolean;
     }
     | {
         kind: "closing";
-        clearTreasuryWarning: boolean;
+        clearSpecialAudience: boolean;
     };
 
 export function getAudienceExit({
@@ -116,6 +128,7 @@ export function getAudienceExit({
     isClosing,
     stats,
     pendingTreasuryWarning,
+    activeModifierIds,
     audienceIndex,
     dayEventsCount,
     morningCount,
@@ -125,22 +138,54 @@ export function getAudienceExit({
         return { kind: "gameover" };
     }
 
+    // Al terminar la noche, comprobar si los cambios
+    // económicos requieren una última audiencia.
     if (isClosing) {
+        if (specialAudience === null) {
+            const debtAudience = getDebtAudience(
+                stats,
+                activeModifierIds
+            );
+
+            if (debtAudience !== null) {
+                return { kind: debtAudience };
+            }
+        }
+
         return { kind: "summary" };
     }
 
-    const clearTreasuryWarning =
-        specialAudience === "treasury-warning";
+    const clearSpecialAudience =
+        specialAudience === "treasury-warning" ||
+        specialAudience === "treasury-recovery";
 
-    if (!clearTreasuryWarning) {
+    if (!clearSpecialAudience) {
         const defeat = checkGameOver(stats);
 
         if (defeat !== null) {
-            return { kind: "defeat", reason: defeat };
+            return {
+                kind: "defeat",
+                reason: defeat,
+            };
         }
 
-        if (pendingTreasuryWarning) {
+        // Mantener la compatibilidad con el aviso
+        // económico que ya guarda el juego.
+        if (
+            pendingTreasuryWarning &&
+            stats.gold < 0 &&
+            !activeModifierIds.includes("indebted")
+        ) {
             return { kind: "treasury-warning" };
+        }
+
+        const debtAudience = getDebtAudience(
+            stats,
+            activeModifierIds
+        );
+
+        if (debtAudience !== null) {
+            return { kind: debtAudience };
         }
     }
 
@@ -148,7 +193,9 @@ export function getAudienceExit({
 
     if (nextIndex < dayEventsCount) {
         const nextTimeOfDay =
-            nextIndex < morningCount ? "morning" : "evening";
+            nextIndex < morningCount
+                ? "morning"
+                : "evening";
 
         return {
             kind: "next-audience",
@@ -156,13 +203,13 @@ export function getAudienceExit({
             phase: nextTimeOfDay !== timeOfDay
                 ? "transitioning"
                 : "entering",
-            clearTreasuryWarning,
+            clearSpecialAudience,
         };
     }
 
     return {
         kind: "closing",
-        clearTreasuryWarning,
+        clearSpecialAudience,
     };
 }
 
@@ -189,8 +236,8 @@ export function getDecisionConsequences(
 
     const showTreasuryWarning =
         nextStats !== null &&
-        stats.gold > 0 &&
-        nextStats.gold <= 0 &&
+        stats.gold >= 0 &&
+        nextStats.gold < 0 &&
         nextStats.gold > BANKRUPTCY_LIMIT &&
         checkGameOver(nextStats) === null;
 

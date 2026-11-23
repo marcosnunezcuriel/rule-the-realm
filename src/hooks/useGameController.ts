@@ -10,7 +10,10 @@ import {
 } from "../data/achievements";
 import type { AchievementId } from "../data/achievements";
 
-import { applyDailyModifiers } from "../game/applyDailyModifiers";
+import {
+    applyDailyModifiersWithDebt,
+    getDebtAudience,
+} from "../game/debtFlow";
 import { getEventCompletionConsequences } from "../game/getEventCompletionConsequences";
 import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
 import {
@@ -140,7 +143,7 @@ export function useGameController(
     function applyModifierChanges(
         toAdd: ModifierId[] = [],
         toRemove: ModifierId[] = []
-    ) {
+    ): ModifierId[] {
         const transition = getModifierTransition(
             activeModifierIds,
             toAdd,
@@ -151,7 +154,7 @@ export function useGameController(
             transition.added.length === 0 &&
             transition.removed.length === 0
         ) {
-            return;
+            return activeModifierIds;
         }
 
         setActiveModifierIds(transition.next);
@@ -163,6 +166,8 @@ export function useGameController(
         for (const id of transition.removed) {
             onModifierChanged(id, "removed");
         }
+
+        return transition.next;
     }
 
     // Termina la entrada o salida del personaje actual.
@@ -181,6 +186,7 @@ export function useGameController(
 
         let exitStats = stats;
         let exitTreasuryWarning = pendingTreasuryWarning;
+        let exitModifierIds = activeModifierIds;
 
         if (
             !isClosing &&
@@ -207,12 +213,12 @@ export function useGameController(
                     ...new Set([...previous, ...completion.unlocks]),
                 ]);
             }
-
+ 
             if (
                 completion.addModifiers.length > 0 ||
                 completion.removeModifiers.length > 0
             ) {
-                applyModifierChanges(
+                exitModifierIds = applyModifierChanges(
                     completion.addModifiers,
                     completion.removeModifiers
                 );
@@ -227,6 +233,27 @@ export function useGameController(
             }
         }
 
+        // La audiencia de deuda activa los intereses.
+        if (
+            specialAudience === "treasury-warning" &&
+            exitStats.gold < 0
+        ) {
+            exitModifierIds = applyModifierChanges(
+                ["indebted"]
+            );
+        }
+
+        // La audiencia de recuperación cancela los intereses.
+        if (
+            specialAudience === "treasury-recovery" &&
+            exitStats.gold > 0
+        ) {
+            exitModifierIds = applyModifierChanges(
+                [],
+                ["indebted"]
+            );
+        }
+
         setSelectedDecision(null);
 
         const exit = getAudienceExit({
@@ -234,6 +261,7 @@ export function useGameController(
             isClosing,
             stats: exitStats,
             pendingTreasuryWarning: exitTreasuryWarning,
+            activeModifierIds: exitModifierIds,
             audienceIndex,
             dayEventsCount: dayEvents.length,
             morningCount,
@@ -262,8 +290,14 @@ export function useGameController(
                 setPhase("entering");
                 return;
 
+            case "treasury-recovery":
+                setPendingTreasuryWarning(false);
+                setSpecialAudience("treasury-recovery");
+                setPhase("entering");
+                return;
+
             case "next-audience":
-                if (exit.clearTreasuryWarning) {
+                if (exit.clearSpecialAudience) {
                     setSpecialAudience(null);
                 }
 
@@ -272,7 +306,7 @@ export function useGameController(
                 return;
 
             case "closing":
-                if (exit.clearTreasuryWarning) {
+                if (exit.clearSpecialAudience) {
                     setSpecialAudience(null);
                 }
 
@@ -341,7 +375,10 @@ export function useGameController(
         // El escenario mantiene los valores anteriores al cierre.
         setClosingStats({ ...stats });
 
-        const result = applyDailyModifiers(stats, activeModifierIds);
+        const result = applyDailyModifiersWithDebt(
+            stats,
+            activeModifierIds
+        );
 
         setStats(result.nextStats);
         setModifierReport(result.report);
@@ -354,7 +391,11 @@ export function useGameController(
             return;
         }
 
-        if (isClosing && !closeDay()) {
+        if (
+            isClosing &&
+            specialAudience === null &&
+            !closeDay()
+        ) {
             return;
         }
 
@@ -386,12 +427,17 @@ export function useGameController(
         setSelectedDecision(null);
         setPendingTreasuryWarning(false);
 
+        const nextSpecialAudience = plan.defeat !== null
+            ? "defeat"
+            : getDebtAudience(stats, activeModifierIds);
+
         setGameOverReason(plan.defeat);
-        setSpecialAudience(
-            plan.defeat !== null ? "defeat" : null
+        setSpecialAudience(nextSpecialAudience);
+
+        setIsClosing(
+            plan.isClosing && nextSpecialAudience === null
         );
 
-        setIsClosing(plan.isClosing);
         setPhase("waiting");
     }
 

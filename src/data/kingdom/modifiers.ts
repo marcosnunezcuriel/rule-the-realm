@@ -75,4 +75,14 @@ export const modifierDefinitions: Record<
             population: -10,
         },
     },
+    "indebted": {
+        id: "indebted",
+        name: "Endeudado",
+        description:
+            "La Corona debe pagar cinco monedas de oro " +
+            "diarias en concepto de intereses.",
+        dailyChanges: {
+            gold: -5,
+        },
+    },
 };

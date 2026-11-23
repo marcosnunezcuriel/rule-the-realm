@@ -30,8 +30,8 @@ export function getEventCompletionConsequences(
         nextStats,
         showTreasuryWarning:
             nextStats !== null &&
-            stats.gold > 0 &&
-            nextStats.gold <= 0 &&
+            stats.gold >= 0 &&
+            nextStats.gold < 0 &&
             nextStats.gold > BANKRUPTCY_LIMIT &&
             checkGameOver(nextStats) === null,
         unlocks: audience.unlocksOnComplete ?? [],

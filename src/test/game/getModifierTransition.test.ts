@@ -71,4 +71,23 @@ describe("Cambios de modificadores", () => {
         expect(result.added).toEqual([]);
         expect(result.removed).toEqual([]);
     });
+
+    it("detecta la activación de Endeudado", () => {
+        const result = getModifierTransition(
+            [],
+            ["indebted"]
+        );
+
+        expect(result.added).toEqual(["indebted"]);
+    });
+
+    it("detecta la eliminación de Endeudado", () => {
+        const result = getModifierTransition(
+            ["indebted"],
+            [],
+            ["indebted"]
+        );
+
+        expect(result.removed).toEqual(["indebted"]);
+    });
 });

@@ -58,6 +58,7 @@ const baseExit: Parameters<typeof getAudienceExit>[0] = {
     dayEventsCount: 2,
     morningCount: 1,
     timeOfDay: "morning",
+    activeModifierIds: [],
 };
 
 describe("Consecuencias de las decisiones", () => {
@@ -248,6 +249,7 @@ describe("Finalización de audiencias", () => {
     it("prioriza el aviso económico pendiente", () => {
         const result = getAudienceExit({
             ...baseExit,
+            stats: createStats({ gold: -10 }),
             pendingTreasuryWarning: true,
         });
 
@@ -263,7 +265,7 @@ describe("Finalización de audiencias", () => {
             kind: "next-audience",
             index: 1,
             phase: "transitioning",
-            clearTreasuryWarning: false,
+            clearSpecialAudience: false,
         });
     });
 
@@ -277,7 +279,7 @@ describe("Finalización de audiencias", () => {
             kind: "next-audience",
             index: 1,
             phase: "transitioning",
-            clearTreasuryWarning: true,
+            clearSpecialAudience: true,
         });
     });
 
@@ -290,7 +292,7 @@ describe("Finalización de audiencias", () => {
 
         expect(result).toEqual({
             kind: "closing",
-            clearTreasuryWarning: false,
+            clearSpecialAudience: false,
         });
     });
 
@@ -320,5 +322,72 @@ describe("Finalización de audiencias", () => {
 
         expect(result.nextStats?.population).toBe(90);
         expect(result.nextStats?.prestige).toBe(85);
+    });
+
+    it("anuncia la recuperación antes de avanzar", () => {
+        const result = getAudienceExit({
+            ...baseExit,
+            stats: createStats({ gold: 10 }),
+            activeModifierIds: ["indebted"],
+        });
+
+        expect(result).toEqual({
+            kind: "treasury-recovery",
+        });
+    });
+
+    it("no anuncia una recuperación con el oro a cero", () => {
+        const result = getAudienceExit({
+            ...baseExit,
+            stats: createStats({ gold: 0 }),
+            activeModifierIds: ["indebted"],
+        });
+
+        expect(result.kind).toBe("next-audience");
+    });
+
+    it("la recuperación nocturna precede al resumen", () => {
+        const result = getAudienceExit({
+            ...baseExit,
+            isClosing: true,
+            stats: createStats({ gold: 5 }),
+            activeModifierIds: ["indebted"],
+        });
+
+        expect(result).toEqual({
+            kind: "treasury-recovery",
+        });
+    });
+
+    it("tras la audiencia nocturna muestra el resumen", () => {
+        const result = getAudienceExit({
+            ...baseExit,
+            isClosing: true,
+            specialAudience: "treasury-recovery",
+            stats: createStats({ gold: 5 }),
+            activeModifierIds: [],
+        });
+
+        expect(result).toEqual({
+            kind: "summary",
+        });
+    });
+
+    it("la audiencia de recuperación utiliza a la consejera", () => {
+        const presentation = getAudiencePresentation({
+            dayEvents: [testAudience],
+            audienceIndex: 0,
+            isClosing: false,
+            specialAudience: "treasury-recovery",
+            gameOverReason: null,
+        });
+
+        expect(presentation.dialogue.speaker).toBe(
+            "Consejera Real"
+        );
+
+        expect(
+            presentation.dialogue.introduction.join(" ")
+        ).toContain("saldado sus deudas");
     });
 });

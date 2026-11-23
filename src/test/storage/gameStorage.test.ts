@@ -260,4 +260,20 @@ describe("Guardado de partidas", () => {
 
         expect(loadGame()).toEqual(save);
     });
+
+    it("permite recuperar una audiencia de deuda saldada", () => {
+        const save: SaveGame = {
+            ...createSave(),
+            stats: createStats({ gold: 10 }),
+            activeModifierIds: ["indebted"],
+            specialAudience: "treasury-recovery",
+        };
+
+        saveGame(save);
+
+        expect(loadGame()).toEqual(save);
+        expect(loadGame()?.specialAudience).toBe(
+            "treasury-recovery"
+        );
+    });
 });
