@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import MainMenu from "./components/screens/MainMenu";
 import AchievementsScreen from "./components/screens/AchievementsScreen";
@@ -13,13 +13,16 @@ import {
 } from "./storage/gameStorage";
 import { unlockAchievement } from "./storage/achievementsStorage";
 
+import { getStatDifferences } from "./game/getStatDifferences";
+import { insertGameNotification } from "./game/insertGameNotification";
+
+import type { KingdomValues } from "./types/stats";
 import type { FadeStage } from "./types/game";
 import type { ModifierId } from "./types/modifiers";
 import type {
     GameNotification,
     ModifierChange,
 } from "./types/notifications";
-
 
 import "./styles/layout/Navigation.css";
 
@@ -48,15 +51,65 @@ function App() {
     const [discardSaveOnMenu, setDiscardSaveOnMenu] =
         useState(false);
 
-    
-    // Una sola cola para logros y cambios de modificadores.
+    // Cola compartida de estadísticas, modificadores y logros.
     const [notificationQueue, setNotificationQueue] =
         useState<GameNotification[]>([]);
 
-    // Cada aparición tiene un identificador diferente.
     const nextNotificationId = useRef(0);
 
-    // Desbloquear y anunciar un logro nuevo.
+    // Identifica la notificación que ya está mostrándose.
+    // No debe ser interrumpida por avisos nuevos.
+    const displayedSequenceRef = useRef<number | null>(null);
+
+    function enqueueNotification(notification: GameNotification) {
+        const displayedSequence = displayedSequenceRef.current;
+
+        setNotificationQueue((previous) => {
+            return insertGameNotification(
+                previous,
+                notification,
+                displayedSequence
+            );
+        });
+    }
+
+    // Cambios de estadísticas de una decisión o audiencia.
+    function handleStatsChanged(
+        previous: KingdomValues,
+        next: KingdomValues
+    ) {
+        const changes = getStatDifferences(previous, next);
+
+        if (Object.keys(changes).length === 0) {
+            return;
+        }
+
+        nextNotificationId.current += 1;
+
+        enqueueNotification({
+            sequence: nextNotificationId.current,
+            kind: "stats",
+            changes,
+        });
+    }
+
+    // Activación o retirada de un modificador.
+    function handleModifierChanged(
+        id: ModifierId,
+        change: ModifierChange
+    ) {
+        nextNotificationId.current += 1;
+
+        enqueueNotification({
+            sequence: nextNotificationId.current,
+            kind: change === "added"
+                ? "modifier-added"
+                : "modifier-removed",
+            id,
+        });
+    }
+
+    // Desbloquear un logro y anunciarlo.
     function handleAchievementUnlocked(id: AchievementId) {
         if (!unlockAchievement(id)) {
             return;
@@ -64,45 +117,53 @@ function App() {
 
         nextNotificationId.current += 1;
 
-        const sequence = nextNotificationId.current;
-
-        setNotificationQueue((previous) => [
-            ...previous,
-            {
-                sequence,
-                kind: "achievement",
-                id,
-            },
-        ]);
+        enqueueNotification({
+            sequence: nextNotificationId.current,
+            kind: "achievement",
+            id,
+        });
     }
 
-    // Anunciar la activación o eliminación de un modificador.
-    function handleModifierChanged(
-        id: ModifierId,
-        change: ModifierChange
-    ) {
-        nextNotificationId.current += 1;
+    // Retirar exclusivamente la notificación indicada.
+    const handleDismissNotification = useCallback(
+        (sequence: number) => {
+            setNotificationQueue((previous) => {
+                if (previous[0]?.sequence !== sequence) {
+                    return previous;
+                }
 
-        const sequence = nextNotificationId.current;
+                return previous.slice(1);
+            });
+        },
+        []
+    );
 
-        setNotificationQueue((previous) => [
-            ...previous,
-            {
-                sequence,
-                kind: change === "added"
-                    ? "modifier-added"
-                    : "modifier-removed",
-                id,
-            },
-        ]);
-    }
+    const activeNotificationSequence =
+        notificationQueue[0]?.sequence ?? null;
 
-    // Mostrar la siguiente notificación.
-    const handleDismissNotification = useCallback(() => {
-        setNotificationQueue(
-            (previous) => previous.slice(1)
-        );
-    }, []);
+    // Un solo temporizador para los tres tipos de avisos.
+    // Sigue funcionando aunque cambie la pantalla del juego.
+    useEffect(() => {
+        displayedSequenceRef.current =
+            activeNotificationSequence;
+
+        if (activeNotificationSequence === null) {
+            return;
+        }
+
+        const timeoutId = window.setTimeout(() => {
+            handleDismissNotification(
+                activeNotificationSequence
+            );
+        }, 5000);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [
+        activeNotificationSequence,
+        handleDismissNotification,
+    ]);
 
     function navigateTo(
         target: AppView,
@@ -214,8 +275,8 @@ function App() {
                     onGameOverMenu={() => navigateTo("menu", true)}
                     onAchievementUnlocked={handleAchievementUnlocked}
                     onModifierChanged={handleModifierChanged}
+                    onStatsChanged={handleStatsChanged}
                     notification={notificationQueue[0] ?? null}
-                    onDismissNotification={handleDismissNotification}
                 />
             )}
 

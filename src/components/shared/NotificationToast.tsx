@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { achievements } from "../../data/achievements";
 import { modifierDefinitions } from "../../data/kingdom/modifiers";
 
@@ -10,24 +8,15 @@ import FormattedText from "./FormattedText";
 import "../../styles/screens/NotificationToast.css";
 
 type NotificationToastProps = {
-    notification: GameNotification;
-    onDismiss: () => void;
+    notification: Exclude<
+        GameNotification,
+        { kind: "stats" }
+    >;
 };
 
 function NotificationToast({
     notification,
-    onDismiss,
 }: NotificationToastProps) {
-    useEffect(() => {
-        const timeoutId = window.setTimeout(
-            onDismiss,
-            5000
-        );
-
-        return () => {
-            window.clearTimeout(timeoutId);
-        };
-    }, [notification.sequence, onDismiss]);
 
     const isAchievement =
         notification.kind === "achievement";

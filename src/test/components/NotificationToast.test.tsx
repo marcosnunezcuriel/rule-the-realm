@@ -12,7 +12,6 @@ describe("Notificaciones del juego", () => {
                     kind: "achievement",
                     id: "hand-of-king",
                 }}
-                onDismiss={() => {}}
             />
         );
 
@@ -30,7 +29,6 @@ describe("Notificaciones del juego", () => {
                     kind: "modifier-added",
                     id: "traveling-circus",
                 }}
-                onDismiss={() => {}}
             />
         );
 
@@ -49,7 +47,6 @@ describe("Notificaciones del juego", () => {
                     kind: "modifier-removed",
                     id: "traveling-circus",
                 }}
-                onDismiss={() => {}}
             />
         );
 
@@ -67,7 +64,6 @@ describe("Notificaciones del juego", () => {
                     kind: "modifier-added",
                     id: "black-fever",
                 }}
-                onDismiss={() => {}}
             />
         );
 

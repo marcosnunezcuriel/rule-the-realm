@@ -3,16 +3,20 @@ import ThroneScene from "../scene/ThroneScene";
 import DialogueController from "../narrative/DialogueController";
 import DaySummary from "./DaySummary";
 import KingdomStats from "../kingdom/KingdomStats";
+import StatChangeToast from "../kingdom/StatChangeToast";
 import GameOver from "./GameOver";
 import ChapterEnding from "./ChapterEnding";
+
+import NotificationToast from "../shared/NotificationToast";
 
 import { toRomanNumber } from "../../data/chapters";
 import type { AchievementId } from "../../data/achievements";
 
 import { useGameController } from "../../hooks/useGameController";
-import NotificationToast from "../shared/NotificationToast";
 
 import type { ModifierId } from "../../types/modifiers";
+import type { KingdomValues } from "../../types/stats";
+
 import type {
     GameNotification,
     ModifierChange,
@@ -20,20 +24,25 @@ import type {
 
 import NightRest from "./NightRest";
 
+
 type GameSessionProps = {
     onOpenMenu: () => void;
     onGameOverMenu: () => void;
 
     onAchievementUnlocked: (id: AchievementId) => void;
+
     onModifierChanged: (
         id: ModifierId,
         change: ModifierChange
     ) => void;
 
-    notification: GameNotification | null;
-    onDismissNotification: () => void;
-};
+    onStatsChanged: (
+        previous: KingdomValues,
+        next: KingdomValues
+    ) => void;
 
+    notification: GameNotification | null;
+};
 
 // Presentación de la partida activa.
 // El controlador solo existe mientras estamos jugando.
@@ -42,8 +51,8 @@ function GameSession({
     onGameOverMenu,
     onAchievementUnlocked,
     onModifierChanged,
+    onStatsChanged,
     notification,
-    onDismissNotification,
 }: GameSessionProps) {
 
     const {
@@ -77,7 +86,8 @@ function GameSession({
         setChapterEndingParagraphIndex,
     } = useGameController(
         onAchievementUnlocked,
-        onModifierChanged
+        onModifierChanged,
+        onStatsChanged
     );
 
     const fadeClassName = [
@@ -111,14 +121,20 @@ function GameSession({
             )}
 
             <div className="game-content">
-                {notification !== null && (
+                {notification !== null && notification.kind !== "stats" && (
                     <NotificationToast
                         key={notification.sequence}
                         notification={notification}
-                        onDismiss={onDismissNotification}
                     />
                 )}
 
+                {screen === "scene" && notification?.kind === "stats" && (
+                    <StatChangeToast
+                        key={notification.sequence}
+                        notification={notification}
+                    />
+                )}
+                
                 {screen === "scene" && (
                     <KingdomStats stats={visibleStats} />
                 )}

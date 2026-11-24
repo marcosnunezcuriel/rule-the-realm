@@ -30,14 +30,16 @@ function KingdomStats({ stats }: KingdomStatsProps) {
 
                 return (
                     <div
-                        key={key}                 
+                        key={key}
                         className={
                             isCritical
                                 ? "kingdom-stats__card kingdom-stats__card--critical"
                                 : "kingdom-stats__card"
                         }
                         style={
-                            { "--stat-color": color } as CSSProperties
+                            {
+                                "--stat-color": color,
+                            } as CSSProperties
                         }
                     >
                         <span className="kingdom-stats__icon">

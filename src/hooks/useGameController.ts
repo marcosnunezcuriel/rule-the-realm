@@ -31,12 +31,17 @@ import { useGameTransitions } from "./useGameTransitions";
 import type { Decision } from "../types/dialogue";
 import type { ModifierId } from "../types/modifiers";
 import type { ModifierChange } from "../types/notifications";
+import type { KingdomValues } from "../types/stats";
 
 export function useGameController(
     onAchievementUnlocked: (id: AchievementId) => void,
     onModifierChanged: (
         id: ModifierId,
         change: ModifierChange
+    ) => void,
+    onStatsChanged: (
+        previous: KingdomValues,
+        next: KingdomValues
     ) => void
 ) {
     // Estado y carga inicial, separados de las reglas del juego.
@@ -199,6 +204,11 @@ export function useGameController(
             );
 
             if (completion.nextStats !== null) {
+                onStatsChanged(
+                    stats,
+                    completion.nextStats
+                );
+
                 exitStats = completion.nextStats;
                 setStats(completion.nextStats);
             }
@@ -337,6 +347,11 @@ export function useGameController(
         );
 
         if (consequences.nextStats !== null) {
+            onStatsChanged(
+                stats,
+                consequences.nextStats
+            );
+
             setStats(consequences.nextStats);
         }
 
