@@ -11,11 +11,7 @@ import { loadGame } from "../storage/gameStorage";
 
 import type { GameEvent } from "../types/events";
 import type { MonarchRole } from "../types/monarch";
-
-import type {
-    AudiencePhase,
-    GameScreen,
-} from "../types/game";
+import type { AudiencePhase } from "../types/game";
 
 // Conectar React con el estado centralizado de partida.
 export function useGameSessionState(
@@ -52,21 +48,10 @@ export function useGameSessionState(
         [dispatch]
     );
 
-    const setScreen = useCallback(
-        (screen: GameScreen) => {
-            dispatch({
-                type: "SET_SCREEN",
-                screen,
-            });
-        },
-        [dispatch]
-    );
-
     return {
         state,
         dispatch,
         dayEvents,
         setPhase,
-        setScreen,
     };
 }

@@ -1,6 +1,8 @@
 import { applyDailyModifiers } from "./applyDailyModifiers";
 import { checkGameOver } from "./checkGameOver";
 
+import { BANKRUPTCY_LIMIT } from "../data/kingdom/rules";
+
 import type { ModifierId } from "../types/modifiers";
 import type { KingdomValues } from "../types/stats";
 
@@ -63,5 +65,20 @@ export function applyDailyModifiersWithDebt(
     return applyDailyModifiers(
         currentStats,
         activeModifierIds
+    );
+}
+
+// Detectar cuándo una consecuencia introduce al reino
+// en una situación de deuda que no supone una derrota.
+export function shouldShowTreasuryWarning(
+    previous: KingdomValues,
+    next: KingdomValues | null
+): boolean {
+    return (
+        next !== null &&
+        previous.gold >= 0 &&
+        next.gold < 0 &&
+        next.gold > BANKRUPTCY_LIMIT &&
+        checkGameOver(next) === null
     );
 }

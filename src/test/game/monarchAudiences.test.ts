@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getEventById } from "../../data/events/eventRegistry";
-import { getAudiencePresentation } from "../../game/audienceFlow";
+import { getAudiencePresentation } from "../../game/getAudiencePresentation";
 
 import type { MonarchRole } from "../../types/monarch";
 

@@ -519,4 +519,87 @@ describe("Flujo y recuperación de partidas", () => {
             ).toBe(false);
         }
     );
+    
+    it("abre el epílogo durante el fundido sin avanzar de día", async () => {
+        await mountController(
+            createSave({
+                day: 7,
+                screen: "summary",
+
+                dayClosed: true,
+                isClosing: true,
+
+                audienceIndex: 6,
+
+                dayEventIds: [
+                    "41", "42", "43",
+                    "44", "45", "46",
+                ],
+            })
+        );
+
+        await runAction((controller) => {
+            controller.handleNextDay();
+        });
+
+        expect(
+            getController().screen
+        ).toBe("summary");
+
+        expect(
+            getController().transitionStage
+        ).toBe("darkening");
+
+        expect(
+            getController().fullScreenFade
+        ).toBe(true);
+
+        // Al oscurecerse completamente la pantalla,
+        // se ejecuta el cambio de pantalla.
+        await runAction((controller) => {
+            controller.handleScreenFadeEnd();
+        });
+
+        expect(
+            getController().screen
+        ).toBe("chapter-ending");
+
+        expect(
+            getController().transitionStage
+        ).toBe("lightening");
+
+        expect(
+            getController().day
+        ).toBe(7);
+
+        expect(
+            loadGame()?.screen
+        ).toBe("chapter-ending");
+
+        // Finalizar el fundido.
+        await runAction((controller) => {
+            controller.handleScreenFadeEnd();
+        });
+
+        expect(
+            getController().transitionStage
+        ).toBe("idle");
+
+        expect(
+            getController().fullScreenFade
+        ).toBe(false);
+
+        // El capítulo II todavía no está disponible.
+        await runAction((controller) => {
+            controller.handleStartNextChapter();
+        });
+
+        expect(
+            getController().transitionStage
+        ).toBe("idle");
+
+        expect(
+            getController().day
+        ).toBe(7);
+    });
 });

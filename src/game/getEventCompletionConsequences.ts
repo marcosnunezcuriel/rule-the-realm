@@ -1,13 +1,13 @@
-import { BANKRUPTCY_LIMIT } from "../data/kingdom/rules";
 import { applyStatChanges } from "./applyStatChanges";
-import { checkGameOver } from "./checkGameOver";
+import { shouldShowTreasuryWarning } from "./debtFlow";
 
 import type { GameEvent } from "../types/events";
 import type { KingdomValues } from "../types/stats";
 import type { ModifierId } from "../types/modifiers";
 
-// Las decisiones aplicaron ya sus consecuencias al responder.
-// Solo las audiencias sin decisión aplican aquí los efectos base.
+// Las decisiones ya aplicaron sus consecuencias.
+// Solo los acontecimientos sin decisión aplican aquí
+// sus efectos base.
 export function getEventCompletionConsequences(
     audience: GameEvent,
     stats: KingdomValues
@@ -28,14 +28,19 @@ export function getEventCompletionConsequences(
 
     return {
         nextStats,
+
         showTreasuryWarning:
-            nextStats !== null &&
-            stats.gold >= 0 &&
-            nextStats.gold < 0 &&
-            nextStats.gold > BANKRUPTCY_LIMIT &&
-            checkGameOver(nextStats) === null,
+            shouldShowTreasuryWarning(
+                stats,
+                nextStats
+            ),
+
         unlocks: audience.unlocksOnComplete ?? [],
-        addModifiers: audience.addModifiersOnComplete ?? [],
-        removeModifiers: audience.removeModifiersOnComplete ?? [],
+
+        addModifiers:
+            audience.addModifiersOnComplete ?? [],
+
+        removeModifiers:
+            audience.removeModifiersOnComplete ?? [],
     };
 }

@@ -1,9 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import {
-    getNextDayPlan,
-    hasCompletedChapter,
-} from "../../game/dayFlow";
+import { getNextDayPlan } from "../../game/dayFlow";
+import { hasCompletedChapter } from "../../game/chapterFlow";
 
 import { createStats } from "../helpers/createStats";
 

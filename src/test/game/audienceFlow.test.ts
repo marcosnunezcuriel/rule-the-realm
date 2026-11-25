@@ -1,10 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import {
-    getAudienceExit,
-    getAudiencePresentation,
-    getDecisionConsequences,
-} from "../../game/audienceFlow";
+import { getAudienceExit } from "../../game/audienceFlow";
+import { getAudiencePresentation } from "../../game/getAudiencePresentation";
+import { getDecisionConsequences } from "../../game/getDecisionConsequences";
 
 import type { GameEvent } from "../../types/events";
 

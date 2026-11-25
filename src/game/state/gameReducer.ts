@@ -1,10 +1,8 @@
-import { getNextDayPlan } from "../dayFlow";
-import { checkGameOver } from "../checkGameOver";
-
 import {
-    applyDailyModifiersWithDebt,
-    getDebtAudience,
-} from "../debtFlow";
+    closeDay,
+    startDay,
+    finishJoust,
+} from "./dayState";
 
 import type { AudienceExit } from "../audienceFlow";
 import type { GameState } from "../../types/gameState";
@@ -249,38 +247,11 @@ export function gameReducer(
                 return state;
             }
 
-            // Aplicar los modificadores nocturnos
-            // exactamente una vez por jornada.
             if (
                 progress.isClosing &&
                 progress.specialAudience === null
             ) {
-                if (progress.dayClosed) {
-                    return state;
-                }
-
-                const result = applyDailyModifiersWithDebt(
-                    progress.stats,
-                    progress.activeModifierIds
-                );
-
-                return {
-                    progress: {
-                        ...progress,
-
-                        dayClosed: true,
-
-                        closingStats: {
-                            ...progress.stats,
-                        },
-
-                        stats: result.nextStats,
-
-                        modifierReport: result.report,
-                    },
-
-                    phase: "exiting",
-                };
+                return closeDay(state);
             }
 
             return {
@@ -289,119 +260,13 @@ export function gameReducer(
             };
         }
 
-        case "START_DAY": {
-            if (
-                progress.screen !== "summary" &&
-                progress.screen !== "chapter-ending"
-            ) {
-                return state;
-            }
-
-            const plan = getNextDayPlan(
-                progress.day,
-                progress.stats,
-                progress.activeModifierIds,
-                progress.unlockedEventIds
+        case "START_DAY":
+            return startDay(
+                state,
+                action.target
             );
 
-            const nextSpecialAudience =
-                plan.defeat !== null
-                    ? "defeat"
-                    : action.target === "joust"
-                        ? null
-                        : getDebtAudience(
-                            progress.stats,
-                            progress.activeModifierIds
-                        );
-
-            return {
-                progress: {
-                    ...progress,
-
-                    day: plan.nextDay,
-                    screen: action.target,
-
-                    dayStartStats: {
-                        ...progress.stats,
-                    },
-
-                    closingStats: null,
-
-                    dayClosed: false,
-
-                    sceneModifierIds:
-                        plan.nextSceneModifierIds,
-
-                    modifierReport: {
-                        appliedIds: [],
-                        totalChanges: {},
-                    },
-
-                    dayEventIds: plan.nextDayEvents.map(
-                        (event) => event.id
-                    ),
-
-                    selectedDecision: null,
-                    pendingTreasuryWarning: false,
-
-                    gameOverReason: plan.defeat,
-                    specialAudience: nextSpecialAudience,
-
-                    audienceIndex:
-                        nextSpecialAudience === null
-                            ? 0
-                            : -1,
-
-                    isClosing:
-                        plan.isClosing &&
-                        nextSpecialAudience === null,
-                },
-
-                phase: "waiting",
-            };
-        }
-
-        case "FINISH_JOUST": {
-            if (progress.screen !== "joust") {
-                return state;
-            }
-
-            const defeat = checkGameOver(
-                progress.stats
-            );
-
-            const nextSpecialAudience =
-                defeat !== null
-                    ? "defeat"
-                    : getDebtAudience(
-                        progress.stats,
-                        progress.activeModifierIds
-                    );
-
-            return {
-                progress: {
-                    ...progress,
-
-                    screen: "scene",
-
-                    gameOverReason: defeat,
-                    specialAudience: nextSpecialAudience,
-
-                    audienceIndex:
-                        nextSpecialAudience === null
-                            ? 0
-                            : -1,
-
-                    selectedDecision: null,
-                    pendingTreasuryWarning: false,
-
-                    isClosing:
-                        progress.dayEventIds.length === 0 &&
-                        nextSpecialAudience === null,
-                },
-
-                phase: "waiting",
-            };
-        }
+        case "FINISH_JOUST":
+            return finishJoust(state);
     }
 }

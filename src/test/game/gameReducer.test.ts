@@ -7,7 +7,7 @@ import type { GameAction } from "../../game/state/gameReducer";
 import type { ModifierId } from "../../types/modifiers";
 
 import { getEventById } from "../../data/events/eventRegistry";
-import { getDecisionConsequences } from "../../game/audienceFlow";
+import { getDecisionConsequences } from "../../game/getDecisionConsequences";
 import { getEventCompletionConsequences } from "../../game/getEventCompletionConsequences";
 
 import { createSave } from "../helpers/createSave";

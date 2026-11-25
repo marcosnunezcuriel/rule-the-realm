@@ -1,41 +1,39 @@
 import {
-    getChapterForDisplay,
-    getNextChapter,
-    toRomanNumber,
-} from "../data/chapters";
+    planDecision,
+    planAudienceCompletion,
+} from "../game/audienceActions";
 
 import {
-    getDecisionAchievements,
-    getEventCompletionAchievements,
-    getChapterCompletionAchievements,
-} from "../data/achievements";
+    getChapterPresentation,
+    planDayAdvance,
+    planChapterAdvance,
+} from "../game/chapterFlow";
 
-import type { AchievementId } from "../data/achievements";
-
-import { joustEvent } from "../data/events/chapter1/joust";
-
-import { checkGameOver } from "../game/checkGameOver";
-import { getEventCompletionConsequences } from "../game/getEventCompletionConsequences";
+import { getScreenTransition } from "../game/screenFlow";
+import { getAudiencePresentation } from "../game/getAudiencePresentation";
 import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
 
-import {
-    getAudienceExit,
-    getAudiencePresentation,
-    getDecisionConsequences,
-} from "../game/audienceFlow";
-
-import { hasCompletedChapter } from "../game/dayFlow";
-import { getModifierTransition } from "../game/getModifierTransition";
+import { joustEvent } from "../data/events/chapter1/joust";
 
 import { useGameAutosave } from "./useGameAutosave";
 import { useGameSessionState } from "./useGameSessionState";
 import { useGameTransitions } from "./useGameTransitions";
 
+import type { AchievementId } from "../data/achievements";
 import type { Decision } from "../types/dialogue";
 import type { ModifierId } from "../types/modifiers";
 import type { ModifierChange } from "../types/notifications";
 import type { KingdomValues } from "../types/stats";
 import type { MonarchRole } from "../types/monarch";
+
+import type {
+    AudienceOperation,
+    GameEffect,
+} from "../game/audienceActions";
+
+import type {
+    ScreenTransitionPlan,
+} from "../game/screenFlow";
 
 export function useGameController(
     onAchievementUnlocked: (id: AchievementId) => void,
@@ -55,7 +53,6 @@ export function useGameController(
         dispatch,
         dayEvents,
         setPhase,
-        setScreen,
     } = useGameSessionState(monarch);
 
     const { progress, phase } = state;
@@ -64,11 +61,6 @@ export function useGameController(
         day,
         screen,
         chapterEndingParagraphIndex,
-        audienceIndex,
-        isClosing,
-        specialAudience,
-        pendingTreasuryWarning,
-        gameOverReason,
         selectedDecision,
         stats,
         dayStartStats,
@@ -77,27 +69,35 @@ export function useGameController(
         sceneModifierIds,
         modifierReport,
         unlockedEventIds,
+        gameOverReason,
     } = progress;
 
-    // Presentación de la audiencia actual.
+    // Preparar la información de la audiencia actual.
+    const presentation = getAudiencePresentation({
+        monarch,
+
+        dayEvents: screen === "joust"
+            ? [joustEvent]
+            : dayEvents,
+
+        audienceIndex: progress.audienceIndex,
+
+        isClosing: progress.isClosing,
+
+        specialAudience:
+            progress.specialAudience,
+
+        gameOverReason,
+    });
+
     const {
         currentAudience,
-        morningCount,
         timeOfDay,
         visitorImage,
         dialogue,
         dialogueKey,
         continueLabel,
-    } = getAudiencePresentation({
-        dayEvents: screen === "joust"
-            ? [joustEvent]
-            : dayEvents,
-        audienceIndex,
-        isClosing,
-        specialAudience,
-        gameOverReason,
-        monarch,
-    });
+    } = presentation;
 
     const visibleStats = closingStats ?? stats;
 
@@ -105,14 +105,13 @@ export function useGameController(
         sceneModifierIds
     );
 
-    const chapter = getChapterForDisplay(day);
-
-    const summaryContinueLabel = hasCompletedChapter(
+    const {
+        chapter,
+        summaryContinueLabel,
+    } = getChapterPresentation(
         day,
         stats
-    )
-        ? `Fin capítulo ${toRomanNumber(chapter.number)}`
-        : "Siguiente día";
+    );
 
     useGameAutosave(progress);
 
@@ -124,41 +123,75 @@ export function useGameController(
     } = useGameTransitions({
         phase,
         setPhase,
-        screen,
-        setScreen,
-        prepareNextDay,
-        finishJoust,
     });
 
-    // Calcular los cambios de modificadores y notificar
-    // únicamente las diferencias reales.
-    function getNextModifierIds(
-        currentIds: ModifierId[],
-        toAdd: ModifierId[] = [],
-        toRemove: ModifierId[] = []
-    ): ModifierId[] {
-        const transition = getModifierTransition(
-            currentIds,
-            toAdd,
-            toRemove
-        );
+    // Ejecutar una transición preparada por el motor.
+    function requestTransition(
+        plan: ScreenTransitionPlan
+    ) {
+        startScreenTransition({
+            fullScreen: plan.fullScreen,
 
-        if (
-            transition.added.length === 0 &&
-            transition.removed.length === 0
-        ) {
-            return currentIds;
+            onDark: () => {
+                dispatch(plan.action);
+            },
+
+            onLight: plan.enterAudience
+                ? () => setPhase("entering")
+                : undefined,
+        });
+    }
+
+    // Ejecutar los efectos externos de una operación.
+    function runEffects(
+        effects: GameEffect[]
+    ) {
+        for (const effect of effects) {
+            switch (effect.kind) {
+                case "stats":
+                    onStatsChanged(
+                        effect.previous,
+                        effect.next
+                    );
+                    break;
+
+                case "modifier":
+                    onModifierChanged(
+                        effect.id,
+                        effect.change
+                    );
+                    break;
+
+                case "achievement":
+                    onAchievementUnlocked(
+                        effect.id
+                    );
+                    break;
+
+                case "anthem":
+                    onAnthemUnlocked();
+                    break;
+            }
+        }
+    }
+
+    // Aplicar una operación preparada por el motor.
+    function runAudienceOperation(
+        operation: AudienceOperation | null
+    ) {
+        if (operation === null) {
+            return;
         }
 
-        for (const id of transition.added) {
-            onModifierChanged(id, "added");
-        }
+        dispatch(operation.action);
 
-        for (const id of transition.removed) {
-            onModifierChanged(id, "removed");
-        }
+        runEffects(operation.effects);
 
-        return transition.next;
+        if (operation.transition !== null) {
+            requestTransition(
+                operation.transition
+            );
+        }
     }
 
     // Finalizar la entrada o salida del visitante.
@@ -168,250 +201,48 @@ export function useGameController(
             return;
         }
 
-        if (phase !== "exiting") {
-            return;
-        }
-
-        let exitStats = stats;
-
-        let exitTreasuryWarning =
-            pendingTreasuryWarning;
-
-        let exitModifierIds = activeModifierIds;
-
-        let exitUnlocks: string[] = [];
-
-        // Aplicar las consecuencias que corresponden
-        // al finalizar un acontecimiento.
-        if (
-            !isClosing &&
-            specialAudience === null &&
-            currentAudience !== undefined
-        ) {
-            const completion =
-                getEventCompletionConsequences(
-                    currentAudience,
-                    stats
-                );
-
-            if (completion.nextStats !== null) {
-                onStatsChanged(
-                    stats,
-                    completion.nextStats
-                );
-
-                exitStats = completion.nextStats;
-            }
-
-            if (completion.showTreasuryWarning) {
-                exitTreasuryWarning = true;
-            }
-
-            exitUnlocks = completion.unlocks;
-
-            if (
-                completion.addModifiers.length > 0 ||
-                completion.removeModifiers.length > 0
-            ) {
-                exitModifierIds = getNextModifierIds(
-                    exitModifierIds,
-                    completion.addModifiers,
-                    completion.removeModifiers
-                );
-            }
-
-            const earnedAchievements =
-                getEventCompletionAchievements(
-                    currentAudience.id
-                );
-
-            for (const achievementId of earnedAchievements) {
-                onAchievementUnlocked(achievementId);
-            }
-
-            // El evento 24.1 desbloquea música,
-            // no un logro.
-            if (currentAudience.id === "24.1") {
-                onAnthemUnlocked();
-            }
-        }
-
-        // La audiencia de deuda activa los intereses.
-        if (
-            specialAudience === "treasury-warning" &&
-            exitStats.gold < 0
-        ) {
-            exitModifierIds = getNextModifierIds(
-                exitModifierIds,
-                ["indebted"]
-            );
-        }
-
-        // La audiencia de recuperación cancela los intereses.
-        if (
-            specialAudience === "treasury-recovery" &&
-            exitStats.gold > 0
-        ) {
-            exitModifierIds = getNextModifierIds(
-                exitModifierIds,
-                [],
-                ["indebted"]
-            );
-        }
-
-        // La justa utiliza su propio cambio de escenario.
-        const exit = screen === "joust"
-            ? null
-            : getAudienceExit({
-                specialAudience,
-                isClosing,
-                stats: exitStats,
-
-                pendingTreasuryWarning:
-                    exitTreasuryWarning,
-
-                activeModifierIds: exitModifierIds,
-
-                audienceIndex,
-                dayEventsCount: dayEvents.length,
-                morningCount,
-                timeOfDay,
-            });
-
-        // Aplicar conjuntamente todas las consecuencias
-        // y avanzar el estado de la audiencia.
-        dispatch({
-            type: "COMPLETE_AUDIENCE",
-
-            changes: {
-                stats: exitStats,
-
-                activeModifierIds:
-                    exitModifierIds,
-
-                pendingTreasuryWarning:
-                    exitTreasuryWarning,
-
-                unlocks: exitUnlocks,
-            },
-
-            exit,
-        });
-
-        // Las transiciones visuales se mantienen
-        // fuera del reducer.
-        if (exit === null) {
-            startScreenTransition("scene");
-            return;
-        }
-
-        if (exit.kind === "gameover") {
-            startScreenTransition("gameover");
-            return;
-        }
-
-        if (exit.kind === "summary") {
-            startScreenTransition("sleep");
-        }
+        runAudienceOperation(
+            planAudienceCompletion(
+                state,
+                presentation
+            )
+        );
     }
 
     // Aplicar una decisión del jugador.
-    function handleDecision(answer: Decision) {
-        if (
-            isClosing ||
-            specialAudience !== null ||
-            phase !== "speaking" ||
-            selectedDecision !== null ||
-            !currentAudience
-        ) {
-            return;
-        }
-
-        const consequences = getDecisionConsequences(
-            currentAudience,
-            answer,
-            stats
-        );
-
-        const nextStats =
-            consequences.nextStats ?? stats;
-
-        if (consequences.nextStats !== null) {
-            onStatsChanged(
-                stats,
-                consequences.nextStats
-            );
-        }
-
-        const nextModifierIds =
-            consequences.addModifiers.length > 0
-                ? getNextModifierIds(
-                    activeModifierIds,
-                    consequences.addModifiers
-                )
-                : activeModifierIds;
-
-        dispatch({
-            type: "MAKE_DECISION",
-
-            decision: answer,
-
-            changes: {
-                stats: nextStats,
-
-                activeModifierIds:
-                    nextModifierIds,
-
-                pendingTreasuryWarning:
-                    pendingTreasuryWarning ||
-                    consequences.showTreasuryWarning,
-
-                unlocks: consequences.unlocks,
-            },
-        });
-
-        const earnedAchievements =
-            getDecisionAchievements(
-                currentAudience.id,
+    function handleDecision(
+        answer: Decision
+    ) {
+        runAudienceOperation(
+            planDecision(
+                state,
+                currentAudience,
                 answer
-            );
-
-        for (const achievementId of earnedAchievements) {
-            onAchievementUnlocked(achievementId);
-        }
+            )
+        );
     }
 
-    // Continuar la audiencia o cerrar la jornada.
     function handleContinue() {
         dispatch({
             type: "CONTINUE",
         });
     }
 
-    // Terminar el descanso nocturno y abrir el resumen.
+    // Abrir el resumen después del descanso nocturno.
     function handleSleepFinished() {
         if (screen !== "sleep") {
             return;
         }
 
-        startScreenTransition("summary");
-    }
-
-    // Preparar una nueva jornada.
-    function prepareNextDay(
-        target: "scene" | "joust"
-    ) {
-        dispatch({
-            type: "START_DAY",
-            target,
-        });
-    }
-
-    // Regresar al salón del trono sin avanzar de día.
-    function finishJoust() {
-        dispatch({
-            type: "FINISH_JOUST",
-        });
+        requestTransition(
+            getScreenTransition(
+                screen,
+                {
+                    type: "SET_SCREEN",
+                    screen: "summary",
+                }
+            )
+        );
     }
 
     function setChapterEndingParagraphIndex(
@@ -423,49 +254,42 @@ export function useGameController(
         });
     }
 
+    // Avanzar desde el resumen diario.
     function handleNextDay() {
-        if (hasCompletedChapter(day, stats)) {
-            const earnedAchievements =
-                getChapterCompletionAchievements(
-                    chapter.number
-                );
+        const plan = planDayAdvance(
+            progress
+        );
 
-            for (const achievementId of earnedAchievements) {
-                onAchievementUnlocked(achievementId);
-            }
-
-            setChapterEndingParagraphIndex(0);
-
-            startScreenTransition("chapter-ending");
+        if (plan === null) {
             return;
         }
 
-        // El torneo se celebra al comenzar el segundo día
-        // si el monarca autorizó los festejos de coronación.
-        const shouldShowJoust =
-            day === 1 &&
-            unlockedEventIds.includes("2.1") &&
-            checkGameOver(stats) === null;
+        for (const id of plan.achievements) {
+            onAchievementUnlocked(id);
+        }
 
-        startScreenTransition(
-            shouldShowJoust ? "joust" : "scene"
+        if (plan.resetEndingParagraph) {
+            setChapterEndingParagraphIndex(0);
+        }
+
+        requestTransition(
+            plan.transition
         );
     }
 
+    // Comenzar el siguiente capítulo.
     function handleStartNextChapter() {
-        if (screen !== "chapter-ending") {
-            return;
-        }
+        const plan = planChapterAdvance(
+            progress
+        );
 
-        const nextChapter = getNextChapter(chapter);
-
-        if (nextChapter === null) {
+        if (plan === null) {
             return;
         }
 
         setChapterEndingParagraphIndex(0);
 
-        startScreenTransition("scene");
+        requestTransition(plan);
     }
 
     return {

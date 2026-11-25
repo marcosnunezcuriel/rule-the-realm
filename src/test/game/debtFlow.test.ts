@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
     applyDailyModifiersWithDebt,
     getDebtAudience,
+    shouldShowTreasuryWarning,
 } from "../../game/debtFlow";
 
 import { checkGameOver } from "../../game/checkGameOver";
@@ -117,5 +118,56 @@ describe("Deudas de la Corona", () => {
         expect(
             checkGameOver(result.nextStats)
         ).toBe("bankruptcy");
+    });
+
+    it("solo anuncia una nueva deuda si el reino sobrevive", () => {
+        const previous = createStats({
+            gold: 10,
+        });
+
+        expect(
+            shouldShowTreasuryWarning(
+                previous,
+                createStats({ gold: -10 })
+            )
+        ).toBe(true);
+
+        expect(
+            shouldShowTreasuryWarning(
+                previous,
+                createStats({ gold: 0 })
+            )
+        ).toBe(false);
+
+        expect(
+            shouldShowTreasuryWarning(
+                previous,
+                createStats({ gold: -50 })
+            )
+        ).toBe(false);
+
+        expect(
+            shouldShowTreasuryWarning(
+                previous,
+                createStats({
+                    gold: -10,
+                    population: 0,
+                })
+            )
+        ).toBe(false);
+
+        expect(
+            shouldShowTreasuryWarning(
+                createStats({ gold: -5 }),
+                createStats({ gold: -10 })
+            )
+        ).toBe(false);
+
+        expect(
+            shouldShowTreasuryWarning(
+                previous,
+                null
+            )
+        ).toBe(false);
     });
 });
