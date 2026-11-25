@@ -136,32 +136,3 @@
         transform: translateX(140%);
     }
 }
-
-/* Pantalla auxiliar de fin de audiencia (conservada por compatibilidad visual) */
-.audience-demo-end {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    padding: var(--space-6) var(--space-8);
-    text-align: center;
-    background-color: var(--colour-panel);
-    border: var(--border-medium) solid var(--colour-border-gold);
-    border-radius: var(--radius-lg);
-    color: var(--colour-text);
-}
-
-.audience-demo-end button {
-    margin-top: var(--space-3);
-    padding: var(--space-2-5) var(--space-5);
-    background-color: var(--colour-button-alt);
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-xs);
-    color: var(--colour-gold);
-    cursor: pointer;
-}
-
-.audience-demo-end button:hover {
-    background-color: var(--colour-button-alt-hover);
-}

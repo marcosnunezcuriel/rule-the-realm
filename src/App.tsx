@@ -95,7 +95,7 @@ function App() {
     const [soundPanelOpen, setSoundPanelOpen] =
         useState(false);
 
-    // El logro del evento 24.1 desbloquea el himno.
+    // El himno es una recompensa musical permanente.
     const [hymnUnlocked, setHymnUnlocked] = useState(
         loadAnthemUnlocked
     );
@@ -161,7 +161,7 @@ function App() {
         soundEngine.playEffect(effect);
     }
 
-    // Una sola cola para los tres tipos de notificación.
+    // Cola común para todas las notificaciones del juego.
     const [notificationQueue, setNotificationQueue] =
         useState<GameNotification[]>([]);
 

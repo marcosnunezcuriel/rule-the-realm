@@ -8,7 +8,7 @@ import type { SaveGame } from "../types/saveGame";
 
 type GameAutosaveInput = Omit<
     SaveGame,
-    "version" | "dayClosed" | "dayEventIds"
+    "dayClosed" | "dayEventIds"
 > & {
     dayEvents: GameEvent[];
     dayClosedRef: RefObject<boolean>;

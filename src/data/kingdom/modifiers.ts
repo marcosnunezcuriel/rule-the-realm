@@ -3,9 +3,8 @@ import type {
     ModifierId,
 } from "../../types/modifiers";
 
-// El PDF fija cuándo comienza y termina cada modificador,
-// pero no cuantifica los efectos diarios de los cinco nuevos.
-// No inventar cifras: definirlas al equilibrar las reglas.
+// Definiciones de los modificadores del reino
+// y sus consecuencias al finalizar cada jornada.
 export const modifierDefinitions: Record<
     ModifierId,
     ModifierDefinition
@@ -22,59 +21,65 @@ export const modifierDefinitions: Record<
             prestige: 2,
         },
     },
+
     "high-taxes": {
         id: "high-taxes",
         name: "Impuestos altos",
         description:
-            "El reino aplica tasas extraordinarias. " +
-            "Pendiente de definir su efecto diario.",
+            "La corona aplica tasas extraordinarias que aumentan " +
+            "los ingresos, pero provocan el descontento del pueblo.",
         dailyChanges: {
             gold: 12,
             population: -3,
             prestige: -3,
         },
     },
+
     "silk-road": {
         id: "silk-road",
         name: "Ruta de la seda",
         description:
-            "Una nueva ruta comercial une Astaria con el Imperio Oriental. " +
-            "Pendiente de definir su efecto diario.",
+            "Una nueva ruta comercial une Astaria con el Imperio Oriental, " +
+            "aumentando los ingresos del reino.",
         dailyChanges: {
             gold: 4,
         },
     },
+
     "emerald-mine": {
         id: "emerald-mine",
         name: "Mina de esmeraldas",
         description:
-            "La explotación minera genera nuevas riquezas. " +
-            "Pendiente de definir su efecto diario.",
+            "La explotación minera genera nuevas riquezas " +
+            "para las arcas de la corona.",
         dailyChanges: {
-            gold: 12
+            gold: 12,
         },
     },
+
     "modern-windmills": {
         id: "modern-windmills",
         name: "Molinos modernos",
         description:
-            "Las nuevas aspas aceleran la molienda del grano. " +
-            "Pendiente de definir su efecto diario.",
+            "Las nuevas aspas aceleran la molienda del grano, " +
+            "aumentando los ingresos y el prestigio del reino.",
         dailyChanges: {
             gold: 7,
-            prestige: 2
+            prestige: 2,
         },
     },
+
     "black-fever": {
         id: "black-fever",
         name: "Fiebre negra",
         description:
-            "Una grave epidemia asola Astaria. " +
-            "Pendiente de definir su efecto diario.",
+            "Una grave epidemia asola Astaria, " +
+            "reduciendo progresivamente su población.",
         dailyChanges: {
             population: -10,
         },
     },
+
     "indebted": {
         id: "indebted",
         name: "Endeudado",

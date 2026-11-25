@@ -27,34 +27,14 @@ export function loadGame(): SaveGame | null {
 
         const parsed: unknown = JSON.parse(raw);
 
-        // Migración de partidas anteriores a la elección
-        // de personaje. En ellas gobernaba siempre el rey.
-        const migrated = (
-            typeof parsed === "object" &&
-            parsed !== null &&
-            !Array.isArray(parsed) &&
-            !Object.hasOwn(parsed, "monarch")
-        )
-            ? {
-                ...parsed,
-                monarch: "king",
-            }
-            : parsed;
-
-        if (!isSaveGame(migrated)) {
+        if (!isSaveGame(parsed)) {
             discardInvalidSave();
             return null;
         }
 
-        // Guardar el formato actualizado una sola vez.
-        if (migrated !== parsed) {
-            saveGame(migrated);
-        }
-
-        return migrated;
+        return parsed;
     } catch {
-        // Si el contenido es incorrecto o no se puede leer,
-        // descartamos el guardado para evitar errores futuros.
+        // Descartar guardados incorrectos o ilegibles.
         discardInvalidSave();
         return null;
     }

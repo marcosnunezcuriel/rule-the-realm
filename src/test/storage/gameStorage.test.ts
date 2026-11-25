@@ -88,6 +88,20 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
+    it("descarta partidas antiguas sin monarca definido", () => {
+        storeRaw({
+            ...createSave(),
+            monarch: undefined,
+        });
+
+        expect(loadGame()).toBeNull();
+        expect(hasSavedGame()).toBe(false);
+
+        expect(
+            window.localStorage.getItem(SAVE_KEY)
+        ).toBeNull();
+    });
+
     it("rechaza estadísticas incompletas", () => {
         storeRaw({
             ...createSave(),

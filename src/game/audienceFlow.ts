@@ -184,8 +184,7 @@ export function getAudienceExit({
             };
         }
 
-        // Mantener la compatibilidad con el aviso
-        // económico que ya guarda el juego.
+        // Atender el aviso de tesorería pendiente antes de avanzar a la siguiente audiencia.
         if (
             pendingTreasuryWarning &&
             stats.gold < 0 &&

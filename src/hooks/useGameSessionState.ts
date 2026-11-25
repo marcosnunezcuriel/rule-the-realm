@@ -17,8 +17,8 @@ import type { GameOverReason } from "../types/gameOver";
 import type { DailyModifierReport, ModifierId } from "../types/modifiers";
 import type { KingdomValues } from "../types/stats";
 
-// Estado persistente y restauración de una partida.
-// No aplica consecuencias ni decide qué pantalla mostrar.
+// Inicialización y restauración del estado de partida.
+// No aplica consecuencias de acontecimientos.
 export function useGameSessionState() {
     // Recuperar el guardado al montar el controlador.
     const [initialSave] = useState(() => loadGame());
@@ -41,8 +41,7 @@ export function useGameSessionState() {
                     )
                     : initialSave.specialAudience;
 
-            // Solo saltar al resumen si no queda ninguna
-            // audiencia especial pendiente de completar.
+            // Recuperar el descanso nocturno si no queda ninguna audiencia extraordinaria pendiente.
             if (pendingDebtAudience === null) {
                 return "sleep";
             }
