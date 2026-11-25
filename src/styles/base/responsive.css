@@ -1,11 +1,88 @@
 /*
  * Rule the Realm — Diseño responsive
  *
- * Escritorio: estilos originales.
+ * Escritorio: más de 1024 px.
  * Tablet: hasta 1024 px.
  * Teléfono: hasta 640 px.
  * Horizontal: hasta 1024 px de ancho y 544 px de alto.
+ *
+ * Todas las reglas @media del juego se centralizan aquí.
  */
+
+/* ==========================================
+   ESCRITORIO — MÁS DE 1024 PX
+   ========================================== */
+
+@media (min-width: 64.001rem) {
+
+    /* Escenario de la justa */
+
+    .joust-scene {
+        container-type: size;
+
+        /* Reservar espacio para las estadísticas */
+        padding-left: calc(
+            var(--size-stats-width) +
+            var(--space-9) +
+            var(--space-4)
+        );
+    }
+
+    .joust-stage {
+        aspect-ratio: 3 / 2;
+
+        width: min(100cqw, 150cqh);
+        max-width: 100%;
+
+        height: auto;
+    }
+
+    /* Bocadillo del caballero campeón */
+
+    .joust-stage .speech-bubble--visitor {
+        left: 57%;
+        bottom: 60%;
+        width: 40%;
+    }
+
+    .joust-stage .speech-bubble--visitor::after {
+        right: 14%;
+    }
+
+    /* Bocadillo de decisión del monarca */
+
+    .joust-stage .speech-bubble--king {
+        top: 7%;
+        left: 25%;
+    }
+
+    .joust-stage .speech-bubble--king::after {
+        left: 12%;
+    }
+}
+
+/* ==========================================
+   ESCRITORIO CON POCA ALTURA
+   ========================================== */
+
+@media (min-width: 64.001rem)
+    and (max-height: 43rem) {
+
+    /* Diálogos de la justa */
+
+    .joust-stage .speech-bubble {
+        padding: var(--space-2) var(--space-3);
+    }
+
+    .joust-stage .speech-bubble__speaker {
+        font-size: var(--font-size-16);
+    }
+
+    .joust-stage .speech-bubble__text {
+        font-size: var(--font-size-14);
+        line-height: 1.3;
+    }
+}
 
 /* ==========================================
    TABLETS Y MÓVILES — HASTA 1024 PX
@@ -374,6 +451,12 @@
 
         flex: 0 0 auto;
         overflow: hidden;
+    }
+
+    /* Escenario especial de la justa */
+
+    .joust-stage .throne-stage__visuals {
+        aspect-ratio: 3 / 2;
     }
 
     /* Diálogo debajo del escenario */

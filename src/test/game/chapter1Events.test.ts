@@ -98,4 +98,14 @@ describe("Acontecimientos del Capítulo I", () => {
             }
         }
     });
+
+    it("registra la aceptación de la ayuda del hermano", () => {
+        expect(
+            byId.get("8")?.unlocks?.yes
+        ).toContain("joust-with-brother");
+
+        expect(
+            byId.get("8")?.unlocks?.no ?? []
+        ).not.toContain("joust-with-brother");
+    });
 });
