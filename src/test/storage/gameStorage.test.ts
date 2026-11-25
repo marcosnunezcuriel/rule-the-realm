@@ -7,6 +7,8 @@ import {
     it,
 } from "vitest";
 
+import { createSave } from "../helpers/createSave";
+
 import {
     SAVE_KEY,
     clearSavedGame,
@@ -18,36 +20,6 @@ import {
 import type { SaveGame } from "../../types/saveGame";
 
 import { createStats } from "../helpers/createStats";
-
-function createSave(): SaveGame {
-    return {
-        monarch: "king",
-        day: 1,
-        screen: "scene",
-        stats: createStats(),
-        dayStartStats: createStats(),
-        closingStats: null,
-        audienceIndex: 0,
-        dayEventIds: [
-            "1", "2", "3", "4", "5",
-            "6", "7", "8", "9", "10",
-        ],
-        isClosing: false,
-        dayClosed: false,
-        selectedDecision: null,
-        unlockedEventIds: [],
-        activeModifierIds: [],
-        sceneModifierIds: [],
-        modifierReport: {
-            appliedIds: [],
-            totalChanges: {},
-        },
-        specialAudience: null,
-        pendingTreasuryWarning: false,
-        gameOverReason: null,
-        chapterEndingParagraphIndex: 0,
-    };
-}
 
 function storeRaw(value: unknown): void {
     window.localStorage.setItem(
@@ -315,23 +287,70 @@ describe("Guardado de partidas", () => {
     });
 
     it("recupera una partida durante la justa", () => {
-    const save: SaveGame = {
-        ...createSave(),
-        day: 2,
-        screen: "joust",
-        selectedDecision: "yes",
-        unlockedEventIds: [
-            "2.1",
-            "joust-with-brother",
-        ],
-        dayEventIds: [
-            "11", "12", "13",
-            "14", "15", "16",
-        ],
-    };
+        const save: SaveGame = {
+            ...createSave(),
+            day: 2,
+            screen: "joust",
+            selectedDecision: "yes",
+            unlockedEventIds: [
+                "2.1",
+                "joust-with-brother",
+            ],
+            dayEventIds: [
+                "11", "12", "13",
+                "14", "15", "16",
+            ],
+        };
 
-    saveGame(save);
+        saveGame(save);
 
-    expect(loadGame()).toEqual(save);
-});
+        expect(loadGame()).toEqual(save);
+    });
+    
+    it.each(["scene", "gameover"] as const)(
+        "recupera una derrota nocturna del día 2 en %s",
+        (screen) => {
+            const save = createSave({
+                day: 2,
+                screen,
+                stats: createStats({ gold: -50 }),
+                dayStartStats: createStats({ gold: -50 }),
+                dayEventIds: [],
+                audienceIndex: -1,
+                specialAudience: "defeat",
+                gameOverReason: "bankruptcy",
+            });
+
+            saveGame(save);
+
+            expect(loadGame()).toEqual(save);
+        }
+    );
+
+    it("rechaza una jornada normal sin sus acontecimientos", () => {
+        storeRaw(
+            createSave({
+                day: 2,
+                dayEventIds: [],
+            })
+        );
+
+        expect(loadGame()).toBeNull();
+    });
+
+    it("rechaza una derrota nocturna con estadísticas incompatibles", () => {
+        storeRaw(
+            createSave({
+                day: 2,
+                stats: createStats(),
+                dayStartStats: createStats(),
+                dayEventIds: [],
+                audienceIndex: -1,
+                specialAudience: "defeat",
+                gameOverReason: "bankruptcy",
+            })
+        );
+
+        expect(loadGame()).toBeNull();
+    });
 });

@@ -472,7 +472,6 @@ export function useGameController(
 
         setDay(plan.nextDay);
         setDayEvents(plan.nextDayEvents);
-        setAudienceIndex(0);
         setSelectedDecision(null);
         setPendingTreasuryWarning(false);
 
@@ -484,6 +483,12 @@ export function useGameController(
 
         setGameOverReason(plan.defeat);
         setSpecialAudience(nextSpecialAudience);
+
+        // Si existe una audiencia extraordinaria al comenzar
+        // la jornada, todavía no hemos atendido al primer visitante.
+        setAudienceIndex(
+            nextSpecialAudience === null ? 0 : -1
+        );
 
         setIsClosing(
             plan.isClosing && nextSpecialAudience === null

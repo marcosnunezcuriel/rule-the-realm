@@ -4,9 +4,11 @@ import { statDefinitions } from "../data/kingdom/statDefinitions";
 import { gameOverMessages } from "../data/narrative/gameOverMessages";
 
 import { getDayEvents } from "../game/getDayEvents";
+import { checkGameOver } from "../game/checkGameOver";
 
 import type { ModifierId } from "../types/modifiers";
 import type { SaveGame } from "../types/saveGame";
+import type { KingdomValues } from "../types/stats";
 
 // Los nombres de las estadísticas proceden de su registro.
 // No mantenemos otra lista independiente.
@@ -41,7 +43,7 @@ function isStringArray(
 }
 
 // Comprobar que las estadísticas estén completas.
-function isStats(value: unknown): boolean {
+function isStats(value: unknown): value is KingdomValues {
     if (!isRecord(value)) {
         return false;
     }
@@ -95,7 +97,8 @@ function isModifierArray(
 function isDayEventArray(
     value: unknown,
     day: number,
-    unlockedEventIds: unknown
+    unlockedEventIds: unknown,
+    openingDefeat: boolean
 ): value is string[] {
     if (
         !isStringArray(value) ||
@@ -104,8 +107,12 @@ function isDayEventArray(
         return false;
     }
 
-    const expectedIds = getDayEvents(day, unlockedEventIds)
-        .map((event) => event.id);
+    // Una derrota al comenzar la jornada impide
+    // que se celebren las audiencias normales.
+    const expectedIds = openingDefeat
+        ? []
+        : getDayEvents(day, unlockedEventIds)
+            .map((event) => event.id);
 
     return (
         value.length === expectedIds.length &&
@@ -192,7 +199,24 @@ export function isSaveGame(
         isDayEventArray(
             value.dayEventIds,
             day,
-            value.unlockedEventIds
+            value.unlockedEventIds,
+            (
+                value.specialAudience === "defeat" &&
+                value.gameOverReason !== null &&
+                value.gameOverReason === checkGameOver(value.stats) &&
+                value.gameOverReason === checkGameOver(value.dayStartStats) &&
+                (
+                    value.screen === "scene" ||
+                    value.screen === "gameover"
+                ) &&
+                value.isClosing === false &&
+                value.dayClosed === false &&
+                value.selectedDecision === null &&
+                (
+                    value.audienceIndex === 0 ||
+                    value.audienceIndex === -1
+                )
+            )
         ) &&
         value.audienceIndex <= value.dayEventIds.length &&
         (
