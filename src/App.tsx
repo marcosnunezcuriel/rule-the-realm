@@ -323,18 +323,17 @@ function App() {
     }
 
     function confirmStartNewGame() {
+        // Eliminar la partida anterior al confirmar
+        // que se desea comenzar una nueva.
+        clearSavedGame();
+        setSavedAvailable(false);
+
         setConfirmNewGame(false);
         navigateTo("choose-monarch");
     }
 
     function chooseMonarch(choice: MonarchRole) {
         setMonarch(choice);
-
-        // La partida anterior solo se reemplaza
-        // cuando el jugador confirma su nuevo monarca.
-        clearSavedGame();
-        setSavedAvailable(false);
-
         navigateTo("intro");
     }
 
