@@ -1,6 +1,8 @@
 import type { GameNotification } from "../types/notifications";
 
-function getPriority(notification: GameNotification): number {
+function getPriority(
+    notification: GameNotification
+): number {
     switch (notification.kind) {
         case "stats":
             return 0;
@@ -10,6 +12,7 @@ function getPriority(notification: GameNotification): number {
             return 1;
 
         case "achievement":
+        case "anthem-unlocked":
             return 2;
     }
 }
@@ -21,7 +24,7 @@ export function insertGameNotification(
 ): GameNotification[] {
     const first = queue[0];
 
-    // Nunca interrumpir la notificación que ya se ve.
+    // No interrumpir la notificación que ya está visible.
     const keepFirst =
         first !== undefined &&
         first.sequence === displayedSequence;
@@ -30,8 +33,6 @@ export function insertGameNotification(
         ? [...queue.slice(1), incoming]
         : [...queue, incoming];
 
-    // Ordenar los avisos pendientes por prioridad.
-    // Entre avisos del mismo tipo, conservar el orden.
     waiting.sort((a, b) => {
         return (
             getPriority(a) - getPriority(b) ||

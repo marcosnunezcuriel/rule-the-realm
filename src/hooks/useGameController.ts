@@ -42,7 +42,8 @@ export function useGameController(
     onStatsChanged: (
         previous: KingdomValues,
         next: KingdomValues
-    ) => void
+    ) => void,
+    onAnthemUnlocked: () => void
 ) {
     // Estado y carga inicial, separados de las reglas del juego.
     const {
@@ -240,6 +241,11 @@ export function useGameController(
 
             for (const achievementId of earnedAchievements) {
                 onAchievementUnlocked(achievementId);
+            }
+
+            // El evento 24.1 desbloquea música, no un logro.
+            if (currentAudience.id === "24.1") {
+                onAnthemUnlocked();
             }
         }
 

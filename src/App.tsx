@@ -1,9 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
+
+import type { MouseEvent } from "react";
 
 import MainMenu from "./components/screens/MainMenu";
 import AchievementsScreen from "./components/screens/AchievementsScreen";
 import WelcomeIntroduction from "./components/screens/WelcomeIntroduction";
 import GameSession from "./components/screens/GameSession";
+import SoundPanel from "./components/shared/SoundPanel";
 
 import type { AchievementId } from "./data/achievements";
 
@@ -11,14 +19,36 @@ import {
     clearSavedGame,
     hasSavedGame,
 } from "./storage/gameStorage";
-import { unlockAchievement } from "./storage/achievementsStorage";
 
+import {
+    unlockAchievement,
+} from "./storage/achievementsStorage";
+
+import {
+    loadAnthemUnlocked,
+    unlockAnthem,
+} from "./storage/anthemStorage";
+
+import {
+    loadSoundSettings,
+    saveSoundSettings,
+} from "./storage/soundSettingsStorage";
+
+import { soundEngine } from "./audio/soundEngine";
+
+import { getNotificationEffect } from "./game/getNotificationEffect";
 import { getStatDifferences } from "./game/getStatDifferences";
 import { insertGameNotification } from "./game/insertGameNotification";
+
+import type {
+    SoundEffect,
+    SoundSettings,
+} from "./types/audio";
 
 import type { KingdomValues } from "./types/stats";
 import type { FadeStage } from "./types/game";
 import type { ModifierId } from "./types/modifiers";
+
 import type {
     GameNotification,
     ModifierChange,
@@ -51,18 +81,93 @@ function App() {
     const [discardSaveOnMenu, setDiscardSaveOnMenu] =
         useState(false);
 
-    // Cola compartida de estadísticas, modificadores y logros.
+    // Preferencias de sonido independientes de las partidas.
+    const [soundSettings, setSoundSettings] =
+        useState(loadSoundSettings);
+
+    const [soundPanelOpen, setSoundPanelOpen] =
+        useState(false);
+
+    // El logro del evento 24.1 desbloquea el himno.
+    const [hymnUnlocked, setHymnUnlocked] = useState(
+        loadAnthemUnlocked
+    );
+
+    useEffect(() => {
+        saveSoundSettings(soundSettings);
+
+        soundEngine.configure(
+            soundSettings,
+            hymnUnlocked
+        );
+    }, [soundSettings, hymnUnlocked]);
+
+    function updateSoundSettings(
+        changes: Partial<SoundSettings>
+    ) {
+        setSoundSettings((previous) => ({
+            ...previous,
+            ...changes,
+        }));
+    }
+
+    // Capturar los clics de todos los botones del juego.
+    function handleAppClick(
+        event: MouseEvent<HTMLDivElement>
+    ) {
+        const target = event.target;
+
+        if (!(target instanceof Element)) {
+            return;
+        }
+
+        const button = target.closest("button");
+
+        if (button === null || button.disabled) {
+            return;
+        }
+
+        let effect: SoundEffect = "ui-click";
+
+        if (
+            button.classList.contains(
+                "speech-bubble__choice--yes"
+            )
+        ) {
+            effect = "decision-yes";
+        } else if (
+            button.classList.contains(
+                "speech-bubble__choice--no"
+            )
+        ) {
+            effect = "decision-no";
+        } else if (
+            button.classList.contains("speech-bubble__next") ||
+            button.classList.contains(
+                "narrative-parchment__button"
+            )
+        ) {
+            effect = "dialogue-next";
+        }
+
+        soundEngine.unlock();
+        soundEngine.playEffect(effect);
+    }
+
+    // Una sola cola para los tres tipos de notificación.
     const [notificationQueue, setNotificationQueue] =
         useState<GameNotification[]>([]);
 
     const nextNotificationId = useRef(0);
 
-    // Identifica la notificación que ya está mostrándose.
-    // No debe ser interrumpida por avisos nuevos.
-    const displayedSequenceRef = useRef<number | null>(null);
+    const displayedSequenceRef =
+        useRef<number | null>(null);
 
-    function enqueueNotification(notification: GameNotification) {
-        const displayedSequence = displayedSequenceRef.current;
+    function enqueueNotification(
+        notification: GameNotification
+    ) {
+        const displayedSequence =
+            displayedSequenceRef.current;
 
         setNotificationQueue((previous) => {
             return insertGameNotification(
@@ -73,12 +178,14 @@ function App() {
         });
     }
 
-    // Cambios de estadísticas de una decisión o audiencia.
     function handleStatsChanged(
         previous: KingdomValues,
         next: KingdomValues
     ) {
-        const changes = getStatDifferences(previous, next);
+        const changes = getStatDifferences(
+            previous,
+            next
+        );
 
         if (Object.keys(changes).length === 0) {
             return;
@@ -93,7 +200,6 @@ function App() {
         });
     }
 
-    // Activación o retirada de un modificador.
     function handleModifierChanged(
         id: ModifierId,
         change: ModifierChange
@@ -102,15 +208,18 @@ function App() {
 
         enqueueNotification({
             sequence: nextNotificationId.current,
+
             kind: change === "added"
                 ? "modifier-added"
                 : "modifier-removed",
+
             id,
         });
     }
 
-    // Desbloquear un logro y anunciarlo.
-    function handleAchievementUnlocked(id: AchievementId) {
+    function handleAchievementUnlocked(
+        id: AchievementId
+    ) {
         if (!unlockAchievement(id)) {
             return;
         }
@@ -124,7 +233,22 @@ function App() {
         });
     }
 
-    // Retirar exclusivamente la notificación indicada.
+    // El himno es una recompensa musical, no un logro.
+    function handleAnthemUnlocked() {
+        if (hymnUnlocked || !unlockAnthem()) {
+            return;
+        }
+
+        setHymnUnlocked(true);
+
+        nextNotificationId.current += 1;
+
+        enqueueNotification({
+            sequence: nextNotificationId.current,
+            kind: "anthem-unlocked",
+        });
+    }
+
     const handleDismissNotification = useCallback(
         (sequence: number) => {
             setNotificationQueue((previous) => {
@@ -138,22 +262,26 @@ function App() {
         []
     );
 
-    const activeNotificationSequence =
-        notificationQueue[0]?.sequence ?? null;
+    const activeNotification =
+        notificationQueue[0] ?? null;
 
-    // Un solo temporizador para los tres tipos de avisos.
-    // Sigue funcionando aunque cambie la pantalla del juego.
+    // Reproducir el sonido cuando aparece el aviso.
+    // Nunca cuando está esperando en la cola.
     useEffect(() => {
         displayedSequenceRef.current =
-            activeNotificationSequence;
+            activeNotification?.sequence ?? null;
 
-        if (activeNotificationSequence === null) {
+        if (activeNotification === null) {
             return;
         }
 
+        soundEngine.playEffect(
+            getNotificationEffect(activeNotification)
+        );
+
         const timeoutId = window.setTimeout(() => {
             handleDismissNotification(
-                activeNotificationSequence
+                activeNotification.sequence
             );
         }, 5000);
 
@@ -161,7 +289,7 @@ function App() {
             window.clearTimeout(timeoutId);
         };
     }, [
-        activeNotificationSequence,
+        activeNotification,
         handleDismissNotification,
     ]);
 
@@ -212,11 +340,14 @@ function App() {
         ) {
             if (navigationTarget === "menu") {
                 setNotificationQueue([]);
+
                 if (discardSaveOnMenu) {
                     clearSavedGame();
                     setSavedAvailable(false);
                 } else {
-                    setSavedAvailable(hasSavedGame());
+                    setSavedAvailable(
+                        hasSavedGame()
+                    );
                 }
             }
 
@@ -246,7 +377,16 @@ function App() {
     ].filter(Boolean).join(" ");
 
     return (
-        <div className="app">
+        <div
+            className="app"
+            onPointerDownCapture={() => {
+                soundEngine.unlock();
+            }}
+            onKeyDownCapture={() => {
+                soundEngine.unlock();
+            }}
+            onClickCapture={handleAppClick}
+        >
             {view === "menu" ? (
                 <MainMenu
                     hasSave={savedAvailable}
@@ -256,27 +396,63 @@ function App() {
                     onAchievements={() => {
                         navigateTo("achievements");
                     }}
-                    onConfirmNewGame={confirmStartNewGame}
+                    onSoundSettings={() => {
+                        setSoundPanelOpen(true);
+                    }}
+                    onConfirmNewGame={
+                        confirmStartNewGame
+                    }
                     onCancelNewGame={() => {
                         setConfirmNewGame(false);
                     }}
                 />
             ) : view === "achievements" ? (
                 <AchievementsScreen
-                    onBack={() => navigateTo("menu")}
+                    onBack={() => {
+                        navigateTo("menu");
+                    }}
                 />
             ) : view === "intro" ? (
                 <WelcomeIntroduction
-                    onFinish={() => navigateTo("game")}
+                    onFinish={() => {
+                        navigateTo("game");
+                    }}
                 />
             ) : (
                 <GameSession
-                    onOpenMenu={() => navigateTo("menu")}
-                    onGameOverMenu={() => navigateTo("menu", true)}
-                    onAchievementUnlocked={handleAchievementUnlocked}
-                    onModifierChanged={handleModifierChanged}
-                    onStatsChanged={handleStatsChanged}
-                    notification={notificationQueue[0] ?? null}
+                    onOpenMenu={() => {
+                        navigateTo("menu");
+                    }}
+                    onGameOverMenu={() => {
+                        navigateTo("menu", true);
+                    }}
+                    onSoundSettings={() => {
+                        setSoundPanelOpen(true);
+                    }}
+                    onAchievementUnlocked={
+                        handleAchievementUnlocked
+                    }
+                    onAnthemUnlocked={
+                        handleAnthemUnlocked
+                    }
+                    onModifierChanged={
+                        handleModifierChanged
+                    }
+                    onStatsChanged={
+                        handleStatsChanged
+                    }
+                    notification={activeNotification}
+                />
+            )}
+
+            {soundPanelOpen && (
+                <SoundPanel
+                    settings={soundSettings}
+                    hymnUnlocked={hymnUnlocked}
+                    onChange={updateSoundSettings}
+                    onClose={() => {
+                        setSoundPanelOpen(false);
+                    }}
                 />
             )}
 

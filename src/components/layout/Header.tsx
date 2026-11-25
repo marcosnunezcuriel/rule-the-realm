@@ -6,12 +6,14 @@ type HeaderProps = {
     chapter: string;
     day: number;
     onMenu: () => void;
+    onSoundSettings: () => void;
 };
 
 function Header({
     chapter,
     day,
     onMenu,
+    onSoundSettings,
 }: HeaderProps) {
     return (
         <header className="site-header">
@@ -40,6 +42,28 @@ function Header({
 
                     Día {String(day).padStart(2, "0")}
                 </div>
+
+                <button
+                    type="button"
+                    className="site-header__menu"
+                    aria-label="Control de sonido"
+                    title="Control de sonido"
+                    onClick={onSoundSettings}
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+                        <path d="M15 9a5 5 0 0 1 0 6" />
+                        <path d="M18 6a9 9 0 0 1 0 12" />
+                    </svg>
+                </button>
 
                 <button
                     type="button"

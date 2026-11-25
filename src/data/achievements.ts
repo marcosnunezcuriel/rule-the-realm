@@ -1,4 +1,3 @@
-
 import type { Decision } from "../types/dialogue";
 
 type AchievementTrigger =
@@ -45,24 +44,6 @@ export const achievements = [
         },
     },
     {
-        id: "royal-portrait",
-        name: "Para la posteridad",
-        description: "Consigue que el pintor termine tu retrato oficial.",
-        trigger: {
-            type: "event-complete",
-            eventId: "23.1",
-        },
-    },
-    {
-        id: "astaria-anthem",
-        name: "La voz de Astaria",
-        description: "Consigue que el músico de la corte termine el himno del reino.",
-        trigger: {
-            type: "event-complete",
-            eventId: "24.1",
-        },
-    },
-    {
         id: "emerald-fever",
         name: "Fiebre de esmeraldas",
         description: "Consigue que la mina de esmeraldas se convierta en una explotación próspera.",
@@ -72,12 +53,12 @@ export const achievements = [
         },
     },
     {
-        id: "industrial-revolution",
-        name: "Revolución industrial",
-        description: "Consigue que el nuevo molino entre en funcionamiento.",
+        id: "second-chance",
+        name: "Una segunda oportunidad",
+        description: "Ayuda al mendigo y recibe su donación días después.",
         trigger: {
             type: "event-complete",
-            eventId: "30.1",
+            eventId: "13.1",
         },
     },
     {
@@ -91,22 +72,21 @@ export const achievements = [
         },
     },
     {
-        id: "second-chance",
-        name: "Una segunda oportunidad",
-        description: "Ayuda al mendigo y recibe su donación días después.",
+        id: "royal-portrait",
+        name: "Para la posteridad",
+        description: "Consigue que el pintor termine tu retrato oficial.",
         trigger: {
             type: "event-complete",
-            eventId: "13.1",
+            eventId: "23.1",
         },
     },
     {
-        id: "no-one-left-behind",
-        name: "Nadie se queda atrás",
-        description: "Financia el rescate de los barcos atrapados por la tormenta.",
+        id: "industrial-revolution",
+        name: "Revolución industrial",
+        description: "Consigue que el nuevo molino entre en funcionamiento.",
         trigger: {
-            type: "decision",
-            eventId: "35",
-            answer: "yes",
+            type: "event-complete",
+            eventId: "30.1",
         },
     },
     {
@@ -120,12 +100,32 @@ export const achievements = [
         },
     },
     {
-        id: "moon-guard",
-        name: "Guardia de la Luna",
-        description: "Acepta la ayuda de la manada de hombres lobo.",
+        id: "no-one-left-behind",
+        name: "Nadie se queda atrás",
+        description: "Financia el rescate de los barcos atrapados por la tormenta.",
         trigger: {
             type: "decision",
-            eventId: "44",
+            eventId: "35",
+            answer: "yes",
+        },
+    },
+    {
+        id: "land-of-opportunity",
+        name: "Tierra de oportunidades",
+        description: "Acoge a los refugiados del desierto y financia posteriormente su integración.",
+        trigger: {
+            type: "decision",
+            eventId: "36.1",
+            answer: "yes",
+        },
+    },
+    {
+        id: "protected-borders",
+        name: "Fronteras protegidas",
+        description: "Ordena al ejército proteger la frontera sur frente a los saqueadores.",
+        trigger: {
+            type: "decision",
+            eventId: "36.2",
             answer: "yes",
         },
     },
@@ -139,12 +139,12 @@ export const achievements = [
         },
     },
     {
-        id: "land-of-opportunity",
-        name: "Tierra de oportunidades",
-        description: "Acoge a los refugiados del desierto y financia posteriormente su integración.",
+        id: "moon-guard",
+        name: "Guardia de la Luna",
+        description: "Acepta la ayuda de la manada de hombres lobo.",
         trigger: {
             type: "decision",
-            eventId: "36.1",
+            eventId: "44",
             answer: "yes",
         },
     },

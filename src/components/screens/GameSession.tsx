@@ -1,3 +1,7 @@
+import { useEffect, useRef } from "react";
+
+import { soundEngine } from "../../audio/soundEngine";
+
 import Header from "../layout/Header";
 import ThroneScene from "../scene/ThroneScene";
 import DialogueController from "../narrative/DialogueController";
@@ -42,6 +46,9 @@ type GameSessionProps = {
     ) => void;
 
     notification: GameNotification | null;
+
+    onSoundSettings: () => void;
+    onAnthemUnlocked: () => void;
 };
 
 // Presentación de la partida activa.
@@ -53,6 +60,8 @@ function GameSession({
     onModifierChanged,
     onStatsChanged,
     notification,
+    onSoundSettings,
+    onAnthemUnlocked,
 }: GameSessionProps) {
 
     const {
@@ -87,8 +96,82 @@ function GameSession({
     } = useGameController(
         onAchievementUnlocked,
         onModifierChanged,
-        onStatsChanged
+        onStatsChanged,
+        onAnthemUnlocked
     );
+
+    const lastVisitorSound = useRef<string | null>(null);
+    const lastScreenSound = useRef<string | null>(null);
+
+    // Reproducir pasos cuando entra o sale un visitante.
+    useEffect(() => {
+        if (
+            screen !== "scene" ||
+            (
+                phase !== "entering" &&
+                phase !== "exiting"
+            )
+        ) {
+            return;
+        }
+
+        const key = `${day}-${dialogueKey}-${phase}`;
+
+        if (lastVisitorSound.current === key) {
+            return;
+        }
+
+        lastVisitorSound.current = key;
+
+        soundEngine.playEffect(
+            phase === "entering"
+                ? "visitor-enter"
+                : "visitor-exit"
+        );
+    }, [
+        day,
+        dialogueKey,
+        phase,
+        screen,
+    ]);
+
+    // Reproducir los efectos de cada pantalla.
+    useEffect(() => {
+        soundEngine.setAmbientActive(
+            screen === "scene"
+        );
+
+        if (lastScreenSound.current === screen) {
+            return;
+        }
+
+        lastScreenSound.current = screen;
+
+        switch (screen) {
+            case "sleep":
+                soundEngine.playEffect("day-end");
+                break;
+
+            case "summary":
+                soundEngine.playEffect("day-summary");
+                break;
+
+            case "gameover":
+                soundEngine.playEffect("game-over");
+                break;
+
+            case "chapter-ending":
+                soundEngine.playEffect("chapter-complete");
+                break;
+        }
+    }, [screen]);
+
+    // Al salir de la partida, restaurar el ambiente.
+    useEffect(() => {
+        return () => {
+            soundEngine.setAmbientActive(true);
+        };
+    }, []);
 
     const fadeClassName = [
         "screen-fade",
@@ -112,6 +195,7 @@ function GameSession({
                 <Header
                     chapter={toRomanNumber(chapter.number)}
                     day={day}
+                    onSoundSettings={onSoundSettings}
                     onMenu={
                         gameOverReason !== null
                             ? onGameOverMenu

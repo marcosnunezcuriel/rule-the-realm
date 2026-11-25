@@ -99,4 +99,42 @@ describe("Logros del Capítulo I", () => {
             getChapterCompletionAchievements(2)
         ).toEqual([]);
     });
+
+    it("el himno deja de conceder un logro", () => {
+        expect(
+            getEventCompletionAchievements("24.1")
+        ).toEqual([]);
+
+        expect(
+            achievements.map((achievement) => achievement.id)
+        ).not.toContain("astaria-anthem");
+    });
+
+    it("concede Fronteras protegidas al atacar", () => {
+        expect(
+            getDecisionAchievements("36.2", "yes")
+        ).toContain("protected-borders");
+
+        expect(
+            getDecisionAchievements("36.2", "no")
+        ).not.toContain("protected-borders");
+    });
+
+    it("los dos logros de refugiados siguen ramas excluyentes", () => {
+        const event = getEventById("36");
+
+        expect(event?.unlocks?.yes).toContain("36.1");
+        expect(event?.unlocks?.no).toContain("36.2");
+
+        expect(event?.unlocks?.yes).not.toContain("36.2");
+        expect(event?.unlocks?.no).not.toContain("36.1");
+
+        expect(
+            getDecisionAchievements("36.1", "yes")
+        ).toContain("land-of-opportunity");
+
+        expect(
+            getDecisionAchievements("36.2", "yes")
+        ).toContain("protected-borders");
+    });
 });

@@ -1,0 +1,5 @@
+/* Botón de sonido en la esquina inferior izquierda */
+.main-menu__sound {
+    right: auto;
+    left: var(--space-7-5);
+}

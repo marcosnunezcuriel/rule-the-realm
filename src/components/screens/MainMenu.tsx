@@ -1,6 +1,7 @@
 import { assetUrl } from "../../utils/assetUrl";
 
 import "../../styles/screens/MainMenu.css";
+import "../../styles/screens/SoundMenuButton.css";
 
 type MainMenuProps = {
     hasSave: boolean;
@@ -10,6 +11,7 @@ type MainMenuProps = {
     onConfirmNewGame: () => void;
     onCancelNewGame: () => void;
     onAchievements: () => void;
+    onSoundSettings: () => void;
 };
 
 function MainMenu({
@@ -20,6 +22,7 @@ function MainMenu({
     onConfirmNewGame,
     onCancelNewGame,
     onAchievements,
+    onSoundSettings,
 }: MainMenuProps) {
     return (
         <main className="main-menu">
@@ -81,6 +84,30 @@ function MainMenu({
             <p className="main-menu__credit">
                 Hecho por Marcos Núñez Curiel
             </p>
+
+            {/* Botón de sonido */}
+            <button
+                type="button"
+                className="main-menu__achievements main-menu__sound"
+                onClick={onSoundSettings}
+                aria-label="Control de sonido"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+                    <path d="M15 9a5 5 0 0 1 0 6" />
+                    <path d="M18 6a9 9 0 0 1 0 12" />
+                </svg>
+
+                Sonido
+            </button>
 
             {/* Botón de logros */}
             <button

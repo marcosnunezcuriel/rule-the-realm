@@ -20,6 +20,10 @@ export type GameNotification =
         kind: "modifier-added" | "modifier-removed";
         id: ModifierId;
     }
+    | {
+        sequence: number;
+        kind: "anthem-unlocked";
+    }
     | (StatChangeNotification & {
         kind: "stats";
     });
