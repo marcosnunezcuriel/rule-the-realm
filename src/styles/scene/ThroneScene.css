@@ -37,6 +37,18 @@
     opacity: 1;
 }
 
+/* Capa de ilustraciones: conserva el escenario original */
+.throne-stage__visuals {
+    position: absolute;
+    inset: 0;
+}
+
+/* Capa de diálogos: superpuesta en escritorio */
+.throne-stage__dialogue {
+    position: absolute;
+    inset: 0;
+}
+
 /* Personajes */
 .character {
     position: absolute;

@@ -10,6 +10,7 @@ import "./utils/effects.css";
 import "./styles/base/global.css";
 
 import App from "./App.tsx";
+import "./styles/base/responsive.css";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>

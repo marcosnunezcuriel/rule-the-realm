@@ -6,9 +6,9 @@ import type {
     SceneTime,
 } from "../../types/scene";
 
-import "../../styles/scene/ThroneScene.css";
-
 import { assetUrl } from "../../utils/assetUrl";
+
+import "../../styles/scene/ThroneScene.css";
 
 type ThroneSceneProps = {
     timeOfDay: SceneTime;
@@ -29,7 +29,7 @@ function ThroneScene({
     visitorKey,
     onVisitorAnimationEnd,
     children,
-    backgroundMap
+    backgroundMap,
 }: ThroneSceneProps) {
     const showVisitor =
         visitorPhase === "entering" ||
@@ -55,48 +55,61 @@ function ThroneScene({
         <main className="throne-scene">
             <div className="throne-stage">
 
-                {backgrounds.map((background) => (
-                    <img
-                        key={background.time}
-                        className={`throne-stage__background ${
-                            timeOfDay === background.time
-                                ? "throne-stage__background--active"
-                                : ""
-                        }`}
-                        src={assetUrl(background.src)}
-                        alt=""
-                        aria-hidden="true"
-                        draggable={false}
-                    />
-                ))}
-
-                <img
-                    className="character character--king"
-                    src={assetUrl("/assets/characters/royalty/king.png")}
-                    alt="Rey de Astaria"
-                    draggable={false}
-                />
-
-                {showVisitor && (
-                    <div
-                        key={visitorKey}
-                        className={`character character--visitor visitor--${visitorPhase}`}
-                        onAnimationEnd={(event) => {
-                            if (event.target === event.currentTarget) {
-                                onVisitorAnimationEnd();
-                            }
-                        }}
-                    >
+                {/* Ilustraciones del escenario */}
+                <div className="throne-stage__visuals">
+                    {backgrounds.map((background) => (
                         <img
-                            className="visitor__image"
-                            src={assetUrl(visitorImage)}
-                            alt={visitorName}
+                            key={background.time}
+                            className={`throne-stage__background ${
+                                timeOfDay === background.time
+                                    ? "throne-stage__background--active"
+                                    : ""
+                            }`}
+                            src={assetUrl(background.src)}
+                            alt=""
+                            aria-hidden="true"
                             draggable={false}
                         />
-                    </div>
-                )}
+                    ))}
 
-                {children}
+                    <img
+                        className="character character--king"
+                        src={assetUrl(
+                            "/assets/characters/royalty/king.png"
+                        )}
+                        alt="Rey de Astaria"
+                        draggable={false}
+                    />
+
+                    {showVisitor && (
+                        <div
+                            key={visitorKey}
+                            className={
+                                `character character--visitor ` +
+                                `visitor--${visitorPhase}`
+                            }
+                            onAnimationEnd={(event) => {
+                                if (
+                                    event.target === event.currentTarget
+                                ) {
+                                    onVisitorAnimationEnd();
+                                }
+                            }}
+                        >
+                            <img
+                                className="visitor__image"
+                                src={assetUrl(visitorImage)}
+                                alt={visitorName}
+                                draggable={false}
+                            />
+                        </div>
+                    )}
+                </div>
+
+                {/* Diálogos: superpuestos en PC, debajo en móvil */}
+                <div className="throne-stage__dialogue">
+                    {children}
+                </div>
             </div>
         </main>
     );
