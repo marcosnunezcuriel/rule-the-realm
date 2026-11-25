@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import type { Dispatch, SetStateAction } from "react";
 import type {
     AudiencePhase,
     GameScreen,
@@ -11,10 +10,15 @@ const BACKGROUND_TRANSITION_DURATION = 1500;
 
 type GameTransitionsInput = {
     phase: AudiencePhase;
-    setPhase: Dispatch<SetStateAction<AudiencePhase>>;
+    setPhase: (phase: AudiencePhase) => void;
+
     screen: GameScreen;
-    setScreen: Dispatch<SetStateAction<GameScreen>>;
-    prepareNextDay: (target: GameScreen) => void;
+    setScreen: (screen: GameScreen) => void;
+
+    prepareNextDay: (
+        target: "scene" | "joust"
+    ) => void;
+
     finishJoust: () => void;
 };
 
@@ -88,7 +92,12 @@ export function useGameTransitions({
                 prepareNextDay(transitionTarget);
             }
 
-            setScreen(transitionTarget);
+            // El resto de pantallas no requiere preparar
+            // una nueva jornada.
+            else {
+                setScreen(transitionTarget);
+            }
+
             setTransitionStage("lightening");
             return;
         }

@@ -456,4 +456,67 @@ describe("Flujo y recuperación de partidas", () => {
             getController().stats
         ).toEqual(expectedStats);
     });
+
+    it.each([true, false])(
+        "comienza el día 2 correctamente con torneo autorizado: %s",
+        async (withJoust) => {
+            await mountController(
+                createSave({
+                    screen: "summary",
+
+                    isClosing: true,
+                    dayClosed: true,
+                    audienceIndex: 10,
+
+                    unlockedEventIds: withJoust
+                        ? ["2.1"]
+                        : [],
+                })
+            );
+
+            await runAction((controller) => {
+                controller.handleNextDay();
+            });
+
+            // Todavía no debe avanzar la jornada
+            // antes de que se produzca el fundido.
+            expect(getController().day).toBe(1);
+
+            await finishTransition();
+
+            expect(getController().day).toBe(2);
+
+            expect(
+                getController().screen
+            ).toBe(
+                withJoust ? "joust" : "scene"
+            );
+
+            expect(
+                getController().dialogueKey
+            ).toBe(
+                withJoust ? "2.1" : "11"
+            );
+
+            expect(
+                getController().phase
+            ).toBe("entering");
+
+            const saved = loadGame();
+
+            expect(saved?.day).toBe(2);
+
+            expect(saved?.screen).toBe(
+                withJoust ? "joust" : "scene"
+            );
+
+            expect(
+                saved?.dayEventIds
+            ).toEqual(day2EventIds);
+
+            expect(
+                saved?.dayClosed
+            ).toBe(false);
+        }
+    );
 });

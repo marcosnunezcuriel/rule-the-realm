@@ -1,217 +1,72 @@
-import { useRef, useState } from "react";
+import {
+    useCallback,
+    useMemo,
+    useReducer,
+} from "react";
 
 import { getEventById } from "../data/events/eventRegistry";
-import { getDayEvents } from "../game/getDayEvents";
-import { initialKingdomValues } from "../game/initialState";
+import { createGameState } from "../game/state/createGameState";
+import { gameReducer } from "../game/state/gameReducer";
 import { loadGame } from "../storage/gameStorage";
-import { getDebtAudience } from "../game/debtFlow";
 
-import type { Decision } from "../types/dialogue";
 import type { GameEvent } from "../types/events";
+import type { MonarchRole } from "../types/monarch";
+
 import type {
     AudiencePhase,
     GameScreen,
-    SpecialAudience,
 } from "../types/game";
-import type { GameOverReason } from "../types/gameOver";
-import type { DailyModifierReport, ModifierId } from "../types/modifiers";
-import type { KingdomValues } from "../types/stats";
 
-// Inicialización y restauración del estado de partida.
-// No aplica consecuencias de acontecimientos.
-export function useGameSessionState() {
-    // Recuperar el guardado al montar el controlador.
-    const [initialSave] = useState(() => loadGame());
-
-    // Estado principal de la jornada y de la interfaz.
-    const [day, setDay] = useState(
-        initialSave?.day ?? 1
+// Conectar React con el estado centralizado de partida.
+export function useGameSessionState(
+    monarch: MonarchRole
+) {
+    const [state, dispatch] = useReducer(
+        gameReducer,
+        monarch,
+        (role) => createGameState(
+            role,
+            loadGame()
+        )
     );
 
-    const [screen, setScreen] = useState<GameScreen>(() => {
-        if (
-            initialSave?.dayClosed &&
-            initialSave.screen === "scene"
-        ) {
-            const pendingDebtAudience =
-                initialSave.specialAudience === null
-                    ? getDebtAudience(
-                        initialSave.stats,
-                        initialSave.activeModifierIds
-                    )
-                    : initialSave.specialAudience;
+    const dayEventIds = state.progress.dayEventIds;
 
-            // Recuperar el descanso nocturno si no queda ninguna audiencia extraordinaria pendiente.
-            if (pendingDebtAudience === null) {
-                return "sleep";
-            }
-        }
-
-        return initialSave?.screen ?? "scene";
-    });
-
-    const [
-        chapterEndingParagraphIndex,
-        setChapterEndingParagraphIndex,
-    ] = useState(
-        initialSave?.chapterEndingParagraphIndex ?? 0
-    );
-
-    const [phase, setPhase] = useState<AudiencePhase>("entering");
-
-    const [audienceIndex, setAudienceIndex] = useState(
-        initialSave?.audienceIndex ?? 0
-    );
-
-    const [isClosing, setIsClosing] = useState(
-        initialSave?.isClosing ?? false
-    );
-
-    // Tipo de audiencia extraordinaria en curso.
-    const [specialAudience, setSpecialAudience] =
-        useState<SpecialAudience>(() => {
-            if (initialSave === null) {
-                return null;
-            }
-
-            if (initialSave.specialAudience !== null) {
-                return initialSave.specialAudience;
-            }
-
-            if (
-                initialSave.dayClosed &&
-                initialSave.screen === "scene" &&
-                initialSave.isClosing
-            ) {
-                return getDebtAudience(
-                    initialSave.stats,
-                    initialSave.activeModifierIds
-                );
-            }
-
-            return null;
-        });
-
-    // Aviso económico pendiente de presentar.
-    const [
-        pendingTreasuryWarning,
-        setPendingTreasuryWarning,
-    ] = useState(
-        initialSave?.pendingTreasuryWarning ?? false
-    );
-
-    // Causa de la derrota, si existe.
-    const [gameOverReason, setGameOverReason] = useState<
-        GameOverReason | null
-    >(initialSave?.gameOverReason ?? null);
-
-    // Decisión ya aplicada en la audiencia actual.
-    const [selectedDecision, setSelectedDecision] = useState<
-        Decision | null
-    >(initialSave?.selectedDecision ?? null);
-
-    // Datos del reino.
-    const [stats, setStats] = useState<KingdomValues>(
-        initialSave?.stats ?? initialKingdomValues
-    );
-
-    const [dayStartStats, setDayStartStats] = useState<
-        KingdomValues
-    >(
-        initialSave?.dayStartStats ?? {
-            ...initialKingdomValues,
-        }
-    );
-
-    const [closingStats, setClosingStats] = useState<
-        KingdomValues | null
-    >(
-        initialSave?.closingStats ?? null
-    );
-
-    const [activeModifierIds, setActiveModifierIds] = useState<
-        ModifierId[]
-    >(
-        initialSave?.activeModifierIds ?? []
-    );
-
-    // Tema visual fijado al comienzo de cada jornada.
-    const [sceneModifierIds, setSceneModifierIds] = useState<
-        ModifierId[]
-    >(
-        initialSave?.sceneModifierIds ?? []
-    );
-
-    const [modifierReport, setModifierReport] = useState<
-        DailyModifierReport
-    >(
-        initialSave?.modifierReport ?? {
-            appliedIds: [],
-            totalChanges: {},
-        }
-    );
-
-    const [unlockedEventIds, setUnlockedEventIds] = useState<
-        string[]
-    >(
-        initialSave?.unlockedEventIds ?? []
-    );
-
-    // Mantener las audiencias de la jornada guardada.
-    const [dayEvents, setDayEvents] = useState<GameEvent[]>(() => {
-        if (initialSave === null) {
-            return getDayEvents(1, []);
-        }
-
-        // Recuperar las mismas audiencias, en el mismo orden,
-        // mediante el registro central de eventos.
-        return initialSave.dayEventIds
+    // Recuperar los acontecimientos del registro central
+    // únicamente cuando cambia la lista de la jornada.
+    const dayEvents = useMemo(() => {
+        return dayEventIds
             .map((id) => getEventById(id))
             .filter((event): event is GameEvent => {
                 return event !== undefined;
             });
-    });
+    }, [dayEventIds]);
 
-    // Protege de un segundo cierre de la misma jornada.
-    const dayClosedRef = useRef(initialSave?.dayClosed ?? false);
+    const setPhase = useCallback(
+        (phase: AudiencePhase) => {
+            dispatch({
+                type: "SET_PHASE",
+                phase,
+            });
+        },
+        [dispatch]
+    );
+
+    const setScreen = useCallback(
+        (screen: GameScreen) => {
+            dispatch({
+                type: "SET_SCREEN",
+                screen,
+            });
+        },
+        [dispatch]
+    );
 
     return {
-        day,
-        setDay,
-        screen,
-        setScreen,
-        chapterEndingParagraphIndex,
-        setChapterEndingParagraphIndex,
-        phase,
-        setPhase,
-        audienceIndex,
-        setAudienceIndex,
-        isClosing,
-        setIsClosing,
-        specialAudience,
-        setSpecialAudience,
-        pendingTreasuryWarning,
-        setPendingTreasuryWarning,
-        gameOverReason,
-        setGameOverReason,
-        selectedDecision,
-        setSelectedDecision,
-        stats,
-        setStats,
-        dayStartStats,
-        setDayStartStats,
-        closingStats,
-        setClosingStats,
-        activeModifierIds,
-        setActiveModifierIds,
-        sceneModifierIds,
-        setSceneModifierIds,
-        modifierReport,
-        setModifierReport,
-        unlockedEventIds,
-        setUnlockedEventIds,
+        state,
+        dispatch,
         dayEvents,
-        setDayEvents,
-        dayClosedRef,
+        setPhase,
+        setScreen,
     };
 }
