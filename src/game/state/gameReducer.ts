@@ -10,6 +10,8 @@ import type { Decision } from "../../types/dialogue";
 import type { ModifierId } from "../../types/modifiers";
 import type { KingdomValues } from "../../types/stats";
 
+import type { StoryFlagId } from "../../data/narrative/storyFlags";
+
 import type {
     AudiencePhase,
     GameScreen,
@@ -19,7 +21,11 @@ type EventChanges = {
     stats: KingdomValues;
     activeModifierIds: ModifierId[];
     pendingTreasuryWarning: boolean;
+
     unlocks: string[];
+
+    addStoryFlags: StoryFlagId[];
+    removeStoryFlags: StoryFlagId[];
 };
 
 // Operaciones que pueden modificar el estado de partida.
@@ -65,6 +71,33 @@ function mergeUnlocks(
     return added.length === 0
         ? current
         : [...new Set([...current, ...added])];
+}
+
+// Actualizar las condiciones narrativas sin duplicarlas
+// ni modificar el estado anterior.
+function updateStoryFlags(
+    current: StoryFlagId[],
+    toAdd: StoryFlagId[],
+    toRemove: StoryFlagId[]
+): StoryFlagId[] {
+    if (
+        toAdd.length === 0 &&
+        toRemove.length === 0
+    ) {
+        return current;
+    }
+
+    const next = new Set(current);
+
+    for (const id of toAdd) {
+        next.add(id);
+    }
+
+    for (const id of toRemove) {
+        next.delete(id);
+    }
+
+    return [...next];
 }
 
 // Actualizar el estado sin modificar el estado anterior
@@ -136,6 +169,12 @@ export function gameReducer(
                         progress.unlockedEventIds,
                         changes.unlocks
                     ),
+
+                    storyFlags: updateStoryFlags(
+                        progress.storyFlags,
+                        changes.addStoryFlags,
+                        changes.removeStoryFlags
+                    ),
                 },
             };
         }
@@ -161,6 +200,12 @@ export function gameReducer(
                 unlockedEventIds: mergeUnlocks(
                     progress.unlockedEventIds,
                     changes.unlocks
+                ),
+
+                storyFlags: updateStoryFlags(
+                    progress.storyFlags,
+                    changes.addStoryFlags,
+                    changes.removeStoryFlags
                 ),
             };
 

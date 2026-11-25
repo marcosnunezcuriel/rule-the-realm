@@ -99,13 +99,19 @@ describe("Acontecimientos del Capítulo I", () => {
         }
     });
 
-    it("registra la aceptación de la ayuda del hermano", () => {
-        expect(
-            byId.get("8")?.unlocks?.yes
-        ).toContain("joust-with-brother");
+    it("registra la ayuda del hermano como condición narrativa", () => {
+        const event = byId.get("8");
 
         expect(
-            byId.get("8")?.unlocks?.no ?? []
-        ).not.toContain("joust-with-brother");
+            event?.addStoryFlags?.yes
+        ).toEqual(["brother-is-advisor"]);
+
+        expect(
+            event?.addStoryFlags?.no ?? []
+        ).toEqual([]);
+
+        expect(
+            event?.unlocks?.yes ?? []
+        ).toEqual([]);
     });
 });

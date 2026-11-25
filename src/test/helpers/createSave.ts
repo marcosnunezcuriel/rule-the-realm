@@ -26,6 +26,8 @@ export function createSave(
         selectedDecision: null,
 
         unlockedEventIds: [],
+        storyFlags: [],
+        
         activeModifierIds: [],
         sceneModifierIds: [],
 

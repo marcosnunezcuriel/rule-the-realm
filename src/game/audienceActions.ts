@@ -139,7 +139,13 @@ function collectConsequences(
 
         unlocks:
             consequences?.unlocks ?? [],
-    };
+
+        addStoryFlags:
+            consequences?.addStoryFlags ?? [],
+
+        removeStoryFlags:
+            consequences?.removeStoryFlags ?? [],
+            };
 }
 
 // Preparar una decisión del jugador.

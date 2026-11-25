@@ -5,6 +5,7 @@ import type {
 
 import type { StatChanges } from "./stats";
 import type { ModifierId } from "./modifiers";
+import type { StoryFlagId } from "../data/narrative/storyFlags";
 
 export type GameEvent = {
     id: string;
@@ -20,13 +21,23 @@ export type GameEvent = {
     // un acontecimiento informativo que no pide decisión.
     baseEffects?: StatChanges;
 
+    // Desbloqueos de acontecimientos futuros.
     requiresUnlock?: boolean;
     unlocks?: Partial<Record<Decision, string[]>>;
+
+    // Condiciones narrativas de cada decisión.
+    addStoryFlags?: Partial<Record<Decision, StoryFlagId[]>>;
+    removeStoryFlags?: Partial<Record<Decision, StoryFlagId[]>>;
+
+    // Modificadores activados por cada decisión.
     addModifiers?: Partial<Record<Decision, ModifierId[]>>;
 
-    // Efectos de cierre que se aplican una vez al salir del evento,
-    // independientemente de la respuesta del jugador.
+    // Consecuencias al completar el acontecimiento.
     unlocksOnComplete?: string[];
+
+    addStoryFlagsOnComplete?: StoryFlagId[];
+    removeStoryFlagsOnComplete?: StoryFlagId[];
+
     addModifiersOnComplete?: ModifierId[];
     removeModifiersOnComplete?: ModifierId[];
 };

@@ -602,4 +602,61 @@ describe("Flujo y recuperación de partidas", () => {
             getController().day
         ).toBe(7);
     });
+
+    it.each(["yes", "no"] as const)(
+        "conserva la decisión del hermano al recargar: %s",
+        async (decision) => {
+            await mountController(
+                createSave({
+                    audienceIndex: 7,
+                    unlockedEventIds: ["2.1"],
+                })
+            );
+
+            expect(
+                getController().dialogueKey
+            ).toBe("8");
+
+            await runAction((controller) => {
+                controller.handleVisitorAnimationEnd();
+            });
+
+            await runAction((controller) => {
+                controller.handleDecision(decision);
+            });
+
+            const expectedFlags =
+                decision === "yes"
+                    ? ["brother-is-advisor"]
+                    : [];
+
+            expect(
+                loadGame()?.storyFlags
+            ).toEqual(expectedFlags);
+
+            expect(
+                loadGame()?.unlockedEventIds
+            ).toEqual(["2.1"]);
+
+            expect(
+                getController().withBrother
+            ).toBe(decision === "yes");
+
+            // Simular una recarga del navegador.
+            await unmountController();
+            await mountController();
+
+            expect(
+                getController().selectedDecision
+            ).toBe(decision);
+
+            expect(
+                getController().withBrother
+            ).toBe(decision === "yes");
+
+            expect(
+                loadGame()?.storyFlags
+            ).toEqual(expectedFlags);
+        }
+    );
 });

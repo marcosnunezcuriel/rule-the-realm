@@ -10,6 +10,7 @@ import type {
 } from "./modifiers";
 import type { KingdomValues } from "./stats";
 import type { MonarchRole } from "./monarch";
+import type { StoryFlagId } from "../data/narrative/storyFlags";
 
 // Único formato de guardado del juego.
 // Se actualizará cuando evolucionen las mecánicas.
@@ -33,6 +34,8 @@ export type SaveGame = {
     selectedDecision: Decision | null;
 
     unlockedEventIds: string[];
+    storyFlags: StoryFlagId[];
+    
     activeModifierIds: ModifierId[];
     sceneModifierIds: ModifierId[];
 

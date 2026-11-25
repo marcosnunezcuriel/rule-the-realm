@@ -68,7 +68,7 @@ export function useGameController(
         activeModifierIds,
         sceneModifierIds,
         modifierReport,
-        unlockedEventIds,
+        storyFlags,
         gameOverReason,
     } = progress;
 
@@ -331,8 +331,8 @@ export function useGameController(
         chapterEndingParagraphIndex,
         setChapterEndingParagraphIndex,
 
-        withBrother: unlockedEventIds.includes(
-            "joust-with-brother"
+        withBrother: storyFlags.includes(
+            "brother-is-advisor"
         ),
     };
 }

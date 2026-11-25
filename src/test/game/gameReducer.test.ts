@@ -78,6 +78,12 @@ describe("Actualizaciones del estado de partida", () => {
                     consequences.showTreasuryWarning,
 
                 unlocks: consequences.unlocks,
+
+                addStoryFlags:
+                    consequences.addStoryFlags,
+
+                removeStoryFlags:
+                    consequences.removeStoryFlags,
             },
         };
 
@@ -167,6 +173,12 @@ describe("Actualizaciones del estado de partida", () => {
                     completion.showTreasuryWarning,
 
                 unlocks: completion.unlocks,
+
+                addStoryFlags:
+                    completion.addStoryFlags,
+
+                removeStoryFlags:
+                    completion.removeStoryFlags,
             },
 
             exit: {
@@ -471,7 +483,10 @@ describe("Actualizaciones del estado de partida", () => {
 
                 unlockedEventIds: [
                     "2.1",
-                    "joust-with-brother",
+                ],
+
+                storyFlags: [
+                    "brother-is-advisor",
                 ],
             })
         );
@@ -485,6 +500,10 @@ describe("Actualizaciones del estado de partida", () => {
         );
 
         expect(joust.progress.day).toBe(2);
+
+        expect(
+            joust.progress.storyFlags
+        ).toEqual(["brother-is-advisor"]);
 
         expect(
             joust.progress.screen
@@ -522,6 +541,10 @@ describe("Actualizaciones del estado de partida", () => {
         expect(
             throne.progress.unlockedEventIds
         ).toEqual(joust.progress.unlockedEventIds);
+
+        expect(
+            throne.progress.storyFlags
+        ).toEqual(["brother-is-advisor"]);
     });
 
     it("actualiza el progreso del epílogo", () => {

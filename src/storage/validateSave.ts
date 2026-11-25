@@ -2,6 +2,7 @@ import { getChapterForDisplay } from "../data/chapters";
 import { modifierDefinitions } from "../data/kingdom/modifiers";
 import { statDefinitions } from "../data/kingdom/statDefinitions";
 import { gameOverMessages } from "../data/narrative/gameOverMessages";
+import { isStoryFlagId } from "../data/narrative/storyFlags";
 
 import { getDayEvents } from "../game/getDayEvents";
 import { checkGameOver } from "../game/checkGameOver";
@@ -39,6 +40,18 @@ function isStringArray(
                 item.length > 0
             );
         })
+    );
+}
+
+// Las condiciones narrativas deben estar registradas
+// y no pueden aparecer duplicadas.
+function isStoryFlagArray(
+    value: unknown
+): boolean {
+    return (
+        isStringArray(value) &&
+        new Set(value).size === value.length &&
+        value.every(isStoryFlagId)
     );
 }
 
@@ -196,6 +209,7 @@ export function isSaveGame(
             )
         ) &&
         isStringArray(value.unlockedEventIds) &&
+        isStoryFlagArray(value.storyFlags) &&
         isDayEventArray(
             value.dayEventIds,
             day,

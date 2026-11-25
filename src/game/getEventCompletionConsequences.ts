@@ -4,6 +4,7 @@ import { shouldShowTreasuryWarning } from "./debtFlow";
 import type { GameEvent } from "../types/events";
 import type { KingdomValues } from "../types/stats";
 import type { ModifierId } from "../types/modifiers";
+import type { StoryFlagId } from "../data/narrative/storyFlags";
 
 // Las decisiones ya aplicaron sus consecuencias.
 // Solo los acontecimientos sin decisión aplican aquí
@@ -17,6 +18,8 @@ export function getEventCompletionConsequences(
     unlocks: string[];
     addModifiers: ModifierId[];
     removeModifiers: ModifierId[];
+    addStoryFlags: StoryFlagId[];
+    removeStoryFlags: StoryFlagId[];
 } {
     const changes = !audience.dialogue.responses
         ? audience.baseEffects
@@ -35,12 +38,19 @@ export function getEventCompletionConsequences(
                 nextStats
             ),
 
-        unlocks: audience.unlocksOnComplete ?? [],
+        unlocks:
+            audience.unlocksOnComplete ?? [],
 
         addModifiers:
             audience.addModifiersOnComplete ?? [],
 
         removeModifiers:
             audience.removeModifiersOnComplete ?? [],
+
+        addStoryFlags:
+            audience.addStoryFlagsOnComplete ?? [],
+
+        removeStoryFlags:
+            audience.removeStoryFlagsOnComplete ?? [],
     };
 }

@@ -308,7 +308,9 @@ describe("Guardado de partidas", () => {
             selectedDecision: "yes",
             unlockedEventIds: [
                 "2.1",
-                "joust-with-brother",
+            ],
+            storyFlags: [
+                "brother-is-advisor",
             ],
             dayEventIds: [
                 "11", "12", "13",
@@ -367,4 +369,59 @@ describe("Guardado de partidas", () => {
 
         expect(loadGame()).toBeNull();
     });
+
+    it("conserva las condiciones narrativas de forma independiente", () => {
+        const save = createSave({
+            unlockedEventIds: ["2.1"],
+            storyFlags: ["brother-is-advisor"],
+        });
+
+        saveGame(save);
+
+        const recovered = loadGame();
+
+        expect(
+            recovered?.unlockedEventIds
+        ).toEqual(["2.1"]);
+
+        expect(
+            recovered?.storyFlags
+        ).toEqual(["brother-is-advisor"]);
+    });
+
+    it.each([
+        {
+            label: "inexistentes",
+            value: ["unknown-flag"],
+        },
+        {
+            label: "duplicadas",
+            value: [
+                "brother-is-advisor",
+                "brother-is-advisor",
+            ],
+        },
+        {
+            label: "con formato incorrecto",
+            value: "brother-is-advisor",
+        },
+        {
+            label: "ausentes",
+            value: undefined,
+        },
+    ])(
+        "rechaza condiciones narrativas $label",
+        ({ value }) => {
+            storeRaw({
+                ...createSave(),
+                storyFlags: value,
+            });
+
+            expect(loadGame()).toBeNull();
+
+            expect(
+                window.localStorage.getItem(SAVE_KEY)
+            ).toBeNull();
+        }
+    );
 });
