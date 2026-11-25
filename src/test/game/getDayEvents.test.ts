@@ -33,7 +33,7 @@ describe("Selección de eventos por jornada", () => {
                 ["2.1", "3.1"]
             ).map((event) => event.id)
         ).toEqual([
-            "2.1", "3.1", "11", "12",
+            "3.1", "11", "12",
             "13", "14", "15", "16",
         ]);
     });
@@ -71,8 +71,18 @@ describe("Selección de eventos por jornada", () => {
         expect(
             getEventsForDay(2).map((event) => event.id)
         ).toEqual([
-            "2.1", "3.1", "11", "12",
+            "3.1", "11", "12",
             "13", "14", "15", "16",
         ]);
+    });
+
+    it("reserva la justa para su pantalla especial", () => {
+        expect(getEventById("2.1")?.day).toBe(2);
+
+        expect(
+            getDayEvents(2, ["2.1"]).some(
+                (event) => event.id === "2.1"
+            )
+        ).toBe(false);
     });
 });

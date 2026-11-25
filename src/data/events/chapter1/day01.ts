@@ -260,6 +260,9 @@ export const day01Events: GameEvent[] = [
             yes: { gold: -5, prestige: 10 },
             no: { prestige: -5 },
         },
+        unlocks: {
+            yes: ["joust-with-brother"],
+        },
     },
 
     // Evento 9 — Presentación del Duque de Bosqueencantado

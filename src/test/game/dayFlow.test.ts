@@ -43,7 +43,7 @@ describe("Jornadas y capítulos", () => {
         expect(
             plan.nextDayEvents.map((event) => event.id)
         ).toEqual([
-            "2.1", "3.1", "11", "12",
+            "3.1", "11", "12",
             "13", "14", "15", "16",
         ]);
 

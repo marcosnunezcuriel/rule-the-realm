@@ -39,7 +39,10 @@ describe("Acontecimientos del Capítulo I", () => {
 
     it("requiere desbloquear los eventos condicionados", () => {
         for (const event of chapter1Events) {
-            if (!event.requiresUnlock) {
+            if (
+                !event.requiresUnlock ||
+                event.id === "2.1"
+            ) {
                 continue;
             }
 

@@ -159,6 +159,7 @@ export function isSaveGame(
         ) &&
         (
             value.screen === "scene" ||
+            value.screen === "joust" ||
             value.screen === "sleep" ||
             value.screen === "summary" ||
             value.screen === "gameover" ||
@@ -176,7 +177,17 @@ export function isSaveGame(
         ) &&
         typeof value.audienceIndex === "number" &&
         Number.isInteger(value.audienceIndex) &&
-        value.audienceIndex >= 0 &&
+        (
+            value.audienceIndex >= 0 ||
+            (
+                value.audienceIndex === -1 &&
+                (
+                    value.specialAudience === "treasury-warning" ||
+                    value.specialAudience === "treasury-recovery" ||
+                    value.specialAudience === "defeat"
+                )
+            )
+        ) &&
         isStringArray(value.unlockedEventIds) &&
         isDayEventArray(
             value.dayEventIds,
@@ -184,6 +195,17 @@ export function isSaveGame(
             value.unlockedEventIds
         ) &&
         value.audienceIndex <= value.dayEventIds.length &&
+        (
+            value.screen !== "joust" ||
+            (
+                day === 2 &&
+                value.audienceIndex === 0 &&
+                value.unlockedEventIds.includes("2.1") &&
+                value.specialAudience === null &&
+                value.isClosing === false &&
+                value.dayClosed === false
+            )
+        ) &&
         typeof value.isClosing === "boolean" &&
         typeof value.dayClosed === "boolean" &&
         (

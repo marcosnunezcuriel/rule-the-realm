@@ -313,4 +313,25 @@ describe("Guardado de partidas", () => {
         expect(recovered?.screen).toBe("sleep");
         expect(recovered?.dayClosed).toBe(true);
     });
+
+    it("recupera una partida durante la justa", () => {
+    const save: SaveGame = {
+        ...createSave(),
+        day: 2,
+        screen: "joust",
+        selectedDecision: "yes",
+        unlockedEventIds: [
+            "2.1",
+            "joust-with-brother",
+        ],
+        dayEventIds: [
+            "11", "12", "13",
+            "14", "15", "16",
+        ],
+    };
+
+    saveGame(save);
+
+    expect(loadGame()).toEqual(save);
+});
 });

@@ -14,7 +14,8 @@ type GameTransitionsInput = {
     setPhase: Dispatch<SetStateAction<AudiencePhase>>;
     screen: GameScreen;
     setScreen: Dispatch<SetStateAction<GameScreen>>;
-    prepareNextDay: () => void;
+    prepareNextDay: (target: GameScreen) => void;
+    finishJoust: () => void;
 };
 
 // Se ocupa únicamente de los fundidos y del tiempo de
@@ -25,6 +26,7 @@ export function useGameTransitions({
     screen,
     setScreen,
     prepareNextDay,
+    finishJoust,
 }: GameTransitionsInput) {
     const [transitionStage, setTransitionStage] =
         useState<FadeStage>("idle");
@@ -32,7 +34,8 @@ export function useGameTransitions({
     const [transitionTarget, setTransitionTarget] =
         useState<GameScreen | null>(null);
 
-    const [fullScreenFade, setFullScreenFade] = useState(false);
+    const [fullScreenFade, setFullScreenFade] =
+        useState(false);
 
     useEffect(() => {
         if (phase !== "transitioning") {
@@ -69,8 +72,20 @@ export function useGameTransitions({
             transitionStage === "darkening" &&
             transitionTarget !== null
         ) {
-            if (transitionTarget === "scene") {
-                prepareNextDay();
+            // Regresar al salón del trono sin avanzar de día.
+            if (
+                screen === "joust" &&
+                transitionTarget === "scene"
+            ) {
+                finishJoust();
+            }
+
+            // Comenzar una nueva jornada.
+            else if (
+                transitionTarget === "scene" ||
+                transitionTarget === "joust"
+            ) {
+                prepareNextDay(transitionTarget);
             }
 
             setScreen(transitionTarget);
@@ -79,7 +94,10 @@ export function useGameTransitions({
         }
 
         if (transitionStage === "lightening") {
-            if (transitionTarget === "scene") {
+            if (
+                transitionTarget === "scene" ||
+                transitionTarget === "joust"
+            ) {
                 setPhase("entering");
             }
 

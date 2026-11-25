@@ -34,6 +34,11 @@ import type { ModifierChange } from "../types/notifications";
 import type { KingdomValues } from "../types/stats";
 import type { MonarchRole } from "../types/monarch";
 
+import { joustEvent } from "../data/events/chapter1/joust";
+import { checkGameOver } from "../game/checkGameOver";
+
+import type { GameScreen } from "../types/game";
+
 export function useGameController(
     onAchievementUnlocked: (id: AchievementId) => void,
     onModifierChanged: (
@@ -98,7 +103,9 @@ export function useGameController(
         dialogueKey,
         continueLabel,
     } = getAudiencePresentation({
-        dayEvents,
+        dayEvents: screen === "joust"
+            ? [joustEvent]
+            : dayEvents,
         audienceIndex,
         isClosing,
         specialAudience,
@@ -147,6 +154,7 @@ export function useGameController(
         screen,
         setScreen,
         prepareNextDay,
+        finishJoust,
     });
 
     // Cambiar modificadores y anunciar las diferencias reales.
@@ -272,6 +280,13 @@ export function useGameController(
                 [],
                 ["indebted"]
             );
+        }
+
+        // El torneo termina al salir el caballero campeón.
+        // Regresamos al salón del trono mediante un fundido.
+        if (screen === "joust") {
+            startScreenTransition("scene");
+            return;
         }
 
         setSelectedDecision(null);
@@ -437,7 +452,7 @@ export function useGameController(
     }
 
     // Prepara la nueva jornada sin perder el progreso del reino.
-    function prepareNextDay() {
+    function prepareNextDay(target: GameScreen) {
         const plan = getNextDayPlan(
             day,
             stats,
@@ -463,13 +478,41 @@ export function useGameController(
 
         const nextSpecialAudience = plan.defeat !== null
             ? "defeat"
-            : getDebtAudience(stats, activeModifierIds);
+            : target === "joust"
+                ? null
+                : getDebtAudience(stats, activeModifierIds);
 
         setGameOverReason(plan.defeat);
         setSpecialAudience(nextSpecialAudience);
 
         setIsClosing(
             plan.isClosing && nextSpecialAudience === null
+        );
+
+        setPhase("waiting");
+    }
+
+    // Finalizar el torneo sin comenzar una nueva jornada.
+    function finishJoust() {
+        const defeat = checkGameOver(stats);
+
+        const nextSpecialAudience = defeat !== null
+            ? "defeat"
+            : getDebtAudience(stats, activeModifierIds);
+
+        setGameOverReason(defeat);
+        setSpecialAudience(nextSpecialAudience);
+
+        setAudienceIndex(
+            nextSpecialAudience === null ? 0 : -1
+        );
+
+        setSelectedDecision(null);
+        setPendingTreasuryWarning(false);
+
+        setIsClosing(
+            dayEvents.length === 0 &&
+            nextSpecialAudience === null
         );
 
         setPhase("waiting");
@@ -492,10 +535,16 @@ export function useGameController(
             return;
         }
 
-        // Jornada normal o derrota por modificadores.
-        // En este último caso, la consejera anunciará
-        // la derrota al comenzar el día siguiente.
-        startScreenTransition("scene");
+        // El torneo se celebra al comenzar el segundo día
+        // si el monarca autorizó los festejos de coronación.
+        const shouldShowJoust =
+            day === 1 &&
+            unlockedEventIds.includes("2.1") &&
+            checkGameOver(stats) === null;
+
+        startScreenTransition(
+            shouldShowJoust ? "joust" : "scene"
+        );
     }
 
     function handleStartNextChapter() {
@@ -544,5 +593,8 @@ export function useGameController(
         handleStartNextChapter,
         chapterEndingParagraphIndex,
         setChapterEndingParagraphIndex,
+        withBrother: unlockedEventIds.includes(
+            "joust-with-brother"
+        ),
     };
 }

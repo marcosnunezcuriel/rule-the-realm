@@ -21,11 +21,12 @@ import { useGameController } from "../../hooks/useGameController";
 import type { ModifierId } from "../../types/modifiers";
 import type { KingdomValues } from "../../types/stats";
 import type { MonarchRole } from "../../types/monarch";
-
 import type {
     GameNotification,
     ModifierChange,
 } from "../../types/notifications";
+
+import JoustScene from "../scene/JoustScene";
 
 import NightRest from "./NightRest";
 
@@ -70,6 +71,7 @@ function GameSession({
     const {
         day,
         screen,
+        withBrother,
         phase,
         timeOfDay,
         backgroundMap,
@@ -104,13 +106,17 @@ function GameSession({
         monarch
     );
 
+    const isAudienceScreen =
+        screen === "scene" ||
+        screen === "joust";
+
     const lastVisitorSound = useRef<string | null>(null);
     const lastScreenSound = useRef<string | null>(null);
 
     // Reproducir pasos cuando entra o sale un visitante.
     useEffect(() => {
         if (
-            screen !== "scene" ||
+            !isAudienceScreen ||
             (
                 phase !== "entering" &&
                 phase !== "exiting"
@@ -136,13 +142,13 @@ function GameSession({
         day,
         dialogueKey,
         phase,
-        screen,
+        isAudienceScreen,
     ]);
 
     // Reproducir los efectos de cada pantalla.
     useEffect(() => {
         soundEngine.setAmbientActive(
-            screen === "scene"
+            isAudienceScreen
         );
 
         if (lastScreenSound.current === screen) {
@@ -168,7 +174,10 @@ function GameSession({
                 soundEngine.playEffect("chapter-complete");
                 break;
         }
-    }, [screen]);
+    }, [
+        screen,
+        isAudienceScreen
+    ]);
 
     // Al salir de la partida, restaurar el ambiente.
     useEffect(() => {
@@ -193,6 +202,17 @@ function GameSession({
             : "",
     ].filter(Boolean).join(" ");
 
+    const dialogueContent = phase === "speaking" ? (
+        <DialogueController
+            key={dialogueKey}
+            event={dialogue}
+            initialDecision={selectedDecision}
+            continueLabel={continueLabel}
+            onDecision={handleDecision}
+            onContinue={handleContinue}
+        />
+    ) : null;
+
     return (
         <>
             {screen !== "chapter-ending" && screen !== "sleep" && (
@@ -216,14 +236,14 @@ function GameSession({
                     />
                 )}
 
-                {screen === "scene" && notification?.kind === "stats" && (
+                {isAudienceScreen && notification?.kind === "stats" && (
                     <StatChangeToast
                         key={notification.sequence}
                         notification={notification}
                     />
                 )}
                 
-                {screen === "scene" && (
+                {isAudienceScreen && (
                     <KingdomStats stats={visibleStats} />
                 )}
 
@@ -256,6 +276,18 @@ function GameSession({
                         nextLabel={summaryContinueLabel}
                         onNextDay={handleNextDay}
                     />
+                ) : screen === "joust" ? (
+                    <JoustScene
+                        monarch={monarch}
+                        withBrother={withBrother}
+                        visitorPhase={phase}
+                        visitorImage={visitorImage}
+                        visitorName={dialogue.speaker}
+                        visitorKey={dialogueKey}
+                        onVisitorAnimationEnd={handleVisitorAnimationEnd}
+                    >
+                        {dialogueContent}
+                    </JoustScene>
                 ) : (
                     <ThroneScene
                         monarch={monarch}
@@ -267,16 +299,7 @@ function GameSession({
                         visitorKey={dialogueKey}
                         onVisitorAnimationEnd={handleVisitorAnimationEnd}
                     >
-                        {phase === "speaking" && (
-                            <DialogueController
-                                key={dialogueKey}
-                                event={dialogue}
-                                initialDecision={selectedDecision}
-                                continueLabel={continueLabel}
-                                onDecision={handleDecision}
-                                onContinue={handleContinue}
-                            />
-                        )}
+                        {dialogueContent}
                     </ThroneScene>
                 )}
 

@@ -1,6 +1,7 @@
 import type { GameEvent } from "../../types/events";
 
 import { chapter1Events } from "./chapter1";
+import { joustEvent } from "./chapter1/joust";
 
 // Registro global. Los próximos capítulos se añadirán aquí.
 const allEvents: GameEvent[] = [
@@ -22,6 +23,10 @@ for (const event of allEvents) {
     }
 
     eventsById.set(event.id, event);
+
+    if (event.id === joustEvent.id) {
+        continue;
+    }
 
     const dayEvents = eventsByDay.get(event.day) ?? [];
 
