@@ -10,6 +10,21 @@ import { assetUrl } from "../../utils/assetUrl";
 
 import "../../styles/scene/ThroneScene.css";
 
+const kingPoses = [
+    {
+        time: "morning",
+        image: "/assets/characters/royalty/king-pose-1.png",
+    },
+    {
+        time: "evening",
+        image: "/assets/characters/royalty/king-pose-2.png",
+    },
+    {
+        time: "night",
+        image: "/assets/characters/royalty/king-pose-3.png",
+    },
+] as const;
+
 type ThroneSceneProps = {
     timeOfDay: SceneTime;
     visitorPhase: AudiencePhase;
@@ -71,15 +86,29 @@ function ThroneScene({
                             draggable={false}
                         />
                     ))}
-
-                    <img
-                        className="character character--king"
-                        src={assetUrl(
-                            "/assets/characters/royalty/king.png"
-                        )}
-                        alt="Rey de Astaria"
-                        draggable={false}
-                    />
+             
+                    {/* Poses del rey según el momento del día */}
+                    {kingPoses.map((pose) => (
+                        <img
+                            key={pose.time}
+                            className={
+                                `character character--king ` +
+                                (
+                                    timeOfDay === pose.time
+                                        ? "character--king--active"
+                                        : ""
+                                )
+                            }
+                            src={assetUrl(pose.image)}
+                            alt={
+                                timeOfDay === pose.time
+                                    ? "Rey de Astaria"
+                                    : ""
+                            }
+                            aria-hidden={timeOfDay !== pose.time}
+                            draggable={false}
+                        />
+                    ))}
 
                     {showVisitor && (
                         <div
