@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { assetUrl } from "../../utils/assetUrl";
 
 import GoldenFrame from "../shared/GoldenFrame";
@@ -26,18 +28,44 @@ function MainMenu({
     onAchievements,
     onSoundSettings,
 }: MainMenuProps) {
+
+    // Controlar la vista ampliada del mapa.
+    const [isMapOpen, setIsMapOpen] = useState(false);
+
+    // Permitir cerrar el mapa con la tecla Escape.
+    useEffect(() => {
+        if (!isMapOpen) {
+            return;
+        }
+
+        function handleKeyDown(event: KeyboardEvent) {
+            if (event.key === "Escape") {
+                setIsMapOpen(false);
+            }
+        }
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [isMapOpen]);
+
     return (
         <main className="main-menu">
             {/* Mapa decorativo de Astaria */}
-            <div
+            <button
+                type="button"
                 className="main-menu__map"
-                aria-hidden="true"
+                onClick={() => setIsMapOpen(true)}
+                aria-label="Ampliar mapa del reino de Astaria"
+                aria-haspopup="dialog"
             >
                 <GoldenFrame
                     image="/assets/ui/astaria-map.png"
                     alt=""
                 />
-            </div>
+            </button>
 
             {/* Panel principal centrado */}
             <div className="main-menu__panel">
@@ -166,6 +194,33 @@ function MainMenu({
                                 Sobrescribir y empezar
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Vista ampliada del mapa */}
+            {isMapOpen && (
+                <div className="main-menu__map-overlay">
+                    {/* Zona exterior: cierra el mapa */}
+                    <button
+                        type="button"
+                        className="main-menu__map-dismiss"
+                        onClick={() => setIsMapOpen(false)}
+                        aria-label="Cerrar mapa ampliado"
+                        autoFocus
+                    />
+
+                    {/* Mapa ampliado con su marco original */}
+                    <div
+                        className="main-menu__map-expanded"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Mapa ampliado del reino de Astaria"
+                    >
+                        <GoldenFrame
+                            image="/assets/ui/astaria-map.png"
+                            alt="Mapa del reino de Astaria"
+                        />
                     </div>
                 </div>
             )}
