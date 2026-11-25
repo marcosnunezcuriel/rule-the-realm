@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { assetUrl } from "../../utils/assetUrl";
+import GoldenFrame from "../shared/GoldenFrame";
 
 import "../../styles/screens/NightRest.css";
 
@@ -31,13 +31,9 @@ function NightRest({ onFinish }: NightRestProps) {
     return (
         <main className="night-rest">
             <div className="night-rest__frame">
-                <img
-                    className="night-rest__image"
-                    src={assetUrl(
-                        "/assets/ui/royalty-sleeping.gif"
-                    )}
+                <GoldenFrame
+                    image="/assets/ui/royalty-sleeping.gif"
                     alt="El rey y la reina durmiendo en sus aposentos"
-                    draggable={false}
                 />
             </div>
         </main>

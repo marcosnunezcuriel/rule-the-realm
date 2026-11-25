@@ -109,58 +109,17 @@
     cursor: not-allowed;
 }
 
-/* Mapa decorativo: esquina superior derecha */
+/* Mapa de Astaria con marco dorado */
 .main-menu__map {
     position: absolute;
+
     top: var(--space-7);
     right: var(--space-7);
     z-index: 0;
 
-    width: min(20vw, 19rem);
+    width: min(26vw, 26rem);
 
     pointer-events: none;
-}
-
-/* Marco decorativo del mapa */
-.main-menu__map-frame {
-    position: relative;
-    padding: var(--space-2-5);
-
-    background: linear-gradient(
-        135deg,
-        var(--colour-button),
-        var(--colour-panel)
-    );
-
-    border: var(--border-medium) solid var(--colour-border-gold);
-    border-radius: var(--radius-xl);
-
-    box-shadow:
-        0 0 0 3px rgba(181, 138, 77, 0.18),
-        var(--shadow-menu);
-}
-
-/* Línea interior del marco */
-.main-menu__map-frame::before {
-    content: "";
-    position: absolute;
-    inset: var(--space-1-5);
-
-    border: var(--border-thin) solid var(--colour-gold-dim);
-    border-radius: var(--radius-md);
-
-    pointer-events: none;
-}
-
-.main-menu__map img {
-    display: block;
-    width: 100%;
-    height: auto;
-
-    object-fit: contain;
-    border-radius: var(--radius-sm);
-
-    user-select: none;
 }
 
 /* Créditos inferiores */

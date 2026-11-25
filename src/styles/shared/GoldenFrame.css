@@ -1,0 +1,48 @@
+/* Marco dorado reutilizable */
+.golden-frame {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 1;
+
+    flex-shrink: 0;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Imagen encajada en el hueco transparente */
+.golden-frame__content {
+    position: absolute;
+    z-index: 0;
+
+    top: 15.5%;
+    left: 15.5%;
+
+    width: 69%;
+    height: 69%;
+
+    display: block;
+
+    object-fit: cover;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Decoración superpuesta al contenido */
+.golden-frame__ornament {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    user-select: none;
+    pointer-events: none;
+}

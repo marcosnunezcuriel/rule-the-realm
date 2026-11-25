@@ -1,5 +1,7 @@
 import { assetUrl } from "../../utils/assetUrl";
 
+import GoldenFrame from "../shared/GoldenFrame";
+
 import "../../styles/screens/MainMenu.css";
 import "../../styles/screens/SoundMenuButton.css";
 
@@ -31,15 +33,10 @@ function MainMenu({
                 className="main-menu__map"
                 aria-hidden="true"
             >
-                <div className="main-menu__map-frame">
-                    <img
-                        src={assetUrl(
-                            "/assets/ui/astaria-map.png"
-                        )}
-                        alt=""
-                        draggable={false}
-                    />
-                </div>
+                <GoldenFrame
+                    image="/assets/ui/astaria-map.png"
+                    alt=""
+                />
             </div>
 
             {/* Panel principal centrado */}
