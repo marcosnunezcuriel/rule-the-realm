@@ -8,20 +8,15 @@ on:
 
 permissions:
     contents: read
-    pages: write
-    id-token: write
 
 concurrency:
     group: pages
     cancel-in-progress: true
 
 jobs:
-    deploy:
+    # Primero comprobar, compilar y subir los archivos.
+    build:
         runs-on: ubuntu-latest
-
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
 
         steps:
             - name: Descargar repositorio
@@ -53,6 +48,47 @@ jobs:
               with:
                   path: ./dist
 
-            - name: Publicar
+    # Publicar solo después de finalizar el trabajo build.
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+            pages: write
+            id-token: write
+
+        environment:
+            name: github-pages
+            url: ${{ steps.first.outputs.page_url || steps.second.outputs.page_url || steps.deployment.outputs.page_url }}
+
+        steps:
+            # Primer intento de publicación.
+            - name: Publicar - Primer intento
+              id: first
+              uses: actions/deploy-pages@v5
+              continue-on-error: true
+
+            # Si GitHub todavía no encuentra el artefacto,
+            # esperar antes de volver a consultar.
+            - name: Esperar antes del segundo intento
+              if: steps.first.outcome == 'failure'
+              run: sleep 15
+
+            - name: Publicar - Segundo intento
+              id: second
+              if: steps.first.outcome == 'failure'
+              uses: actions/deploy-pages@v5
+              continue-on-error: true
+
+            # Dar más margen a la sincronización de GitHub.
+            - name: Esperar antes del tercer intento
+              if: steps.second.outcome == 'failure'
+              run: sleep 45
+
+            # Último intento. Si también falla,
+            # GitHub Actions indicará el error.
+            - name: Publicar - Tercer intento
               id: deployment
+              if: steps.second.outcome == 'failure'
               uses: actions/deploy-pages@v5
