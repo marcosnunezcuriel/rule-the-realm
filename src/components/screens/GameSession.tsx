@@ -75,6 +75,7 @@ function GameSession({
         phase,
         timeOfDay,
         backgroundMap,
+        blackFeverActive,
         visitorImage,
         dialogue,
         dialogueKey,
@@ -293,6 +294,7 @@ function GameSession({
                         monarch={monarch}
                         timeOfDay={timeOfDay}
                         backgroundMap={backgroundMap}
+                        blackFeverActive={blackFeverActive}
                         visitorPhase={phase}
                         visitorImage={visitorImage}
                         visitorName={dialogue.speaker}

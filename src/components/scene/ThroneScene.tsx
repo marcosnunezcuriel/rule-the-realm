@@ -44,6 +44,7 @@ type ThroneSceneProps = {
     onVisitorAnimationEnd: () => void;
     children?: ReactNode;
     backgroundMap: SceneBackgroundMap;
+    blackFeverActive: boolean;
 };
 
 function ThroneScene({
@@ -56,6 +57,7 @@ function ThroneScene({
     onVisitorAnimationEnd,
     children,
     backgroundMap,
+    blackFeverActive,
 }: ThroneSceneProps) {
     const showVisitor =
         visitorPhase === "entering" ||
@@ -98,7 +100,16 @@ function ThroneScene({
             <div className="throne-stage">
 
                 {/* Ilustraciones del escenario */}
-                <div className="throne-stage__visuals">
+                <div
+                    className={
+                        "throne-stage__visuals" +
+                        (
+                            blackFeverActive
+                                ? " throne-stage__visuals--black-fever"
+                                : ""
+                        )
+                    }
+                >
                     {backgrounds.map((background) => (
                         <img
                             key={background.time}

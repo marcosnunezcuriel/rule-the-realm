@@ -570,6 +570,7 @@ export function useGameController(
         phase,
         timeOfDay,
         backgroundMap,
+        blackFeverActive: activeModifierIds.includes("black-fever"),
         visitorImage,
         dialogue,
         dialogueKey,
