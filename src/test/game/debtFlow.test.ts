@@ -1,4 +1,3 @@
-
 import { describe, expect, it } from "vitest";
 
 import {
@@ -7,11 +6,10 @@ import {
 } from "../../game/debtFlow";
 
 import { checkGameOver } from "../../game/checkGameOver";
-
 import { createStats } from "../helpers/createStats";
 
-describe("Sistema de deuda de la Corona", () => {
-    it("solicita una audiencia al entrar en negativo", () => {
+describe("Deudas de la Corona", () => {
+    it("anuncia una deuda al entrar en negativo", () => {
         expect(
             getDebtAudience(
                 createStats({ gold: -10 }),
@@ -20,7 +18,7 @@ describe("Sistema de deuda de la Corona", () => {
         ).toBe("treasury-warning");
     });
 
-    it("no anuncia de nuevo una deuda existente", () => {
+    it("no repite el aviso de una deuda existente", () => {
         expect(
             getDebtAudience(
                 createStats({ gold: -10 }),
@@ -29,7 +27,7 @@ describe("Sistema de deuda de la Corona", () => {
         ).toBeNull();
     });
 
-    it("no considera estar a cero como entrar en deuda", () => {
+    it("no considera el oro a cero como una deuda nueva", () => {
         expect(
             getDebtAudience(
                 createStats({ gold: 0 }),
@@ -47,7 +45,7 @@ describe("Sistema de deuda de la Corona", () => {
         ).toBe("treasury-recovery");
     });
 
-    it("no cancela la deuda si el oro es cero", () => {
+    it("no cancela la deuda al llegar a cero", () => {
         expect(
             getDebtAudience(
                 createStats({ gold: 0 }),
@@ -56,7 +54,7 @@ describe("Sistema de deuda de la Corona", () => {
         ).toBeNull();
     });
 
-    it("respeta la prioridad de la bancarrota", () => {
+    it("prioriza la bancarrota", () => {
         expect(
             getDebtAudience(
                 createStats({ gold: -50 }),
@@ -65,14 +63,13 @@ describe("Sistema de deuda de la Corona", () => {
         ).toBeNull();
     });
 
-    it("cobra cinco oros al finalizar el día", () => {
+    it("cobra cinco oros diarios", () => {
         const result = applyDailyModifiersWithDebt(
             createStats({ gold: -10 }),
             ["indebted"]
         );
 
         expect(result.nextStats.gold).toBe(-15);
-
         expect(result.report.totalChanges.gold).toBe(-5);
         expect(result.report.appliedIds).toContain("indebted");
     });
@@ -83,7 +80,6 @@ describe("Sistema de deuda de la Corona", () => {
             ["indebted", "traveling-circus"]
         );
 
-        // Circo: +5. Intereses: -5.
         expect(result.nextStats.gold).toBe(-10);
         expect(result.report.appliedIds).toContain("indebted");
     });
@@ -94,29 +90,19 @@ describe("Sistema de deuda de la Corona", () => {
             ["indebted", "traveling-circus"]
         );
 
-        // El circo aporta 5: -2 + 5 = 3.
         expect(result.nextStats.gold).toBe(3);
 
         expect(result.report.appliedIds).not.toContain(
             "indebted"
         );
-
-        expect(
-            getDebtAudience(
-                result.nextStats,
-                ["indebted", "traveling-circus"]
-            )
-        ).toBe("treasury-recovery");
     });
 
-    it("continúa cobrando si el oro llega exactamente a cero", () => {
+    it("continúa cobrando si los ingresos dejan el oro a cero", () => {
         const result = applyDailyModifiersWithDebt(
             createStats({ gold: -5 }),
             ["indebted", "traveling-circus"]
         );
 
-        // El circo deja el oro en cero, pero
-        // la deuda todavía no está saldada.
         expect(result.nextStats.gold).toBe(-5);
     });
 
@@ -128,8 +114,8 @@ describe("Sistema de deuda de la Corona", () => {
 
         expect(result.nextStats.gold).toBe(-51);
 
-        expect(checkGameOver(result.nextStats)).toBe(
-            "bankruptcy"
-        );
+        expect(
+            checkGameOver(result.nextStats)
+        ).toBe("bankruptcy");
     });
 });

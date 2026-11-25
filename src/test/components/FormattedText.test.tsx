@@ -9,9 +9,7 @@ describe("Formato de textos narrativos", () => {
             <FormattedText text="Se extiende la Fiebre negra." />
         );
 
-        expect(html).toContain(
-            "<em>Fiebre negra</em>"
-        );
+        expect(html).toContain("<em>Fiebre negra</em>");
     });
 
     it("reconoce la expresión en minúsculas", () => {
@@ -19,9 +17,7 @@ describe("Formato de textos narrativos", () => {
             <FormattedText text="La fiebre negra amenaza Astaria." />
         );
 
-        expect(html).toContain(
-            "<em>fiebre negra</em>"
-        );
+        expect(html).toContain("<em>fiebre negra</em>");
     });
 
     it("mantiene la cursiva durante la escritura", () => {
@@ -35,7 +31,7 @@ describe("Formato de textos narrativos", () => {
         expect(html).toContain("<em>Fieb</em>");
     });
 
-    it("no modifica textos sin la expresión especial", () => {
+    it("no modifica textos normales", () => {
         const html = renderToStaticMarkup(
             <FormattedText text="El reino prospera." />
         );
@@ -50,11 +46,7 @@ describe("Formato de textos narrativos", () => {
             />
         );
 
-        expect(html).toContain(
-            "<em>Fiebre negra</em>"
-        );
-        expect(html).toContain(
-            "<em>fiebre negra</em>"
-        );
+        expect(html).toContain("<em>Fiebre negra</em>");
+        expect(html).toContain("<em>fiebre negra</em>");
     });
 });

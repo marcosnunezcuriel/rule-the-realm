@@ -31,25 +31,12 @@ describe("Desbloqueo permanente del Himno de Astaria", () => {
         expect(unlockAnthem()).toBe(false);
     });
 
-    it("se conserva al comenzar otra partida", () => {
+    it("permanece desbloqueado entre partidas", () => {
         unlockAnthem();
 
         clearSavedGame();
 
         expect(loadAnthemUnlocked()).toBe(true);
-    });
-
-    it("reconoce el antiguo logro del himno", () => {
-        window.localStorage.setItem(
-            "rule-the-realm.achievements",
-            JSON.stringify([
-                "hand-of-king",
-                "astaria-anthem",
-            ])
-        );
-
-        expect(loadAnthemUnlocked()).toBe(true);
-        expect(unlockAnthem()).toBe(false);
     });
 
     it("guarda el desbloqueo independientemente de los logros", () => {

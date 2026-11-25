@@ -5,27 +5,37 @@ import type {
     SceneBackgroundMap,
     SceneTime,
 } from "../../types/scene";
+import type { MonarchRole } from "../../types/monarch";
 
 import { assetUrl } from "../../utils/assetUrl";
 
 import "../../styles/scene/ThroneScene.css";
 
-const kingPoses = [
-    {
-        time: "morning",
-        image: "/assets/characters/royalty/king-pose-1.png",
+const monarchPoses: Record<
+    MonarchRole,
+    Record<SceneTime, string>
+> = {
+    king: {
+        morning:
+            "/assets/characters/royalty/king-throne-pose-1.png",
+        evening:
+            "/assets/characters/royalty/king-throne-pose-2.png",
+        night:
+            "/assets/characters/royalty/king-throne-pose-3.png",
     },
-    {
-        time: "evening",
-        image: "/assets/characters/royalty/king-pose-2.png",
+
+    queen: {
+        morning:
+            "/assets/characters/royalty/queen-throne-pose-1.png",
+        evening:
+            "/assets/characters/royalty/queen-throne-pose-2.png",
+        night:
+            "/assets/characters/royalty/queen-throne-pose-3.png",
     },
-    {
-        time: "night",
-        image: "/assets/characters/royalty/king-pose-3.png",
-    },
-] as const;
+};
 
 type ThroneSceneProps = {
+    monarch: MonarchRole;
     timeOfDay: SceneTime;
     visitorPhase: AudiencePhase;
     visitorImage: string;
@@ -37,6 +47,7 @@ type ThroneSceneProps = {
 };
 
 function ThroneScene({
+    monarch,
     timeOfDay,
     visitorPhase,
     visitorImage,
@@ -50,6 +61,22 @@ function ThroneScene({
         visitorPhase === "entering" ||
         visitorPhase === "speaking" ||
         visitorPhase === "exiting";
+
+    
+    const poses = [
+            {
+                time: "morning",
+                image: monarchPoses[monarch].morning,
+            },
+            {
+                time: "evening",
+                image: monarchPoses[monarch].evening,
+            },
+            {
+                time: "night",
+                image: monarchPoses[monarch].night,
+            },
+        ] as const;
 
     const backgrounds = [
         {
@@ -86,23 +113,25 @@ function ThroneScene({
                             draggable={false}
                         />
                     ))}
-             
-                    {/* Poses del rey según el momento del día */}
-                    {kingPoses.map((pose) => (
+
+                    {/* Poses del monarca según el momento del día */}
+                    {poses.map((pose) => (
                         <img
-                            key={pose.time}
+                            key={`${monarch}-${pose.time}`}
                             className={
-                                `character character--king ` +
+                                `character character--monarch ` +
                                 (
                                     timeOfDay === pose.time
-                                        ? "character--king--active"
+                                        ? "character--monarch--active"
                                         : ""
                                 )
                             }
                             src={assetUrl(pose.image)}
                             alt={
                                 timeOfDay === pose.time
-                                    ? "Rey de Astaria"
+                                    ? monarch === "king"
+                                        ? "Rey de Astaria"
+                                        : "Reina de Astaria"
                                     : ""
                             }
                             aria-hidden={timeOfDay !== pose.time}

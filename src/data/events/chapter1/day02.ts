@@ -13,7 +13,7 @@ export const day02Events: GameEvent[] = [
         dialogue: {
             speaker: "Caballero campeón",
             introduction: [
-                "¡Salud, soberano! Fui yo quien alzó la espada victorioso en el gran torneo de la coronación.",
+                "¡Salud, Majestad! Fui yo quien alzó la espada victorioso en el gran torneo de la coronación.",
                 "La gloria está muy bien, pero la sangre derramada y el esfuerzo merecen una recompensa real.",
                 "Exijo la bolsa de oro prometida al campeón.",
             ],
@@ -146,7 +146,7 @@ export const day02Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "¡Que los cielos os bendigan, mi buen Rey! Jamás olvidaré vuestra generosidad.",
+                    "¡Que los cielos os bendigan, Majestad! Jamás olvidaré vuestra generosidad.",
                 ],
                 no: [
                     "Entiendo... los reyes tenéis asuntos más importantes que la miseria de un pobre viejo.",
@@ -212,7 +212,7 @@ export const day02Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "¡Sois un rey magnánimo, Majestad!",
+                    "¡Vuestra generosidad es inmensa, Majestad!",
                     "Las familias podrán alimentarse con tranquilidad este mes.",
                 ],
                 no: [
@@ -241,16 +241,16 @@ export const day02Events: GameEvent[] = [
             speaker: "Heraldo Real",
             introduction: [
                 "¡Majestad! Vuestro reinado ha comenzado y los primeros decretos de la corona ya han sido proclamados en la capital.",
-                "Sin embargo, Astaria es un reino extenso. En las aldeas más alejadas, muchos campesinos todavía desconocen las órdenes de su nuevo soberano.",
+                "Sin embargo, Astaria es un reino extenso. En las aldeas más alejadas, muchos campesinos todavía desconocen las órdenes de la nueva Corona.",
                 "Si me concedéis fondos para contratar mensajeros y escribas, enviaremos copias de vuestros decretos a todos los rincones del reino.",
-                "Así, hasta el más humilde de vuestros súbditos conocerá las leyes y la voluntad de su rey.",
+                "Así, hasta el más humilde de vuestros súbditos conocerá vuestras leyes y voluntad.",
                 "¿Autorizáis su distribución?",
             ],
             responses: {
                 yes: [
                     "¡Excelente decisión, Majestad!",
                     "Los escribas comenzarán a trabajar de inmediato y los mensajeros partirán hacia todas las provincias.",
-                    "Pronto no habrá una sola aldea en Astaria que desconozca la autoridad de su nuevo monarca.",
+                    "Pronto no habrá una sola aldea en Astaria que desconozca la autoridad de la Corona.",
                 ],
                 no: [
                     "Como ordenéis, Majestad. Nos limitaremos a proclamar vuestros decretos en la capital.",

@@ -32,6 +32,7 @@ import type { Decision } from "../types/dialogue";
 import type { ModifierId } from "../types/modifiers";
 import type { ModifierChange } from "../types/notifications";
 import type { KingdomValues } from "../types/stats";
+import type { MonarchRole } from "../types/monarch";
 
 export function useGameController(
     onAchievementUnlocked: (id: AchievementId) => void,
@@ -43,7 +44,8 @@ export function useGameController(
         previous: KingdomValues,
         next: KingdomValues
     ) => void,
-    onAnthemUnlocked: () => void
+    onAnthemUnlocked: () => void,
+    monarch: MonarchRole
 ) {
     // Estado y carga inicial, separados de las reglas del juego.
     const {
@@ -101,6 +103,7 @@ export function useGameController(
         isClosing,
         specialAudience,
         gameOverReason,
+        monarch,
     });
 
     const visibleStats = closingStats ?? stats;
@@ -112,6 +115,7 @@ export function useGameController(
         : "Siguiente día";
 
     useGameAutosave({
+        monarch,
         day,
         screen,
         stats,

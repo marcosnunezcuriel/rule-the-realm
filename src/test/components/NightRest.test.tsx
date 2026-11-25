@@ -6,7 +6,7 @@ import NightRest, {
 } from "../../components/screens/NightRest";
 
 describe("Descanso nocturno", () => {
-    it("muestra el GIF de los reyes durmiendo", () => {
+    it("muestra el descanso de los reyes", () => {
         const html = renderToStaticMarkup(
             <NightRest onFinish={() => {}} />
         );
@@ -17,7 +17,7 @@ describe("Descanso nocturno", () => {
         );
     });
 
-    it("utiliza la duración de un ciclo del GIF", () => {
+    it("mantiene la duración de un ciclo del GIF", () => {
         expect(NIGHT_REST_DURATION_MS).toBe(2600);
     });
 });

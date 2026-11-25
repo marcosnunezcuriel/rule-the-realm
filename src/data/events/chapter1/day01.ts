@@ -50,7 +50,7 @@ export const day01Events: GameEvent[] = [
             responses: {
                 yes: [
                     "Los festejos comenzarán al amanecer y durarán varios días.",
-                    "El pueblo verá con buenos ojos a su nuevo monarca.",
+                    "El pueblo le verá con buenos ojos.",
                 ],
                 no: [
                     "Muchos esperaban algún tipo de celebración.",
@@ -115,7 +115,7 @@ export const day01Events: GameEvent[] = [
                 "¡Padre! ¿Puedo pedirte un favor?",
                 "Todavía quedan muchas familias que vinieron a la capital para despedirse del abuelo. Algunas han viajado durante días y ya no tienen dinero para comer ni un lugar donde dormir.",
                 "Me gustaría abrir las cocinas del palacio para ofrecerles comida caliente y un techo hasta que puedan regresar a sus hogares.",
-                "El abuelo siempre decía que un buen rey debía cuidar de su pueblo.",
+                "El abuelo siempre decía que quien reina debe cuidar del pueblo.",
                 "¿Me das permiso?",
             ],
             responses: {
@@ -173,7 +173,7 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Príncipe",
             introduction: [
-                "¡Padre! Ahora que eres el rey, ¡eso significa que yo soy el príncipe heredero!",
+                "¡Padre! Ahora que ocupas el trono, ¡eso significa que yo soy el príncipe heredero!",
                 "Dentro de un mes cumpliré catorce años y creo que ya va siendo hora de que empiece a prepararme como un verdadero guerrero.",
                 "Estoy harto de entrenar con espadas de madera y golpear muñecos de paja.",
                 "¡Quiero entrenar con los soldados de verdad, empuñar espadas de acero y aprender a luchar como ellos!",
@@ -206,7 +206,7 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Marqués de Rocafuego",
             introduction: [
-                "Saludos, mi Rey. Soy el Marqués de Rocafuego. Mis forjas y minas sostienen el acero de Astaria.",
+                "Saludos, Majestad. Soy el Marqués de Rocafuego. Mis forjas y minas sostienen el acero de Astaria.",
                 "Nuestros soldados llevan espadas melladas y escudos viejos. Si invertís oro en mis explotaciones de hierro, equiparé a vuestras tropas como merecen. ¿Trato hecho?",
             ],
             responses: {
@@ -271,13 +271,13 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Duque de Bosqueencantado",
             introduction: [
-                "¡Qué inmensa alegría contemplar al nuevo soberano! Soy el Duque de Bosqueencantado, humilde servidor de la corona y de la fe.",
+                "¡Qué inmensa alegría contemplar a Vuestra Majestad! Soy el Duque de Bosqueencantado, humilde servidor de la corona y de la fe.",
                 "No vengo a pediros nada, Majestad. Solo a ofreceros mi lealtad incondicional y a donar un santuario en vuestro honor. ¿Aceptáis mi humilde bendición?",
             ],
             responses: {
                 yes: [
                     "¡Que la estrella de ocho puntas ilumine siempre vuestro trono, Majestad!",
-                    "Todo el clero y la corte alaban la piedad y cercanía del nuevo Rey.",
+                    "Todo el clero y la corte alaban vuestra piedad y cercanía.",
                 ],
                 no: [
                     "Ah, qué modestia la vuestra al rechazar halagos. ¡Eso os honra aún más!",
@@ -296,7 +296,7 @@ export const day01Events: GameEvent[] = [
         id: "10",
         day: 1,
         order: 10,
-        image: "/assets/characters/royalty/queen.png",
+        image: "/assets/characters/royalty/queen-standing.png",
         dialogue: {
             speaker: "Reina",
             introduction: [

@@ -73,7 +73,7 @@ export const gameOverMessages: Record<
         stat: "prestige",
 
         announcement:
-            "El rey ha perdido su legitimidad y el pueblo " +
+            "La Corona ha perdido su legitimidad y el pueblo " +
             "y los nobles se han alzado contra el trono.",
 
         ending:

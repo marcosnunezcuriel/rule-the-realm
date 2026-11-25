@@ -17,6 +17,7 @@ type GameAutosaveInput = Omit<
 // Solo guardar cuando cambia el estado lógico de la partida.
 // Las fases visuales y los fundidos no provocan guardados.
 export function useGameAutosave({
+    monarch,
     day,
     screen,
     stats,
@@ -38,6 +39,7 @@ export function useGameAutosave({
 }: GameAutosaveInput): void {
     useEffect(() => {
         const savedState: SaveGame = {
+            monarch,
             day,
             screen,
             stats,
@@ -60,6 +62,7 @@ export function useGameAutosave({
 
         saveGame(savedState);
     }, [
+        monarch,
         day,
         screen,
         stats,

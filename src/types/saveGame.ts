@@ -9,10 +9,12 @@ import type {
     ModifierId,
 } from "./modifiers";
 import type { KingdomValues } from "./stats";
+import type { MonarchRole } from "./monarch";
 
 // Único formato de guardado del juego.
 // Se actualizará cuando evolucionen las mecánicas.
 export type SaveGame = {
+    monarch: MonarchRole;
     day: number;
     screen: GameScreen;
 

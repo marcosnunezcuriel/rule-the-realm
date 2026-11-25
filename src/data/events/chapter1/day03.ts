@@ -13,7 +13,7 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Juglar",
             introduction: [
-                "¡Salve, oh magnífico Rey de Astaria! El circo ha llenado las calles de música y alegría.",
+                "¡Salve, oh magnífica Majestad de Astaria! El circo ha llenado las calles de música y alegría.",
                 "Mi laúd arde con ganas de cantar vuestras glorias.",
                 "Me gustaría montar un escenario en el centro de la plaza mayor para entretener al pueblo con rimas y malabares. ¿Me dais vuestro real permiso para actuar?",
             ],
@@ -251,7 +251,7 @@ export const day03Events: GameEvent[] = [
             speaker: "Golem de piedra",
             introduction: [
                 "GRRR... La corona ha vuelto a brillar... y mi corazón de piedra vuelve a latir bajo los jardines.",
-                "Soy el antiguo guardián de estas murallas, he despertado para servir al nuevo monarca.",
+                "Soy el antiguo guardián de estas murallas, he despertado para servir a la nueva Corona.",
                 "Para mantener mi núcleo encendido y aplastar a vuestros enemigos, debéis canalizar hacia mí las plegarias y la devoción de vuestros templos.",
                 "¿Aceptáis vincular mi alma de roca a la energía sagrada de vuestro reino?",
             ],

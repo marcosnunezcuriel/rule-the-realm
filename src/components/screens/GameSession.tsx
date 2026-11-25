@@ -20,6 +20,7 @@ import { useGameController } from "../../hooks/useGameController";
 
 import type { ModifierId } from "../../types/modifiers";
 import type { KingdomValues } from "../../types/stats";
+import type { MonarchRole } from "../../types/monarch";
 
 import type {
     GameNotification,
@@ -30,6 +31,7 @@ import NightRest from "./NightRest";
 
 
 type GameSessionProps = {
+    monarch: MonarchRole;
     onOpenMenu: () => void;
     onGameOverMenu: () => void;
 
@@ -54,6 +56,7 @@ type GameSessionProps = {
 // Presentación de la partida activa.
 // El controlador solo existe mientras estamos jugando.
 function GameSession({
+    monarch,
     onOpenMenu,
     onGameOverMenu,
     onAchievementUnlocked,
@@ -97,7 +100,8 @@ function GameSession({
         onAchievementUnlocked,
         onModifierChanged,
         onStatsChanged,
-        onAnthemUnlocked
+        onAnthemUnlocked,
+        monarch
     );
 
     const lastVisitorSound = useRef<string | null>(null);
@@ -254,6 +258,7 @@ function GameSession({
                     />
                 ) : (
                     <ThroneScene
+                        monarch={monarch}
                         timeOfDay={timeOfDay}
                         backgroundMap={backgroundMap}
                         visitorPhase={phase}

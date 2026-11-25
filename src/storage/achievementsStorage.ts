@@ -40,7 +40,6 @@ export function loadUnlockedAchievements(): AchievementId[] {
     }
 }
 
-// Devuelve true solamente cuando se obtiene por primera vez.
 export function unlockAchievement(
     id: AchievementId
 ): boolean {

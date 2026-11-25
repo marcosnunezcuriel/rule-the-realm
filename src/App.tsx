@@ -12,12 +12,14 @@ import AchievementsScreen from "./components/screens/AchievementsScreen";
 import WelcomeIntroduction from "./components/screens/WelcomeIntroduction";
 import GameSession from "./components/screens/GameSession";
 import SoundPanel from "./components/shared/SoundPanel";
+import MonarchSelection from "./components/screens/MonarchSelection";
 
 import type { AchievementId } from "./data/achievements";
 
 import {
     clearSavedGame,
     hasSavedGame,
+    loadGame,
 } from "./storage/gameStorage";
 
 import {
@@ -44,10 +46,10 @@ import type {
     SoundEffect,
     SoundSettings,
 } from "./types/audio";
-
 import type { KingdomValues } from "./types/stats";
 import type { FadeStage } from "./types/game";
 import type { ModifierId } from "./types/modifiers";
+import type { MonarchRole } from "./types/monarch";
 
 import type {
     GameNotification,
@@ -59,11 +61,16 @@ import "./styles/layout/Navigation.css";
 type AppView =
     | "menu"
     | "achievements"
+    | "choose-monarch"
     | "intro"
     | "game";
 
 function App() {
     const [view, setView] = useState<AppView>("menu");
+
+    const [monarch, setMonarch] = useState<MonarchRole>(
+        () => loadGame()?.monarch ?? "king"
+    );
 
     const [savedAvailable, setSavedAvailable] = useState(
         () => hasSavedGame()
@@ -312,23 +319,34 @@ function App() {
             return;
         }
 
-        confirmStartNewGame();
+        navigateTo("choose-monarch");
     }
 
     function confirmStartNewGame() {
-        clearSavedGame();
-
-        setSavedAvailable(false);
         setConfirmNewGame(false);
+        navigateTo("choose-monarch");
+    }
+
+    function chooseMonarch(choice: MonarchRole) {
+        setMonarch(choice);
+
+        // La partida anterior solo se reemplaza
+        // cuando el jugador confirma su nuevo monarca.
+        clearSavedGame();
+        setSavedAvailable(false);
 
         navigateTo("intro");
     }
 
     function continueGame() {
-        if (!hasSavedGame()) {
+        const saved = loadGame();
+
+        if (saved === null) {
             setSavedAvailable(false);
             return;
         }
+
+        setMonarch(saved.monarch);
 
         navigateTo("game");
     }
@@ -412,14 +430,23 @@ function App() {
                         navigateTo("menu");
                     }}
                 />
+            ) : view === "choose-monarch" ? (
+                <MonarchSelection
+                    onChoose={chooseMonarch}
+                    onBack={() => {
+                        navigateTo("menu");
+                    }}
+                />
             ) : view === "intro" ? (
                 <WelcomeIntroduction
+                    monarch={monarch}
                     onFinish={() => {
                         navigateTo("game");
                     }}
                 />
             ) : (
                 <GameSession
+                    monarch={monarch}
                     onOpenMenu={() => {
                         navigateTo("menu");
                     }}

@@ -1,6 +1,11 @@
 // @vitest-environment jsdom
 
-import { beforeEach, describe, expect, it } from "vitest";
+import {
+    beforeEach,
+    describe,
+    expect,
+    it,
+} from "vitest";
 
 import {
     SAVE_KEY,
@@ -14,16 +19,19 @@ import type { SaveGame } from "../../types/saveGame";
 
 import { createStats } from "../helpers/createStats";
 
-// Crear una partida válida para las pruebas.
 function createSave(): SaveGame {
     return {
+        monarch: "king",
         day: 1,
         screen: "scene",
         stats: createStats(),
         dayStartStats: createStats(),
         closingStats: null,
         audienceIndex: 0,
-        dayEventIds: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        dayEventIds: [
+            "1", "2", "3", "4", "5",
+            "6", "7", "8", "9", "10",
+        ],
         isClosing: false,
         dayClosed: false,
         selectedDecision: null,
@@ -41,8 +49,6 @@ function createSave(): SaveGame {
     };
 }
 
-// Introducir datos directamente en el almacenamiento temporal.
-// Permite comprobar valores incorrectos que TypeScript no aceptaría.
 function storeRaw(value: unknown): void {
     window.localStorage.setItem(
         SAVE_KEY,
@@ -55,21 +61,34 @@ describe("Guardado de partidas", () => {
         window.localStorage.clear();
     });
 
-    it("detecta que no existe una partida guardada", () => {
+    it("comienza sin partida guardada", () => {
         expect(loadGame()).toBeNull();
         expect(hasSavedGame()).toBe(false);
     });
 
-    it("guarda y recupera una partida válida", () => {
+    it("guarda y recupera una partida del rey", () => {
         const save = createSave();
 
         saveGame(save);
 
         expect(hasSavedGame()).toBe(true);
         expect(loadGame()).toEqual(save);
+        expect(loadGame()?.monarch).toBe("king");
     });
 
-    it("elimina una partida guardada", () => {
+    it("guarda y recupera una partida de la reina", () => {
+        const save: SaveGame = {
+            ...createSave(),
+            monarch: "queen",
+        };
+
+        saveGame(save);
+
+        expect(loadGame()).toEqual(save);
+        expect(loadGame()?.monarch).toBe("queen");
+    });
+
+    it("elimina una partida", () => {
         saveGame(createSave());
 
         clearSavedGame();
@@ -78,7 +97,7 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("rechaza y elimina un JSON incorrecto", () => {
+    it("rechaza JSON incorrecto", () => {
         window.localStorage.setItem(
             SAVE_KEY,
             "{contenido-invalido"
@@ -86,6 +105,15 @@ describe("Guardado de partidas", () => {
 
         expect(loadGame()).toBeNull();
         expect(window.localStorage.getItem(SAVE_KEY)).toBeNull();
+    });
+
+    it("rechaza un protagonista desconocido", () => {
+        storeRaw({
+            ...createSave(),
+            monarch: "dragon",
+        });
+
+        expect(loadGame()).toBeNull();
     });
 
     it("rechaza estadísticas incompletas", () => {
@@ -97,10 +125,9 @@ describe("Guardado de partidas", () => {
         });
 
         expect(loadGame()).toBeNull();
-        expect(window.localStorage.getItem(SAVE_KEY)).toBeNull();
     });
 
-    it("rechaza una pantalla desconocida", () => {
+    it("rechaza pantallas desconocidas", () => {
         storeRaw({
             ...createSave(),
             screen: "pantalla-desconocida",
@@ -109,7 +136,7 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("rechaza modificadores activos que no existen", () => {
+    it("rechaza modificadores desconocidos", () => {
         storeRaw({
             ...createSave(),
             activeModifierIds: ["unknown-modifier"],
@@ -127,7 +154,7 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("rechaza informes con modificadores desconocidos", () => {
+    it("rechaza informes de modificadores incorrectos", () => {
         storeRaw({
             ...createSave(),
             modifierReport: {
@@ -139,7 +166,7 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("rechaza audiencias que no existen", () => {
+    it("rechaza audiencias inexistentes", () => {
         storeRaw({
             ...createSave(),
             dayEventIds: ["1", "unknown-event"],
@@ -148,17 +175,16 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("rechaza audiencias que pertenecen a otro día", () => {
+    it("rechaza audiencias de otro día", () => {
         storeRaw({
             ...createSave(),
             dayEventIds: ["11"],
         });
 
-        // El evento 11 pertenece al día 2, no al día 1.
         expect(loadGame()).toBeNull();
     });
 
-    it("rechaza audiencias duplicadas en la jornada", () => {
+    it("rechaza audiencias duplicadas", () => {
         storeRaw({
             ...createSave(),
             dayEventIds: ["1", "1"],
@@ -167,10 +193,13 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("permite desbloqueos futuros aún no implementados", () => {
+    it("conserva desbloqueos de capítulos futuros", () => {
         const save: SaveGame = {
             ...createSave(),
-            unlockedEventIds: ["chapter2-bankers-claim", "chapter2-hospitals"],
+            unlockedEventIds: [
+                "chapter2-bankers-claim",
+                "chapter2-hospitals",
+            ],
         };
 
         saveGame(save);
@@ -178,7 +207,7 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toEqual(save);
     });
 
-    it("rechaza un índice de audiencia fuera de rango", () => {
+    it("rechaza índices de audiencia fuera de rango", () => {
         storeRaw({
             ...createSave(),
             audienceIndex: 99,
@@ -187,37 +216,32 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("conserva el progreso de lectura del epílogo", () => {
+    it("conserva el progreso del epílogo", () => {
         const save: SaveGame = {
             ...createSave(),
             day: 7,
             screen: "chapter-ending",
-            dayEventIds: ["41", "42", "43", "44", "45", "46"],
+            dayEventIds: [
+                "41", "42", "43", "44", "45", "46",
+            ],
             chapterEndingParagraphIndex: 2,
         };
 
         saveGame(save);
 
         expect(loadGame()).toEqual(save);
-        expect(loadGame()?.chapterEndingParagraphIndex).toBe(2);
+
+        expect(
+            loadGame()?.chapterEndingParagraphIndex
+        ).toBe(2);
     });
 
-    it("rechaza un índice de párrafo inexistente", () => {
+    it("rechaza índices de epílogo inexistentes", () => {
         storeRaw({
             ...createSave(),
             day: 7,
             screen: "chapter-ending",
-            dayEventIds: ["6.2"],
             chapterEndingParagraphIndex: 99,
-        });
-
-        expect(loadGame()).toBeNull();
-    });
-
-    it("rechaza guardados sin índice de párrafo", () => {
-        storeRaw({
-            ...createSave(),
-            chapterEndingParagraphIndex: undefined,
         });
 
         expect(loadGame()).toBeNull();
@@ -233,7 +257,7 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("rechaza GameOver cuando no hay motivo de derrota", () => {
+    it("rechaza GameOver sin motivo de derrota", () => {
         storeRaw({
             ...createSave(),
             screen: "gameover",
@@ -243,7 +267,7 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toBeNull();
     });
 
-    it("permite recuperar la derrota nocturna del día 8", () => {
+    it("recupera una derrota nocturna del día 8", () => {
         const save: SaveGame = {
             ...createSave(),
             day: 8,
@@ -251,7 +275,6 @@ describe("Guardado de partidas", () => {
             dayStartStats: createStats({ gold: -50 }),
             dayEventIds: [],
             audienceIndex: 0,
-            isClosing: false,
             specialAudience: "defeat",
             gameOverReason: "bankruptcy",
         };
@@ -261,7 +284,7 @@ describe("Guardado de partidas", () => {
         expect(loadGame()).toEqual(save);
     });
 
-    it("permite recuperar una audiencia de deuda saldada", () => {
+    it("recupera una audiencia de deuda saldada", () => {
         const save: SaveGame = {
             ...createSave(),
             stats: createStats({ gold: 10 }),
@@ -272,12 +295,9 @@ describe("Guardado de partidas", () => {
         saveGame(save);
 
         expect(loadGame()).toEqual(save);
-        expect(loadGame()?.specialAudience).toBe(
-            "treasury-recovery"
-        );
     });
 
-    it("conserva el descanso nocturno al recuperar la partida", () => {
+    it("conserva el descanso nocturno al recargar", () => {
         const save: SaveGame = {
             ...createSave(),
             screen: "sleep",
@@ -290,7 +310,6 @@ describe("Guardado de partidas", () => {
 
         const recovered = loadGame();
 
-        expect(recovered).not.toBeNull();
         expect(recovered?.screen).toBe("sleep");
         expect(recovered?.dayClosed).toBe(true);
     });

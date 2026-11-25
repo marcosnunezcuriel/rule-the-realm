@@ -19,13 +19,13 @@ describe("Preferencias de sonido", () => {
         window.localStorage.clear();
     });
 
-    it("utiliza los valores iniciales", () => {
+    it("utiliza la configuración inicial", () => {
         expect(loadSoundSettings()).toEqual(
             DEFAULT_SOUND_SETTINGS
         );
     });
 
-    it("guarda los volúmenes y la música seleccionada", () => {
+    it("guarda y recupera los volúmenes", () => {
         const settings = {
             ...DEFAULT_SOUND_SETTINGS,
             masterVolume: 45,
@@ -38,7 +38,21 @@ describe("Preferencias de sonido", () => {
         expect(loadSoundSettings()).toEqual(settings);
     });
 
-    it("rechaza volúmenes inválidos", () => {
+    it("conserva los volúmenes al silenciar", () => {
+        const settings = {
+            ...DEFAULT_SOUND_SETTINGS,
+            muted: true,
+            masterVolume: 70,
+            ambienceVolume: 30,
+            effectsVolume: 60,
+        };
+
+        saveSoundSettings(settings);
+
+        expect(loadSoundSettings()).toEqual(settings);
+    });
+
+    it("rechaza volúmenes y pistas inválidos", () => {
         window.localStorage.setItem(
             SOUND_SETTINGS_KEY,
             JSON.stringify({

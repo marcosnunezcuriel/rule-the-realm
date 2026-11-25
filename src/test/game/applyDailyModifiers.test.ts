@@ -4,7 +4,7 @@ import { applyDailyModifiers } from "../../game/applyDailyModifiers";
 import { createStats } from "../helpers/createStats";
 
 describe("Modificadores diarios", () => {
-    it("no cambia las estadísticas si no hay modificadores", () => {
+    it("no cambia estadísticas sin modificadores", () => {
         const current = createStats();
 
         const result = applyDailyModifiers(current, []);
@@ -14,7 +14,7 @@ describe("Modificadores diarios", () => {
         expect(result.report.totalChanges).toEqual({});
     });
 
-    it("aplica correctamente el modificador del circo", () => {
+    it("aplica el modificador del circo", () => {
         const current = createStats();
 
         const result = applyDailyModifiers(
@@ -22,10 +22,14 @@ describe("Modificadores diarios", () => {
             ["traveling-circus"]
         );
 
-        expect(result.nextStats.gold).toBe(current.gold + 5);
+        expect(result.nextStats.gold).toBe(
+            current.gold + 5
+        );
+
         expect(result.nextStats.population).toBe(
             current.population + 2
         );
+
         expect(result.nextStats.prestige).toBe(
             current.prestige + 2
         );
@@ -41,25 +45,27 @@ describe("Modificadores diarios", () => {
         });
     });
 
-    it("no aplica dos veces un modificador duplicado", () => {
-        const current = createStats();
-
+    it("no aplica dos veces el mismo modificador", () => {
         const result = applyDailyModifiers(
-            current,
+            createStats(),
             ["traveling-circus", "traveling-circus"]
         );
 
-        expect(result.nextStats.gold).toBe(current.gold + 5);
+        expect(result.nextStats.gold).toBe(255);
+
         expect(result.report.appliedIds).toEqual([
             "traveling-circus",
         ]);
     });
 
-    it("no modifica las estadísticas que recibe", () => {
+    it("no modifica las estadísticas originales", () => {
         const current = createStats();
         const original = { ...current };
 
-        applyDailyModifiers(current, ["traveling-circus"]);
+        applyDailyModifiers(
+            current,
+            ["traveling-circus"]
+        );
 
         expect(current).toEqual(original);
     });

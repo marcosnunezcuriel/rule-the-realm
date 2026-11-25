@@ -154,6 +154,10 @@ export function isSaveGame(
 
     return (
         (
+            value.monarch === "king" ||
+            value.monarch === "queen"
+        ) &&
+        (
             value.screen === "scene" ||
             value.screen === "sleep" ||
             value.screen === "summary" ||

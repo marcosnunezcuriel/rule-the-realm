@@ -1,0 +1,114 @@
+.monarch-selection {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 0;
+    padding: var(--space-5);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    color: var(--colour-text);
+    background-color: var(--colour-background);
+}
+
+.monarch-selection__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+
+    width: min(100%, 46rem);
+    max-height: 100%;
+    margin: auto;
+    padding: var(--space-6);
+
+    background-color: var(--colour-panel);
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-xl);
+
+    text-align: center;
+}
+
+.monarch-selection__title {
+    margin: 0;
+
+    color: var(--colour-gold);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.monarch-selection__description {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.monarch-selection__options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+
+    width: 100%;
+}
+
+.monarch-selection__option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+
+    min-width: 0;
+    padding: var(--space-4);
+
+    color: var(--colour-gold);
+    background-color: var(--colour-card);
+
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-md);
+
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+
+    cursor: pointer;
+    transition:
+        transform var(--duration-fast) ease,
+        background-color var(--duration-fast) ease;
+}
+
+.monarch-selection__option:hover {
+    transform: translateY(-3px);
+    background-color: var(--colour-button-hover);
+}
+
+.monarch-selection__option img {
+    display: block;
+
+    width: 100%;
+    max-width: 13rem;
+    max-height: 13rem;
+
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.monarch-selection__back {
+    min-height: 2.75rem;
+    padding: var(--space-3) var(--space-5);
+
+    color: var(--colour-gold);
+    background-color: var(--colour-button);
+
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-sm);
+
+    font-family: var(--font-display);
+    cursor: pointer;
+}
+
+.monarch-selection button:focus-visible {
+    outline: var(--border-medium) solid var(--colour-gold);
+    outline-offset: 3px;
+}

@@ -25,27 +25,26 @@ const stats: GameNotification = {
     },
 };
 
-describe("Prioridad de notificaciones", () => {
+const anthem: GameNotification = {
+    sequence: 4,
+    kind: "anthem-unlocked",
+};
+
+describe("Cola de notificaciones", () => {
     it("prioriza estadísticas, modificadores y logros", () => {
         let queue: GameNotification[] = [];
 
-        queue = insertGameNotification(
-            queue,
+        for (const notification of [
             achievement,
-            null
-        );
-
-        queue = insertGameNotification(
-            queue,
             modifier,
-            null
-        );
-
-        queue = insertGameNotification(
-            queue,
             stats,
-            null
-        );
+        ]) {
+            queue = insertGameNotification(
+                queue,
+                notification,
+                null
+            );
+        }
 
         expect(queue.map((item) => item.kind)).toEqual([
             "stats",
@@ -54,7 +53,7 @@ describe("Prioridad de notificaciones", () => {
         ]);
     });
 
-    it("no interrumpe una notificación ya visible", () => {
+    it("no interrumpe una notificación visible", () => {
         let queue: GameNotification[] = [achievement];
 
         queue = insertGameNotification(
@@ -76,9 +75,9 @@ describe("Prioridad de notificaciones", () => {
         ]);
     });
 
-    it("conserva el orden entre avisos iguales", () => {
+    it("conserva el orden de avisos con igual prioridad", () => {
         const anotherModifier: GameNotification = {
-            sequence: 4,
+            sequence: 5,
             kind: "modifier-removed",
             id: "traveling-circus",
         };
@@ -99,11 +98,33 @@ describe("Prioridad de notificaciones", () => {
 
         expect(queue.map((item) => item.sequence)).toEqual([
             2,
-            4,
+            5,
         ]);
     });
 
-    it("mantiene juntas las estadísticas de una decisión", () => {
+    it("muestra el himno después de las estadísticas y modificadores", () => {
+        let queue: GameNotification[] = [];
+
+        for (const notification of [
+            anthem,
+            modifier,
+            stats,
+        ]) {
+            queue = insertGameNotification(
+                queue,
+                notification,
+                null
+            );
+        }
+
+        expect(queue.map((item) => item.kind)).toEqual([
+            "stats",
+            "modifier-added",
+            "anthem-unlocked",
+        ]);
+    });
+
+    it("mantiene agrupados los cambios de una decisión", () => {
         const queue = insertGameNotification(
             [],
             stats,

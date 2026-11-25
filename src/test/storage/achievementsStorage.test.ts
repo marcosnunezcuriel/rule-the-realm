@@ -20,11 +20,11 @@ describe("Guardado permanente de logros", () => {
         window.localStorage.clear();
     });
 
-    it("comienza sin logros desbloqueados", () => {
+    it("comienza con la colección vacía", () => {
         expect(loadUnlockedAchievements()).toEqual([]);
     });
 
-    it("guarda un logro conseguido", () => {
+    it("guarda y recupera un logro", () => {
         expect(unlockAchievement("hand-of-king")).toBe(true);
 
         expect(loadUnlockedAchievements()).toEqual([
@@ -32,7 +32,15 @@ describe("Guardado permanente de logros", () => {
         ]);
     });
 
-    it("no desbloquea dos veces el mismo logro", () => {
+    it("guarda el logro actual de final de capítulo", () => {
+        expect(unlockAchievement("first-steps")).toBe(true);
+
+        expect(loadUnlockedAchievements()).toContain(
+            "first-steps"
+        );
+    });
+
+    it("impide desbloquear el mismo logro dos veces", () => {
         expect(unlockAchievement("great-circus")).toBe(true);
         expect(unlockAchievement("great-circus")).toBe(false);
 
@@ -41,7 +49,7 @@ describe("Guardado permanente de logros", () => {
         ]);
     });
 
-    it("conserva los logros al borrar una partida", () => {
+    it("conserva los logros entre partidas", () => {
         unlockAchievement("hand-of-king");
 
         clearSavedGame();
@@ -51,7 +59,7 @@ describe("Guardado permanente de logros", () => {
         ]);
     });
 
-    it("descarta identificadores de logros desconocidos", () => {
+    it("descarta identificadores desconocidos", () => {
         window.localStorage.setItem(
             ACHIEVEMENTS_KEY,
             JSON.stringify([
@@ -62,6 +70,20 @@ describe("Guardado permanente de logros", () => {
 
         expect(loadUnlockedAchievements()).toEqual([
             "hand-of-king",
+        ]);
+    });
+
+    it("no duplica identificadores guardados", () => {
+        window.localStorage.setItem(
+            ACHIEVEMENTS_KEY,
+            JSON.stringify([
+                "first-steps",
+                "first-steps",
+            ])
+        );
+
+        expect(loadUnlockedAchievements()).toEqual([
+            "first-steps",
         ]);
     });
 

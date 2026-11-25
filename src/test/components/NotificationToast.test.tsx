@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import NotificationToast from "../../components/shared/NotificationToast";
 
 describe("Notificaciones del juego", () => {
-    it("muestra un logro con el estilo dorado", () => {
+    it("muestra un logro con su nombre", () => {
         const html = renderToStaticMarkup(
             <NotificationToast
                 notification={{
@@ -18,11 +18,13 @@ describe("Notificaciones del juego", () => {
         expect(html).toContain(
             "notification-toast--achievement"
         );
+
         expect(html).toContain("Mano del rey");
+        expect(html).toContain("Logro desbloqueado");
     });
 
-    it("muestra un modificador añadido en verde", () => {
-        const html = renderToStaticMarkup(
+    it("distingue los modificadores añadidos y eliminados", () => {
+        const added = renderToStaticMarkup(
             <NotificationToast
                 notification={{
                     sequence: 2,
@@ -32,15 +34,7 @@ describe("Notificaciones del juego", () => {
             />
         );
 
-        expect(html).toContain(
-            "notification-toast--modifier-added"
-        );
-        expect(html).toContain("Modificador añadido");
-        expect(html).toContain("Circo ambulante");
-    });
-
-    it("muestra un modificador eliminado en rojo", () => {
-        const html = renderToStaticMarkup(
+        const removed = renderToStaticMarkup(
             <NotificationToast
                 notification={{
                     sequence: 3,
@@ -50,13 +44,18 @@ describe("Notificaciones del juego", () => {
             />
         );
 
-        expect(html).toContain(
+        expect(added).toContain(
+            "notification-toast--modifier-added"
+        );
+        expect(added).toContain("Circo ambulante");
+
+        expect(removed).toContain(
             "notification-toast--modifier-removed"
         );
-        expect(html).toContain("Modificador eliminado");
+        expect(removed).toContain("Modificador eliminado");
     });
 
-    it("muestra Fiebre negra en cursiva", () => {
+    it("mantiene el formato narrativo de los modificadores", () => {
         const html = renderToStaticMarkup(
             <NotificationToast
                 notification={{
@@ -67,8 +66,29 @@ describe("Notificaciones del juego", () => {
             />
         );
 
+        expect(html).toContain("<em>Fiebre negra</em>");
+    });
+
+    it("muestra el desbloqueo musical como aviso especial", () => {
+        const html = renderToStaticMarkup(
+            <NotificationToast
+                notification={{
+                    sequence: 5,
+                    kind: "anthem-unlocked",
+                }}
+            />
+        );
+
         expect(html).toContain(
-            "<em>Fiebre negra</em>"
+            "notification-toast--anthem-unlocked"
+        );
+
+        expect(html).toContain(
+            "Has desbloqueado el Himno de Astaria"
+        );
+
+        expect(html).toContain(
+            "Consulta el panel de control de sonido."
         );
     });
 });

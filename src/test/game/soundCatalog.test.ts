@@ -6,7 +6,7 @@ import {
 } from "../../audio/soundCatalog";
 
 describe("Catálogo de audio", () => {
-    it("incluye exactamente 14 efectos", () => {
+    it("contiene los 14 efectos del juego", () => {
         expect(Object.keys(effectPaths)).toHaveLength(14);
 
         for (const path of Object.values(effectPaths)) {
@@ -16,7 +16,7 @@ describe("Catálogo de audio", () => {
         }
     });
 
-    it("incluye los dos ambientes", () => {
+    it("contiene el ambiente de pájaros y el himno", () => {
         expect(ambientPaths.birds).toContain(
             "birds.ogg"
         );

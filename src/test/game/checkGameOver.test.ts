@@ -4,54 +4,56 @@ import { checkGameOver } from "../../game/checkGameOver";
 import { createStats } from "../helpers/createStats";
 
 describe("Condiciones de derrota", () => {
-    it("no declara una derrota si el reino está estable", () => {
-        const stats = createStats();
-
-        expect(checkGameOver(stats)).toBeNull();
+    it("no termina una partida estable", () => {
+        expect(
+            checkGameOver(createStats())
+        ).toBeNull();
     });
 
-    it("detecta bancarrota al llegar a -50 monedas", () => {
-        const stats = createStats({ gold: -50 });
-
-        expect(checkGameOver(stats)).toBe("bankruptcy");
+    it("detecta la bancarrota en -50", () => {
+        expect(
+            checkGameOver(createStats({ gold: -50 }))
+        ).toBe("bankruptcy");
     });
 
-    it("no declara bancarrota cuando hay -49 monedas", () => {
-        const stats = createStats({ gold: -49 });
-
-        expect(checkGameOver(stats)).toBeNull();
+    it("no declara bancarrota en -49", () => {
+        expect(
+            checkGameOver(createStats({ gold: -49 }))
+        ).toBeNull();
     });
 
-    it("detecta el abandono del reino", () => {
-        const stats = createStats({ population: 0 });
-
-        expect(checkGameOver(stats)).toBe("abandoned");
+    it("detecta la pérdida de población", () => {
+        expect(
+            checkGameOver(createStats({ population: 0 }))
+        ).toBe("abandoned");
     });
 
-    it("detecta una invasión sin ejército", () => {
-        const stats = createStats({ army: 0 });
-
-        expect(checkGameOver(stats)).toBe("invasion");
+    it("detecta la invasión", () => {
+        expect(
+            checkGameOver(createStats({ army: 0 }))
+        ).toBe("invasion");
     });
 
-    it("detecta una crisis religiosa", () => {
-        const stats = createStats({ faith: 0 });
-
-        expect(checkGameOver(stats)).toBe("religious-crisis");
+    it("detecta la crisis religiosa", () => {
+        expect(
+            checkGameOver(createStats({ faith: 0 }))
+        ).toBe("religious-crisis");
     });
 
-    it("detecta el derrocamiento del monarca", () => {
-        const stats = createStats({ prestige: 0 });
-
-        expect(checkGameOver(stats)).toBe("overthrown");
+    it("detecta el derrocamiento", () => {
+        expect(
+            checkGameOver(createStats({ prestige: 0 }))
+        ).toBe("overthrown");
     });
 
-    it("mantiene la prioridad de la bancarrota si hay varias derrotas", () => {
-        const stats = createStats({
-            gold: -50,
-            population: 0,
-        });
-
-        expect(checkGameOver(stats)).toBe("bankruptcy");
+    it("prioriza la bancarrota ante varias derrotas", () => {
+        expect(
+            checkGameOver(
+                createStats({
+                    gold: -50,
+                    population: 0,
+                })
+            )
+        ).toBe("bankruptcy");
     });
 });

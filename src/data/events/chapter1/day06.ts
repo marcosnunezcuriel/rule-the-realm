@@ -193,7 +193,7 @@ export const day06Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "Sabía que un rey sabio sabe cuándo es mejor cerrar los ojos.",
+                    "Sabía que Vuestra Majestad entendería cuándo conviene cerrar los ojos.",
                     "Aquí tenéis vuestra parte del botín.",
                 ],
                 no: [

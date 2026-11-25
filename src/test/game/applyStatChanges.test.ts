@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { applyStatChanges } from "../../game/applyStatChanges";
 import { createStats } from "../helpers/createStats";
 
-describe("Aplicación de cambios a las estadísticas", () => {
-    it("aplica aumentos y reducciones correctamente", () => {
+describe("Aplicación de estadísticas", () => {
+    it("aplica ganancias y pérdidas", () => {
         const current = createStats();
 
         const result = applyStatChanges(current, {
@@ -13,10 +13,12 @@ describe("Aplicación de cambios a las estadísticas", () => {
         });
 
         expect(result.gold).toBe(current.gold - 20);
-        expect(result.prestige).toBe(current.prestige + 5);
+        expect(result.prestige).toBe(
+            current.prestige + 5
+        );
     });
 
-    it("mantiene las estadísticas que no cambian", () => {
+    it("conserva las estadísticas sin cambios", () => {
         const current = createStats();
 
         const result = applyStatChanges(current, {
@@ -29,7 +31,7 @@ describe("Aplicación de cambios a las estadísticas", () => {
         expect(result.population).toBe(current.population);
     });
 
-    it("no modifica el objeto de estadísticas anterior", () => {
+    it("no modifica el objeto original", () => {
         const current = createStats();
         const original = { ...current };
 

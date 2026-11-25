@@ -58,7 +58,7 @@ export const day04Events: GameEvent[] = [
                     "La luz vuelve a reinar en nuestros templos y el orden sagrado queda restaurado.",
                 ],
                 no: [
-                    "¡Que los cielos se apiaden de vuestra alma, Rey hereje!",
+                    "¡Que los cielos se apiaden de vuestra alma, Majestad hereje!",
                     "Habéis elegido la piedra fría por encima de la palabra divina.",
                 ],
             },
@@ -82,7 +82,7 @@ export const day04Events: GameEvent[] = [
         dialogue: {
             speaker: "Pintor de la corte",
             introduction: [
-                "¡Majestad! Todo gran monarca necesita inmortalizar su rostro en un lienzo digno de la historia.",
+                "¡Majestad! Deberíais inmortalizar vuestro rostro en un lienzo digno de la historia.",
                 "Si me concedéis fondos para adquirir pigmentos exóticos y pan de oro, dedicaré mis días a pintar vuestro retrato oficial.",
                 "¿Me autorizáis a comenzar la obra?",
             ],

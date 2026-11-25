@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { getNotificationEffect } from "../../game/getNotificationEffect";
 
 describe("Sonidos de notificaciones", () => {
-    it("utiliza un solo sonido para las estadísticas", () => {
+    it("utiliza un sonido para todos los cambios de estadísticas", () => {
         expect(getNotificationEffect({
             sequence: 1,
             kind: "stats",
@@ -14,7 +14,7 @@ describe("Sonidos de notificaciones", () => {
         })).toBe("notification-stats");
     });
 
-    it("distingue los dos cambios de modificadores", () => {
+    it("distingue modificadores añadidos y eliminados", () => {
         expect(getNotificationEffect({
             sequence: 2,
             kind: "modifier-added",
@@ -28,9 +28,15 @@ describe("Sonidos de notificaciones", () => {
         })).toBe("notification-modifier-removed");
     });
 
-    it("el himno utiliza el sonido de logro", () => {
+    it("utiliza el sonido de logro para los desbloqueos", () => {
         expect(getNotificationEffect({
             sequence: 4,
+            kind: "achievement",
+            id: "first-steps",
+        })).toBe("notification-achievement");
+
+        expect(getNotificationEffect({
+            sequence: 5,
             kind: "anthem-unlocked",
         })).toBe("notification-achievement");
     });

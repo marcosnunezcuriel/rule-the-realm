@@ -159,8 +159,8 @@ export const achievements = [
         },
     },
     {
-        id: "kings-first-steps",
-        name: "Los primeros pasos del rey",
+        id: "first-steps",
+        name: "Primeros pasos en el trono",
         description: "Completa el Capítulo I.",
         trigger: {
             type: "chapter-complete",

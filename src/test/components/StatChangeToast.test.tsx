@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import StatChangeToast from "../../components/kingdom/StatChangeToast";
 
 describe("Notificaciones de estadísticas", () => {
-    it("muestra dos cambios simultáneos en un solo grupo", () => {
+    it("agrupa varios cambios en una notificación", () => {
         const html = renderToStaticMarkup(
             <StatChangeToast
                 notification={{
@@ -17,22 +17,24 @@ describe("Notificaciones de estadísticas", () => {
             />
         );
 
-        expect(html).toContain('aria-label="Oro: +1"');
-        expect(html).toContain('aria-label="Prestigio: -3"');
-
-        const groups = html.match(
-            /class="stat-change-toast"/g
+        expect(html).toContain(
+            'aria-label="Oro: +1"'
         );
 
-        const cards = html.match(
-            /class="stat-change-toast__item /g
+        expect(html).toContain(
+            'aria-label="Prestigio: -3"'
         );
 
-        expect(groups).toHaveLength(1);
-        expect(cards).toHaveLength(2);
+        expect(
+            html.match(/class="stat-change-toast"/g)
+        ).toHaveLength(1);
+
+        expect(
+            html.match(/class="stat-change-toast__item /g)
+        ).toHaveLength(2);
     });
 
-    it("distingue ganancias y pérdidas", () => {
+    it("distingue valores positivos y negativos", () => {
         const html = renderToStaticMarkup(
             <StatChangeToast
                 notification={{
@@ -54,7 +56,7 @@ describe("Notificaciones de estadísticas", () => {
         );
     });
 
-    it("utiliza los iconos SVG originales", () => {
+    it("utiliza los iconos originales de las estadísticas", () => {
         const html = renderToStaticMarkup(
             <StatChangeToast
                 notification={{
@@ -68,6 +70,8 @@ describe("Notificaciones de estadísticas", () => {
 
         expect(html).toContain("<svg");
         expect(html).toContain("<ellipse");
-        expect(html).toContain('aria-label="Oro: +10"');
+        expect(html).toContain(
+            'aria-label="Oro: +10"'
+        );
     });
 });

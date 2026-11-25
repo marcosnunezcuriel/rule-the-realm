@@ -1,10 +1,15 @@
 /*
- * Rule the Realm
- * Adaptación a tablets y móviles.
+ * Rule the Realm — Diseño responsive
  *
- * Estilos originales: escritorio.
- * Estos estilos se aplican hasta 1024 px.
+ * Escritorio: estilos originales.
+ * Tablet: hasta 1024 px.
+ * Teléfono: hasta 640 px.
+ * Horizontal: hasta 1024 px de ancho y 544 px de alto.
  */
+
+/* ==========================================
+   TABLETS Y MÓVILES — HASTA 1024 PX
+   ========================================== */
 
 @media (max-width: 64rem) {
 
@@ -22,7 +27,6 @@
 
     .game-content {
         min-width: 0;
-
         --mobile-stat-strip-height: 4.625rem;
     }
 
@@ -58,8 +62,8 @@
             var(--space-4)
             max(var(--space-4), env(safe-area-inset-bottom));
 
-        overflow-y: auto;
         overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .main-menu__map {
@@ -112,10 +116,10 @@
     }
 
     .main-menu__actions {
+        width: min(100%, 19rem);
+
         margin-top: var(--space-6);
         gap: var(--space-3);
-
-        width: min(100%, 19rem);
     }
 
     .main-menu__actions button {
@@ -126,6 +130,7 @@
         grid-area: sound;
 
         position: static;
+
         justify-self: stretch;
 
         left: auto;
@@ -137,6 +142,7 @@
         grid-area: achievements;
 
         position: static;
+
         justify-self: stretch;
 
         right: auto;
@@ -145,8 +151,10 @@
 
     .main-menu__achievements {
         justify-content: center;
+
         min-height: 2.75rem;
         padding: var(--space-2);
+
         font-size: var(--font-size-13);
     }
 
@@ -154,6 +162,7 @@
         grid-area: credit;
 
         position: static;
+
         justify-self: center;
 
         left: auto;
@@ -161,27 +170,30 @@
         transform: none;
 
         margin: 0;
+
         white-space: normal;
         text-align: center;
+
         font-size: var(--font-size-11);
     }
+
+    /* Confirmación de nueva partida */
 
     .main-menu__backdrop {
         position: fixed;
         inset: 0;
+        z-index: 120;
 
         padding: var(--space-3);
-
         overflow-y: auto;
-        z-index: 120;
     }
 
     .main-menu__confirmation {
         width: min(100%, 28rem);
         max-height: 90dvh;
-        overflow-y: auto;
 
         padding: var(--space-5);
+        overflow-y: auto;
     }
 
     .main-menu__confirmation-actions {
@@ -192,11 +204,44 @@
         min-height: 2.75rem;
     }
 
-    /* Encabezado de las audiencias */
+    /* Selección de rey o reina */
+
+    .monarch-selection {
+        padding:
+            max(var(--space-4), env(safe-area-inset-top))
+            var(--space-4)
+            max(var(--space-4), env(safe-area-inset-bottom));
+    }
+
+    .monarch-selection__panel {
+        max-height: none;
+        flex-shrink: 0;
+
+        gap: var(--space-4);
+        padding: var(--space-5);
+    }
+
+    .monarch-selection__options {
+        gap: var(--space-3);
+    }
+
+    .monarch-selection__option {
+        min-height: 2.75rem;
+        padding: var(--space-3);
+    }
+
+    .monarch-selection__option img {
+        max-height: 11rem;
+    }
+
+    .monarch-selection__back {
+        min-height: 2.75rem;
+    }
+
+    /* Header */
 
     .site-header {
         gap: var(--space-3);
-
         padding: var(--space-2) var(--space-3);
     }
 
@@ -220,6 +265,7 @@
 
     .site-header__status {
         padding: 0 var(--space-2);
+
         font-size: var(--font-size-11);
         letter-spacing: var(--tracking-1);
     }
@@ -229,25 +275,7 @@
         height: 2.75rem;
     }
 
-    /* Diálogos y botones: interfaz táctil */
-
-    .speech-bubble__next {
-        min-height: 2.75rem;
-        padding: var(--space-2) var(--space-4);
-    }
-
-    .speech-bubble__choice {
-        width: 2.75rem;
-        height: 2.75rem;
-        touch-action: manipulation;
-    }
-}
-
-/* Estadísticas y escenario móvil */
-
-@media (max-width: 64rem) {
-
-    /* Las cinco estadísticas aparecen en una fila */
+    /* Estadísticas del reino */
 
     .kingdom-stats {
         position: relative;
@@ -276,7 +304,6 @@
 
         min-width: 0;
         min-height: 3.625rem;
-
         padding: var(--space-1);
 
         border-left-width: var(--border-thin);
@@ -290,6 +317,7 @@
 
     .kingdom-stats__label {
         font-size: clamp(0.57rem, 2.1vw, 0.78rem);
+
         text-align: center;
         white-space: nowrap;
     }
@@ -335,22 +363,20 @@
         overflow: hidden;
     }
 
-    /* Zona de los personajes e ilustraciones */
-
     .throne-stage__visuals {
         position: relative;
         inset: auto;
 
         width: min(100%, 29rem, 51dvh);
-        aspect-ratio: 4 / 3;
         height: auto;
 
-        flex: 0 0 auto;
+        aspect-ratio: 4 / 3;
 
+        flex: 0 0 auto;
         overflow: hidden;
     }
 
-    /* Panel de diálogo independiente */
+    /* Diálogo debajo del escenario */
 
     .throne-stage__dialogue {
         position: relative;
@@ -364,11 +390,8 @@
         min-height: 0;
 
         width: min(100%, 38rem);
-
         overflow: hidden;
     }
-
-    /* Bocadillo del visitante */
 
     .speech-bubble--visitor {
         position: relative;
@@ -381,6 +404,7 @@
         width: 100%;
         max-height: 100%;
 
+        /* Crece con el texto, sin llenar toda la pantalla. */
         flex: 0 1 auto;
         min-height: 0;
 
@@ -400,7 +424,6 @@
 
     .speech-bubble__speaker {
         margin-bottom: var(--space-2);
-
         font-size: var(--font-size-18);
     }
 
@@ -410,7 +433,7 @@
         overflow-wrap: anywhere;
     }
 
-    /* Botones de decisión del rey */
+    /* Zona de decisiones */
 
     .speech-bubble--king {
         position: relative;
@@ -438,7 +461,19 @@
         gap: var(--space-5);
     }
 
-    /* Notificaciones justo bajo las estadísticas */
+    .speech-bubble__next {
+        min-height: 2.75rem;
+        padding: var(--space-2) var(--space-4);
+    }
+
+    .speech-bubble__choice {
+        width: 2.75rem;
+        height: 2.75rem;
+
+        touch-action: manipulation;
+    }
+
+    /* Notificaciones */
 
     .notification-toast,
     .stat-change-toast {
@@ -453,13 +488,19 @@
     }
 
     .notification-toast {
-        width: min(18rem, calc(100% - 2 * var(--space-2)));
+        width: min(
+            18rem,
+            calc(100% - 2 * var(--space-2))
+        );
 
         padding: var(--space-2) var(--space-3);
     }
 
     .notification-toast--anthem-unlocked {
-        width: min(19rem, calc(100% - 2 * var(--space-2)));
+        width: min(
+            19rem,
+            calc(100% - 2 * var(--space-2))
+        );
     }
 
     .notification-toast__name {
@@ -472,13 +513,11 @@
     }
 
     .stat-change-toast {
-        width: min(15rem, calc(100% - 2 * var(--space-2)));
+        width: min(
+            15rem,
+            calc(100% - 2 * var(--space-2))
+        );
     }
-}
-
-/* Otras pantallas: tablets y móviles */
-
-@media (max-width: 64rem) {
 
     /* Resumen diario */
 
@@ -519,7 +558,7 @@
         min-height: 2.75rem;
     }
 
-    /* Pantalla de logros */
+    /* Logros */
 
     .achievements-screen {
         padding: var(--space-5);
@@ -539,7 +578,7 @@
         padding: var(--space-4);
     }
 
-    /* Pantalla de derrota */
+    /* Derrota */
 
     .game-over {
         padding: var(--space-3);
@@ -569,7 +608,7 @@
         min-height: 2.75rem;
     }
 
-    /* Introducción y finales de capítulo */
+    /* Introducción y final de capítulo */
 
     .narrative-parchment {
         padding:
@@ -634,7 +673,7 @@
         width: min(100%, 36rem, 85dvh);
     }
 
-    /* Control de sonido */
+    /* Panel de sonido */
 
     .sound-panel__backdrop {
         padding:
@@ -671,11 +710,13 @@
     }
 }
 
-/* Teléfonos: hasta 640 px */
+/* ==========================================
+   TELÉFONOS — HASTA 640 PX
+   ========================================== */
 
 @media (max-width: 40rem) {
 
-    /* Header en dos filas */
+    /* Header compacto en dos filas */
 
     .site-header {
         display: grid;
@@ -754,7 +795,6 @@
         justify-self: center;
 
         height: 1.5rem;
-
         padding: 0 var(--space-2);
 
         border: none;
@@ -763,11 +803,10 @@
         letter-spacing: var(--tracking-1);
     }
 
-    /* Menú compacto */
+    /* Menú */
 
     .main-menu {
         row-gap: var(--space-3);
-
         padding: var(--space-3);
     }
 
@@ -793,7 +832,39 @@
         margin-top: var(--space-5);
     }
 
-    /* Estadísticas pequeñas pero legibles */
+    /* Selección de monarca */
+
+    .monarch-selection {
+        padding: var(--space-3);
+    }
+
+    .monarch-selection__panel {
+        gap: var(--space-3);
+        padding: var(--space-4);
+    }
+
+    .monarch-selection__title {
+        font-size: clamp(1.25rem, 5vw, 1.75rem);
+    }
+
+    .monarch-selection__description {
+        font-size: var(--font-size-14);
+    }
+
+    .monarch-selection__options {
+        gap: var(--space-2);
+    }
+
+    .monarch-selection__option {
+        padding: var(--space-2);
+        font-size: 1rem;
+    }
+
+    .monarch-selection__option img {
+        max-height: 10rem;
+    }
+
+    /* Estadísticas */
 
     .kingdom-stats {
         gap: var(--space-half);
@@ -812,7 +883,7 @@
         font-size: clamp(0.875rem, 3.5vw, 1.125rem);
     }
 
-    /* Escenario vertical */
+    /* Escenario */
 
     .throne-stage__visuals {
         width: min(100%, 22rem, 51dvh);
@@ -826,7 +897,7 @@
         font-size: var(--font-size-16);
     }
 
-    /* Resumen diario con dos columnas */
+    /* Resumen diario */
 
     .day-summary__panel {
         padding: var(--space-3);
@@ -857,7 +928,7 @@
         padding: var(--space-3);
     }
 
-    /* Logros en una sola columna */
+    /* Logros */
 
     .achievements-screen {
         padding: var(--space-3);
@@ -890,7 +961,7 @@
         font-size: var(--font-size-16);
     }
 
-    /* Control de sonido */
+    /* Sonido */
 
     .sound-panel {
         padding: var(--space-3);
@@ -901,11 +972,15 @@
     }
 }
 
-/* Teléfonos en horizontal y pantallas de poca altura */
+/* ==========================================
+   MÓVILES HORIZONTALES Y POCA ALTURA
+   ========================================== */
 
 @media (max-width: 64rem)
     and (orientation: landscape)
     and (max-height: 34rem) {
+
+    /* Salón del trono en dos columnas */
 
     .throne-scene {
         padding: var(--space-1);
@@ -965,7 +1040,43 @@
         height: 2.75rem;
     }
 
+    /* Mapa del menú */
+
     .main-menu__map {
         width: min(16vw, 6rem);
+    }
+
+    /* Selección de monarca */
+
+    .monarch-selection {
+        padding: var(--space-2);
+    }
+
+    .monarch-selection__panel {
+        gap: var(--space-2);
+        padding: var(--space-3);
+    }
+
+    .monarch-selection__description {
+        font-size: var(--font-size-13);
+    }
+
+    .monarch-selection__option {
+        gap: var(--space-1);
+        padding: var(--space-2);
+    }
+
+    .monarch-selection__option img {
+        max-height: 7rem;
+    }
+}
+
+/* ==========================================
+   ACCESIBILIDAD — MOVIMIENTO REDUCIDO
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .monarch-selection__option {
+        transition: none;
     }
 }

@@ -21,7 +21,11 @@ import type { GameOverReason } from "../types/gameOver";
 import type { ModifierId } from "../types/modifiers";
 import type { KingdomValues } from "../types/stats";
 
+import { adaptDialogueForMonarch } from "./adaptDialogueForMonarch";
+import type { MonarchRole } from "../types/monarch";
+
 type AudiencePresentationInput = {
+    monarch: MonarchRole;
     dayEvents: GameEvent[];
     audienceIndex: number;
     isClosing: boolean;
@@ -35,6 +39,7 @@ export function getAudiencePresentation({
     isClosing,
     specialAudience,
     gameOverReason,
+    monarch,
 }: AudiencePresentationInput): {
     currentAudience: GameEvent | undefined;
     morningCount: number;
@@ -56,9 +61,11 @@ export function getAudiencePresentation({
     const visitorImage =
         isClosing || specialAudience !== null || !currentAudience
             ? "/assets/characters/courtiers/royal-advisor.png"
-            : currentAudience.image;
+            : currentAudience.id === "10" && monarch === "queen"
+                ? "/assets/characters/royalty/king-standing.png"
+                : currentAudience.image;
 
-    const dialogue =
+    const originalDialogue =
         specialAudience === "defeat" && gameOverReason !== null
             ? getDefeatAnnouncementDialogue(gameOverReason)
             : specialAudience === "treasury-warning"
@@ -68,6 +75,14 @@ export function getAudiencePresentation({
                     : isClosing || !currentAudience
                         ? closingDialogue
                         : currentAudience.dialogue;
+
+    const dialogue = adaptDialogueForMonarch(
+        originalDialogue,
+        specialAudience === null && !isClosing
+            ? currentAudience?.id
+            : undefined,
+        monarch
+    );
 
     const dialogueKey =
         specialAudience === "defeat"

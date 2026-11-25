@@ -24,7 +24,7 @@ export const chapters: ChapterDefinition[] = [
             "ha moldeado un reino que hoy se encuentra al borde de su prueba más dura.",
 
             "Ahora, mientras la fiebre negra cruza las fronteras y amenaza con devorar cada rincón del reino, " +
-            "la corte aguarda en silencio el siguiente paso de su soberano. " +
+            "la corte aguarda en silencio la próxima decisión de Vuestra Majestad. " +
             "El primer capítulo llega a su fin, Majestad, pero el verdadero juicio de la historia... apenas comienza.",
         ],
     },

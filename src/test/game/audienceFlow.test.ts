@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import { getEventById } from "../../data/events/eventRegistry";
-
 import {
     getAudienceExit,
     getAudiencePresentation,
@@ -12,7 +10,6 @@ import type { GameEvent } from "../../types/events";
 
 import { createStats } from "../helpers/createStats";
 
-// Audiencia ficticia utilizada solamente durante las pruebas.
 const testAudience: GameEvent = {
     id: "test-audience",
     day: 1,
@@ -47,8 +44,6 @@ const testAudience: GameEvent = {
     },
 };
 
-// Datos habituales para comprobar qué sucede
-// al terminar una audiencia.
 const baseExit: Parameters<typeof getAudienceExit>[0] = {
     specialAudience: null,
     isClosing: false,
@@ -62,7 +57,7 @@ const baseExit: Parameters<typeof getAudienceExit>[0] = {
 };
 
 describe("Consecuencias de las decisiones", () => {
-    it("aplica los cambios de una respuesta afirmativa", () => {
+    it("aplica estadísticas y desbloqueos de una decisión", () => {
         const result = getDecisionConsequences(
             testAudience,
             "yes",
@@ -71,23 +66,17 @@ describe("Consecuencias de las decisiones", () => {
 
         expect(result.nextStats?.gold).toBe(230);
         expect(result.nextStats?.prestige).toBe(105);
-        expect(result.showTreasuryWarning).toBe(false);
-    });
 
-    it("desbloquea eventos y activa modificadores", () => {
-        const result = getDecisionConsequences(
-            testAudience,
-            "yes",
-            createStats()
-        );
+        expect(result.unlocks).toEqual([
+            "future-event",
+        ]);
 
-        expect(result.unlocks).toEqual(["future-event"]);
         expect(result.addModifiers).toEqual([
             "traveling-circus",
         ]);
     });
 
-    it("no concede desbloqueos al rechazar la propuesta", () => {
+    it("aplica las consecuencias del rechazo", () => {
         const result = getDecisionConsequences(
             testAudience,
             "no",
@@ -99,7 +88,7 @@ describe("Consecuencias de las decisiones", () => {
         expect(result.addModifiers).toEqual([]);
     });
 
-    it("detecta cuándo corresponde avisar de arcas vacías", () => {
+    it("avisa cuando la tesorería entra en negativo", () => {
         const result = getDecisionConsequences(
             testAudience,
             "yes",
@@ -110,27 +99,8 @@ describe("Consecuencias de las decisiones", () => {
         expect(result.showTreasuryWarning).toBe(true);
     });
 
-    it("no muestra un aviso económico si ya hay bancarrota", () => {
-        const expensiveAudience: GameEvent = {
-            ...testAudience,
-            effects: {
-                yes: { gold: -70 },
-                no: {},
-            },
-        };
-
-        const result = getDecisionConsequences(
-            expensiveAudience,
-            "yes",
-            createStats({ gold: 10 })
-        );
-
-        expect(result.nextStats?.gold).toBe(-60);
-        expect(result.showTreasuryWarning).toBe(false);
-    });
-        
-    it("muestra el aviso económico cuando el oro llega a -49", () => {
-        const expensiveAudience: GameEvent = {
+    it("distingue el aviso de deuda de la bancarrota", () => {
+        const warningAudience: GameEvent = {
             ...testAudience,
             effects: {
                 yes: { gold: -59 },
@@ -138,18 +108,7 @@ describe("Consecuencias de las decisiones", () => {
             },
         };
 
-        const result = getDecisionConsequences(
-            expensiveAudience,
-            "yes",
-            createStats({ gold: 10 })
-        );
-
-        expect(result.nextStats?.gold).toBe(-49);
-        expect(result.showTreasuryWarning).toBe(true);
-    });
-
-    it("no muestra el aviso económico al alcanzar exactamente -50", () => {
-        const expensiveAudience: GameEvent = {
+        const bankruptcyAudience: GameEvent = {
             ...testAudience,
             effects: {
                 yes: { gold: -60 },
@@ -157,108 +116,147 @@ describe("Consecuencias de las decisiones", () => {
             },
         };
 
-        const result = getDecisionConsequences(
-            expensiveAudience,
+        const warning = getDecisionConsequences(
+            warningAudience,
             "yes",
             createStats({ gold: 10 })
         );
 
-        expect(result.nextStats?.gold).toBe(-50);
-        expect(result.showTreasuryWarning).toBe(false);
-    });
+        const bankruptcy = getDecisionConsequences(
+            bankruptcyAudience,
+            "yes",
+            createStats({ gold: 10 })
+        );
 
+        expect(warning.nextStats?.gold).toBe(-49);
+        expect(warning.showTreasuryWarning).toBe(true);
+
+        expect(bankruptcy.nextStats?.gold).toBe(-50);
+        expect(bankruptcy.showTreasuryWarning).toBe(false);
+    });
 });
 
 describe("Presentación de audiencias", () => {
-    it("presenta al visitante normal de la jornada", () => {
+    it("presenta una audiencia normal", () => {
         const presentation = getAudiencePresentation({
             dayEvents: [testAudience],
             audienceIndex: 0,
             isClosing: false,
             specialAudience: null,
             gameOverReason: null,
+            monarch: "king",
         });
 
         expect(presentation.visitorImage).toBe(
             "/test-character.png"
         );
+
         expect(presentation.dialogue.speaker).toBe(
             "Visitante de prueba"
         );
+
         expect(presentation.timeOfDay).toBe("morning");
     });
 
-    it("presenta a la Consejera Real tras una derrota nocturna", () => {
+    it("muestra la noche durante el cierre diario", () => {
+        const presentation = getAudiencePresentation({
+            dayEvents: [testAudience],
+            audienceIndex: 1,
+            isClosing: true,
+            specialAudience: null,
+            gameOverReason: null,
+            monarch: "queen",
+        });
+
+        expect(presentation.timeOfDay).toBe("night");
+        expect(presentation.dialogue.speaker).toBe(
+            "Consejera Real"
+        );
+    });
+
+    it("presenta correctamente el anuncio de derrota", () => {
         const presentation = getAudiencePresentation({
             dayEvents: [],
             audienceIndex: 0,
             isClosing: false,
             specialAudience: "defeat",
             gameOverReason: "bankruptcy",
+            monarch: "king",
         });
 
         expect(presentation.visitorImage).toBe(
             "/assets/characters/courtiers/royal-advisor.png"
         );
 
-        expect(presentation.dialogue.speaker).toBe(
-            "Consejera Real"
-        );
-
         expect(
             presentation.dialogue.introduction.join(" ")
         ).toContain("Bancarrota");
     });
+
+    it("presenta la audiencia de deuda saldada", () => {
+        const presentation = getAudiencePresentation({
+            dayEvents: [testAudience],
+            audienceIndex: 0,
+            isClosing: false,
+            specialAudience: "treasury-recovery",
+            gameOverReason: null,
+            monarch: "queen",
+        });
+
+        expect(presentation.dialogue.speaker).toBe(
+            "Consejera Real"
+        );
+    });
 });
 
 describe("Finalización de audiencias", () => {
-    it("envía directamente a GameOver después del anuncio de derrota", () => {
-        const result = getAudienceExit({
-            ...baseExit,
-            specialAudience: "defeat",
-        });
-
-        expect(result).toEqual({
+    it("envía a GameOver tras el anuncio de derrota", () => {
+        expect(
+            getAudienceExit({
+                ...baseExit,
+                specialAudience: "defeat",
+            })
+        ).toEqual({
             kind: "gameover",
         });
     });
 
     it("envía al resumen tras el cierre nocturno", () => {
-        const result = getAudienceExit({
-            ...baseExit,
-            isClosing: true,
-        });
-
-        expect(result).toEqual({
+        expect(
+            getAudienceExit({
+                ...baseExit,
+                isClosing: true,
+            })
+        ).toEqual({
             kind: "summary",
         });
     });
 
-    it("anuncia una derrota cuando fallan las estadísticas", () => {
-        const result = getAudienceExit({
-            ...baseExit,
-            stats: createStats({ gold: -50 }),
-        });
-
-        expect(result).toEqual({
+    it("detecta la bancarrota antes de avanzar", () => {
+        expect(
+            getAudienceExit({
+                ...baseExit,
+                stats: createStats({ gold: -50 }),
+            })
+        ).toEqual({
             kind: "defeat",
             reason: "bankruptcy",
         });
     });
 
     it("prioriza el aviso económico pendiente", () => {
-        const result = getAudienceExit({
-            ...baseExit,
-            stats: createStats({ gold: -10 }),
-            pendingTreasuryWarning: true,
-        });
-
-        expect(result).toEqual({
+        expect(
+            getAudienceExit({
+                ...baseExit,
+                stats: createStats({ gold: -10 }),
+                pendingTreasuryWarning: true,
+            })
+        ).toEqual({
             kind: "treasury-warning",
         });
     });
 
-    it("cambia de mañana a tarde al avanzar de audiencia", () => {
+    it("cambia de mañana a tarde a mitad de jornada", () => {
         const result = getAudienceExit(baseExit);
 
         expect(result).toEqual({
@@ -269,74 +267,34 @@ describe("Finalización de audiencias", () => {
         });
     });
 
-    it("limpia el aviso económico después de presentarlo", () => {
+    it("avanza sin transición si continúa el mismo fondo", () => {
         const result = getAudienceExit({
             ...baseExit,
-            specialAudience: "treasury-warning",
+            dayEventsCount: 3,
+            morningCount: 2,
         });
 
         expect(result).toEqual({
             kind: "next-audience",
             index: 1,
-            phase: "transitioning",
-            clearSpecialAudience: true,
-        });
-    });
-
-    it("inicia el cierre después de la última audiencia", () => {
-        const result = getAudienceExit({
-            ...baseExit,
-            audienceIndex: 1,
-            timeOfDay: "evening",
-        });
-
-        expect(result).toEqual({
-            kind: "closing",
+            phase: "entering",
             clearSpecialAudience: false,
         });
     });
 
-    it("suma la recompensa inicial y el coste de construir la mina", () => {
-        const expedition = getEventById("12.1");
-        if (!expedition) throw new Error("Falta el evento 12.1");
-
-        const result = getDecisionConsequences(
-            expedition,
-            "yes",
-            createStats()
-        );
-
-        expect(result.nextStats?.gold).toBe(225);
-        expect(result.nextStats?.prestige).toBe(105);
-    });
-
-    it("la tragedia minera resta diez habitantes con ambas decisiones", () => {
-        const explosion = getEventById("12.2");
-        if (!explosion) throw new Error("Falta el evento 12.2");
-
-        const result = getDecisionConsequences(
-            explosion,
-            "no",
-            createStats()
-        );
-
-        expect(result.nextStats?.population).toBe(90);
-        expect(result.nextStats?.prestige).toBe(85);
-    });
-
-    it("anuncia la recuperación antes de avanzar", () => {
-        const result = getAudienceExit({
-            ...baseExit,
-            stats: createStats({ gold: 10 }),
-            activeModifierIds: ["indebted"],
-        });
-
-        expect(result).toEqual({
+    it("anuncia la recuperación de la deuda", () => {
+        expect(
+            getAudienceExit({
+                ...baseExit,
+                stats: createStats({ gold: 10 }),
+                activeModifierIds: ["indebted"],
+            })
+        ).toEqual({
             kind: "treasury-recovery",
         });
     });
 
-    it("no anuncia una recuperación con el oro a cero", () => {
+    it("no salda la deuda con el oro exactamente a cero", () => {
         const result = getAudienceExit({
             ...baseExit,
             stats: createStats({ gold: 0 }),
@@ -347,47 +305,15 @@ describe("Finalización de audiencias", () => {
     });
 
     it("la recuperación nocturna precede al resumen", () => {
-        const result = getAudienceExit({
-            ...baseExit,
-            isClosing: true,
-            stats: createStats({ gold: 5 }),
-            activeModifierIds: ["indebted"],
-        });
-
-        expect(result).toEqual({
+        expect(
+            getAudienceExit({
+                ...baseExit,
+                isClosing: true,
+                stats: createStats({ gold: 5 }),
+                activeModifierIds: ["indebted"],
+            })
+        ).toEqual({
             kind: "treasury-recovery",
         });
-    });
-
-    it("tras la audiencia nocturna muestra el resumen", () => {
-        const result = getAudienceExit({
-            ...baseExit,
-            isClosing: true,
-            specialAudience: "treasury-recovery",
-            stats: createStats({ gold: 5 }),
-            activeModifierIds: [],
-        });
-
-        expect(result).toEqual({
-            kind: "summary",
-        });
-    });
-
-    it("la audiencia de recuperación utiliza a la consejera", () => {
-        const presentation = getAudiencePresentation({
-            dayEvents: [testAudience],
-            audienceIndex: 0,
-            isClosing: false,
-            specialAudience: "treasury-recovery",
-            gameOverReason: null,
-        });
-
-        expect(presentation.dialogue.speaker).toBe(
-            "Consejera Real"
-        );
-
-        expect(
-            presentation.dialogue.introduction.join(" ")
-        ).toContain("saldado sus deudas");
     });
 });

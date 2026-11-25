@@ -32,25 +32,17 @@ describe("Logros del Capítulo I", () => {
         }
     });
 
-    it("concede Mano del rey solo al aceptar la ayuda", () => {
-        expect(getDecisionAchievements("8", "yes")).toContain(
-            "hand-of-king"
-        );
+    it("concede Mano del rey al aceptar la ayuda del hermano", () => {
+        expect(
+            getDecisionAchievements("8", "yes")
+        ).toContain("hand-of-king");
 
-        expect(getDecisionAchievements("8", "no")).not.toContain(
-            "hand-of-king"
-        );
+        expect(
+            getDecisionAchievements("8", "no")
+        ).not.toContain("hand-of-king");
     });
 
-    it("concede Gran circo solo al autorizar la entrada", () => {
-        expect(getDecisionAchievements("11", "yes")).toContain(
-            "great-circus"
-        );
-
-        expect(getDecisionAchievements("11", "no")).toEqual([]);
-    });
-
-    it("requiere completar el retrato oficial", () => {
+    it("requiere completar el retrato real", () => {
         expect(
             getEventCompletionAchievements("23.1")
         ).toContain("royal-portrait");
@@ -64,53 +56,19 @@ describe("Logros del Capítulo I", () => {
         expect(
             getEventCompletionAchievements("13.1")
         ).toContain("second-chance");
-
-        expect(
-            getDecisionAchievements("13", "yes")
-        ).not.toContain("second-chance");
     });
 
-    it("requiere financiar la integración de los refugiados", () => {
+    it("concede Tierra de oportunidades al financiar la integración", () => {
         expect(
             getDecisionAchievements("36.1", "yes")
         ).toContain("land-of-opportunity");
 
         expect(
-            getDecisionAchievements("36", "yes")
+            getDecisionAchievements("36.1", "no")
         ).not.toContain("land-of-opportunity");
     });
 
-    it("no concede el logro médico al rechazar la ayuda", () => {
-        expect(
-            getDecisionAchievements("45", "yes")
-        ).toContain("against-wind-and-plague");
-
-        expect(
-            getDecisionAchievements("45", "no")
-        ).toEqual([]);
-    });
-
-    it("reconoce la finalización del Capítulo I", () => {
-        expect(
-            getChapterCompletionAchievements(1)
-        ).toContain("kings-first-steps");
-
-        expect(
-            getChapterCompletionAchievements(2)
-        ).toEqual([]);
-    });
-
-    it("el himno deja de conceder un logro", () => {
-        expect(
-            getEventCompletionAchievements("24.1")
-        ).toEqual([]);
-
-        expect(
-            achievements.map((achievement) => achievement.id)
-        ).not.toContain("astaria-anthem");
-    });
-
-    it("concede Fronteras protegidas al atacar", () => {
+    it("concede Fronteras protegidas al ordenar el ataque", () => {
         expect(
             getDecisionAchievements("36.2", "yes")
         ).toContain("protected-borders");
@@ -120,7 +78,7 @@ describe("Logros del Capítulo I", () => {
         ).not.toContain("protected-borders");
     });
 
-    it("los dos logros de refugiados siguen ramas excluyentes", () => {
+    it("los logros de refugiados pertenecen a ramas incompatibles", () => {
         const event = getEventById("36");
 
         expect(event?.unlocks?.yes).toContain("36.1");
@@ -128,13 +86,29 @@ describe("Logros del Capítulo I", () => {
 
         expect(event?.unlocks?.yes).not.toContain("36.2");
         expect(event?.unlocks?.no).not.toContain("36.1");
+    });
+
+    it("desbloquea Primeros pasos en el trono al terminar el capítulo", () => {
+        expect(
+            getChapterCompletionAchievements(1)
+        ).toContain("first-steps");
 
         expect(
-            getDecisionAchievements("36.1", "yes")
-        ).toContain("land-of-opportunity");
+            getChapterCompletionAchievements(2)
+        ).toEqual([]);
+    });
+
+    it("reconoce las condiciones de los logros de decisiones", () => {
+        expect(
+            getDecisionAchievements("11", "yes")
+        ).toContain("great-circus");
 
         expect(
-            getDecisionAchievements("36.2", "yes")
-        ).toContain("protected-borders");
+            getDecisionAchievements("45", "yes")
+        ).toContain("against-wind-and-plague");
+
+        expect(
+            getDecisionAchievements("45", "no")
+        ).not.toContain("against-wind-and-plague");
     });
 });

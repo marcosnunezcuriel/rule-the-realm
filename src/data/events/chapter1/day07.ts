@@ -128,7 +128,7 @@ export const day07Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "¡Sois un gobernante sabio y justo, Majestad!",
+                    "¡Habéis gobernado con sabiduría y justicia, Majestad!",
                     "Con este oro, la paz reinará entre vuestros antiguos súbditos y los nuestros.",
                 ],
                 no: [
@@ -236,7 +236,7 @@ export const day07Events: GameEvent[] = [
             speaker: "Bufón",
             introduction: [
                 "¡Escuchad todos, nobleza de pacotilla!",
-                "¡El rey se sienta en su trono de oro mientras su cerebro está hecho de lodo!",
+                "¡Vuestra Majestad se sienta en un trono de oro mientras tiene la cabeza llena de lodo!",
                 "Dame un barril más de vino oscuro, y convertiré esta corte aburrida en un circo de risas.",
                 "¿Me concedéis el vino?",
             ],
@@ -298,13 +298,13 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Hombre lobo",
             introduction: [
-                "GRRR... Tranquilo, Majestad. No he venido a atacaros. Soy el líder de una manada de hombres lobo que habita en los bosques del norte de Astaria.",
+                "GRRR... Tranquilidad, Majestad. No he venido a atacaros. Soy el líder de una manada de hombres lobo que habita en los bosques del norte de Astaria.",
                 "Durante años hemos vivido ocultos, perseguidos por cazadores que nos consideran bestias sin inteligencia.",
                 "Pero no somos monstruos. Pensamos, hablamos y sentimos igual que los humanos, aunque bajo la luz de la luna nuestra naturaleza sea diferente.",
                 "He venido a ofreceros un trato.",
                 "Mis hermanos y yo conocemos los bosques mejor que cualquiera de vuestros soldados. Podemos rastrear enemigos a kilómetros de distancia y movernos por la oscuridad sin que nadie nos escuche.",
                 "Si nos permitís vivir en paz y proporcionáis algunos suministros a nuestra manada, nos encargaremos de vigilar los caminos del norte y proteger las fronteras durante la noche.",
-                "Eso sí, debéis saber que muchos de vuestros súbditos nos temen. No todos aceptarán que su rey confíe la seguridad del reino a criaturas como nosotros.",
+                "Eso sí, debéis saber que muchos de vuestros súbditos nos temen. No todos aceptarán que la Corona confíe la seguridad del reino a criaturas como nosotros.",
                 "¿Qué decís, Majestad? ¿Aceptáis nuestra ayuda?",
             ],
             responses: {

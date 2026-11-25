@@ -232,7 +232,7 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Guardián del bosque",
             introduction: [
-                "Saludos, soberano de Astaria. Soy el Guardián del Bosque Encantado y he venido a solicitar vuestra protección.",
+                "Saludos, Majestad de Astaria. Soy el Guardián del Bosque Encantado y he venido a solicitar vuestra protección.",
                 "En lo más profundo de mis dominios se encuentra una arboleda milenaria. Sus árboles han permanecido en pie durante siglos y, bajo sus ramas, generaciones de vuestros súbditos han acudido a rezar a la Estrella de Ocho Puntas.",
                 "Pero un grupo de comerciantes ha descubierto el extraordinario valor de su madera y solicita permiso a la corona para talar los árboles y venderlos en los mercados del continente.",
                 "Os ofrecen una generosa suma de oro a cambio de los derechos de explotación.",
@@ -243,7 +243,7 @@ export const day05Events: GameEvent[] = [
                 yes: [
                     "Habéis tomado una sabia decisión, Majestad.",
                     "Con vuestra ayuda, mis guardianes vigilarán la arboleda y ningún mercader podrá acercar un hacha a sus árboles.",
-                    "Los fieles de Astaria recordarán que su rey protegió uno de los lugares más sagrados del reino.",
+                    "Los fieles de Astaria recordarán que su Corona protegió uno de los lugares más sagrados del reino.",
                 ],
                 no: [
                     "Comprendo vuestra decisión, Majestad, pero temo que el oro no podrá reemplazar lo que estamos a punto de perder.",

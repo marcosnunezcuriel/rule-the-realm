@@ -1,11 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { getStatDifferences } from "../../game/getStatDifferences";
-
 import { createStats } from "../helpers/createStats";
 
-describe("Cambios de estadísticas", () => {
-    it("agrupa las ganancias y pérdidas de una decisión", () => {
+describe("Diferencias de estadísticas", () => {
+    it("agrupa ganancias y pérdidas", () => {
         const previous = createStats({
             gold: 100,
             prestige: 100,
@@ -24,8 +23,9 @@ describe("Cambios de estadísticas", () => {
         });
     });
 
-    it("omite estadísticas que no han cambiado", () => {
+    it("omite las estadísticas sin cambios", () => {
         const previous = createStats();
+
         const next = createStats({
             gold: 255,
         });
@@ -37,7 +37,7 @@ describe("Cambios de estadísticas", () => {
         });
     });
 
-    it("no produce cambios si las estadísticas son iguales", () => {
+    it("no produce avisos si no hay cambios", () => {
         const stats = createStats();
 
         expect(
@@ -45,7 +45,7 @@ describe("Cambios de estadísticas", () => {
         ).toEqual({});
     });
 
-    it("admite cambios en las cinco estadísticas", () => {
+    it("admite las cinco estadísticas del reino", () => {
         const previous = createStats();
 
         const next = createStats({
