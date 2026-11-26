@@ -1,3 +1,5 @@
+// Presenta la causa de la derrota y el estado final del reino.
+
 import type { CSSProperties } from "react";
 
 import StatIcon from "../kingdom/StatIcon";

@@ -20,7 +20,7 @@
     z-index: 100;
 }
 
-/* Fundido interno que también cubre el header */
+/* Fundido interno que también cubre la cabecera */
 .fade-overlay--full-screen {
     position: fixed;
     z-index: 50;

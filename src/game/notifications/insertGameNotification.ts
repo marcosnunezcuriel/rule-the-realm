@@ -1,3 +1,5 @@
+// Inserta los avisos por prioridad y orden de llegada sin interrumpir el que ya está visible.
+
 import type { GameNotification } from "../../types/notifications";
 
 function getPriority(
@@ -33,6 +35,7 @@ export function insertGameNotification(
         ? [...queue.slice(1), incoming]
         : [...queue, incoming];
 
+    // Ordenar por prioridad y conservar el orden de llegada dentro de cada categoría.
     waiting.sort((a, b) => {
         return (
             getPriority(a) - getPriority(b) ||

@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 
+// Comprueba la navegación, las notificaciones y la gestión del sonido de la aplicación.
+
 import {
     act,
     createRef,

@@ -1,3 +1,5 @@
+// Representa los avisos de modificadores, logros y recompensas.
+
 import FormattedText from "./FormattedText";
 
 import { modifierDefinitions } from "../../data/kingdom/modifiers";

@@ -1,3 +1,5 @@
+// Comprueba la selección de sonidos para los distintos avisos.
+
 import { describe, expect, it } from "vitest";
 
 import { getNotificationEffect } from "../../../game/notifications/getNotificationEffect";

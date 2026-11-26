@@ -1,3 +1,5 @@
+// Coordina la navegación, las preferencias de sonido y las notificaciones de la aplicación.
+
 import AchievementsScreen from "./components/menu/AchievementsScreen";
 import MainMenu from "./components/menu/MainMenu";
 import MonarchSelection from "./components/menu/MonarchSelection";

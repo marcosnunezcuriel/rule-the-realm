@@ -25,6 +25,7 @@ export function getEventPresentation(
     image: string;
     dialogue: DialogueEvent;
 } {
+    // Los diálogos originales corresponden al rey; la reina utiliza las adaptaciones registradas.
     if (monarch === "king") {
         return {
             image: event.image,

@@ -1,3 +1,5 @@
+// Representa los bocadillos de diálogo y los controles correspondientes.
+
 import type { ReactNode } from "react";
 
 import "../../styles/narrative/SpeechBubble.css";

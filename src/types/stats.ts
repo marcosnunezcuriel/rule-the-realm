@@ -1,3 +1,5 @@
+// Define las estadísticas del reino y sus posibles variaciones.
+
 export type KingdomValues = {
     gold: number;
     prestige: number;

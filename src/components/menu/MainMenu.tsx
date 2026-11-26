@@ -1,3 +1,5 @@
+// Representa el menú principal y los accesos a las opciones de la aplicación.
+
 import MapPreview from "../modals/MapPreview";
 import NewGameConfirmation from "../modals/NewGameConfirmation";
 

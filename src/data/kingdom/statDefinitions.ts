@@ -6,7 +6,7 @@ type StatDefinition = {
     color: string;
 };
 
-// Los colores proceden de src/utils/colours.css.
+// Los colores proceden de src/styles/tokens/colours.css.
 // Los componentes reciben el nombre de la variable, no un color duplicado.
 export const statDefinitions: StatDefinition[] = [
     {

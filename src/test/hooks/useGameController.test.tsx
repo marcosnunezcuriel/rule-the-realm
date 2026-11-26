@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 
+// Comprueba el motor integrado mediante recorridos completos, recargas y derrotas.
+
 import {
     act,
     createRef,

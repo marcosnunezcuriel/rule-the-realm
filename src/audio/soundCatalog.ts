@@ -1,3 +1,5 @@
+// Relaciona los identificadores de sonido con sus archivos de audio.
+
 import type {
     AmbientTrack,
     SoundEffect,

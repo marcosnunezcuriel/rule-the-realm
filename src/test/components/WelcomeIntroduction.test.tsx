@@ -1,3 +1,5 @@
+// Comprueba la presentación de la introducción para ambos protagonistas.
+
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 

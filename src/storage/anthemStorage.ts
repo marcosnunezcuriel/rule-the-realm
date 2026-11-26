@@ -1,3 +1,5 @@
+// Conserva permanentemente el desbloqueo del himno de Astaria.
+
 export const ANTHEM_UNLOCK_KEY =
     "rule-the-realm.anthem-unlocked";
 

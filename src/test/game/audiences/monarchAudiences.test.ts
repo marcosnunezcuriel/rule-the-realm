@@ -1,3 +1,5 @@
+// Comprueba la adaptación de los diálogos y visitantes al protagonista.
+
 import { describe, expect, it } from "vitest";
 
 import { chapter1Events } from "../../../data/chapters/chapter1/events";

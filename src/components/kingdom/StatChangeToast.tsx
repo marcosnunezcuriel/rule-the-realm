@@ -1,3 +1,5 @@
+// Muestra temporalmente las ganancias y pérdidas de estadísticas.
+
 import type { CSSProperties } from "react";
 
 import StatIcon from "./StatIcon";

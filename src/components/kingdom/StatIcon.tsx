@@ -1,3 +1,5 @@
+// Proporciona los iconos asociados a las estadísticas del reino.
+
 import type { KingdomValues } from "../../types/stats";
 
 type StatIconProps = {

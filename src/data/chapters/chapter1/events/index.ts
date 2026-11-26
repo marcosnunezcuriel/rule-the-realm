@@ -1,3 +1,5 @@
+// Reúne todos los acontecimientos normales y especiales del capítulo I.
+
 import { day01Events } from "./day01";
 import { day02Events } from "./day02";
 import { day03Events } from "./day03";

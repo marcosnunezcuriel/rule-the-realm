@@ -1,3 +1,5 @@
+// Comprueba la finalización y continuación de los capítulos.
+
 import { describe, expect, it } from "vitest";
 
 import { chapters } from "../../../data/chapters";

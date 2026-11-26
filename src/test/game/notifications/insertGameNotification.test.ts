@@ -1,3 +1,5 @@
+// Comprueba las prioridades y el orden de aparición de las notificaciones.
+
 import { describe, expect, it } from "vitest";
 
 import { insertGameNotification } from "../../../game/notifications/insertGameNotification";

@@ -1,3 +1,5 @@
+// Selecciona los fondos de la jornada según los modificadores visuales fijados al comenzar el día.
+
 import {
     defaultSceneBackgrounds,
     sceneThemes,

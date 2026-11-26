@@ -1,3 +1,5 @@
+// Presenta los logros disponibles y distingue los que ya se han desbloqueado.
+
 import { useState } from "react";
 
 import FormattedText from "../shared/FormattedText";

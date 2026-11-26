@@ -1,3 +1,5 @@
+// Determina el visitante, el diálogo y el momento del día de la audiencia actual.
+
 import {
     closingDialogue,
     treasuryWarningDialogue,
@@ -42,6 +44,7 @@ export function getAudiencePresentation({
     const currentAudience =
         dayEvents[audienceIndex];
 
+    // Distribuir las audiencias entre la mañana y la tarde, dejando el cierre para la noche.
     const morningCount =
         Math.ceil(dayEvents.length / 2);
 

@@ -1,3 +1,5 @@
+// Recupera, valida y almacena las preferencias de sonido del jugador.
+
 import type { SoundSettings } from "../types/audio";
 
 export const SOUND_SETTINGS_KEY =

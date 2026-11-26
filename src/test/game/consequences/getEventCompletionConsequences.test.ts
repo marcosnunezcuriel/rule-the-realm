@@ -1,3 +1,5 @@
+// Comprueba las consecuencias que se aplican al finalizar un acontecimiento.
+
 import { describe, expect, it } from "vitest";
 
 import { getEventById } from "../../../data/registries/eventRegistry";

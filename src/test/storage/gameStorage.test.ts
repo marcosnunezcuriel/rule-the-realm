@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 
+// Comprueba la recuperación y el rechazo de partidas guardadas inválidas.
+
 import {
     beforeEach,
     describe,

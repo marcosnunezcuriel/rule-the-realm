@@ -1,3 +1,5 @@
+// Comprueba las incorporaciones y retiradas de modificadores.
+
 import { describe, expect, it } from "vitest";
 
 import { getModifierTransition } from "../../../game/consequences/getModifierTransition";

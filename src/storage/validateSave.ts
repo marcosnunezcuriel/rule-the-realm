@@ -233,6 +233,7 @@ export function isSaveGame(
                 )
             )
         ) &&
+        // Los desbloqueos pueden referirse a acontecimientos de capítulos aún no implementados.
         isStringArray(value.unlockedEventIds) &&
         isStoryFlagArray(value.storyFlags) &&
         isDayEventArray(
@@ -280,8 +281,6 @@ export function isSaveGame(
             value.selectedDecision === "yes" ||
             value.selectedDecision === "no"
         ) &&
-        // Los desbloqueos futuros pueden existir antes
-        // de que su evento esté implementado.
         isModifierArray(value.activeModifierIds) &&
         isModifierArray(value.sceneModifierIds) &&
         isRecord(report) &&

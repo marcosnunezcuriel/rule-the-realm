@@ -1,3 +1,5 @@
+// Comprueba las operaciones y efectos preparados al decidir o finalizar una audiencia.
+
 import { describe, expect, it } from "vitest";
 
 import { getEventById } from "../../../data/registries/eventRegistry";

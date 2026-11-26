@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 
+// Comprueba la visibilidad del visitante y la finalización de sus animaciones.
+
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import type { Root } from "react-dom/client";

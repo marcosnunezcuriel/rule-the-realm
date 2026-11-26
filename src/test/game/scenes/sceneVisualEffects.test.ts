@@ -1,3 +1,5 @@
+// Comprueba la resolución de los efectos ambientales activos.
+
 import { describe, expect, it } from "vitest";
 
 import { getSceneVisualClassName } from "../../../game/scenes/getSceneVisualClassName";

@@ -1,3 +1,5 @@
+// Comprueba los fondos, las poses y los efectos ambientales del salón del trono.
+
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 

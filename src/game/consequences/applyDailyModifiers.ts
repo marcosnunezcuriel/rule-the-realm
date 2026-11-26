@@ -1,3 +1,5 @@
+// Acumula las consecuencias diarias de los modificadores activos y genera su informe.
+
 import { modifierDefinitions } from "../../data/kingdom/modifiers";
 
 import { applyStatChanges } from "./applyStatChanges";

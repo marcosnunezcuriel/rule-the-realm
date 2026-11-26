@@ -1,3 +1,5 @@
+// Permite seleccionar al protagonista de una nueva partida.
+
 import type { MonarchRole } from "../../types/monarch";
 
 import { assetUrl } from "../../utils/assetUrl";

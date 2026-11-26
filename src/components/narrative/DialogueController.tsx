@@ -1,3 +1,5 @@
+// Controla la progresión del diálogo, la elección del jugador y las respuestas del visitante.
+
 
 import { useCallback, useRef, useState } from "react";
 
@@ -34,6 +36,7 @@ function DialogueController({
     const [isTextComplete, setIsTextComplete] = useState(false);
     const [skipTyping, setSkipTyping] = useState(false);
 
+    // Bloquear decisiones repetidas, incluso antes de que React actualice el estado.
     const decisionLocked = useRef(
         initialDecision !== null
     );

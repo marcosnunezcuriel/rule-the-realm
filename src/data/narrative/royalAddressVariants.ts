@@ -1,4 +1,5 @@
 // Adaptaciones de los diálogos cuando gobierna la reina.
+// Las expresiones más específicas preceden a las generales para evitar sustituciones parciales incorrectas.
 export const royalAddressVariants = [
     // Tratamientos habituales.
     ["mi señor", "mi señora"],

@@ -1,3 +1,5 @@
+// Define las estadísticas iniciales de una nueva partida.
+
 import type { KingdomValues } from "../../types/stats";
 
 export const initialKingdomValues: KingdomValues = {

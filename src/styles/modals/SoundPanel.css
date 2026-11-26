@@ -1,3 +1,5 @@
+/* Distribución de la ventana de sonido y sus controles de configuración. */
+
 .sound-panel__backdrop {
     position: fixed;
     z-index: 120;

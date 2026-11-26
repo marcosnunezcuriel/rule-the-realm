@@ -1,3 +1,5 @@
+// Define los avisos generados por las acciones y consecuencias del juego.
+
 import type { AchievementId } from "../data/registries/achievementRegistry";
 
 import type { ModifierId } from "./modifiers";

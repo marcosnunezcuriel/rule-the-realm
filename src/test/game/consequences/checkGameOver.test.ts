@@ -1,3 +1,5 @@
+// Comprueba las condiciones y prioridades de las causas de derrota.
+
 import { describe, expect, it } from "vitest";
 
 import { checkGameOver } from "../../../game/consequences/checkGameOver";

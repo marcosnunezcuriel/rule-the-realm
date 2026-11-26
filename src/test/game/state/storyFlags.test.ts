@@ -1,3 +1,5 @@
+// Comprueba la incorporación y retirada de las condiciones narrativas.
+
 import { describe, expect, it } from "vitest";
 
 import type { StoryFlagId } from "../../../data/narrative/storyFlags";

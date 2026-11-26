@@ -1,3 +1,5 @@
+// Comprueba la selección y el orden de las audiencias disponibles.
+
 import { describe, expect, it } from "vitest";
 
 import {

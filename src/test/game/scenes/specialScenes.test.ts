@@ -1,3 +1,5 @@
+// Comprueba las variantes visuales y el ciclo de los acontecimientos especiales.
+
 import { describe, expect, it } from "vitest";
 
 import { getEventById } from "../../../data/registries/eventRegistry";

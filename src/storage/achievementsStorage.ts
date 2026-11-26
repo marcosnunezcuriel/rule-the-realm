@@ -1,3 +1,5 @@
+// Conserva los logros desbloqueados independientemente de la partida activa.
+
 import {
     achievements,
     type AchievementId,

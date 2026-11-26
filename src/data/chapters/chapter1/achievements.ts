@@ -1,3 +1,5 @@
+// Define los logros asociados a las decisiones, acontecimientos y finalización del capítulo I.
+
 import type { AchievementDefinition } from "../../../types/achievements";
 
 export const chapter1Achievements = [

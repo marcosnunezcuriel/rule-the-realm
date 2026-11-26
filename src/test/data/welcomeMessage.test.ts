@@ -1,3 +1,5 @@
+// Comprueba la adaptación de los textos introductorios al protagonista.
+
 import { describe, expect, it } from "vitest";
 
 import {

@@ -1,3 +1,5 @@
+// Comprueba los requisitos de desbloqueo de los logros.
+
 import { describe, expect, it } from "vitest";
 
 import {

@@ -1,3 +1,5 @@
+// Comprueba el cálculo de las variaciones reales de estadísticas.
+
 import { describe, expect, it } from "vitest";
 
 import { getStatDifferences } from "../../../game/consequences/getStatDifferences";

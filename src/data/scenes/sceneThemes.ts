@@ -1,3 +1,5 @@
+// Define los fondos del salón del trono y los efectos ambientales asociados a modificadores.
+
 import type { ModifierId } from "../../types/modifiers";
 import type { SceneBackgroundMap } from "../../types/scene";
 

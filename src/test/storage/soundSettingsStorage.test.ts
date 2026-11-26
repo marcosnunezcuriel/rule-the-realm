@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 
+// Comprueba la persistencia y validación de las preferencias de sonido.
+
 import {
     beforeEach,
     describe,

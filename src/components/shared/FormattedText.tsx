@@ -1,3 +1,5 @@
+// Aplica el formato narrativo manteniendo la compatibilidad con la escritura progresiva.
+
 import { Fragment } from "react";
 
 import { italicTerms } from "../../data/narrative/formattedTerms";

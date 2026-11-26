@@ -1,3 +1,5 @@
+// Presenta la introducción narrativa adaptada al protagonista elegido.
+
 import NarrativeParchment from "../narrative/NarrativeParchment";
 
 import { getWelcomeParagraphs } from "../../data/narrative/welcomeMessage";

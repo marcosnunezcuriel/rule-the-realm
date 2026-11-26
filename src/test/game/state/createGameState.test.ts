@@ -1,3 +1,5 @@
+// Comprueba la creación y recuperación del estado de partida.
+
 import { describe, expect, it } from "vitest";
 
 import { createGameState } from "../../../game/state/createGameState";

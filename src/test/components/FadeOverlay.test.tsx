@@ -1,3 +1,5 @@
+// Comprueba los estados visuales y el alcance de los fundidos.
+
 import { renderToStaticMarkup } from "react-dom/server";
 import {
     describe,

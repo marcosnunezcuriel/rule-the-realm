@@ -1,3 +1,5 @@
+// Resume la evolución de las estadísticas y los modificadores aplicados durante la jornada.
+
 import type { CSSProperties } from "react";
 
 import StatIcon from "../kingdom/StatIcon";

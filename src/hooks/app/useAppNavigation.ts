@@ -74,6 +74,7 @@ export function useAppNavigation(
         navigateTo("choose-monarch");
     }
 
+    // Sobrescribir la partida únicamente después de recibir la confirmación del jugador.
     function confirmStartNewGame() {
         if (
             !confirmNewGame ||
@@ -118,6 +119,7 @@ export function useAppNavigation(
         navigateTo("game");
     }
 
+    // Cambiar de pantalla cuando el fundido está completamente oscuro.
     function handleNavigationFadeEnd() {
         if (
             navigationStage === "darkening" &&

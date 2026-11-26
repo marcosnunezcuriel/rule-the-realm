@@ -1,3 +1,5 @@
+// Define los acontecimientos narrativos y sus consecuencias sobre la partida.
+
 import type { StoryFlagId } from "../data/narrative/storyFlags";
 import type { SpecialSceneId } from "../data/scenes/specialSceneRegistry";
 

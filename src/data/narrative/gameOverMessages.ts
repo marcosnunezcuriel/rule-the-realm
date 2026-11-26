@@ -1,3 +1,5 @@
+// Define los títulos y mensajes narrativos de las distintas causas de derrota.
+
 import type { GameOverReason } from "../../types/gameOver";
 import type { KingdomValues } from "../../types/stats";
 

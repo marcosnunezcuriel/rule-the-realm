@@ -1,3 +1,5 @@
+// Comprueba la aplicación de las variaciones de estadísticas.
+
 import { describe, expect, it } from "vitest";
 
 import { applyStatChanges } from "../../../game/consequences/applyStatChanges";

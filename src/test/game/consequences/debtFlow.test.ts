@@ -1,3 +1,5 @@
+// Comprueba la deuda, los intereses y la recuperación económica.
+
 import { describe, expect, it } from "vitest";
 
 import { checkGameOver } from "../../../game/consequences/checkGameOver";

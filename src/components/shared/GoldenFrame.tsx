@@ -1,3 +1,5 @@
+// Superpone el marco dorado a las ilustraciones que lo utilizan.
+
 import { assetUrl } from "../../utils/assetUrl";
 
 import "../../styles/shared/GoldenFrame.css";

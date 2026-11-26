@@ -1,3 +1,5 @@
+// Define los modificadores del reino y los informes de sus consecuencias diarias.
+
 import type { StatChanges } from "./stats";
 
 export type ModifierId =

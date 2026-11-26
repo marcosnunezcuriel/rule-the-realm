@@ -1,3 +1,5 @@
+// Obtiene las audiencias normales disponibles para una jornada según sus desbloqueos.
+
 import { getEventsForDay } from "../../data/registries/eventRegistry";
 
 import type { GameEvent } from "../../types/events";

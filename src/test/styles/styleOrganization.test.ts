@@ -1,5 +1,7 @@
 // @vitest-environment node
 
+// Comprueba la centralización de las reglas responsive y el orden de carga de los estilos compartidos.
+
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";

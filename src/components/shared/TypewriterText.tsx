@@ -1,3 +1,5 @@
+// Revela progresivamente los caracteres de un texto y comunica su finalización.
+
 import { useEffect, useState } from "react";
 
 import FormattedText from "./FormattedText";

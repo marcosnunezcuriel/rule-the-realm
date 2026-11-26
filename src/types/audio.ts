@@ -1,3 +1,5 @@
+// Define las pistas ambientales, los efectos de sonido y las preferencias del jugador.
+
 export type AmbientTrack = "birds" | "anthem";
 
 export type SoundEffect =

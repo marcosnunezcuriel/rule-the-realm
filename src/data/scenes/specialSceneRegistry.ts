@@ -1,3 +1,5 @@
+// Registra los escenarios especiales disponibles y sus configuraciones visuales.
+
 import { joustScene } from "./special/joust";
 
 import type { SpecialSceneDefinition } from "../../types/scene";

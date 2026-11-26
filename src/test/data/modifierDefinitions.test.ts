@@ -1,3 +1,5 @@
+// Comprueba las definiciones de los modificadores del reino.
+
 import { describe, expect, it } from "vitest";
 
 import { modifierDefinitions } from "../../data/kingdom/modifiers";

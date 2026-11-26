@@ -13,20 +13,24 @@ import type {
 import type { MonarchRole } from "./monarch";
 import type { KingdomValues } from "./stats";
 
-// Único formato de guardado del juego.
-// Se actualizará cuando evolucionen las mecánicas.
+// Estado persistente necesario para recuperar una partida.
+// No incluye las fases temporales de las animaciones.
 export type SaveGame = {
     monarch: MonarchRole;
     day: number;
     screen: GameScreen;
 
+    // Progreso del jugador en el epílogo del capítulo.
     chapterEndingParagraphIndex: number;
 
     stats: KingdomValues;
+    // Estadísticas al comenzar la jornada, utilizadas para calcular el balance diario.
     dayStartStats: KingdomValues;
+    // Estadísticas inmediatamente anteriores a la aplicación de los efectos nocturnos.
     closingStats: KingdomValues | null;
 
     audienceIndex: number;
+    // Audiencias disponibles para la jornada actual.
     dayEventIds: string[];
 
     // Acontecimiento especial de la jornada en curso.
@@ -36,14 +40,17 @@ export type SaveGame = {
     } | null;
 
     isClosing: boolean;
+    // Impide volver a aplicar las consecuencias nocturnas al recuperar la partida.
     dayClosed: boolean;
 
     selectedDecision: Decision | null;
 
     unlockedEventIds: string[];
+    // Condiciones narrativas que pueden alterar acontecimientos y escenarios futuros.
     storyFlags: StoryFlagId[];
     
     activeModifierIds: ModifierId[];
+    // Modificadores fijados al comenzar el día para conservar sus fondos durante toda la jornada.
     sceneModifierIds: ModifierId[];
 
     modifierReport: DailyModifierReport;

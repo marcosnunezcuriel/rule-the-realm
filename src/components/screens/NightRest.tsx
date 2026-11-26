@@ -1,3 +1,5 @@
+// Representa el descanso nocturno antes de mostrar el resumen diario.
+
 import { useEffect, useRef } from "react";
 
 import GoldenFrame from "../shared/GoldenFrame";

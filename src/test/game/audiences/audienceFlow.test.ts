@@ -1,3 +1,5 @@
+// Comprueba la progresión entre audiencias normales y extraordinarias.
+
 import { describe, expect, it } from "vitest";
 
 import { getAudienceExit } from "../../../game/audiences/audienceFlow";

@@ -1,3 +1,5 @@
+// Comprueba el formato narrativo y su escritura progresiva.
+
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 

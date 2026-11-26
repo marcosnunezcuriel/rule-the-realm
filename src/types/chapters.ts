@@ -1,3 +1,5 @@
+// Define la estructura completa del contenido de un capítulo.
+
 import type { AchievementDefinition } from "./achievements";
 import type { GameEvent } from "./events";
 

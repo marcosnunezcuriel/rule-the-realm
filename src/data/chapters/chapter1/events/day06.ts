@@ -1,6 +1,6 @@
 import type { GameEvent } from "../../../../types/events";
 
-// Capítulo I · día 06. Orden y textos del PDF definitivo.
+// Capítulo I · día 06. Acontecimientos, decisiones y consecuencias.
 
 export const day06Events: GameEvent[] = [
     // Evento 35 — Los barcos en la tormenta

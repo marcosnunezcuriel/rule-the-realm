@@ -1,6 +1,6 @@
 import type { GameEvent } from "../../../../types/events";
 
-// Capítulo I · día 01. Orden y textos del PDF definitivo.
+// Capítulo I · día 01. Acontecimientos, decisiones y consecuencias.
 
 export const day01Events: GameEvent[] = [
     // Evento 1 — Presentación del Mayordomo

@@ -1,3 +1,5 @@
+// Cabecera común de la partida, con información de la jornada y controles de navegación.
+
 import { assetUrl } from "../../utils/assetUrl";
 
 import "../../styles/layout/Header.css";

@@ -1,3 +1,5 @@
+/* Distribución de la cabecera y los controles superiores. */
+
 .site-header {
     display: flex;
     justify-content: space-between;

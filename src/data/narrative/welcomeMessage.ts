@@ -1,3 +1,5 @@
+// Genera los párrafos de la introducción según el protagonista elegido.
+
 import type { MonarchRole } from "../../types/monarch";
 
 export function getWelcomeParagraphs(

@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 
+// Comprueba la persistencia y validación de los logros desbloqueados.
+
 import {
     beforeEach,
     describe,

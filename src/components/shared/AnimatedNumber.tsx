@@ -1,3 +1,5 @@
+// Anima los cambios numéricos entre un valor anterior y uno nuevo.
+
 import { useEffect, useRef, useState } from "react";
 
 type AnimatedNumberProps = {
@@ -12,6 +14,7 @@ function AnimatedNumber({
     delayMs = 0,
 }: AnimatedNumberProps) {
     const [displayedValue, setDisplayedValue] = useState(initialValue);
+    // Conservar el último valor mostrado para continuar desde él si cambia el objetivo.
     const displayedRef = useRef(initialValue);
 
     useEffect(() => {

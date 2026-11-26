@@ -1,3 +1,5 @@
+// Comprueba la acumulación de los efectos diarios de los modificadores.
+
 import { describe, expect, it } from "vitest";
 
 import { applyDailyModifiers } from "../../../game/consequences/applyDailyModifiers";

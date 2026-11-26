@@ -1,3 +1,5 @@
+// Contiene los párrafos del epílogo del capítulo I.
+
 export const chapter1Ending = [
     "Las campanas de la capital ya no repican con la misma ligereza que el primer día de reinado. " +
     "Las decisiones tomadas, los decretos firmados y los caminos elegidos han trazado el destino de Astaria, " +

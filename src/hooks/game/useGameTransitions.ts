@@ -5,6 +5,7 @@ import type {
     FadeStage,
 } from "../../types/game";
 
+// Duración del cambio de fondo antes de introducir al siguiente visitante.
 const BACKGROUND_TRANSITION_DURATION = 1500;
 
 type GameTransitionsInput = {

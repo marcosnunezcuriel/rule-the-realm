@@ -1,3 +1,5 @@
+// Solicita confirmación antes de sobrescribir una partida guardada.
+
 import { useModalFocus } from "../../hooks/modals/useModalFocus";
 
 type NewGameConfirmationProps = {

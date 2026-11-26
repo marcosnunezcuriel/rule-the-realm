@@ -1,3 +1,5 @@
+// Presenta textos narrativos por párrafos y permite avanzar o saltar su animación.
+
 import { useCallback, useState } from "react";
 
 import TypewriterText from "../shared/TypewriterText";
@@ -48,6 +50,7 @@ function NarrativeParchment({
     const isLastParagraph =
         paragraphIndex === paragraphs.length - 1;
 
+    // Permitir que el jugador complete de inmediato la escritura del párrafo.
     function handleParchmentClick() {
         if (!textComplete) {
             setSkipTyping(true);

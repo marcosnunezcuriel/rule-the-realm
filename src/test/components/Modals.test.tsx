@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 
+// Comprueba el cierre mediante teclado y la gestión del foco de las ventanas modales.
+
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import type { Root } from "react-dom/client";

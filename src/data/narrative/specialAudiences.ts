@@ -12,8 +12,7 @@ export const closingDialogue: DialogueEvent = {
     ],
 };
 
-// Advertencia cuando las arcas se agotan.
-// Advertencia al entrar en deuda.
+// Advertencia al entrar en deuda sin alcanzar el límite de bancarrota.
 export const treasuryWarningDialogue: DialogueEvent = {
     speaker: "Consejera Real",
 

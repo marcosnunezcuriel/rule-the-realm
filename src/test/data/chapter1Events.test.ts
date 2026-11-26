@@ -1,3 +1,5 @@
+// Comprueba la coherencia narrativa y los desbloqueos del capítulo I.
+
 import { describe, expect, it } from "vitest";
 
 import { chapter1Events } from "../../data/chapters/chapter1/events";

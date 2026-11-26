@@ -318,7 +318,7 @@
         min-height: 2.75rem;
     }
 
-    /* Header */
+    /* Cabecera */
 
     .site-header {
         gap: var(--space-3);
@@ -802,7 +802,7 @@
 
 @media (max-width: 40rem) {
 
-    /* Header compacto en dos filas */
+    /* Cabecera compacta en dos filas */
 
     .site-header {
         display: grid;

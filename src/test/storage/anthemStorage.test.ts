@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 
+// Comprueba la persistencia del desbloqueo del himno.
+
 import {
     beforeEach,
     describe,

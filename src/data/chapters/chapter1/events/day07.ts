@@ -1,6 +1,6 @@
 import type { GameEvent } from "../../../../types/events";
 
-// Capítulo I · día 07. Orden y textos del PDF definitivo.
+// Capítulo I · día 07. Acontecimientos, decisiones y consecuencias.
 
 export const day07Events: GameEvent[] = [
     // Evento 11.2 — El circo se marcha

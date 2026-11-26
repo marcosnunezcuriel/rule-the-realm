@@ -1,3 +1,5 @@
+// Selecciona el efecto de sonido correspondiente a cada notificación.
+
 import type { SoundEffect } from "../../types/audio";
 import type { GameNotification } from "../../types/notifications";
 

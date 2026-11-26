@@ -1,3 +1,5 @@
+// Representa las estadísticas actuales del reino y sus estados críticos.
+
 import type { CSSProperties } from "react";
 
 import StatIcon from "./StatIcon";

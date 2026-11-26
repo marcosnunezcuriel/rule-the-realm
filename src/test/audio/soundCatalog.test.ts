@@ -1,5 +1,7 @@
 // @vitest-environment node
 
+// Comprueba la existencia de los recursos de audio registrados.
+
 import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 

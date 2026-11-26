@@ -1,3 +1,5 @@
+// Comprueba la representación de los escenarios especiales.
+
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 

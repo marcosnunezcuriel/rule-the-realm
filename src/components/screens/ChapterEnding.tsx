@@ -1,3 +1,5 @@
+// Presenta el epílogo del capítulo y las opciones de continuación disponibles.
+
 import NarrativeParchment from "../narrative/NarrativeParchment";
 
 import type { ChapterDefinition } from "../../data/chapters";

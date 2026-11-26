@@ -1,3 +1,5 @@
+// Aplica los cambios de estadísticas sin modificar los valores originales.
+
 import type { KingdomValues, StatChanges } from "../../types/stats";
 
 export function applyStatChanges(

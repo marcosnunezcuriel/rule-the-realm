@@ -1,9 +1,9 @@
 import type { GameEvent } from "../../../../types/events";
 
-// Capítulo I · día 04. Orden y textos del PDF definitivo.
+// Capítulo I · día 04. Acontecimientos, decisiones y consecuencias.
 
 export const day04Events: GameEvent[] = [
-    // Evento 12.1 — Cuevas de esmeraldas descubierta
+    // Evento 12.1 — Descubrimiento de las cuevas de esmeraldas
     {
         id: "12.1",
         day: 4,

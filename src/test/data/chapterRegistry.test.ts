@@ -1,3 +1,5 @@
+// Comprueba la integridad global de los capítulos, acontecimientos, logros y recursos.
+
 import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 

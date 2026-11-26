@@ -1,3 +1,5 @@
+// Permite ajustar el volumen, silenciar el juego y seleccionar la pista ambiental.
+
 import { useModalFocus } from "../../hooks/modals/useModalFocus";
 
 import type { SoundSettings } from "../../types/audio";

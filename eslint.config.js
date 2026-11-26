@@ -1,3 +1,5 @@
+// Configura las comprobaciones de calidad de TypeScript y las reglas de React.
+
 import js from '@eslint/js'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'

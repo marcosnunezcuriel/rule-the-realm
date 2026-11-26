@@ -1,3 +1,5 @@
+// Comprueba la preparación de las nuevas jornadas.
+
 import { describe, expect, it } from "vitest";
 
 import { hasCompletedChapter } from "../../../game/progression/chapterFlow";

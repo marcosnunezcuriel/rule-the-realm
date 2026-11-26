@@ -1,3 +1,5 @@
+// Gestiona la reproducción del ambiente y los efectos de sonido, respetando las preferencias del jugador.
+
 import {
     ambientPaths,
     effectPaths,

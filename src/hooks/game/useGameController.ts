@@ -1,3 +1,5 @@
+// Conecta el motor de partida con React y coordina la presentación, las acciones y los efectos externos.
+
 import type { AchievementId } from "../../data/registries/achievementRegistry";
 import { getEventById } from "../../data/registries/eventRegistry";
 
@@ -117,6 +119,7 @@ export function useGameController(
         continueLabel,
     } = presentation;
 
+    // Mantener las estadísticas anteriores al cierre mientras la interfaz termina la jornada.
     const visibleStats = closingStats ?? stats;
 
     const backgroundMap = getSceneBackgrounds(
@@ -131,6 +134,7 @@ export function useGameController(
         stats
     );
 
+    // Persistir el progreso de partida independientemente de sus animaciones.
     useGameAutosave(progress);
 
     const {
@@ -240,6 +244,7 @@ export function useGameController(
         );
     }
 
+    // Solicitar la continuación de la audiencia o el cierre diario.
     function handleContinue() {
         dispatch({
             type: "CONTINUE",
@@ -263,6 +268,7 @@ export function useGameController(
         );
     }
 
+    // Registrar el párrafo del epílogo para poder recuperarlo tras una recarga.
     function setChapterEndingParagraphIndex(
         index: number
     ) {

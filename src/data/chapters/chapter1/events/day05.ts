@@ -1,6 +1,6 @@
 import type { GameEvent } from "../../../../types/events";
 
-// Capítulo I · día 05. Orden y textos del PDF definitivo.
+// Capítulo I · día 05. Acontecimientos, decisiones y consecuencias.
 
 export const day05Events: GameEvent[] = [
     // Evento 22.2 — El exilio del coloso
@@ -53,7 +53,7 @@ export const day05Events: GameEvent[] = [
         },
         baseEffects: { gold: 100, faith: 50 },
     },
-    // Evento 26.1 - Herraduras para los nuevos corceles
+    // Evento 26.1 — Herraduras para los nuevos corceles
     {
         id: "26.1",
         day: 5,

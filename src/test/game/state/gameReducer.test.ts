@@ -1,3 +1,5 @@
+// Comprueba las transiciones de estado y evita aplicar consecuencias repetidas.
+
 import { describe, expect, it } from "vitest";
 
 import { getEventById } from "../../../data/registries/eventRegistry";

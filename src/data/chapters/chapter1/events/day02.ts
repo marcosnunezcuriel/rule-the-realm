@@ -1,6 +1,6 @@
 import type { GameEvent } from "../../../../types/events";
 
-// Capítulo I · día 02. Orden y textos del PDF definitivo.
+// Capítulo I · día 02. Acontecimientos, decisiones y consecuencias.
 
 export const day02Events: GameEvent[] = [
     // Evento 3.1 — Pelea en la taberna

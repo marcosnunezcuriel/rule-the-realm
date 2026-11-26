@@ -1,3 +1,5 @@
+// Calcula los modificadores resultantes y distingue las altas y las bajas efectivas.
+
 import type { ModifierId } from "../../types/modifiers";
 
 export type ModifierTransition = {
@@ -14,12 +16,12 @@ export function getModifierTransition(
     const previous = new Set(current);
     const next = new Set(current);
 
-    // Primero añadir los nuevos modificadores.
+    // Incorporar los nuevos modificadores sin duplicarlos.
     for (const id of toAdd) {
         next.add(id);
     }
 
-    // Después retirar los que hayan finalizado.
+    // Las retiradas tienen prioridad si un modificador se añade y se elimina en la misma operación.
     for (const id of toRemove) {
         next.delete(id);
     }

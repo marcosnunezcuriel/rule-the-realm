@@ -1,3 +1,5 @@
+// Comprueba la presentación de los avisos de contenido.
+
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 

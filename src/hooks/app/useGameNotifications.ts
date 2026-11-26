@@ -22,6 +22,7 @@ import type {
 } from "../../types/notifications";
 import type { KingdomValues } from "../../types/stats";
 
+// Mantener esta duración sincronizada con --duration-notification de los estilos.
 const NOTIFICATION_DURATION = 5000;
 
 // Eliminar la secuencia de cada variante de notificación.

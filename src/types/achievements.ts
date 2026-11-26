@@ -1,3 +1,5 @@
+// Define los logros y las condiciones necesarias para desbloquearlos.
+
 import type { Decision } from "./dialogue";
 
 export type AchievementTrigger =

@@ -1,6 +1,6 @@
 import type { GameEvent } from "../../../../types/events";
 
-// Capítulo I · día 03. Orden y textos del PDF definitivo.
+// Capítulo I · día 03. Acontecimientos, decisiones y consecuencias.
 
 export const day03Events: GameEvent[] = [
     // Evento 11.1 — El juglar quiere actuar en la plaza mayor

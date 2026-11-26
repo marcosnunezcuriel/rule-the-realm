@@ -1,3 +1,5 @@
+// Construye partidas guardadas válidas que pueden personalizarse para cada prueba.
+
 import type { SaveGame } from "../../types/saveGame";
 
 import { createStats } from "./createStats";
