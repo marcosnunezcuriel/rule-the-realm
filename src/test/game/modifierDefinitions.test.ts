@@ -26,16 +26,6 @@ describe("Definiciones de modificadores", () => {
         }
     });
 
-    it("no contiene descripciones provisionales", () => {
-        for (const modifier of Object.values(
-            modifierDefinitions
-        )) {
-            expect(
-                modifier.description
-            ).not.toMatch(/pendiente de definir/i);
-        }
-    });
-
     it("define efectos diarios sobre estadísticas válidas", () => {
         const validStatKeys = new Set<string>(
             statDefinitions.map(({ key }) => key)

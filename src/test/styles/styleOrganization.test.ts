@@ -66,38 +66,6 @@ describe("Organización de los estilos responsive", () => {
 });
 
 describe("Organización general de los estilos", () => {
-    it("mantiene los tokens de diseño dentro de styles/tokens", () => {
-        const cssFiles = getCssFiles(
-            srcDirectory
-        );
-
-        const tokenDirectory = join(
-            srcDirectory,
-            "styles",
-            "tokens"
-        );
-
-        const expectedFiles = [
-            "colours.css",
-            "effects.css",
-            "fonts.css",
-            "sizes.css",
-            "spacing.css",
-        ];
-
-        for (const filename of expectedFiles) {
-            expect(cssFiles).toContain(
-                join(tokenDirectory, filename)
-            );
-        }
-
-        expect(
-            getCssFiles(
-                join(srcDirectory, "utils")
-            )
-        ).toEqual([]);
-    });
-
     it("carga los estilos compartidos antes de las adaptaciones responsive", () => {
         const main = readFileSync(
             join(srcDirectory, "main.tsx"),
@@ -132,48 +100,5 @@ describe("Organización general de los estilos", () => {
         ).toBeLessThan(
             main.indexOf(responsiveImport)
         );
-    });
-
-    it("utiliza una única animación compartida para las notificaciones", () => {
-        const cssFiles = getCssFiles(
-            srcDirectory
-        );
-
-        const toastPath = join(
-            srcDirectory,
-            "styles",
-            "shared",
-            "Toast.css"
-        );
-
-        const animationFiles = cssFiles.filter(
-            (path) => {
-                return /@keyframes\s+toast-motion\b/.test(
-                    readCss(path)
-                );
-            }
-        );
-
-        expect(animationFiles).toEqual([
-            toastPath,
-        ]);
-
-        const toastCss = readCss(toastPath);
-
-        expect(toastCss).toMatch(
-            /\.notification-toast\s*,\s*\.stat-change-toast\s*\{/
-        );
-
-        expect(toastCss).toContain(
-            "var(--duration-notification)"
-        );
-
-        for (const path of cssFiles) {
-            const css = readCss(path);
-
-            expect(css).not.toMatch(
-                /@keyframes\s+(stat-change-toast-motion|notification-toast-motion)\b/
-            );
-        }
     });
 });

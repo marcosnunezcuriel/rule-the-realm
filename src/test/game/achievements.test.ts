@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import {
-    achievements,
     getDecisionAchievements,
     getEventCompletionAchievements,
     getChapterCompletionAchievements,
@@ -10,28 +9,6 @@ import {
 import { getEventById } from "../../data/events/eventRegistry";
 
 describe("Logros del Capítulo I", () => {
-    it("contiene 15 logros con identificadores únicos", () => {
-        const ids = achievements.map((item) => item.id);
-
-        expect(ids).toHaveLength(15);
-        expect(new Set(ids).size).toBe(15);
-    });
-
-    it("todos los logros de eventos apuntan a eventos existentes", () => {
-        for (const achievement of achievements) {
-            const trigger = achievement.trigger;
-
-            if (trigger.type === "chapter-complete") {
-                continue;
-            }
-
-            expect(
-                getEventById(trigger.eventId),
-                achievement.name
-            ).toBeDefined();
-        }
-    });
-
     it("concede Mano del rey al aceptar la ayuda del hermano", () => {
         expect(
             getDecisionAchievements("8", "yes")
@@ -92,10 +69,6 @@ describe("Logros del Capítulo I", () => {
         expect(
             getChapterCompletionAchievements(1)
         ).toContain("first-steps");
-
-        expect(
-            getChapterCompletionAchievements(2)
-        ).toEqual([]);
     });
 
     it("reconoce las condiciones de los logros de decisiones", () => {

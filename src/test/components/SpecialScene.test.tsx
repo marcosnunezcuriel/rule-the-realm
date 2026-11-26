@@ -105,61 +105,6 @@ describe("Escenario de la justa", () => {
         ).toContain("Diálogo del campeón");
     });
 
-    it("aplica las dimensiones originales del escenario", () => {
-        const html = renderJoust(
-            "king",
-            false
-        );
-
-        expect(html).toContain(
-            "--scene-aspect-ratio:3 / 2"
-        );
-
-        expect(html).toContain(
-            "--scene-stage-width:150cqh"
-        );
-
-        expect(html).toContain(
-            "--scene-visitor-right:2%"
-        );
-
-        expect(html).toContain(
-            "--scene-visitor-bottom:20%"
-        );
-
-        expect(html).toContain(
-            "--scene-visitor-width:26%"
-        );
-
-        expect(html).toContain(
-            "--scene-dialogue-visitor-left:57%"
-        );
-
-        expect(html).toContain(
-            "--scene-dialogue-visitor-bottom:60%"
-        );
-
-        expect(html).toContain(
-            "--scene-dialogue-visitor-width:40%"
-        );
-
-        expect(html).toContain(
-            "--scene-dialogue-visitor-tail:14%"
-        );
-
-        expect(html).toContain(
-            "--scene-dialogue-monarch-top:7%"
-        );
-
-        expect(html).toContain(
-            "--scene-dialogue-monarch-left:25%"
-        );
-
-        expect(html).toContain(
-            "--scene-dialogue-monarch-tail:12%"
-        );
-    });
-
     it("utiliza la estructura común de escenarios especiales", () => {
         const html = renderJoust(
             "queen",

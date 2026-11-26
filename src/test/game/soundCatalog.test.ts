@@ -1,28 +1,44 @@
+// @vitest-environment node
+
 import { describe, expect, it } from "vitest";
+
+import { existsSync } from "node:fs";
 
 import {
     effectPaths,
     ambientPaths,
 } from "../../audio/soundCatalog";
 
-describe("Catálogo de audio", () => {
-    it("contiene los 14 efectos del juego", () => {
-        expect(Object.keys(effectPaths)).toHaveLength(14);
+function expectAudioFile(path: string) {
+    expect(
+        existsSync(
+            new URL(
+                `../../../public${path}`,
+                import.meta.url
+            )
+        ),
+        `No existe el archivo de audio ${path}`
+    ).toBe(true);
+}
 
+describe("Catálogo de audio", () => {
+    it("todos los efectos de sonido existen", () => {
         for (const path of Object.values(effectPaths)) {
             expect(path).toMatch(
                 /^\/assets\/audio\/effects\/[^/]+\.mp3$/
             );
+
+            expectAudioFile(path);
         }
     });
 
-    it("contiene el ambiente de pájaros y el himno", () => {
-        expect(ambientPaths.birds).toContain(
-            "birds.ogg"
-        );
+    it("todas las pistas ambientales existen", () => {
+        for (const path of Object.values(ambientPaths)) {
+            expect(path).toMatch(
+                /^\/assets\/audio\/ambience\/[^/]+\.ogg$/
+            );
 
-        expect(ambientPaths.anthem).toContain(
-            "anthem-of-astaria.ogg"
-        );
+            expectAudioFile(path);
+        }
     });
 });

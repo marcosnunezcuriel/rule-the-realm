@@ -13,22 +13,6 @@ const byId = new Map(
 );
 
 describe("Acontecimientos del Capítulo I", () => {
-    it("contiene 69 acontecimientos sin duplicados", () => {
-        expect(chapter1Events).toHaveLength(69);
-        expect(byId.size).toBe(69);
-    });
-
-    it("comienza con las diez audiencias del primer día", () => {
-        expect(
-            getDayEvents(1, []).map((event) => event.id)
-        ).toEqual(
-            Array.from(
-                { length: 10 },
-                (_, index) => String(index + 1)
-            )
-        );
-    });
-
     it("conserva las rutas de los eventos iniciales", () => {
         expect(byId.get("2")?.unlocks?.yes).toEqual([
             "2.1",

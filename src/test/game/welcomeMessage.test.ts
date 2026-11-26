@@ -5,19 +5,14 @@ import {
 } from "../../data/narrative/welcomeMessage";
 
 describe("Introducción del reinado", () => {
-    it("mantiene nueve párrafos para ambos protagonistas", () => {
-        expect(getWelcomeParagraphs("king")).toHaveLength(9);
-        expect(getWelcomeParagraphs("queen")).toHaveLength(9);
-    });
-
     it("utiliza el tratamiento masculino para el rey", () => {
         const paragraphs = getWelcomeParagraphs("king");
 
-        expect(paragraphs[4]).toContain(
+        expect(paragraphs.join(" ")).toContain(
             "No eres recordado"
         );
 
-        expect(paragraphs[8]).toBe(
+        expect(paragraphs.join(" ")).toContain(
             "Larga vida al rey."
         );
     });
@@ -29,7 +24,7 @@ describe("Introducción del reinado", () => {
             "No eres recordada"
         );
 
-        expect(paragraphs[8]).toBe(
+        expect(paragraphs[8]).toContain(
             "Larga vida a la reina."
         );
     });

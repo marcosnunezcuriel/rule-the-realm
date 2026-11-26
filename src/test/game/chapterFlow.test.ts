@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { chapters } from "../../data/chapters";
+
 import {
     getChapterPresentation,
     planDayAdvance,
@@ -157,9 +159,12 @@ describe("Progresión de capítulos y jornadas", () => {
         });
     });
 
-    it("no comienza un capítulo que todavía no existe", () => {
+    it("no avanza más allá del último capítulo disponible", () => {
+        const lastChapter =
+            chapters[chapters.length - 1];
+
         const progress = createSave({
-            day: 7,
+            day: lastChapter.lastDay,
             screen: "chapter-ending",
         });
 

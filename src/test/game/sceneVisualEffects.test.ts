@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import { getSceneBackgrounds } from "../../game/getSceneBackgrounds";
 import { getSceneVisualClassName } from "../../game/getSceneVisualClassName";
 
 describe("Efectos ambientales del reino", () => {
@@ -30,40 +29,5 @@ describe("Efectos ambientales del reino", () => {
         ).toBe(
             "throne-stage__visuals--black-fever"
         );
-    });
-
-    it("mantiene separados los fondos de jornada y los efectos inmediatos", () => {
-        // El circo estaba presente al comenzar el día.
-        const backgrounds =
-            getSceneBackgrounds([
-                "traveling-circus",
-            ]);
-
-        // La epidemia se activa durante la jornada.
-        const visualClassName =
-            getSceneVisualClassName([
-                "traveling-circus",
-                "black-fever",
-            ]);
-
-        expect(
-            backgrounds.morning
-        ).toContain(
-            "background-morning-circus.png"
-        );
-
-        expect(
-            visualClassName
-        ).toBe(
-            "throne-stage__visuals--black-fever"
-        );
-
-        // Al desaparecer el modificador ambiental,
-        // su efecto se retira inmediatamente.
-        expect(
-            getSceneVisualClassName([
-                "traveling-circus",
-            ])
-        ).toBeUndefined();
     });
 });

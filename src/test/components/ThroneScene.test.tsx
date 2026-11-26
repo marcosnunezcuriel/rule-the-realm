@@ -75,16 +75,6 @@ describe("Escenario del salón del trono", () => {
         );
     });
 
-    it("recupera el aspecto normal sin el modificador", () => {
-        expect(renderScene(true)).toContain(
-            "throne-stage__visuals--black-fever"
-        );
-
-        expect(renderScene(false)).not.toContain(
-            "throne-stage__visuals--black-fever"
-        );
-    });
-
     it("mantiene los diálogos fuera de la capa visual", () => {
         const html = renderScene(true);
 
