@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import { getEventById } from "../../data/events/eventRegistry";
-import { getAudiencePresentation } from "../../game/getAudiencePresentation";
 
+import { getAudiencePresentation } from "../../game/getAudiencePresentation";
+import { getEventPresentation } from "../../game/getEventPresentation";
+
+import type { GameEvent } from "../../types/events";
 import type { MonarchRole } from "../../types/monarch";
 
 function presentAudience(
@@ -144,5 +147,118 @@ describe("Audiencias según el protagonista", () => {
         expect(king.dialogue.speaker).toBe(
             queen.dialogue.speaker
         );
+    });
+
+    it("resuelve variantes de acontecimientos sin depender de su identificador", () => {
+        const event: GameEvent = {
+            id: "test-variant",
+            day: 8,
+            order: 1,
+
+            image: "/default.png",
+
+            dialogue: {
+                speaker: "Visitante",
+                introduction: [
+                    "Saludos, Majestad.",
+                ],
+            },
+
+            monarchVariants: {
+                king: {
+                    image: "/alternative.png",
+                    speaker: "Embajador",
+
+                    replacements: [
+                        ["Saludos", "Mis respetos"],
+                    ],
+                },
+            },
+        };
+
+        const king = getEventPresentation(
+            event,
+            "king"
+        );
+
+        const queen = getEventPresentation(
+            event,
+            "queen"
+        );
+
+        expect(king).toEqual({
+            image: "/alternative.png",
+
+            dialogue: {
+                speaker: "Embajador",
+                introduction: [
+                    "Mis respetos, Majestad.",
+                ],
+            },
+        });
+
+        expect(queen).toEqual({
+            image: event.image,
+            dialogue: event.dialogue,
+        });
+    });
+
+    it("no modifica el diálogo original al resolver una variante", () => {
+        const event = getEventById("8");
+
+        if (event === undefined) {
+            throw new Error(
+                "No existe el evento del hermano."
+            );
+        }
+
+        const original = structuredClone(
+            event.dialogue
+        );
+
+        getEventPresentation(
+            event,
+            "queen"
+        );
+
+        expect(event.dialogue).toEqual(
+            original
+        );
+    });
+
+    it("las variantes no sustituyen las audiencias extraordinarias", () => {
+        const event = getEventById("10");
+
+        if (event === undefined) {
+            throw new Error(
+                "No existe el evento del consorte."
+            );
+        }
+
+        const presentation = getAudiencePresentation({
+            monarch: "queen",
+            dayEvents: [event],
+            audienceIndex: 0,
+            isClosing: false,
+
+            specialAudience:
+                "treasury-warning",
+
+            gameOverReason: null,
+        });
+
+        expect(
+            presentation.visitorImage
+        ).toBe(
+            "/assets/characters/courtiers/royal-advisor.png"
+        );
+
+        expect(
+            presentation.dialogue.speaker
+        ).toBe("Consejera Real");
+
+        expect(
+            presentation.dialogueKey
+        ).toBe("treasury-warning");
     });
 });

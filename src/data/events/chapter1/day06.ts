@@ -109,6 +109,12 @@ export const day06Events: GameEvent[] = [
             ],
         },
         baseEffects: { prestige: 20 },
+        rewardsOnComplete: [
+            {
+                kind: "music",
+                track: "anthem",
+            },
+        ],
     },
 
     // Evento 27.1 — La purga de bandidos

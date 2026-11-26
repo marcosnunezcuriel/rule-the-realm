@@ -5,7 +5,7 @@ import {
     getDefeatAnnouncementDialogue,
 } from "../data/narrative/specialAudiences";
 
-import { adaptDialogueForMonarch } from "./adaptDialogueForMonarch";
+import { getEventPresentation } from "./getEventPresentation";
 
 import type { DialogueEvent } from "../types/dialogue";
 import type { GameEvent } from "../types/events";
@@ -39,8 +39,11 @@ export function getAudiencePresentation({
     dialogueKey: string;
     continueLabel: string;
 } {
-    const currentAudience = dayEvents[audienceIndex];
-    const morningCount = Math.ceil(dayEvents.length / 2);
+    const currentAudience =
+        dayEvents[audienceIndex];
+
+    const morningCount =
+        Math.ceil(dayEvents.length / 2);
 
     const timeOfDay: SceneTime = isClosing
         ? "night"
@@ -48,31 +51,31 @@ export function getAudiencePresentation({
             ? "morning"
             : "evening";
 
-    const visitorImage =
-        isClosing || specialAudience !== null || !currentAudience
-            ? "/assets/characters/courtiers/royal-advisor.png"
-            : currentAudience.id === "10" && monarch === "queen"
-                ? "/assets/characters/royalty/king-standing.png"
-                : currentAudience.image;
+    // Resolver las variantes únicamente en acontecimientos
+    // normales y escenarios especiales.
+    const eventPresentation =
+        !isClosing &&
+        specialAudience === null &&
+        currentAudience !== undefined
+            ? getEventPresentation(
+                currentAudience,
+                monarch
+            )
+            : undefined;
 
-    const originalDialogue =
+    const visitorImage =
+        eventPresentation?.image ??
+        "/assets/characters/courtiers/royal-advisor.png";
+
+    const dialogue =
         specialAudience === "defeat" && gameOverReason !== null
             ? getDefeatAnnouncementDialogue(gameOverReason)
             : specialAudience === "treasury-warning"
                 ? treasuryWarningDialogue
                 : specialAudience === "treasury-recovery"
                     ? treasuryRecoveryDialogue
-                    : isClosing || !currentAudience
-                        ? closingDialogue
-                        : currentAudience.dialogue;
-
-    const dialogue = adaptDialogueForMonarch(
-        originalDialogue,
-        specialAudience === null && !isClosing
-            ? currentAudience?.id
-            : undefined,
-        monarch
-    );
+                    : eventPresentation?.dialogue ??
+                        closingDialogue;
 
     const dialogueKey =
         specialAudience === "defeat"

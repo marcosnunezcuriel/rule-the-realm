@@ -21,16 +21,13 @@ import {
     hasSavedGame,
     loadGame,
 } from "./storage/gameStorage";
-
 import {
     unlockAchievement,
 } from "./storage/achievementsStorage";
-
 import {
     loadAnthemUnlocked,
     unlockAnthem,
 } from "./storage/anthemStorage";
-
 import {
     loadSoundSettings,
     saveSoundSettings,
@@ -50,7 +47,10 @@ import type { KingdomValues } from "./types/stats";
 import type { FadeStage } from "./types/game";
 import type { ModifierId } from "./types/modifiers";
 import type { MonarchRole } from "./types/monarch";
-
+import type {
+    GameReward,
+    UnlockableAmbientTrack,
+} from "./types/rewards";
 import type {
     GameNotification,
     ModifierChange,
@@ -256,6 +256,25 @@ function App() {
         });
     }
 
+    // Ejecutar una recompensa permanente utilizando el sistema de almacenamiento correspondiente.
+    function handleRewardUnlocked(
+        reward: GameReward
+    ) {
+        switch (reward.kind) {
+            case "music": {
+                const handlers: Record<
+                    UnlockableAmbientTrack,
+                    () => void
+                > = {
+                    anthem: handleAnthemUnlocked,
+                };
+
+                handlers[reward.track]();
+                break;
+            }
+        }
+    }
+
     const handleDismissNotification = useCallback(
         (sequence: number) => {
             setNotificationQueue((previous) => {
@@ -458,8 +477,8 @@ function App() {
                     onAchievementUnlocked={
                         handleAchievementUnlocked
                     }
-                    onAnthemUnlocked={
-                        handleAnthemUnlocked
+                    onRewardUnlocked={
+                        handleRewardUnlocked
                     }
                     onModifierChanged={
                         handleModifierChanged

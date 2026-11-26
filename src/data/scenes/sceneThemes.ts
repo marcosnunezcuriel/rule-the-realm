@@ -22,3 +22,17 @@ export const sceneThemes: SceneTheme[] = [
         },
     },
 ];
+
+// Efectos ambientales que cambian inmediatamente
+// cuando se activa o desactiva un modificador.
+type SceneVisualEffect = {
+    modifierId: ModifierId;
+    className: string;
+};
+
+export const sceneVisualEffects: SceneVisualEffect[] = [
+    {
+        modifierId: "black-fever",
+        className: "throne-stage__visuals--black-fever",
+    },
+];

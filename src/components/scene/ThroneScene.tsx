@@ -53,7 +53,7 @@ type ThroneSceneProps = SceneVisitorProps & {
     visitorKey: string;
 
     backgroundMap: SceneBackgroundMap;
-    blackFeverActive: boolean;
+    visualClassName?: string;
 
     children?: ReactNode;
 };
@@ -65,16 +65,12 @@ function ThroneScene({
     visitorKey,
     children,
     backgroundMap,
-    blackFeverActive,
+    visualClassName,
     ...visitor
 }: ThroneSceneProps) {
     return (
         <SceneStage
-            visualClassName={
-                blackFeverActive
-                    ? "throne-stage__visuals--black-fever"
-                    : undefined
-            }
+            visualClassName={visualClassName}
 
             visuals={
                 <>

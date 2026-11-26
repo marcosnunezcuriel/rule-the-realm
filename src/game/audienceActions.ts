@@ -5,6 +5,8 @@ import {
 
 import { getDecisionConsequences } from "./getDecisionConsequences";
 import { getEventCompletionConsequences } from "./getEventCompletionConsequences";
+import type { GameAction } from "./state/gameReducer";
+import type { ScreenTransitionPlan } from "./screenFlow";
 
 import { getModifierTransition } from "./getModifierTransition";
 import { getAudienceExit } from "./audienceFlow";
@@ -19,9 +21,7 @@ import type { ModifierId } from "../types/modifiers";
 import type { ModifierChange } from "../types/notifications";
 import type { SceneTime } from "../types/scene";
 import type { SaveGame } from "../types/saveGame";
-
-import type { GameAction } from "./state/gameReducer";
-import type { ScreenTransitionPlan } from "./screenFlow";
+import type { GameReward } from "../types/rewards";
 
 // Efectos externos que el controlador debe ejecutar.
 export type GameEffect =
@@ -40,7 +40,8 @@ export type GameEffect =
         id: AchievementId;
     }
     | {
-        kind: "anthem";
+        kind: "reward";
+        reward: GameReward;
     };
 
 type AudienceAction = Extract<
@@ -148,6 +149,19 @@ function collectConsequences(
             };
 }
 
+// Preparar las recompensas declaradas por un acontecimiento.
+function collectRewards(
+    rewards: readonly GameReward[],
+    effects: GameEffect[]
+): void {
+    for (const reward of rewards) {
+        effects.push({
+            kind: "reward",
+            reward,
+        });
+    }
+}
+
 // Preparar una decisión del jugador.
 export function planDecision(
     state: GameState,
@@ -191,6 +205,11 @@ export function planDecision(
             id,
         });
     }
+
+    collectRewards(
+        audience.rewards?.[answer] ?? [],
+        effects
+    );
 
     return {
         action: {
@@ -262,11 +281,10 @@ export function planAudienceCompletion(
             });
         }
 
-        if (audience.id === "24.1") {
-            effects.push({
-                kind: "anthem",
-            });
-        }
+        collectRewards(
+            audience.rewardsOnComplete ?? [],
+            effects
+        );
     }
 
     // Activar los intereses tras el aviso de deuda.

@@ -109,6 +109,15 @@ export const day01Events: GameEvent[] = [
         day: 1,
         order: 4,
         image: "/assets/characters/royalty/princess.png",
+        monarchVariants: {
+            queen: {
+                replacements: [
+                    ["¡Padre!", "¡Madre!"],
+                    ["¡Gracias, padre!", "¡Gracias, madre!"],
+                    ["Pero, padre", "Pero, madre"],
+                ],
+            },
+        },
         dialogue: {
             speaker: "Princesa",
             introduction: [
@@ -170,6 +179,15 @@ export const day01Events: GameEvent[] = [
         day: 1,
         order: 6,
         image: "/assets/characters/royalty/prince.png",
+        monarchVariants: {
+            queen: {
+                replacements: [
+                    ["¡Padre!", "¡Madre!"],
+                    ["¡Gracias, padre!", "¡Gracias, madre!"],
+                    ["¡Pero, padre!", "¡Pero, madre!"],
+                ],
+            },
+        },
         dialogue: {
             speaker: "Príncipe",
             introduction: [
@@ -232,6 +250,18 @@ export const day01Events: GameEvent[] = [
         day: 1,
         order: 8,
         image: "/assets/characters/royalty/kings-brother.png",
+        monarchVariants: {
+            queen: {
+                speaker: "Hermano de la reina",
+
+                replacements: [
+                    ["Hermano,", "Hermana,"],
+                    [", hermano!", ", hermana!"],
+                    [", hermano?", ", hermana?"],
+                    [", hermano.", ", hermana."],
+                ],
+            },
+        },
         dialogue: {
             speaker: "Hermano del rey",
             introduction: [
@@ -300,6 +330,18 @@ export const day01Events: GameEvent[] = [
         day: 1,
         order: 10,
         image: "/assets/characters/royalty/queen-standing.png",
+        monarchVariants: {
+            queen: {
+                image: "/assets/characters/royalty/king-standing.png",
+
+                speaker: "Rey",
+
+                replacements: [
+                    ["Gracias, querido.", "Gracias, querida."],
+                    ["no te sientas preparado.", "no te sientas preparada."],
+                ],
+            },
+        },
         dialogue: {
             speaker: "Reina",
             introduction: [

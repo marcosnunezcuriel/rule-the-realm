@@ -46,6 +46,8 @@ let root: Root | null = null;
 
 function ignoreNotification() {}
 
+const onRewardUnlocked = vi.fn();
+
 // Componente auxiliar para probar el controlador
 // sin renderizar toda la interfaz del juego.
 function ControllerHarness({
@@ -57,7 +59,7 @@ function ControllerHarness({
         ignoreNotification,
         ignoreNotification,
         ignoreNotification,
-        ignoreNotification,
+        onRewardUnlocked,
         "king"
     );
 
@@ -156,6 +158,8 @@ async function completeAudience() {
 describe("Flujo y recuperación de partidas", () => {
     beforeEach(() => {
         window.localStorage.clear();
+
+        onRewardUnlocked.mockClear();
 
         vi.stubGlobal(
             "IS_REACT_ACT_ENVIRONMENT",
@@ -735,4 +739,55 @@ describe("Flujo y recuperación de partidas", () => {
             });
         }
     );
+
+    it("notifica la recompensa musical al completar su acontecimiento", async () => {
+        await mountController(
+            createSave({
+                day: 6,
+                audienceIndex: 1,
+
+                unlockedEventIds: [
+                    "24.1",
+                ],
+
+                dayEventIds: [
+                    "35", "24.1",
+                    "36", "37", "38",
+                    "39", "40",
+                ],
+            })
+        );
+
+        expect(
+            getController().dialogueKey
+        ).toBe("24.1");
+
+        expect(
+            onRewardUnlocked
+        ).not.toHaveBeenCalled();
+
+        await completeAudience();
+
+        expect(
+            onRewardUnlocked
+        ).toHaveBeenCalledTimes(1);
+
+        expect(
+            onRewardUnlocked
+        ).toHaveBeenCalledWith({
+            kind: "music",
+            track: "anthem",
+        });
+
+        expect(
+            getController().dialogueKey
+        ).toBe("36");
+
+        await unmountController();
+        await mountController();
+
+        expect(
+            onRewardUnlocked
+        ).toHaveBeenCalledTimes(1);
+    });
 });

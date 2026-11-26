@@ -4,11 +4,22 @@ import type {
 } from "./dialogue";
 
 import type { StatChanges } from "./stats";
-
+import type { MonarchRole } from "./monarch";
 import type { ModifierId } from "./modifiers";
+import type { GameReward } from "./rewards";
 
 import type { StoryFlagId } from "../data/narrative/storyFlags";
 import type { SpecialSceneId } from "../data/scenes/specialSceneRegistry";
+
+// Adaptaciones de un acontecimiento según el protagonista.
+export type MonarchEventVariant = {
+    image?: string;
+    speaker?: string;
+
+    replacements?: readonly (
+        readonly [string, string]
+    )[];
+};
 
 export type GameEvent = {
     id: string;
@@ -16,6 +27,11 @@ export type GameEvent = {
     order: number;
     image: string;
     dialogue: DialogueEvent;
+
+    // Variantes narrativas y visuales según el monarca.
+    monarchVariants?: Partial<
+        Record<MonarchRole, MonarchEventVariant>
+    >;
 
     // Escenario alternativo en el que se celebra el evento.
     scene?: {
@@ -25,6 +41,9 @@ export type GameEvent = {
 
     // Consecuencias elegidas por el jugador.
     effects?: Record<Decision, StatChanges>;
+
+    // Recompensas permanentes al tomar una decisión.
+    rewards?: Partial<Record<Decision, GameReward[]>>;
 
     // Consecuencias comunes a ambas respuestas, o al finalizar
     // un acontecimiento informativo que no pide decisión.
@@ -43,6 +62,9 @@ export type GameEvent = {
 
     // Consecuencias al completar el acontecimiento.
     unlocksOnComplete?: string[];
+
+    // Recompensas permanentes al finalizar el acontecimiento.
+    rewardsOnComplete?: GameReward[];
 
     addStoryFlagsOnComplete?: StoryFlagId[];
     removeStoryFlagsOnComplete?: StoryFlagId[];

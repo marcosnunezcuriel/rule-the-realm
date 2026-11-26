@@ -49,4 +49,30 @@ describe("Formato de textos narrativos", () => {
         expect(html).toContain("<em>Fiebre negra</em>");
         expect(html).toContain("<em>fiebre negra</em>");
     });
+
+    it("reconoce los términos independientemente de sus mayúsculas", () => {
+        const html = renderToStaticMarkup(
+            <FormattedText
+                text="La FIEBRE NEGRA amenaza el reino."
+            />
+        );
+
+        expect(html).toContain(
+            "<em>FIEBRE NEGRA</em>"
+        );
+    });
+
+    it("no formatea coincidencias parciales de palabras", () => {
+        const html = renderToStaticMarkup(
+            <FormattedText
+                text="Se mencionaron distintas fiebres negras."
+            />
+        );
+
+        expect(html).not.toContain("<em>");
+
+        expect(html).toBe(
+            "Se mencionaron distintas fiebres negras."
+        );
+    });
 });

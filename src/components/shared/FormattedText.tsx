@@ -1,18 +1,39 @@
 import { Fragment } from "react";
 
+import { italicTerms } from "../../data/narrative/formattedTerms";
+
 type FormattedTextProps = {
     text: string;
     visibleLength?: number;
 };
 
-// Expresiones que deben aparecer en cursiva.
-const SPECIAL_TERMS = /(\bfiebre negra\b)/gi;
+// Escapar caracteres especiales de expresiones regulares.
+function escapeRegExp(text: string): string {
+    return text.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+    );
+}
+
+const escapedTerms = italicTerms.map(
+    escapeRegExp
+);
+
+const italicPattern =
+    escapedTerms.length > 0
+        ? new RegExp(
+            `(\\b(?:${escapedTerms.join("|")})\\b)`,
+            "gi"
+        )
+        : null;
 
 function FormattedText({
     text,
     visibleLength,
 }: FormattedTextProps) {
-    const segments = text.split(SPECIAL_TERMS);
+    const segments = italicPattern !== null
+        ? text.split(italicPattern)
+        : [text];
 
     const totalVisible =
         visibleLength ?? Array.from(text).length;
@@ -20,12 +41,10 @@ function FormattedText({
     return (
         <>
             {segments.map((segment, index) => {
-                // Número de caracteres anteriores al segmento.
                 const previousLength = Array.from(
                     segments.slice(0, index).join("")
                 ).length;
 
-                // Caracteres visibles de este segmento.
                 const availableLength = Math.max(
                     0,
                     totalVisible - previousLength
@@ -39,12 +58,14 @@ function FormattedText({
                     return null;
                 }
 
-                const isSpecialTerm =
-                    /^fiebre negra$/i.test(segment);
+                // Los grupos capturados por split aparecen
+                // en las posiciones impares.
+                const isItalicTerm =
+                    index % 2 === 1;
 
                 return (
                     <Fragment key={index}>
-                        {isSpecialTerm ? (
+                        {isItalicTerm ? (
                             <em>{visibleText}</em>
                         ) : (
                             visibleText

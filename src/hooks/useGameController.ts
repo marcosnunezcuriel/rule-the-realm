@@ -12,6 +12,7 @@ import {
 import { getScreenTransition } from "../game/screenFlow";
 import { getAudiencePresentation } from "../game/getAudiencePresentation";
 import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
+import { getSceneVisualClassName } from "../game/getSceneVisualClassName";
 
 import { getEventById } from "../data/events/eventRegistry";
 import { getSpecialScenePresentation } from "../game/getSpecialScenePresentation";
@@ -26,6 +27,7 @@ import type { ModifierId } from "../types/modifiers";
 import type { ModifierChange } from "../types/notifications";
 import type { KingdomValues } from "../types/stats";
 import type { MonarchRole } from "../types/monarch";
+import type { GameReward } from "../types/rewards";
 
 import type {
     AudienceOperation,
@@ -46,7 +48,7 @@ export function useGameController(
         previous: KingdomValues,
         next: KingdomValues
     ) => void,
-    onAnthemUnlocked: () => void,
+    onRewardUnlocked: (reward: GameReward) => void,
     monarch: MonarchRole
 ) {
     const {
@@ -188,8 +190,8 @@ export function useGameController(
                     );
                     break;
 
-                case "anthem":
-                    onAnthemUnlocked();
+                case "reward":
+                    onRewardUnlocked(effect.reward);
                     break;
             }
         }
@@ -319,8 +321,10 @@ export function useGameController(
         timeOfDay,
         backgroundMap,
 
-        blackFeverActive:
-            activeModifierIds.includes("black-fever"),
+        sceneVisualClassName:
+            getSceneVisualClassName(
+                activeModifierIds
+            ),
 
         visitorImage,
         dialogue,

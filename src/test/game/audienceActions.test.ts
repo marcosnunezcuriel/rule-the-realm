@@ -9,6 +9,7 @@ import { createGameState } from "../../game/state/createGameState";
 import { getEventById } from "../../data/events/eventRegistry";
 
 import type { GameState } from "../../types/gameState";
+import type { GameEvent } from "../../types/events";
 
 import { createSave } from "../helpers/createSave";
 import { createStats } from "../helpers/createStats";
@@ -254,7 +255,12 @@ describe("Planificación de operaciones de audiencia", () => {
         );
 
         expect(plan?.effects).toContainEqual({
-            kind: "anthem",
+            kind: "reward",
+
+            reward: {
+                kind: "music",
+                track: "anthem",
+            },
         });
     });
 
@@ -320,4 +326,115 @@ describe("Planificación de operaciones de audiencia", () => {
             state.progress.screen
         ).toBe("special-scene");
     });
+
+    it.each(["yes", "no"] as const)(
+        "prepara recompensas declaradas en una decisión: %s",
+        (answer) => {
+            const state: GameState = {
+                ...createGameState(
+                    "king",
+                    createSave({
+                        audienceIndex: 1,
+                    })
+                ),
+
+                phase: "speaking",
+            };
+
+            const event: GameEvent = {
+                ...requireEvent("2"),
+                id: "test-reward",
+
+                rewards: {
+                    yes: [
+                        {
+                            kind: "music",
+                            track: "anthem",
+                        },
+                    ],
+                },
+            };
+
+            const plan = planDecision(
+                state,
+                event,
+                answer
+            );
+
+            expect(
+                plan?.effects.filter(
+                    (effect) => effect.kind === "reward"
+                )
+            ).toEqual(
+                answer === "yes"
+                    ? [
+                        {
+                            kind: "reward",
+
+                            reward: {
+                                kind: "music",
+                                track: "anthem",
+                            },
+                        },
+                    ]
+                    : []
+            );
+        }
+    );
+
+    it.each([true, false])(
+        "solo concede recompensas de finalización declaradas: %s",
+        (hasReward) => {
+            const state: GameState = {
+                ...createGameState(
+                    "king",
+                    createSave()
+                ),
+
+                phase: "exiting",
+            };
+
+            const event: GameEvent = {
+                ...requireEvent("24.1"),
+                id: "test-completion-reward",
+
+                rewardsOnComplete: hasReward
+                    ? [
+                        {
+                            kind: "music",
+                            track: "anthem",
+                        },
+                    ]
+                    : [],
+            };
+
+            const plan = planAudienceCompletion(
+                state,
+                {
+                    currentAudience: event,
+                    morningCount: 5,
+                    timeOfDay: "morning",
+                }
+            );
+
+            expect(
+                plan?.effects.filter(
+                    (effect) => effect.kind === "reward"
+                )
+            ).toEqual(
+                hasReward
+                    ? [
+                        {
+                            kind: "reward",
+
+                            reward: {
+                                kind: "music",
+                                track: "anthem",
+                            },
+                        },
+                    ]
+                    : []
+            );
+        }
+    );
 });

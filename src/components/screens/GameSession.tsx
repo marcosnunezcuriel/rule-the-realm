@@ -21,6 +21,8 @@ import { useGameController } from "../../hooks/useGameController";
 import type { ModifierId } from "../../types/modifiers";
 import type { KingdomValues } from "../../types/stats";
 import type { MonarchRole } from "../../types/monarch";
+import type { GameReward } from "../../types/rewards";
+
 import type {
     GameNotification,
     ModifierChange,
@@ -51,7 +53,8 @@ type GameSessionProps = {
     notification: GameNotification | null;
 
     onSoundSettings: () => void;
-    onAnthemUnlocked: () => void;
+
+    onRewardUnlocked: (reward: GameReward) => void;
 };
 
 // Presentación de la partida activa.
@@ -65,7 +68,7 @@ function GameSession({
     onStatsChanged,
     notification,
     onSoundSettings,
-    onAnthemUnlocked,
+    onRewardUnlocked,
 }: GameSessionProps) {
 
     const {
@@ -75,7 +78,7 @@ function GameSession({
         phase,
         timeOfDay,
         backgroundMap,
-        blackFeverActive,
+        sceneVisualClassName,
         visitorImage,
         dialogue,
         dialogueKey,
@@ -103,7 +106,7 @@ function GameSession({
         onAchievementUnlocked,
         onModifierChanged,
         onStatsChanged,
-        onAnthemUnlocked,
+        onRewardUnlocked,
         monarch
     );
 
@@ -295,7 +298,7 @@ function GameSession({
                         monarch={monarch}
                         timeOfDay={timeOfDay}
                         backgroundMap={backgroundMap}
-                        blackFeverActive={blackFeverActive}
+                        visualClassName={sceneVisualClassName}
                         visitorPhase={phase}
                         visitorImage={visitorImage}
                         visitorName={dialogue.speaker}

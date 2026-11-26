@@ -4,6 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import ThroneScene from "../../components/scene/ThroneScene";
 
 import { getSceneBackgrounds } from "../../game/getSceneBackgrounds";
+import { getSceneVisualClassName } from "../../game/getSceneVisualClassName";
 
 import type { MonarchRole } from "../../types/monarch";
 import type {
@@ -23,7 +24,13 @@ function renderScene(
             monarch={monarch}
             timeOfDay={timeOfDay}
             backgroundMap={backgroundMap}
-            blackFeverActive={blackFeverActive}
+            visualClassName={
+                getSceneVisualClassName(
+                    blackFeverActive
+                        ? ["black-fever"]
+                        : []
+                )
+            }
             visitorPhase="speaking"
             visitorImage="/assets/characters/courtiers/royal-advisor.png"
             visitorName="Consejera Real"
