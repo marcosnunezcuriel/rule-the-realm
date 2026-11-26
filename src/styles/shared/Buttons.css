@@ -1,0 +1,26 @@
+/* Botón oscuro con borde dorado */
+.realm-button {
+    color: var(--colour-gold);
+    background-color: var(--colour-button);
+
+    border: var(--border-thin) solid var(--colour-border-gold);
+    border-radius: var(--radius-sm);
+
+    cursor: pointer;
+}
+
+/* Botones con tipografía ceremonial */
+.realm-button--display {
+    font-family: var(--font-display);
+}
+
+/* Respuesta visual al pasar el ratón */
+.realm-button--hover:hover:not(:disabled) {
+    background-color: var(--colour-button-hover);
+}
+
+/* Foco visible mediante teclado */
+.realm-button:focus-visible {
+    outline: var(--border-medium) solid var(--colour-gold);
+    outline-offset: var(--space-0-75);
+}

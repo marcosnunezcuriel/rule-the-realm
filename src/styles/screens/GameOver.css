@@ -20,9 +20,6 @@
     max-height: 100%;
     padding: var(--space-11) var(--space-12-5);
     overflow-y: auto;
-    background-color: var(--colour-panel);
-    border: var(--border-medium) solid var(--colour-border-gold);
-    border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-modal);
     text-align: center;
 }
@@ -94,20 +91,5 @@
 
 .game-over__button {
     padding: var(--space-3) var(--space-7);
-    color: var(--colour-gold);
-    background-color: var(--colour-button);
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-display);
     font-size: var(--font-size-17);
-    cursor: pointer;
-}
-
-.game-over__button:hover {
-    background-color: var(--colour-button-hover);
-}
-
-.game-over__button:focus-visible {
-    outline: var(--border-medium) solid var(--colour-gold);
-    outline-offset: var(--space-0-75);
 }

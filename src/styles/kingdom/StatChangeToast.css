@@ -1,10 +1,7 @@
 /* Grupo de cambios encima de KingdomStats */
 .stat-change-toast {
-    position: absolute;
     z-index: 3;
 
-    top: var(--space-3);
-    left: var(--space-9);
     bottom: auto;
 
     display: flex;
@@ -12,15 +9,7 @@
     align-items: center;
     gap: var(--space-1-5);
 
-    width: var(--size-stats-width);
     max-width: calc(100vw - 2 * var(--space-9));
-
-    pointer-events: none;
-
-    /* Todas las tarjetas se animan juntas */
-    animation:
-        stat-change-toast-motion
-        5s ease-in-out both;
 }
 
 /* Tarjetas individuales: máximo dos por fila */
@@ -77,31 +66,4 @@
     font-weight: var(--font-weight-bold);
     font-variant-numeric: tabular-nums;
     line-height: 1;
-}
-
-/* Entrada y salida simultánea */
-@keyframes stat-change-toast-motion {
-    0% {
-        transform: translateX(
-            calc(-100% - var(--space-9))
-        );
-        opacity: 0;
-    }
-
-    12% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
-    80% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateX(
-            calc(-100% - var(--space-9))
-        );
-        opacity: 0;
-    }
 }

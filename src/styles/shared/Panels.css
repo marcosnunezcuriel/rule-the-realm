@@ -1,0 +1,17 @@
+/* Superficie común de los paneles del reino */
+.realm-panel {
+    background-color: var(--colour-panel);
+    border: var(--border-medium) solid var(--colour-border-gold);
+    border-radius: var(--radius-2xl);
+}
+
+/* Fondo oscurecido de las ventanas modales */
+.realm-backdrop {
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--colour-overlay);
+}

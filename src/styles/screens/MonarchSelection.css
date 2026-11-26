@@ -25,8 +25,6 @@
     margin: auto;
     padding: var(--space-6);
 
-    background-color: var(--colour-panel);
-    border: var(--border-medium) solid var(--colour-border-gold);
     border-radius: var(--radius-xl);
 
     text-align: center;
@@ -63,24 +61,18 @@
     min-width: 0;
     padding: var(--space-4);
 
-    color: var(--colour-gold);
     background-color: var(--colour-card);
-
-    border: var(--border-thin) solid var(--colour-border-gold);
     border-radius: var(--radius-md);
 
-    font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: var(--font-size-20);
 
-    cursor: pointer;
     transition:
-        transform var(--duration-fast) ease,
-        background-color var(--duration-fast) ease;
+        transform var(--duration-fast) var(--ease-default),
+        background-color var(--duration-fast) var(--ease-default);
 }
 
 .monarch-selection__option:hover {
     transform: translateY(-3px);
-    background-color: var(--colour-button-hover);
 }
 
 .monarch-selection__option img {
@@ -97,18 +89,4 @@
 .monarch-selection__back {
     min-height: 2.75rem;
     padding: var(--space-3) var(--space-5);
-
-    color: var(--colour-gold);
-    background-color: var(--colour-button);
-
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-sm);
-
-    font-family: var(--font-display);
-    cursor: pointer;
-}
-
-.monarch-selection button:focus-visible {
-    outline: var(--border-medium) solid var(--colour-gold);
-    outline-offset: 3px;
 }

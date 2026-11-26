@@ -1,14 +1,8 @@
 .sound-panel__backdrop {
     position: fixed;
-    inset: 0;
     z-index: 120;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
     padding: var(--space-4);
-    background-color: var(--colour-overlay);
 }
 
 .sound-panel {
@@ -18,10 +12,8 @@
 
     padding: var(--space-6);
 
-    background-color: var(--colour-panel);
     color: var(--colour-text);
 
-    border: var(--border-medium) solid var(--colour-border-gold);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-menu);
 }
@@ -48,14 +40,7 @@
     height: 2.25rem;
     flex-shrink: 0;
 
-    color: var(--colour-gold);
-    background-color: var(--colour-button);
-
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-sm);
-
     font-size: 1.6rem;
-    cursor: pointer;
 }
 
 /* Control de silencio con icono de altavoz */

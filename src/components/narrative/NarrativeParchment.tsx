@@ -81,7 +81,7 @@ function NarrativeParchment({
             {topActionLabel && onTopAction && (
                 <button
                     type="button"
-                    className="narrative-parchment__skip"
+                    className="narrative-parchment__skip realm-button"
                     onClick={onTopAction}
                 >
                     {topActionLabel}

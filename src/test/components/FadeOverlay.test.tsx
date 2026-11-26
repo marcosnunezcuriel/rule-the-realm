@@ -19,11 +19,11 @@ describe("Fundidos entre pantallas", () => {
         );
 
         expect(html).toContain(
-            'class="navigation-fade"'
+            'class="fade-overlay fade-overlay--navigation"'
         );
 
         expect(html).not.toContain(
-            "navigation-fade--active"
+            "fade-overlay--active"
         );
     });
 
@@ -37,7 +37,7 @@ describe("Fundidos entre pantallas", () => {
         );
 
         expect(html).toContain(
-            'class="navigation-fade navigation-fade--visible navigation-fade--active"'
+            'class="fade-overlay fade-overlay--navigation fade-overlay--visible fade-overlay--active"'
         );
     });
 
@@ -52,11 +52,33 @@ describe("Fundidos entre pantallas", () => {
         );
 
         expect(html).toContain(
-            'class="screen-fade screen-fade--active screen-fade--full-screen"'
+            'class="fade-overlay fade-overlay--active fade-overlay--full-screen"'
         );
 
         expect(html).not.toContain(
-            "screen-fade--visible"
+            "fade-overlay--visible"
+        );
+    });
+
+    it("limita los fundidos ordinarios al contenido de la partida", () => {
+        const html = renderToStaticMarkup(
+            <FadeOverlay
+                variant="screen"
+                stage="darkening"
+                onFadeEnd={() => {}}
+            />
+        );
+
+        expect(html).toContain(
+            'class="fade-overlay fade-overlay--visible fade-overlay--active"'
+        );
+
+        expect(html).not.toContain(
+            "fade-overlay--navigation"
+        );
+
+        expect(html).not.toContain(
+            "fade-overlay--full-screen"
         );
     });
 });

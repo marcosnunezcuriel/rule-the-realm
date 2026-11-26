@@ -68,13 +68,13 @@ function SoundPanel({
 
     return (
         <div
-            className="sound-panel__backdrop"
+            className="sound-panel__backdrop realm-backdrop"
             onClick={onClose}
         >
             <section
                 ref={modalRef}
                 tabIndex={-1}
-                className="sound-panel"
+                className="sound-panel realm-panel"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="sound-panel-heading"
@@ -89,7 +89,7 @@ function SoundPanel({
 
                     <button
                         type="button"
-                        className="sound-panel__close"
+                        className="sound-panel__close realm-button"
                         onClick={onClose}
                         aria-label="Cerrar panel de sonido"
                     >

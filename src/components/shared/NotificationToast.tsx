@@ -6,7 +6,6 @@ import type { GameNotification } from "../../types/notifications";
 import FormattedText from "./FormattedText";
 
 import "../../styles/screens/NotificationToast.css";
-import "../../styles/screens/SoundNotification.css";
 
 type NotificationToastProps = {
     notification: Exclude<

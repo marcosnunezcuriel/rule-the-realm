@@ -1,0 +1,41 @@
+/* Posicionamiento y animación comunes de los avisos */
+.notification-toast,
+.stat-change-toast {
+    position: absolute;
+
+    top: var(--space-3);
+    left: var(--space-9);
+
+    width: var(--size-stats-width);
+
+    pointer-events: none;
+
+    animation:
+        toast-motion
+        var(--duration-notification)
+        var(--ease-standard)
+        both;
+}
+
+/* Entrada, permanencia y salida por la izquierda */
+@keyframes toast-motion {
+    0% {
+        transform: translateX(
+            calc(-100% - var(--space-9))
+        );
+        opacity: 0;
+    }
+
+    12%,
+    80% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(
+            calc(-100% - var(--space-9))
+        );
+        opacity: 0;
+    }
+}

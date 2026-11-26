@@ -14,12 +14,8 @@
     position: absolute;
     top: var(--space-6-5);
     right: var(--space-8);
+
     padding: var(--space-2-5) var(--space-4);
-    color: var(--colour-gold);
-    background-color: var(--colour-button);
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
 }
 
 /* Pergamino */

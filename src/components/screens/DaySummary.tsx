@@ -33,7 +33,7 @@ function DaySummary({
 }: DaySummaryProps) {
     return (
         <main className="day-summary">
-            <div className="day-summary__panel">
+            <div className="day-summary__panel realm-panel">
                 <h2>Resumen del día {day}</h2>
 
                 <p className="day-summary__subtitle">
@@ -158,7 +158,7 @@ function DaySummary({
                 
                 <button
                     type="button"
-                    className="day-summary__next"
+                    className="day-summary__next realm-button realm-button--display realm-button--hover"
                     onClick={onNextDay}
                 >
                     {nextLabel}

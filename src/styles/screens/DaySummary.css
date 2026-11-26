@@ -17,9 +17,6 @@
     padding: var(--space-7) var(--space-8);
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: var(--colour-panel);
-    border: var(--border-medium) solid var(--colour-border-gold);
-    border-radius: var(--radius-2xl);
     scrollbar-width: thin;
     scrollbar-color: var(--colour-border-gold) var(--colour-panel);
 }
@@ -170,24 +167,13 @@
     display: block;
     margin: 0 auto;
     padding: var(--space-3) var(--space-7);
-    color: var(--colour-gold);
-    background-color: var(--colour-button);
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-display);
     font-size: var(--font-size-17);
-    cursor: pointer;
+
     transition:
         background-color var(--duration-fast) var(--ease-default),
         border-color var(--duration-fast) var(--ease-default);
 }
 
 .day-summary__next:hover {
-    background-color: var(--colour-button-hover);
     border-color: var(--colour-gold);
-}
-
-.day-summary__next:focus-visible {
-    outline: var(--border-medium) solid var(--colour-gold);
-    outline-offset: var(--space-0-75);
 }

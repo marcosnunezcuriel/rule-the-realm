@@ -28,7 +28,7 @@ function MonarchSelection({
 }: MonarchSelectionProps) {
     return (
         <main className="monarch-selection">
-            <section className="monarch-selection__panel">
+            <section className="monarch-selection__panel realm-panel">
                 <h1 className="monarch-selection__title">
                     ¿Quién gobernará Astaria?
                 </h1>
@@ -43,7 +43,7 @@ function MonarchSelection({
                         <button
                             key={option.role}
                             type="button"
-                            className="monarch-selection__option"
+                            className="monarch-selection__option realm-button realm-button--display realm-button--hover"
                             onClick={() => {
                                 onChoose(option.role);
                             }}
@@ -63,7 +63,7 @@ function MonarchSelection({
 
                 <button
                     type="button"
-                    className="monarch-selection__back"
+                    className="monarch-selection__back realm-button realm-button--display"
                     onClick={onBack}
                 >
                     Volver al menú principal

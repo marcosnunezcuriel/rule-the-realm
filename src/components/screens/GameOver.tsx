@@ -36,7 +36,7 @@ function GameOver({
     return (
         <main className="game-over">
             <div
-                className="game-over__panel"
+                className="game-over__panel realm-panel"
                 style={
                     { "--game-over-color": color } as CSSProperties
                 }
@@ -68,7 +68,7 @@ function GameOver({
 
                 <button
                     type="button"
-                    className="game-over__button"
+                    className="game-over__button realm-button realm-button--display realm-button--hover"
                     onClick={onMenu}
                 >
                     Volver al menú principal

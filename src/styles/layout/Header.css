@@ -83,26 +83,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     width: var(--size-header-control);
     height: var(--size-header-control);
     flex-shrink: 0;
-    color: var(--colour-gold);
+
     background-color: var(--colour-card);
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
 }
 
 .site-header__menu svg {
     width: var(--size-header-icon);
     height: var(--size-header-icon);
-}
-
-.site-header__menu:hover {
-    background-color: var(--colour-button-hover);
-}
-
-.site-header__menu:focus-visible {
-    outline: var(--border-medium) solid var(--colour-gold);
-    outline-offset: var(--space-0-75);
 }

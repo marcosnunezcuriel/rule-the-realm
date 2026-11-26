@@ -30,6 +30,7 @@
     --duration-background: 1.5s;
     --duration-visitor-in: 2s;
     --duration-visitor-out: 1.8s;
+    --duration-notification: 5s;
     --ease-default: ease;
     --ease-standard: ease-in-out;
     --ease-in: ease-in;

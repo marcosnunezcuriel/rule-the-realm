@@ -4,7 +4,6 @@ import NewGameConfirmation from "../modals/NewGameConfirmation";
 import MapPreview from "../modals/MapPreview";
 
 import "../../styles/screens/MainMenu.css";
-import "../../styles/screens/SoundMenuButton.css";
 
 type MainMenuProps = {
     hasSave: boolean;
@@ -34,7 +33,7 @@ function MainMenu({
             <MapPreview />
 
             {/* Panel principal centrado */}
-            <div className="main-menu__panel">
+            <div className="main-menu__panel realm-panel">
                 <div className="main-menu__emblem">
                     <img
                         src={assetUrl(
@@ -57,6 +56,7 @@ function MainMenu({
                     <button
                         type="button"
                         onClick={onNewGame}
+                        className="realm-button realm-button--display realm-button--hover"
                     >
                         Nueva partida
                     </button>
@@ -65,6 +65,7 @@ function MainMenu({
                         type="button"
                         disabled={!hasSave}
                         onClick={onContinue}
+                        className="realm-button realm-button--display realm-button--hover"
                     >
                         Continuar partida
                     </button>
@@ -79,7 +80,7 @@ function MainMenu({
             {/* Botón de sonido */}
             <button
                 type="button"
-                className="main-menu__achievements main-menu__sound"
+                className="main-menu__achievements main-menu__sound realm-button realm-button--display realm-button--hover"
                 onClick={onSoundSettings}
                 aria-label="Control de sonido"
             >
@@ -103,7 +104,7 @@ function MainMenu({
             {/* Botón de logros */}
             <button
                 type="button"
-                className="main-menu__achievements"
+                className="main-menu__achievements realm-button realm-button--display realm-button--hover"
                 onClick={onAchievements}
             >
                 <svg

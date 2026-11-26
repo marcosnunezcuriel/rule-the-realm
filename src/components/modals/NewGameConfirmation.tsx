@@ -12,11 +12,11 @@ function NewGameConfirmation({
     const modalRef = useModalFocus(onCancel);
 
     return (
-        <div className="main-menu__backdrop">
+        <div className="main-menu__backdrop realm-backdrop">
             <div
                 ref={modalRef}
                 tabIndex={-1}
-                className="main-menu__confirmation"
+                className="main-menu__confirmation realm-panel"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="new-game-title"
@@ -36,6 +36,7 @@ function NewGameConfirmation({
                     <button
                         type="button"
                         onClick={onCancel}
+                        className="realm-button realm-button--display realm-button--hover"
                     >
                         Cancelar
                     </button>
@@ -43,6 +44,7 @@ function NewGameConfirmation({
                     <button
                         type="button"
                         onClick={onConfirm}
+                        className="realm-button realm-button--display realm-button--hover"
                     >
                         Sobrescribir y empezar
                     </button>

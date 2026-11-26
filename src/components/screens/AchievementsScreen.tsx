@@ -22,7 +22,7 @@ function AchievementsScreen({
             <div className="achievements-screen__container">
                 <button
                     type="button"
-                    className="achievements-screen__back"
+                    className="achievements-screen__back realm-button realm-button--hover"
                     onClick={onBack}
                 >
                     Volver al menú

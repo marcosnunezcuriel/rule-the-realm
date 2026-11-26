@@ -1,6 +1,6 @@
 import type { FadeStage } from "../../types/game";
 
-import "../../styles/layout/Navigation.css";
+import "../../styles/shared/FadeOverlay.css";
 
 type FadeOverlayProps = {
     stage: FadeStage;
@@ -16,24 +16,23 @@ function FadeOverlay({
     fullScreen = false,
     onFadeEnd,
 }: FadeOverlayProps) {
-    const baseClass =
-        variant === "navigation"
-            ? "navigation-fade"
-            : "screen-fade";
-
     const className = [
-        baseClass,
+        "fade-overlay",
+
+        variant === "navigation"
+            ? "fade-overlay--navigation"
+            : "",
 
         stage === "darkening"
-            ? `${baseClass}--visible`
+            ? "fade-overlay--visible"
             : "",
 
         stage !== "idle"
-            ? `${baseClass}--active`
+            ? "fade-overlay--active"
             : "",
 
         variant === "screen" && fullScreen
-            ? "screen-fade--full-screen"
+            ? "fade-overlay--full-screen"
             : "",
     ].filter(Boolean).join(" ");
 

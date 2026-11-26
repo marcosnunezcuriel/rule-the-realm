@@ -15,11 +15,6 @@
 
 .achievements-screen__back {
     padding: var(--space-2-5) var(--space-4);
-    color: var(--colour-gold);
-    background-color: var(--colour-button);
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
 }
 
 .achievements-screen__title {
@@ -113,13 +108,3 @@
     font-size: var(--font-size-13);
     font-weight: var(--font-weight-bold);
 }
-
-.achievements-screen__back:hover {
-    background-color: var(--colour-button-hover);
-}
-
-.achievements-screen__back:focus-visible {
-    outline: var(--border-medium) solid var(--colour-gold);
-    outline-offset: var(--space-0-75);
-}
-

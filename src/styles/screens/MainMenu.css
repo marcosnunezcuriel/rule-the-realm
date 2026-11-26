@@ -26,9 +26,6 @@
 
     padding: var(--space-12-5) var(--space-15);
 
-    background-color: var(--colour-panel);
-    border: var(--border-medium) solid var(--colour-border-gold);
-    border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-menu);
 
     text-align: center;
@@ -85,23 +82,7 @@
 .main-menu__confirmation-actions button,
 .main-menu__achievements {
     padding: var(--space-3-5) var(--space-5-5);
-
-    color: var(--colour-gold);
-    background-color: var(--colour-button);
-
-    border: var(--border-thin) solid var(--colour-border-gold);
-    border-radius: var(--radius-sm);
-
-    font-family: var(--font-display);
     font-size: var(--font-size-18);
-
-    cursor: pointer;
-}
-
-.main-menu__actions button:hover:not(:disabled),
-.main-menu__confirmation-actions button:hover,
-.main-menu__achievements:hover {
-    background-color: var(--colour-button-hover);
 }
 
 .main-menu__actions button:disabled {
@@ -176,17 +157,16 @@
     flex-shrink: 0;
 }
 
+/* Botón de sonido en la esquina inferior izquierda */
+.main-menu__sound {
+    right: auto;
+    left: var(--space-7-5);
+}
+
 /* Confirmación de partida nueva */
 .main-menu__backdrop {
     position: absolute;
-    inset: 0;
     z-index: 5;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background-color: var(--colour-overlay);
 }
 
 .main-menu__confirmation {
@@ -198,9 +178,6 @@
     padding: var(--space-8);
 
     color: var(--colour-text);
-    background-color: var(--colour-panel);
-
-    border: var(--border-medium) solid var(--colour-border-gold);
     border-radius: var(--radius-xl);
 
     text-align: center;
@@ -241,12 +218,7 @@
 /* Fondo oscurecido que cubre toda la pantalla */
 .main-menu__map-overlay {
     position: fixed;
-    inset: 0;
     z-index: 200;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     padding: var(--space-4);
 

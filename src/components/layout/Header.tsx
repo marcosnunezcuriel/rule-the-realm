@@ -45,7 +45,7 @@ function Header({
 
                 <button
                     type="button"
-                    className="site-header__menu"
+                    className="site-header__menu realm-button realm-button--hover"
                     aria-label="Control de sonido"
                     title="Control de sonido"
                     onClick={onSoundSettings}
@@ -67,7 +67,7 @@ function Header({
 
                 <button
                     type="button"
-                    className="site-header__menu"
+                    className="site-header__menu realm-button realm-button--hover"
                     aria-label="Volver al menú principal"
                     title="Menú principal"
                     onClick={onMenu}

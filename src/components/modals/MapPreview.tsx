@@ -21,7 +21,7 @@ function ExpandedMap({
         <div
             ref={modalRef}
             tabIndex={-1}
-            className="main-menu__map-overlay"
+            className="main-menu__map-overlay realm-backdrop"
             role="dialog"
             aria-modal="true"
             aria-label="Mapa ampliado del reino de Astaria"
