@@ -692,7 +692,7 @@ describe("Flujo y recuperación de partidas", () => {
             ).toBe(false);
         }
     );
-    
+
     it("abre el epílogo durante el fundido sin avanzar de día", async () => {
         await mountController(
             createSave({

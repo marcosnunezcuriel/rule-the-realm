@@ -457,7 +457,7 @@
     }
 
     /* Proporciones de los escenarios especiales */
-    
+
     .scene-stage--special .throne-stage__visuals {
         aspect-ratio: var(--scene-aspect-ratio);
     }

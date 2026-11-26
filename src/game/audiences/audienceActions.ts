@@ -151,7 +151,7 @@ function collectConsequences(
 
         removeStoryFlags:
             consequences?.removeStoryFlags ?? [],
-            };
+    };
 }
 
 // Preparar las recompensas declaradas por un acontecimiento.

@@ -329,7 +329,7 @@ describe("Guardado de partidas", () => {
 
         expect(loadGame()).toEqual(save);
     });
-    
+
     it.each(["scene", "gameover"] as const)(
         "recupera una derrota nocturna del día 2 en %s",
         (screen) => {

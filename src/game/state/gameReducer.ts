@@ -297,7 +297,7 @@ export function gameReducer(
                         },
                         phase: "transitioning",
                     };
-                
+
                 default:
                     return state;
             }

@@ -101,7 +101,7 @@ export function createGameState(
 
             unlockedEventIds: [],
             storyFlags: [],
-            
+
             activeModifierIds: [],
             sceneModifierIds: [],
 

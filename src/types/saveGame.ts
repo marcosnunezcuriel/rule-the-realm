@@ -48,7 +48,7 @@ export type SaveGame = {
     unlockedEventIds: string[];
     // Condiciones narrativas que pueden alterar acontecimientos y escenarios futuros.
     storyFlags: StoryFlagId[];
-    
+
     activeModifierIds: ModifierId[];
     // Modificadores fijados al comenzar el día para conservar sus fondos durante toda la jornada.
     sceneModifierIds: ModifierId[];
