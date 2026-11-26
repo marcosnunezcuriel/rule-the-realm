@@ -1,12 +1,12 @@
-import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, it } from "vitest";
 
 import SpecialScene from "../../components/scene/SpecialScene";
 
 import { getSpecialScenePresentation } from "../../game/scenes/getSpecialScenePresentation";
 
-import type { MonarchRole } from "../../types/monarch";
 import type { AudiencePhase } from "../../types/game";
+import type { MonarchRole } from "../../types/monarch";
 
 function renderJoust(
     monarch: MonarchRole,

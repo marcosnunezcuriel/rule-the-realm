@@ -1,7 +1,7 @@
-import { assetUrl } from "../../utils/assetUrl";
-
-import NewGameConfirmation from "../modals/NewGameConfirmation";
 import MapPreview from "../modals/MapPreview";
+import NewGameConfirmation from "../modals/NewGameConfirmation";
+
+import { assetUrl } from "../../utils/assetUrl";
 
 import "../../styles/menu/MainMenu.css";
 

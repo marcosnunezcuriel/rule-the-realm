@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { applyDailyModifiers } from "../../../game/consequences/applyDailyModifiers";
+
 import { createStats } from "../../helpers/createStats";
 
 describe("Modificadores diarios", () => {

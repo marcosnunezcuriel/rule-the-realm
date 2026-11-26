@@ -1,7 +1,7 @@
 import { BANKRUPTCY_LIMIT } from "../../data/kingdom/rules";
 
-import type { KingdomValues } from "../../types/stats";
 import type { GameOverReason } from "../../types/gameOver";
+import type { KingdomValues } from "../../types/stats";
 
 export function checkGameOver(
     stats: KingdomValues

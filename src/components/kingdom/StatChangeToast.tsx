@@ -1,10 +1,10 @@
 import type { CSSProperties } from "react";
 
+import StatIcon from "./StatIcon";
+
 import { statDefinitions } from "../../data/kingdom/statDefinitions";
 
 import type { StatChangeNotification } from "../../types/notifications";
-
-import StatIcon from "./StatIcon";
 
 import "../../styles/kingdom/StatChangeToast.css";
 

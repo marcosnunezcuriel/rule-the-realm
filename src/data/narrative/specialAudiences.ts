@@ -1,7 +1,7 @@
+import { gameOverMessages } from "./gameOverMessages";
+
 import type { DialogueEvent } from "../../types/dialogue";
 import type { GameOverReason } from "../../types/gameOver";
-
-import { gameOverMessages } from "./gameOverMessages";
 
 // Despedida habitual al terminar las audiencias.
 export const closingDialogue: DialogueEvent = {

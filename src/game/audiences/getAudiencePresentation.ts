@@ -10,9 +10,9 @@ import { getEventPresentation } from "./getEventPresentation";
 import type { DialogueEvent } from "../../types/dialogue";
 import type { GameEvent } from "../../types/events";
 import type { SpecialAudience } from "../../types/game";
-import type { SceneTime } from "../../types/scene";
 import type { GameOverReason } from "../../types/gameOver";
 import type { MonarchRole } from "../../types/monarch";
+import type { SceneTime } from "../../types/scene";
 
 type AudiencePresentationInput = {
     monarch: MonarchRole;

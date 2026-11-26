@@ -4,16 +4,15 @@ import {
     getNextChapter,
     toRomanNumber,
 } from "../../data/chapters";
-
 import { getChapterCompletionAchievements } from "../../data/registries/achievementRegistry";
+import type { AchievementId } from "../../data/registries/achievementRegistry";
 
 import { checkGameOver } from "../consequences/checkGameOver";
 import { getScreenTransition } from "./screenFlow";
-
-import type { AchievementId } from "../../data/registries/achievementRegistry";
-import type { KingdomValues } from "../../types/stats";
-import type { SaveGame } from "../../types/saveGame";
 import type { ScreenTransitionPlan } from "./screenFlow";
+
+import type { SaveGame } from "../../types/saveGame";
+import type { KingdomValues } from "../../types/stats";
 
 // Un capítulo se completa únicamente si el reino
 // sobrevive a su último cierre nocturno.

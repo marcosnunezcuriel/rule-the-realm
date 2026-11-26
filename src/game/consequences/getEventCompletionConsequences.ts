@@ -1,10 +1,11 @@
+import type { StoryFlagId } from "../../data/narrative/storyFlags";
+
 import { applyStatChanges } from "./applyStatChanges";
 import { shouldShowTreasuryWarning } from "./debtFlow";
 
 import type { GameEvent } from "../../types/events";
-import type { KingdomValues } from "../../types/stats";
 import type { ModifierId } from "../../types/modifiers";
-import type { StoryFlagId } from "../../data/narrative/storyFlags";
+import type { KingdomValues } from "../../types/stats";
 
 // Las decisiones ya aplicaron sus consecuencias.
 // Solo los acontecimientos sin decisión aplican aquí

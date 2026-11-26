@@ -1,5 +1,5 @@
-import type { GameEvent } from "./events";
 import type { AchievementDefinition } from "./achievements";
+import type { GameEvent } from "./events";
 
 export type ChapterDefinition = {
     number: number;

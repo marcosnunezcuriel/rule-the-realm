@@ -1,3 +1,5 @@
+import type { StoryFlagId } from "../data/narrative/storyFlags";
+
 import type { Decision } from "./dialogue";
 import type {
     GameScreen,
@@ -8,9 +10,8 @@ import type {
     DailyModifierReport,
     ModifierId,
 } from "./modifiers";
-import type { KingdomValues } from "./stats";
 import type { MonarchRole } from "./monarch";
-import type { StoryFlagId } from "../data/narrative/storyFlags";
+import type { KingdomValues } from "./stats";
 
 // Único formato de guardado del juego.
 // Se actualizará cuando evolucionen las mecánicas.

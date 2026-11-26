@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
+import { checkGameOver } from "../../../game/consequences/checkGameOver";
 import {
     applyDailyModifiersWithDebt,
     getDebtAudience,
     shouldShowTreasuryWarning,
 } from "../../../game/consequences/debtFlow";
 
-import { checkGameOver } from "../../../game/consequences/checkGameOver";
 import { createStats } from "../../helpers/createStats";
 
 describe("Deudas de la Corona", () => {

@@ -2,26 +2,23 @@ import {
     useEffect,
     useState,
 } from "react";
-
 import type { MouseEvent } from "react";
 
 import { soundEngine } from "../../audio/soundEngine";
 
 import {
-    loadSoundSettings,
-    saveSoundSettings,
-} from "../../storage/soundSettingsStorage";
-
-import {
     loadAnthemUnlocked,
     unlockAnthem,
 } from "../../storage/anthemStorage";
+import {
+    loadSoundSettings,
+    saveSoundSettings,
+} from "../../storage/soundSettingsStorage";
 
 import type {
     SoundEffect,
     SoundSettings,
 } from "../../types/audio";
-
 import type {
     GameReward,
     UnlockableAmbientTrack,

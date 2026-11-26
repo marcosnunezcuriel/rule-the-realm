@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { checkGameOver } from "../../../game/consequences/checkGameOver";
+
 import { createStats } from "../../helpers/createStats";
 
 describe("Condiciones de derrota", () => {

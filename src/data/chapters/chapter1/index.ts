@@ -1,6 +1,6 @@
-import { chapter1Events } from "./events";
-import { chapter1Ending } from "./ending";
 import { chapter1Achievements } from "./achievements";
+import { chapter1Ending } from "./ending";
+import { chapter1Events } from "./events";
 
 import type { ChapterDefinition } from "../../../types/chapters";
 

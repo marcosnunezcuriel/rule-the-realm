@@ -1,11 +1,10 @@
-import type { ChapterDefinition } from "../../data/chapters";
+import NarrativeParchment from "../narrative/NarrativeParchment";
 
+import type { ChapterDefinition } from "../../data/chapters";
 import {
     getNextChapter,
     toRomanNumber,
 } from "../../data/chapters";
-
-import NarrativeParchment from "../narrative/NarrativeParchment";
 
 
 type ChapterEndingProps = {

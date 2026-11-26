@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { getEventById } from "../../../data/registries/eventRegistry";
 import { chapter1Events } from "../../../data/chapters/chapter1/events";
+import { getEventById } from "../../../data/registries/eventRegistry";
 
 import { getAudiencePresentation } from "../../../game/audiences/getAudiencePresentation";
 import { getEventPresentation } from "../../../game/audiences/getEventPresentation";

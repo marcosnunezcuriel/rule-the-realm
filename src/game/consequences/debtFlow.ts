@@ -1,7 +1,7 @@
+import { BANKRUPTCY_LIMIT } from "../../data/kingdom/rules";
+
 import { applyDailyModifiers } from "./applyDailyModifiers";
 import { checkGameOver } from "./checkGameOver";
-
-import { BANKRUPTCY_LIMIT } from "../../data/kingdom/rules";
 
 import type { ModifierId } from "../../types/modifiers";
 import type { KingdomValues } from "../../types/stats";

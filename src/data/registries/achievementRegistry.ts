@@ -1,6 +1,6 @@
-import type { Decision } from "../../types/dialogue";
-
 import { chapters } from "../chapters";
+
+import type { Decision } from "../../types/dialogue";
 
 // Inferir los logros registrados en todos los capítulos.
 type RegisteredAchievement =

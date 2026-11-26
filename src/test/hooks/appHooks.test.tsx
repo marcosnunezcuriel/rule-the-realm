@@ -1,6 +1,14 @@
 // @vitest-environment jsdom
 
 import {
+    act,
+    createRef,
+    useImperativeHandle,
+} from "react";
+import type { Ref } from "react";
+import { createRoot } from "react-dom/client";
+import type { Root } from "react-dom/client";
+import {
     afterEach,
     beforeEach,
     describe,
@@ -9,31 +17,19 @@ import {
     vi,
 } from "vitest";
 
-import {
-    act,
-    createRef,
-    useImperativeHandle,
-} from "react";
-
-import type { Ref } from "react";
-
-import { createRoot } from "react-dom/client";
-import type { Root } from "react-dom/client";
+import { soundEngine } from "../../audio/soundEngine";
 
 import { useAppNavigation } from "../../hooks/app/useAppNavigation";
 import { useGameNotifications } from "../../hooks/app/useGameNotifications";
 import { useSoundSettings } from "../../hooks/app/useSoundSettings";
 import { useGameAudio } from "../../hooks/game/useGameAudio";
 
-import { soundEngine } from "../../audio/soundEngine";
-
+import { loadAnthemUnlocked } from "../../storage/anthemStorage";
 import {
     loadGame,
     saveGame,
 } from "../../storage/gameStorage";
-
 import { loadSoundSettings } from "../../storage/soundSettingsStorage";
-import { loadAnthemUnlocked } from "../../storage/anthemStorage";
 
 import { createSave } from "../helpers/createSave";
 import { createStats } from "../helpers/createStats";

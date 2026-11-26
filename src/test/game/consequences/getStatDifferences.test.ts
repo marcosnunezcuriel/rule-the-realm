@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getStatDifferences } from "../../../game/consequences/getStatDifferences";
+
 import { createStats } from "../../helpers/createStats";
 
 describe("Diferencias de estadísticas", () => {

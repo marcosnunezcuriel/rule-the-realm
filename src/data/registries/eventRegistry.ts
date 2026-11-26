@@ -1,6 +1,6 @@
-import type { GameEvent } from "../../types/events";
-
 import { chapters } from "../chapters";
+
+import type { GameEvent } from "../../types/events";
 
 // Registro global de acontecimientos.
 const allEvents: GameEvent[] = chapters.flatMap(

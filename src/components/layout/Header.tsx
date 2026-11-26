@@ -1,6 +1,6 @@
-import "../../styles/layout/Header.css";
-
 import { assetUrl } from "../../utils/assetUrl";
+
+import "../../styles/layout/Header.css";
 
 type HeaderProps = {
     chapter: string;

@@ -1,14 +1,13 @@
+import type { StoryFlagId } from "../data/narrative/storyFlags";
+import type { SpecialSceneId } from "../data/scenes/specialSceneRegistry";
+
 import type {
     Decision,
     DialogueEvent,
 } from "./dialogue";
-
-import type { StatChanges } from "./stats";
 import type { ModifierId } from "./modifiers";
 import type { GameReward } from "./rewards";
-
-import type { StoryFlagId } from "../data/narrative/storyFlags";
-import type { SpecialSceneId } from "../data/scenes/specialSceneRegistry";
+import type { StatChanges } from "./stats";
 
 export type GameEvent = {
     id: string;

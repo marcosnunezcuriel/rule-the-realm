@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 
+import { getEventById } from "../../../data/registries/eventRegistry";
+
 import {
     getEventCompletionConsequences,
 } from "../../../game/consequences/getEventCompletionConsequences";
 
-import { getEventById } from "../../../data/registries/eventRegistry";
 import { createStats } from "../../helpers/createStats";
 
 describe("Consecuencias al completar audiencias", () => {

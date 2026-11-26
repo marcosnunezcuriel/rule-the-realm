@@ -1,5 +1,8 @@
 // @vitest-environment jsdom
 
+import { act } from "react";
+import { createRoot } from "react-dom/client";
+import type { Root } from "react-dom/client";
 import {
     afterEach,
     beforeEach,
@@ -9,13 +12,8 @@ import {
     vi,
 } from "vitest";
 
-import { act } from "react";
-import { createRoot } from "react-dom/client";
-
-import type { Root } from "react-dom/client";
-
-import NewGameConfirmation from "../../components/modals/NewGameConfirmation";
 import MapPreview from "../../components/modals/MapPreview";
+import NewGameConfirmation from "../../components/modals/NewGameConfirmation";
 import SoundPanel from "../../components/modals/SoundPanel";
 
 import { DEFAULT_SOUND_SETTINGS } from "../../storage/soundSettingsStorage";

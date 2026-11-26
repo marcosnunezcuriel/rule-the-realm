@@ -1,5 +1,6 @@
-import type { MonarchRole } from "./monarch";
 import type { StoryFlagId } from "../data/narrative/storyFlags";
+
+import type { MonarchRole } from "./monarch";
 
 export type SceneTime =
     | "morning"

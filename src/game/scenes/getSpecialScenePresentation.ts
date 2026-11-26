@@ -1,14 +1,13 @@
+import type { StoryFlagId } from "../../data/narrative/storyFlags";
 import {
     specialSceneRegistry,
 } from "../../data/scenes/specialSceneRegistry";
-
 import type {
     SpecialSceneId,
 } from "../../data/scenes/specialSceneRegistry";
 
-import type { SpecialSceneDefinition } from "../../types/scene";
 import type { MonarchRole } from "../../types/monarch";
-import type { StoryFlagId } from "../../data/narrative/storyFlags";
+import type { SpecialSceneDefinition } from "../../types/scene";
 
 // Seleccionar el fondo de un escenario según el
 // protagonista y las condiciones narrativas activas.

@@ -1,8 +1,8 @@
+import { royalAddressVariants } from "../../data/narrative/royalAddressVariants";
+
+import type { DialogueEvent } from "../../types/dialogue";
 import type { GameEvent } from "../../types/events";
 import type { MonarchRole } from "../../types/monarch";
-import type { DialogueEvent } from "../../types/dialogue";
-
-import { royalAddressVariants } from "../../data/narrative/royalAddressVariants";
 
 // Adaptar los tratamientos de un diálogo a la reina.
 function adaptText(text: string): string {

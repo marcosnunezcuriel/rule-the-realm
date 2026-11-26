@@ -1,12 +1,12 @@
 import type { CSSProperties } from "react";
 
+import StatIcon from "../kingdom/StatIcon";
+
+import { statDefinitions } from "../../data/kingdom/statDefinitions";
+import { gameOverMessages } from "../../data/narrative/gameOverMessages";
+
 import type { GameOverReason } from "../../types/gameOver";
 import type { KingdomValues } from "../../types/stats";
-
-import { gameOverMessages } from "../../data/narrative/gameOverMessages";
-import { statDefinitions } from "../../data/kingdom/statDefinitions";
-
-import StatIcon from "../kingdom/StatIcon";
 
 import "../../styles/screens/GameOver.css";
 

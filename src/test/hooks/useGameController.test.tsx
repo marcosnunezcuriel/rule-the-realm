@@ -1,6 +1,14 @@
 // @vitest-environment jsdom
 
 import {
+    act,
+    createRef,
+    useImperativeHandle,
+} from "react";
+import type { Ref } from "react";
+import { createRoot } from "react-dom/client";
+import type { Root } from "react-dom/client";
+import {
     afterEach,
     beforeEach,
     describe,
@@ -9,16 +17,7 @@ import {
     vi,
 } from "vitest";
 
-import {
-    act,
-    createRef,
-    useImperativeHandle,
-} from "react";
-
-import type { Ref } from "react";
-
-import { createRoot } from "react-dom/client";
-import type { Root } from "react-dom/client";
+import { getDayEvents } from "../../game/progression/getDayEvents";
 
 import { useGameController } from "../../hooks/game/useGameController";
 
@@ -27,15 +26,12 @@ import {
     saveGame,
 } from "../../storage/gameStorage";
 
-import type { SaveGame } from "../../types/saveGame";
 import type { ModifierId } from "../../types/modifiers";
+import type { MonarchRole } from "../../types/monarch";
+import type { SaveGame } from "../../types/saveGame";
 
 import { createSave } from "../helpers/createSave";
 import { createStats } from "../helpers/createStats";
-
-import { getDayEvents } from "../../game/progression/getDayEvents";
-
-import type { MonarchRole } from "../../types/monarch";
 
 type Controller = ReturnType<typeof useGameController>;
 

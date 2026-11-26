@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { getDayEvents } from "../../../game/progression/getDayEvents";
-
 import {
     getEventById,
     getEventsForDay,
     getSpecialEventForDay,
 } from "../../../data/registries/eventRegistry";
+
+import { getDayEvents } from "../../../game/progression/getDayEvents";
 
 describe("Selección de eventos por jornada", () => {
     it("el día 1 contiene diez audiencias", () => {

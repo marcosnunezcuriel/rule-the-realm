@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
 
+import { getEventById } from "../../../data/registries/eventRegistry";
+
+import { planAudienceCompletion } from "../../../game/audiences/audienceActions";
+import { getDecisionConsequences } from "../../../game/consequences/getDecisionConsequences";
+import { getEventCompletionConsequences } from "../../../game/consequences/getEventCompletionConsequences";
 import { createGameState } from "../../../game/state/createGameState";
 import { gameReducer } from "../../../game/state/gameReducer";
-import { planAudienceCompletion } from "../../../game/audiences/audienceActions";
 import type { GameAction } from "../../../game/state/gameReducer";
 
 import type { ModifierId } from "../../../types/modifiers";
-
-import { getEventById } from "../../../data/registries/eventRegistry";
-import { getDecisionConsequences } from "../../../game/consequences/getDecisionConsequences";
-import { getEventCompletionConsequences } from "../../../game/consequences/getEventCompletionConsequences";
 
 import { createSave } from "../../helpers/createSave";
 import { createStats } from "../../helpers/createStats";

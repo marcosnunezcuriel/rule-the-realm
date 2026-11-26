@@ -1,15 +1,15 @@
-import ThroneScene from "../scene/ThroneScene";
-import SpecialScene from "../scene/SpecialScene";
 import DialogueController from "../narrative/DialogueController";
-
+import SpecialScene from "../scene/SpecialScene";
+import ThroneScene from "../scene/ThroneScene";
 import ChapterEnding from "./ChapterEnding";
-import NightRest from "./NightRest";
-import GameOver from "./GameOver";
 import DaySummary from "./DaySummary";
+import GameOver from "./GameOver";
+import NightRest from "./NightRest";
 
 import { toRomanNumber } from "../../data/chapters";
 
 import type { useGameController } from "../../hooks/game/useGameController";
+
 import type { MonarchRole } from "../../types/monarch";
 
 type GameScreenContentProps = {

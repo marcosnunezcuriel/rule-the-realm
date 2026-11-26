@@ -1,21 +1,20 @@
+import type { StoryFlagId } from "../../data/narrative/storyFlags";
+
+import type { AudienceExit } from "../audiences/audienceFlow";
 import {
     closeDay,
     startDay,
     finishSpecialScene,
 } from "./dayState";
 
-import type { AudienceExit } from "../audiences/audienceFlow";
-import type { GameState } from "../../types/gameState";
 import type { Decision } from "../../types/dialogue";
-import type { ModifierId } from "../../types/modifiers";
-import type { KingdomValues } from "../../types/stats";
-
-import type { StoryFlagId } from "../../data/narrative/storyFlags";
-
 import type {
     AudiencePhase,
     GameScreen,
 } from "../../types/game";
+import type { GameState } from "../../types/gameState";
+import type { ModifierId } from "../../types/modifiers";
+import type { KingdomValues } from "../../types/stats";
 
 type EventChanges = {
     stats: KingdomValues;

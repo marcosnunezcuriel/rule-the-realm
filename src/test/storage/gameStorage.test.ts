@@ -7,8 +7,6 @@ import {
     it,
 } from "vitest";
 
-import { createSave } from "../helpers/createSave";
-
 import {
     SAVE_KEY,
     clearSavedGame,
@@ -19,6 +17,7 @@ import {
 
 import type { SaveGame } from "../../types/saveGame";
 
+import { createSave } from "../helpers/createSave";
 import { createStats } from "../helpers/createStats";
 
 function storeRaw(value: unknown): void {

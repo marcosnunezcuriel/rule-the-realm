@@ -7,20 +7,20 @@ import {
 
 import { soundEngine } from "../../audio/soundEngine";
 
-import { unlockAchievement } from "../../storage/achievementsStorage";
+import type { AchievementId } from "../../data/registries/achievementRegistry";
 
-import { getNotificationEffect } from "../../game/notifications/getNotificationEffect";
 import { getStatDifferences } from "../../game/consequences/getStatDifferences";
+import { getNotificationEffect } from "../../game/notifications/getNotificationEffect";
 import { insertGameNotification } from "../../game/notifications/insertGameNotification";
 
-import type { AchievementId } from "../../data/registries/achievementRegistry";
-import type { KingdomValues } from "../../types/stats";
-import type { ModifierId } from "../../types/modifiers";
+import { unlockAchievement } from "../../storage/achievementsStorage";
 
+import type { ModifierId } from "../../types/modifiers";
 import type {
     GameNotification,
     ModifierChange,
 } from "../../types/notifications";
+import type { KingdomValues } from "../../types/stats";
 
 const NOTIFICATION_DURATION = 5000;
 

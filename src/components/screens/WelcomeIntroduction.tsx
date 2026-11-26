@@ -1,8 +1,8 @@
+import NarrativeParchment from "../narrative/NarrativeParchment";
+
 import { getWelcomeParagraphs } from "../../data/narrative/welcomeMessage";
 
 import type { MonarchRole } from "../../types/monarch";
-
-import NarrativeParchment from "../narrative/NarrativeParchment";
 
 type WelcomeIntroductionProps = {
     monarch: MonarchRole;

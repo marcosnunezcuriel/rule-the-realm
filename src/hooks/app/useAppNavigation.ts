@@ -6,8 +6,8 @@ import {
     loadGame,
 } from "../../storage/gameStorage";
 
-import type { MonarchRole } from "../../types/monarch";
 import type { FadeStage } from "../../types/game";
+import type { MonarchRole } from "../../types/monarch";
 
 type AppView =
     | "menu"

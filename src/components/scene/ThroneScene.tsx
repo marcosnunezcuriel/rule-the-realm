@@ -1,21 +1,19 @@
 import type { ReactNode } from "react";
 
+import SceneBackground from "./SceneBackground";
+import SceneStage from "./SceneStage";
+import SceneVisitor from "./SceneVisitor";
+import type {
+    SceneVisitorProps,
+} from "./SceneVisitor";
+
+import type { MonarchRole } from "../../types/monarch";
 import type {
     SceneBackgroundMap,
     SceneTime,
 } from "../../types/scene";
 
-import type { MonarchRole } from "../../types/monarch";
-
 import { assetUrl } from "../../utils/assetUrl";
-
-import SceneStage from "./SceneStage";
-import SceneBackground from "./SceneBackground";
-import SceneVisitor from "./SceneVisitor";
-
-import type {
-    SceneVisitorProps,
-} from "./SceneVisitor";
 
 const sceneTimes = [
     "morning",

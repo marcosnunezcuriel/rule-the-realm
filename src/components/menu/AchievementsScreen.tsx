@@ -1,8 +1,10 @@
 import { useState } from "react";
 
-import { achievements } from "../../data/registries/achievementRegistry";
-import { loadUnlockedAchievements } from "../../storage/achievementsStorage";
 import FormattedText from "../shared/FormattedText";
+
+import { achievements } from "../../data/registries/achievementRegistry";
+
+import { loadUnlockedAchievements } from "../../storage/achievementsStorage";
 
 import "../../styles/menu/AchievementsScreen.css";
 

@@ -1,11 +1,11 @@
 import type { CSSProperties } from "react";
 
-import type { KingdomValues } from "../../types/stats";
+import StatIcon from "./StatIcon";
+import AnimatedNumber from "../shared/AnimatedNumber";
 
 import { statDefinitions } from "../../data/kingdom/statDefinitions";
 
-import AnimatedNumber from "../shared/AnimatedNumber";
-import StatIcon from "./StatIcon";
+import type { KingdomValues } from "../../types/stats";
 
 import "../../styles/kingdom/KingdomStats.css";
 

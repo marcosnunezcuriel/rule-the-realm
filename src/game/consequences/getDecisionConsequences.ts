@@ -1,11 +1,12 @@
+import type { StoryFlagId } from "../../data/narrative/storyFlags";
+
 import { applyStatChanges } from "./applyStatChanges";
 import { shouldShowTreasuryWarning } from "./debtFlow";
 
-import type { GameEvent } from "../../types/events";
 import type { Decision } from "../../types/dialogue";
-import type { KingdomValues } from "../../types/stats";
+import type { GameEvent } from "../../types/events";
 import type { ModifierId } from "../../types/modifiers";
-import type { StoryFlagId } from "../../data/narrative/storyFlags";
+import type { KingdomValues } from "../../types/stats";
 
 // Calcular las consecuencias inmediatas de una decisión.
 export function getDecisionConsequences(

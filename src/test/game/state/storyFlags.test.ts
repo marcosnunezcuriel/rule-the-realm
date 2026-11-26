@@ -1,18 +1,17 @@
 import { describe, expect, it } from "vitest";
 
+import type { StoryFlagId } from "../../../data/narrative/storyFlags";
 import { getEventById } from "../../../data/registries/eventRegistry";
 
 import {
     planDecision,
     planAudienceCompletion,
 } from "../../../game/audiences/audienceActions";
-
 import { createGameState } from "../../../game/state/createGameState";
 import { gameReducer } from "../../../game/state/gameReducer";
 
 import type { GameEvent } from "../../../types/events";
 import type { GameState } from "../../../types/gameState";
-import type { StoryFlagId } from "../../../data/narrative/storyFlags";
 
 import { createSave } from "../../helpers/createSave";
 

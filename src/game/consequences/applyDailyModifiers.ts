@@ -1,15 +1,15 @@
 import { modifierDefinitions } from "../../data/kingdom/modifiers";
-import { applyStatChanges } from "./applyStatChanges";
 
-import type {
-    KingdomValues,
-    StatChanges,
-} from "../../types/stats";
+import { applyStatChanges } from "./applyStatChanges";
 
 import type {
     ModifierId,
     DailyModifierReport,
 } from "../../types/modifiers";
+import type {
+    KingdomValues,
+    StatChanges,
+} from "../../types/stats";
 
 type DailyModifierResult = {
     nextStats: KingdomValues;

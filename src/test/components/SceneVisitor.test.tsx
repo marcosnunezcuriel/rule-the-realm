@@ -1,5 +1,8 @@
 // @vitest-environment jsdom
 
+import { act } from "react";
+import { createRoot } from "react-dom/client";
+import type { Root } from "react-dom/client";
 import {
     afterEach,
     beforeEach,
@@ -9,13 +12,9 @@ import {
     vi,
 } from "vitest";
 
-import { act } from "react";
-import { createRoot } from "react-dom/client";
-
-import type { Root } from "react-dom/client";
-import type { AudiencePhase } from "../../types/game";
-
 import SceneVisitor from "../../components/scene/SceneVisitor";
+
+import type { AudiencePhase } from "../../types/game";
 
 let container: HTMLDivElement;
 let root: Root;

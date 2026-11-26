@@ -3,8 +3,8 @@ import {
     sceneThemes,
 } from "../../data/scenes/sceneThemes";
 
-import type { SceneBackgroundMap } from "../../types/scene";
 import type { ModifierId } from "../../types/modifiers";
+import type { SceneBackgroundMap } from "../../types/scene";
 
 export function getSceneBackgrounds(
     sceneModifierIds: readonly ModifierId[]

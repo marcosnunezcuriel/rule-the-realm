@@ -1,42 +1,38 @@
+import type { AchievementId } from "../../data/registries/achievementRegistry";
+import { getEventById } from "../../data/registries/eventRegistry";
+
 import {
     planDecision,
     planAudienceCompletion,
 } from "../../game/audiences/audienceActions";
-
+import type {
+    AudienceOperation,
+    GameEffect,
+} from "../../game/audiences/audienceActions";
+import { getAudiencePresentation } from "../../game/audiences/getAudiencePresentation";
 import {
     getChapterPresentation,
     planDayAdvance,
     planChapterAdvance,
 } from "../../game/progression/chapterFlow";
-
 import { getScreenTransition } from "../../game/progression/screenFlow";
-import { getAudiencePresentation } from "../../game/audiences/getAudiencePresentation";
+import type {
+    ScreenTransitionPlan,
+} from "../../game/progression/screenFlow";
 import { getSceneBackgrounds } from "../../game/scenes/getSceneBackgrounds";
 import { getSceneVisualClassName } from "../../game/scenes/getSceneVisualClassName";
-
-import { getEventById } from "../../data/registries/eventRegistry";
 import { getSpecialScenePresentation } from "../../game/scenes/getSpecialScenePresentation";
 
 import { useGameAutosave } from "./useGameAutosave";
 import { useGameSessionState } from "./useGameSessionState";
 import { useGameTransitions } from "./useGameTransitions";
 
-import type { AchievementId } from "../../data/registries/achievementRegistry";
 import type { Decision } from "../../types/dialogue";
 import type { ModifierId } from "../../types/modifiers";
-import type { ModifierChange } from "../../types/notifications";
-import type { KingdomValues } from "../../types/stats";
 import type { MonarchRole } from "../../types/monarch";
+import type { ModifierChange } from "../../types/notifications";
 import type { GameReward } from "../../types/rewards";
-
-import type {
-    AudienceOperation,
-    GameEffect,
-} from "../../game/audiences/audienceActions";
-
-import type {
-    ScreenTransitionPlan,
-} from "../../game/progression/screenFlow";
+import type { KingdomValues } from "../../types/stats";
 
 export function useGameController(
     onAchievementUnlocked: (id: AchievementId) => void,

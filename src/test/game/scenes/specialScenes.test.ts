@@ -1,10 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import { getEventById } from "../../../data/registries/eventRegistry";
-import { getSpecialScenePresentation } from "../../../game/scenes/getSpecialScenePresentation";
 
 import { planAudienceCompletion } from "../../../game/audiences/audienceActions";
-
+import { getSpecialScenePresentation } from "../../../game/scenes/getSpecialScenePresentation";
 import { createGameState } from "../../../game/state/createGameState";
 import { gameReducer } from "../../../game/state/gameReducer";
 

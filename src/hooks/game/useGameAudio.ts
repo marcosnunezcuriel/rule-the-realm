@@ -5,12 +5,11 @@ import {
 
 import { soundEngine } from "../../audio/soundEngine";
 
+import type { SoundEffect } from "../../types/audio";
 import type {
     AudiencePhase,
     GameScreen,
 } from "../../types/game";
-
-import type { SoundEffect } from "../../types/audio";
 
 type GameAudioInput = {
     day: number;

@@ -1,5 +1,6 @@
-import type { GameScreen } from "../../types/game";
 import type { GameAction } from "../state/gameReducer";
+
+import type { GameScreen } from "../../types/game";
 
 // Acciones que producen un cambio de pantalla.
 type ScreenAction = Extract<

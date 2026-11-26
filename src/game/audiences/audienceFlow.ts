@@ -5,10 +5,9 @@ import type {
     AudiencePhase,
     SpecialAudience,
 } from "../../types/game";
-
-import type { SceneTime } from "../../types/scene";
 import type { GameOverReason } from "../../types/gameOver";
 import type { ModifierId } from "../../types/modifiers";
+import type { SceneTime } from "../../types/scene";
 import type { KingdomValues } from "../../types/stats";
 
 type AudienceExitInput = {

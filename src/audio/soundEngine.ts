@@ -1,5 +1,3 @@
-import { assetUrl } from "../utils/assetUrl";
-
 import {
     ambientPaths,
     effectPaths,
@@ -14,6 +12,8 @@ import type {
     SoundEffect,
     SoundSettings,
 } from "../types/audio";
+
+import { assetUrl } from "../utils/assetUrl";
 
 class SoundEngine {
     private settings: SoundSettings = {

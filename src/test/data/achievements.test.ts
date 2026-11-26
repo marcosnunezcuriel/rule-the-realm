@@ -5,7 +5,6 @@ import {
     getEventCompletionAchievements,
     getChapterCompletionAchievements,
 } from "../../data/registries/achievementRegistry";
-
 import { getEventById } from "../../data/registries/eventRegistry";
 
 describe("Logros del Capítulo I", () => {

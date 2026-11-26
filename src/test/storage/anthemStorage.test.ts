@@ -12,7 +12,6 @@ import {
     loadAnthemUnlocked,
     unlockAnthem,
 } from "../../storage/anthemStorage";
-
 import { clearSavedGame } from "../../storage/gameStorage";
 
 describe("Desbloqueo permanente del Himno de Astaria", () => {

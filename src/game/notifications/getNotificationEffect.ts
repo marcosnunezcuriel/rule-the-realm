@@ -1,5 +1,5 @@
-import type { GameNotification } from "../../types/notifications";
 import type { SoundEffect } from "../../types/audio";
+import type { GameNotification } from "../../types/notifications";
 
 export function getNotificationEffect(
     notification: GameNotification

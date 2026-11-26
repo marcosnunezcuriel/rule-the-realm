@@ -1,10 +1,9 @@
 // @vitest-environment node
 
-import { describe, expect, it } from "vitest";
-
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { describe, expect, it } from "vitest";
 
 const srcDirectory = fileURLToPath(
     new URL("../../", import.meta.url)

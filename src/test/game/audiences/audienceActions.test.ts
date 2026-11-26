@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
 
+import { getEventById } from "../../../data/registries/eventRegistry";
+
 import {
     planDecision,
     planAudienceCompletion,
 } from "../../../game/audiences/audienceActions";
-
 import { createGameState } from "../../../game/state/createGameState";
-import { getEventById } from "../../../data/registries/eventRegistry";
 
-import type { GameState } from "../../../types/gameState";
 import type { GameEvent } from "../../../types/events";
+import type { GameState } from "../../../types/gameState";
 
 import { createSave } from "../../helpers/createSave";
 import { createStats } from "../../helpers/createStats";

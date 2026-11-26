@@ -2,26 +2,25 @@ import {
     getDecisionAchievements,
     getEventCompletionAchievements,
 } from "../../data/registries/achievementRegistry";
+import type { AchievementId } from "../../data/registries/achievementRegistry";
 
+import { getAudienceExit } from "./audienceFlow";
 import { getDecisionConsequences } from "../consequences/getDecisionConsequences";
 import { getEventCompletionConsequences } from "../consequences/getEventCompletionConsequences";
-import type { GameAction } from "../state/gameReducer";
-import type { ScreenTransitionPlan } from "../progression/screenFlow";
-
 import { getModifierTransition } from "../consequences/getModifierTransition";
-import { getAudienceExit } from "./audienceFlow";
+import type { ScreenTransitionPlan } from "../progression/screenFlow";
 import { getScreenTransition } from "../progression/screenFlow";
+import type { GameAction } from "../state/gameReducer";
 
-import type { AchievementId } from "../../data/registries/achievementRegistry";
-import type { GameState } from "../../types/gameState";
-import type { GameEvent } from "../../types/events";
 import type { Decision } from "../../types/dialogue";
-import type { KingdomValues } from "../../types/stats";
+import type { GameEvent } from "../../types/events";
+import type { GameState } from "../../types/gameState";
 import type { ModifierId } from "../../types/modifiers";
 import type { ModifierChange } from "../../types/notifications";
-import type { SceneTime } from "../../types/scene";
-import type { SaveGame } from "../../types/saveGame";
 import type { GameReward } from "../../types/rewards";
+import type { SaveGame } from "../../types/saveGame";
+import type { SceneTime } from "../../types/scene";
+import type { KingdomValues } from "../../types/stats";
 
 // Efectos externos que el controlador debe ejecutar.
 export type GameEffect =

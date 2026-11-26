@@ -1,20 +1,18 @@
 import type { ReactNode } from "react";
 
-import {
-    specialSceneRegistry,
-} from "../../data/scenes/specialSceneRegistry";
-
-import type {
-    SpecialSceneId,
-} from "../../data/scenes/specialSceneRegistry";
-
-import SceneStage from "./SceneStage";
 import SceneBackground from "./SceneBackground";
+import SceneStage from "./SceneStage";
 import SceneVisitor from "./SceneVisitor";
-
 import type {
     SceneVisitorProps,
 } from "./SceneVisitor";
+
+import {
+    specialSceneRegistry,
+} from "../../data/scenes/specialSceneRegistry";
+import type {
+    SpecialSceneId,
+} from "../../data/scenes/specialSceneRegistry";
 
 type SpecialSceneProps = SceneVisitorProps & {
     sceneId: SpecialSceneId;

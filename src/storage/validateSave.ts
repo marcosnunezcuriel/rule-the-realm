@@ -5,8 +5,8 @@ import { gameOverMessages } from "../data/narrative/gameOverMessages";
 import { isStoryFlagId } from "../data/narrative/storyFlags";
 import { getSpecialEventForDay } from "../data/registries/eventRegistry";
 
-import { getDayEvents } from "../game/progression/getDayEvents";
 import { checkGameOver } from "../game/consequences/checkGameOver";
+import { getDayEvents } from "../game/progression/getDayEvents";
 
 import type { ModifierId } from "../types/modifiers";
 import type { SaveGame } from "../types/saveGame";

@@ -12,7 +12,6 @@ import {
     loadUnlockedAchievements,
     unlockAchievement,
 } from "../../storage/achievementsStorage";
-
 import { clearSavedGame } from "../../storage/gameStorage";
 
 describe("Guardado permanente de logros", () => {

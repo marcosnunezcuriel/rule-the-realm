@@ -1,9 +1,9 @@
-import { achievements } from "../../data/registries/achievementRegistry";
+import FormattedText from "./FormattedText";
+
 import { modifierDefinitions } from "../../data/kingdom/modifiers";
+import { achievements } from "../../data/registries/achievementRegistry";
 
 import type { GameNotification } from "../../types/notifications";
-
-import FormattedText from "./FormattedText";
 
 import "../../styles/shared/NotificationToast.css";
 

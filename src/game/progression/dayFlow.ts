@@ -1,7 +1,7 @@
+import { getSpecialEventForDay } from "../../data/registries/eventRegistry";
+
 import { checkGameOver } from "../consequences/checkGameOver";
 import { getDayEvents } from "./getDayEvents";
-
-import { getSpecialEventForDay } from "../../data/registries/eventRegistry";
 
 import type { GameEvent } from "../../types/events";
 import type { GameOverReason } from "../../types/gameOver";

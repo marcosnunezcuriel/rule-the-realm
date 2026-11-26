@@ -1,27 +1,24 @@
-import Header from "../layout/Header";
-import GameScreenContent from "./GameScreenContent";
-
 import KingdomStats from "../kingdom/KingdomStats";
 import StatChangeToast from "../kingdom/StatChangeToast";
-
-import NotificationToast from "../shared/NotificationToast";
+import Header from "../layout/Header";
+import GameScreenContent from "./GameScreenContent";
 import FadeOverlay from "../shared/FadeOverlay";
+import NotificationToast from "../shared/NotificationToast";
 
 import { toRomanNumber } from "../../data/chapters";
-
-import { useGameController } from "../../hooks/game/useGameController";
-import { useGameAudio } from "../../hooks/game/useGameAudio";
-
 import type { AchievementId } from "../../data/registries/achievementRegistry";
-import type { ModifierId } from "../../types/modifiers";
-import type { KingdomValues } from "../../types/stats";
-import type { MonarchRole } from "../../types/monarch";
-import type { GameReward } from "../../types/rewards";
 
+import { useGameAudio } from "../../hooks/game/useGameAudio";
+import { useGameController } from "../../hooks/game/useGameController";
+
+import type { ModifierId } from "../../types/modifiers";
+import type { MonarchRole } from "../../types/monarch";
 import type {
     GameNotification,
     ModifierChange,
 } from "../../types/notifications";
+import type { GameReward } from "../../types/rewards";
+import type { KingdomValues } from "../../types/stats";
 
 type GameSessionProps = {
     monarch: MonarchRole;

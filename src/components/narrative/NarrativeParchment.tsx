@@ -2,9 +2,9 @@ import { useCallback, useState } from "react";
 
 import TypewriterText from "../shared/TypewriterText";
 
-import "../../styles/narrative/NarrativeParchment.css";
-
 import { assetUrl } from "../../utils/assetUrl";
+
+import "../../styles/narrative/NarrativeParchment.css";
 
 type NarrativeParchmentProps = {
     title: string;
