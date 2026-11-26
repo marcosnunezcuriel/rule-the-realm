@@ -12,7 +12,7 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Pescador",
             introduction: [
-                "Mi señor, necesitamos vuestra ayuda!",
+                "¡Mi señor, necesitamos vuestra ayuda!",
                 "Anoche, una terrible tormenta azotó la Ciudad Portuaria. Las olas destrozaron nuestros aparejos y varias embarcaciones pesqueras quedaron a la deriva, lejos del puerto.",
                 "Algunos barcos han conseguido regresar, pero todavía quedan muchos compañeros desaparecidos.",
                 "Sus familias llevan toda la mañana esperando noticias en los muelles.",
@@ -23,18 +23,22 @@ export const day06Events: GameEvent[] = [
                 yes: [
                     "¡Gracias, Majestad! ¡No perderemos ni un instante!",
                     "Reuniremos a los mejores marineros y zarparemos de inmediato.",
-                    "Gracias a vuestra ayuda, numerosas embarcaciones conseguirán regresar a puerto y las familias recibirán con alegría a sus seres queridos.",
+                    "Volveré mañana para informaros del resultado de la búsqueda. Que las estrellas guíen nuestras embarcaciones.",
                 ],
                 no: [
-                    "Comprendo, ... Pero esos hombres tienen familias que los esperan.",
+                    "Comprendo, mi señor... Pero esos hombres tienen familias que los esperan.",
                     "Intentaremos rescatarlos con los pocos medios de los que disponemos.",
-                    "Las horas pasan y muchos pescadores no consiguen regresar. La costa entera llora a sus desaparecidos.",
+                    "Solo espero que mañana pueda traeros buenas noticias.",
                 ],
             },
         },
         effects: {
             yes: { gold: -15, prestige: 10 },
             no: { prestige: -10 },
+        },
+        unlocks: {
+            yes: ["35.1"],
+            no: ["35.2"],
         },
     },
 

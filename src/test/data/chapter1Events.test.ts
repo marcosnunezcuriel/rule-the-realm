@@ -73,6 +73,36 @@ describe("Acontecimientos del Capítulo I", () => {
         ]);
     });
 
+    it("separa los desenlaces del rescate de los pescadores", () => {
+        const event = byId.get("35");
+
+        expect(event?.effects?.yes?.population).toBeUndefined();
+        expect(event?.effects?.no?.population).toBeUndefined();
+
+        expect(event?.unlocks?.yes).toEqual(["35.1"]);
+        expect(event?.unlocks?.no).toEqual(["35.2"]);
+
+        expect(byId.get("35.1")?.baseEffects).toEqual({
+            population: 10,
+        });
+
+        expect(byId.get("35.2")?.baseEffects).toEqual({
+            population: -15,
+        });
+
+        expect(
+            getDayEvents(7, ["35.1"]).some(
+                (event) => event.id === "35.2"
+            )
+        ).toBe(false);
+
+        expect(
+            getDayEvents(7, ["35.2"]).some(
+                (event) => event.id === "35.1"
+            )
+        ).toBe(false);
+    });
+
     it("activa la Fiebre negra al completar su evento", () => {
         expect(
             byId.get("45")?.addModifiersOnComplete

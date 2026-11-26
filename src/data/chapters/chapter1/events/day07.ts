@@ -44,7 +44,7 @@ export const day07Events: GameEvent[] = [
         day: 7,
         order: 3,
         requiresUnlock: true,
-        image: "/assets/characters/commoners/beggar.png",
+        image: "/assets/characters/commoners/beggar-2.png",
         dialogue: {
             speaker: "Mendigo",
             introduction: [
@@ -110,11 +110,49 @@ export const day07Events: GameEvent[] = [
         baseEffects: { prestige: -20 },
     },
 
+    // Evento 35.1 — El regreso de los pescadores
+    {
+        id: "35.1",
+        day: 7,
+        order: 7,
+        requiresUnlock: true,
+        image: "/assets/characters/commoners/fisherman.png",
+        dialogue: {
+            speaker: "Pescador",
+            introduction: [
+                "¡Mi señor, os traigo buenas noticias!",
+                "Pasamos toda la noche buscando a nuestros compañeros entre las olas. Cuando comenzábamos a perder la esperanza, divisamos sus embarcaciones a la deriva.",
+                "Hemos conseguido rescatarlos y devolverlos sanos y salvos a sus familias.",
+                "Hoy las campanas de la Ciudad Portuaria repican de alegría. En nombre de todos los pescadores, os doy las gracias por no habernos abandonado.",
+            ],
+        },
+        baseEffects: { population: 10 },
+    },
+
+    // Evento 35.2 — Los desaparecidos del mar
+    {
+        id: "35.2",
+        day: 7,
+        order: 8,
+        requiresUnlock: true,
+        image: "/assets/characters/commoners/fisherman.png",
+        dialogue: {
+            speaker: "Pescador",
+            introduction: [
+                "Mi señor... He venido a informaros de nuestra búsqueda.",
+                "Salimos al mar con las pocas embarcaciones que pudimos reunir. Buscamos durante toda la noche, pero no encontramos más que restos de madera y redes destrozadas.",
+                "Ninguno de nuestros compañeros ha regresado.",
+                "Las familias siguen esperando en los muelles, aunque todos sabemos que apenas quedan esperanzas. Hoy será un día de luto en la Ciudad Portuaria.",
+            ],
+        },
+        baseEffects: { population: -15 },
+    },
+
     // Evento 36.1 — El peso del éxodo
     {
         id: "36.1",
         day: 7,
-        order: 7,
+        order: 9,
         requiresUnlock: true,
         image: "/assets/characters/foreigners/grand-vizier.png",
         dialogue: {
@@ -146,7 +184,7 @@ export const day07Events: GameEvent[] = [
     {
         id: "36.2",
         day: 7,
-        order: 8,
+        order: 10,
         requiresUnlock: true,
         image: "/assets/characters/army/commander-royal-guard.png",
         dialogue: {
@@ -178,7 +216,7 @@ export const day07Events: GameEvent[] = [
     {
         id: "37.1",
         day: 7,
-        order: 9,
+        order: 11,
         requiresUnlock: true,
         image: "/assets/characters/nobles/duke-enchantedforest.png",
         dialogue: {
@@ -196,7 +234,7 @@ export const day07Events: GameEvent[] = [
     {
         id: "41",
         day: 7,
-        order: 10,
+        order: 12,
         image: "/assets/characters/commoners/banker.png",
         dialogue: {
             speaker: "Banquero real",
@@ -229,7 +267,7 @@ export const day07Events: GameEvent[] = [
     {
         id: "42",
         day: 7,
-        order: 11,
+        order: 13,
         image: "/assets/characters/courtiers/jester.png",
         dialogue: {
             speaker: "Bufón",
@@ -260,7 +298,7 @@ export const day07Events: GameEvent[] = [
     {
         id: "43",
         day: 7,
-        order: 12,
+        order: 14,
         image: "/assets/characters/fantasy/wizard.png",
         dialogue: {
             speaker: "Mago",
@@ -292,7 +330,7 @@ export const day07Events: GameEvent[] = [
     {
         id: "44",
         day: 7,
-        order: 13,
+        order: 15,
         image: "/assets/characters/fantasy/werewolf.png",
         dialogue: {
             speaker: "Hombre lobo",
@@ -328,7 +366,7 @@ export const day07Events: GameEvent[] = [
     {
         id: "45",
         day: 7,
-        order: 14,
+        order: 16,
         image: "/assets/characters/courtiers/royal-advisor.png",
         dialogue: {
             speaker: "Consejera Real",
@@ -363,7 +401,7 @@ export const day07Events: GameEvent[] = [
     {
         id: "46",
         day: 7,
-        order: 15,
+        order: 17,
         image: "/assets/characters/courtiers/royal-herald.png",
         dialogue: {
             speaker: "Heraldo",
