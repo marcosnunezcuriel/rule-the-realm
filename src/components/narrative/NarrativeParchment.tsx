@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 
+import GoldenFrame from "../shared/GoldenFrame";
 import TypewriterText from "../shared/TypewriterText";
 
 import { assetUrl } from "../../utils/assetUrl";
@@ -11,6 +12,12 @@ import "../../styles/narrative/NarrativeParchment.css";
 type NarrativeParchmentProps = {
     title: string;
     paragraphs: readonly string[];
+
+    // Ilustración opcional que acompaña al texto narrativo.
+    illustration?: {
+        image: string;
+        alt: string;
+    };
 
     finishLabel: string;
     onFinish: () => void;
@@ -28,6 +35,7 @@ type NarrativeParchmentProps = {
 function NarrativeParchment({
     title,
     paragraphs,
+    illustration,
     finishLabel,
     onFinish,
     topActionLabel,
@@ -80,7 +88,14 @@ function NarrativeParchment({
     }
 
     return (
-        <main className="narrative-parchment">
+        <main
+            className={[
+                "narrative-parchment",
+                illustration
+                    ? "narrative-parchment--illustrated"
+                    : "",
+            ].filter(Boolean).join(" ")}
+        >
             {topActionLabel && onTopAction && (
                 <button
                     type="button"
@@ -89,6 +104,15 @@ function NarrativeParchment({
                 >
                     {topActionLabel}
                 </button>
+            )}
+
+            {illustration && (
+                <div className="narrative-parchment__illustration">
+                    <GoldenFrame
+                        image={illustration.image}
+                        alt={illustration.alt}
+                    />
+                </div>
             )}
 
             <section

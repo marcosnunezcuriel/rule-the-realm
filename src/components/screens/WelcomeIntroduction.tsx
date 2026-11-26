@@ -1,4 +1,4 @@
-// Presenta la introducción narrativa adaptada al protagonista elegido.
+// Presenta la introducción narrativa y la coronación del protagonista elegido.
 
 import NarrativeParchment from "../narrative/NarrativeParchment";
 
@@ -9,6 +9,19 @@ import type { MonarchRole } from "../../types/monarch";
 type WelcomeIntroductionProps = {
     monarch: MonarchRole;
     onFinish: () => void;
+};
+
+// Ilustraciones de la coronación según el protagonista.
+const coronationIllustrations = {
+    king: {
+        image: "/assets/ui/coronation-king.png",
+        alt: "Coronación del rey de Astaria",
+    },
+
+    queen: {
+        image: "/assets/ui/coronation-queen.png",
+        alt: "Coronación de la reina de Astaria",
+    },
 };
 
 function WelcomeIntroduction({
@@ -25,6 +38,7 @@ function WelcomeIntroduction({
         <NarrativeParchment
             title={title}
             paragraphs={paragraphs}
+            illustration={coronationIllustrations[monarch]}
             finishLabel="Comenzar a reinar"
             onFinish={onFinish}
             topActionLabel="Saltar introducción"

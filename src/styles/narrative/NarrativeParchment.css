@@ -136,3 +136,107 @@
     cursor: not-allowed;
     opacity: var(--opacity-disabled-soft);
 }
+
+/* Pergamino acompañado de una ilustración */
+.narrative-parchment--illustrated {
+    --illustration-size: 34rem;
+    --sheet-size: 31.5rem;
+
+    display: grid;
+
+    grid-template-areas:
+        "action action"
+        "illustration sheet";
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    grid-template-rows:
+        auto
+        minmax(min-content, 1fr);
+
+    align-items: center;
+    justify-items: center;
+
+    gap: var(--space-2) var(--space-12);
+
+    padding: var(--space-4) var(--space-8);
+
+    overflow-y: auto;
+}
+
+/* Acción superior fuera del espacio de la ilustración */
+.narrative-parchment--illustrated .narrative-parchment__skip {
+    grid-area: action;
+
+    position: static;
+    justify-self: end;
+}
+
+/* Ilustración enmarcada */
+.narrative-parchment__illustration {
+    grid-area: illustration;
+
+    justify-self: end;
+
+    width: min(100%, var(--illustration-size));
+    min-width: 0;
+
+    aspect-ratio: 1;
+}
+
+/* Distribución compacta del pergamino */
+/* Pergamino ligeramente más pequeño que la ilustración enmarcada */
+.narrative-parchment--illustrated .narrative-parchment__sheet {
+    grid-area: sheet;
+
+    justify-self: start;
+
+    width: min(100%, var(--sheet-size));
+    height: auto;
+    min-height: 0;
+    max-height: none;
+
+    aspect-ratio: 1;
+
+    padding: var(--space-5) var(--space-6);
+
+    overflow-y: auto;
+}
+
+.narrative-parchment--illustrated .narrative-parchment__emblem {
+    width: var(--space-6);
+    height: var(--space-6);
+
+    flex-shrink: 0;
+}
+
+.narrative-parchment--illustrated .narrative-parchment__title {
+    margin-top: var(--space-2);
+
+    font-size: var(--font-size-26);
+}
+
+.narrative-parchment--illustrated .narrative-parchment__divider {
+    margin: var(--space-2) 0;
+
+    flex-shrink: 0;
+}
+
+.narrative-parchment--illustrated .narrative-parchment__text {
+    flex: 1 0 auto;
+
+    min-height: 6rem;
+
+    overflow: visible;
+}
+
+.narrative-parchment--illustrated .narrative-parchment__text .speech-bubble__text {
+    font-size: var(--font-size-20);
+    line-height: var(--line-height-body);
+}
+
+.narrative-parchment--illustrated .narrative-parchment__footer {
+    margin-top: var(--space-2);
+}
