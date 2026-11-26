@@ -8,7 +8,7 @@ type ScreenAction = Extract<
         type:
             | "SET_SCREEN"
             | "START_DAY"
-            | "FINISH_JOUST";
+            | "FINISH_SPECIAL_SCENE";
     }
 >;
 
@@ -24,25 +24,24 @@ export function getScreenTransition(
     action: ScreenAction
 ): ScreenTransitionPlan {
     const target =
-        action.type === "START_DAY"
-            ? action.target
-            : action.type === "FINISH_JOUST"
-                ? "scene"
-                : action.screen;
+        action.type === "SET_SCREEN"
+            ? action.screen
+            : null;
 
     return {
         action,
 
-        // Mantener el comportamiento de los fundidos.
         fullScreen:
             target === "chapter-ending" ||
             currentScreen === "chapter-ending" ||
             target === "sleep" ||
             currentScreen === "sleep",
 
-        // El visitante entra al finalizar el fundido.
+        // Comenzar otra jornada o terminar un escenario
+        // especial siempre conduce a una nueva audiencia.
         enterAudience:
+            action.type !== "SET_SCREEN" ||
             target === "scene" ||
-            target === "joust",
+            target === "special-scene",
     };
 }

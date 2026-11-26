@@ -5,7 +5,13 @@ export const joustEvent: GameEvent = {
     id: "2.1",
     day: 2,
     order: 1,
+
     requiresUnlock: true,
+    scene: {
+        id: "joust",
+        placement: "start-of-day",
+    },
+
     image: "/assets/characters/commoners/knight-champion.png",
     dialogue: {
         speaker: "Caballero campeón",

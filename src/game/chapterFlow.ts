@@ -8,7 +8,6 @@ import {
 import { getChapterCompletionAchievements } from "../data/achievements";
 
 import { checkGameOver } from "./checkGameOver";
-import { getDayStartTarget } from "./dayFlow";
 import { getScreenTransition } from "./screenFlow";
 
 import type { AchievementId } from "../data/achievements";
@@ -96,10 +95,6 @@ export function planDayAdvance(
             progress.screen,
             {
                 type: "START_DAY",
-
-                target: getDayStartTarget(
-                    progress
-                ),
             }
         ),
 
@@ -129,7 +124,6 @@ export function planChapterAdvance(
         progress.screen,
         {
             type: "START_DAY",
-            target: "scene",
         }
     );
 }

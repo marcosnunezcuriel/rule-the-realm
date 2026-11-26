@@ -291,104 +291,133 @@ describe("Flujo y recuperación de partidas", () => {
         ).toBe("gameover");
     });
 
-    it("no aplica dos veces la recompensa de la justa al recargar", async () => {
-        const initialStats = createStats();
+    it.each([true, false])(
+        "finaliza la justa sin repetir consecuencias al recargar durante el fundido: %s",
+        async (reloadDuringFade) => {
+            const initialStats = createStats();
 
-        await mountController(
-            createSave({
-                day: 2,
-                screen: "joust",
-                stats: initialStats,
-                dayStartStats: initialStats,
-                dayEventIds: day2EventIds,
-                unlockedEventIds: ["2.1"],
-            })
-        );
+            await mountController(
+                createSave({
+                    day: 2,
 
-        await runAction((controller) => {
-            controller.handleVisitorAnimationEnd();
-        });
+                    screen: "special-scene",
 
-        await runAction((controller) => {
-            controller.handleDecision("yes");
-        });
+                    specialEvent: {
+                        id: "2.1",
+                        completed: false,
+                    },
 
-        const expectedStats = {
-            ...initialStats,
-            gold: initialStats.gold - 15,
-            army: initialStats.army + 10,
-        };
+                    stats: initialStats,
+                    dayStartStats: initialStats,
+                    dayEventIds: day2EventIds,
+                    unlockedEventIds: ["2.1"],
+                })
+            );
 
-        expect(
-            getController().stats
-        ).toEqual(expectedStats);
+            await runAction((controller) => {
+                controller.handleVisitorAnimationEnd();
+            });
 
-        expect(
-            loadGame()?.selectedDecision
-        ).toBe("yes");
+            await runAction((controller) => {
+                controller.handleDecision("yes");
+            });
 
-        // Terminar la audiencia, pero recargar antes
-        // de que finalice el fundido hacia el trono.
-        await runAction((controller) => {
-            controller.handleContinue();
-        });
+            const expectedStats = {
+                ...initialStats,
 
-        await runAction((controller) => {
-            controller.handleVisitorAnimationEnd();
-        });
+                gold: initialStats.gold - 15,
 
-        await unmountController();
-        await mountController();
+                army: initialStats.army + 10,
+            };
 
-        expect(
-            getController().screen
-        ).toBe("joust");
+            expect(
+                getController().stats
+            ).toEqual(expectedStats);
 
-        expect(
-            getController().selectedDecision
-        ).toBe("yes");
+            expect(
+                loadGame()?.selectedDecision
+            ).toBe("yes");
 
-        expect(
-            getController().stats
-        ).toEqual(expectedStats);
+            // Recargar mientras el acontecimiento sigue activo.
+            await unmountController();
+            await mountController();
 
-        await runAction((controller) => {
-            controller.handleVisitorAnimationEnd();
-        });
+            expect(
+                getController().screen
+            ).toBe("special-scene");
 
-        // Intentar repetir una decisión ya aplicada.
-        await runAction((controller) => {
-            controller.handleDecision("yes");
-        });
+            expect(
+                getController().selectedDecision
+            ).toBe("yes");
 
-        expect(
-            getController().stats
-        ).toEqual(expectedStats);
+            await runAction((controller) => {
+                controller.handleVisitorAnimationEnd();
+            });
 
-        await runAction((controller) => {
-            controller.handleContinue();
-        });
+            // Intentar repetir una decisión ya aplicada.
+            await runAction((controller) => {
+                controller.handleDecision("yes");
+            });
 
-        await runAction((controller) => {
-            controller.handleVisitorAnimationEnd();
-        });
+            expect(
+                getController().stats
+            ).toEqual(expectedStats);
 
-        await finishTransition();
+            await runAction((controller) => {
+                controller.handleContinue();
+            });
 
-        expect(getController().day).toBe(2);
+            await runAction((controller) => {
+                controller.handleVisitorAnimationEnd();
+            });
 
-        expect(
-            getController().screen
-        ).toBe("scene");
+            expect(
+                loadGame()?.specialEvent
+            ).toEqual({
+                id: "2.1",
+                completed: true,
+            });
 
-        expect(
-            getController().dialogueKey
-        ).toBe("11");
+            expect(
+                getController().transitionStage
+            ).toBe("darkening");
 
-        expect(
-            getController().stats
-        ).toEqual(expectedStats);
-    });
+            if (reloadDuringFade) {
+                // Recuperar un acontecimiento ya completado.
+                await unmountController();
+                await mountController();
+            } else {
+                // Finalizar normalmente el fundido.
+                await finishTransition();
+            }
+
+            expect(getController().day).toBe(2);
+
+            expect(
+                getController().screen
+            ).toBe("scene");
+
+            expect(
+                getController().dialogueKey
+            ).toBe("11");
+
+            expect(
+                getController().stats
+            ).toEqual(expectedStats);
+
+            expect(
+                loadGame()?.specialEvent
+            ).toBeNull();
+
+            expect(
+                getController().selectedDecision
+            ).toBeNull();
+
+            expect(
+                getController().phase
+            ).toBe("entering");
+        }
+    );
 
     it("no aplica dos veces los modificadores nocturnos al recargar", async () => {
         const initialStats = createStats();
@@ -489,7 +518,7 @@ describe("Flujo y recuperación de partidas", () => {
             expect(
                 getController().screen
             ).toBe(
-                withJoust ? "joust" : "scene"
+                withJoust ? "special-scene" : "scene"
             );
 
             expect(
@@ -504,10 +533,21 @@ describe("Flujo y recuperación de partidas", () => {
 
             const saved = loadGame();
 
+            expect(
+                saved?.specialEvent
+            ).toEqual(
+                withJoust
+                    ? {
+                        id: "2.1",
+                        completed: false,
+                    }
+                    : null
+            );
+
             expect(saved?.day).toBe(2);
 
             expect(saved?.screen).toBe(
-                withJoust ? "joust" : "scene"
+                withJoust ? "special-scene" : "scene"
             );
 
             expect(
@@ -638,10 +678,6 @@ describe("Flujo y recuperación de partidas", () => {
                 loadGame()?.unlockedEventIds
             ).toEqual(["2.1"]);
 
-            expect(
-                getController().withBrother
-            ).toBe(decision === "yes");
-
             // Simular una recarga del navegador.
             await unmountController();
             await mountController();
@@ -651,12 +687,52 @@ describe("Flujo y recuperación de partidas", () => {
             ).toBe(decision);
 
             expect(
-                getController().withBrother
-            ).toBe(decision === "yes");
-
-            expect(
                 loadGame()?.storyFlags
             ).toEqual(expectedFlags);
+
+            const saved = loadGame();
+
+            if (saved === null) {
+                throw new Error(
+                    "No se pudo recuperar la partida."
+                );
+            }
+
+            // Comprobar la variante visual utilizando las
+            // condiciones narrativas recuperadas del guardado.
+            await unmountController();
+
+            await mountController(
+                createSave({
+                    day: 2,
+
+                    screen: "special-scene",
+
+                    specialEvent: {
+                        id: "2.1",
+                        completed: false,
+                    },
+
+                    dayEventIds: day2EventIds,
+
+                    unlockedEventIds:
+                        saved.unlockedEventIds,
+
+                    storyFlags:
+                        saved.storyFlags,
+                })
+            );
+
+            expect(
+                getController().specialScene
+            ).toEqual({
+                id: "joust",
+
+                background:
+                    decision === "yes"
+                        ? "/assets/backgrounds/joust-king-2.png"
+                        : "/assets/backgrounds/joust-king.png",
+            });
         }
     );
 });

@@ -37,6 +37,7 @@ describe("Jornadas y capítulos", () => {
 
         expect(plan.nextDay).toBe(2);
         expect(plan.defeat).toBeNull();
+        expect(plan.specialEventId).toBe("2.1");
 
         expect(
             plan.nextDayEvents.map((event) => event.id)
@@ -59,6 +60,7 @@ describe("Jornadas y capítulos", () => {
         expect(plan.nextDay).toBe(8);
         expect(plan.defeat).toBe("bankruptcy");
         expect(plan.nextDayEvents).toEqual([]);
+        expect(plan.specialEventId).toBeNull();
     });
 
     it("conserva modificadores visuales", () => {
@@ -72,5 +74,6 @@ describe("Jornadas y capítulos", () => {
         expect(plan.nextSceneModifierIds).toEqual([
             "traveling-circus",
         ]);
+        expect(plan.specialEventId).toBeNull();
     });
 });

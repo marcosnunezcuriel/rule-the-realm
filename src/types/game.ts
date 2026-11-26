@@ -9,7 +9,7 @@ export type AudiencePhase =
 // Pantallas internas de una partida.
 export type GameScreen =
     | "scene"
-    | "joust"
+    | "special-scene"
     | "sleep"
     | "summary"
     | "gameover"

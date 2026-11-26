@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import JoustScene from "../../components/scene/JoustScene";
+import SpecialScene from "../../components/scene/SpecialScene";
+
+import { getSpecialScenePresentation } from "../../game/getSpecialScenePresentation";
 
 import type { MonarchRole } from "../../types/monarch";
 import type { AudiencePhase } from "../../types/game";
@@ -11,10 +13,18 @@ function renderJoust(
     withBrother: boolean,
     visitorPhase: AudiencePhase = "speaking"
 ): string {
+    const scene = getSpecialScenePresentation(
+        "joust",
+        monarch,
+        withBrother
+            ? ["brother-is-advisor"]
+            : []
+    );
+
     return renderToStaticMarkup(
-        <JoustScene
-            monarch={monarch}
-            withBrother={withBrother}
+        <SpecialScene
+            sceneId={scene.id}
+            background={scene.background}
             visitorPhase={visitorPhase}
             visitorImage="/assets/characters/commoners/knight-champion.png"
             visitorName="Caballero campeón"
@@ -22,7 +32,7 @@ function renderJoust(
             onVisitorAnimationEnd={() => {}}
         >
             <p>Diálogo del campeón</p>
-        </JoustScene>
+        </SpecialScene>
     );
 }
 

@@ -5,6 +5,7 @@ import { getDayEvents } from "../../game/getDayEvents";
 import {
     getEventById,
     getEventsForDay,
+    getSpecialEventForDay,
 } from "../../data/events/eventRegistry";
 
 describe("Selección de eventos por jornada", () => {
@@ -76,8 +77,22 @@ describe("Selección de eventos por jornada", () => {
         ]);
     });
 
-    it("reserva la justa para su pantalla especial", () => {
-        expect(getEventById("2.1")?.day).toBe(2);
+    it("separa los acontecimientos especiales de las audiencias normales", () => {
+        expect(
+            getEventById("2.1")?.day
+        ).toBe(2);
+
+        expect(
+            getSpecialEventForDay(2, [])
+        ).toBeUndefined();
+
+        expect(
+            getSpecialEventForDay(2, ["2.1"])?.id
+        ).toBe("2.1");
+
+        expect(
+            getSpecialEventForDay(3, ["2.1"])
+        ).toBeUndefined();
 
         expect(
             getDayEvents(2, ["2.1"]).some(

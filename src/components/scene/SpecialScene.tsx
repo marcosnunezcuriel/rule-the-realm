@@ -1,49 +1,56 @@
 import type { ReactNode } from "react";
 
 import type { AudiencePhase } from "../../types/game";
-import type { MonarchRole } from "../../types/monarch";
+
+import type {
+    SpecialSceneId,
+} from "../../data/scenes/specialSceneRegistry";
 
 import { assetUrl } from "../../utils/assetUrl";
 
 import "../../styles/scene/ThroneScene.css";
 import "../../styles/scene/JoustScene.css";
 
-type JoustSceneProps = {
-    monarch: MonarchRole;
-    withBrother: boolean;
+type SpecialSceneProps = {
+    sceneId: SpecialSceneId;
+    background: string;
+
     visitorPhase: AudiencePhase;
     visitorImage: string;
     visitorName: string;
     visitorKey: string;
+
     onVisitorAnimationEnd: () => void;
+
     children?: ReactNode;
 };
 
-function JoustScene({
-    monarch,
-    withBrother,
+// Representación visual de cualquier escenario especial.
+function SpecialScene({
+    sceneId,
+    background,
     visitorPhase,
     visitorImage,
     visitorName,
     visitorKey,
     onVisitorAnimationEnd,
     children,
-}: JoustSceneProps) {
-    const background = `/assets/backgrounds/joust-${monarch}${
-        withBrother ? "-2" : ""
-    }.png`;
-
+}: SpecialSceneProps) {
     const showVisitor =
         visitorPhase === "entering" ||
         visitorPhase === "speaking" ||
         visitorPhase === "exiting";
 
     return (
-        <main className="throne-scene joust-scene">
-            <div className="throne-stage joust-stage">
+        <main
+            className={`throne-scene ${sceneId}-scene`}
+        >
+            <div
+                className={`throne-stage ${sceneId}-stage`}
+            >
                 <div className="throne-stage__visuals">
 
-                    {/* Grada real y recinto del torneo */}
+                    {/* Fondo del escenario especial */}
                     <img
                         className="
                             throne-stage__background
@@ -55,7 +62,7 @@ function JoustScene({
                         draggable={false}
                     />
 
-                    {/* Caballero campeón */}
+                    {/* Visitante */}
                     {showVisitor && (
                         <div
                             key={visitorKey}
@@ -91,4 +98,4 @@ function JoustScene({
     );
 }
 
-export default JoustScene;
+export default SpecialScene;

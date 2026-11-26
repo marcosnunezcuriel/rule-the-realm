@@ -6,6 +6,9 @@ import type { GameState } from "../../types/gameState";
 import type { SaveGame } from "../../types/saveGame";
 import type { MonarchRole } from "../../types/monarch";
 
+import { getSpecialEventForDay } from "../../data/events/eventRegistry";
+import { finishSpecialScene } from "./dayState";
+
 // Crear el estado inicial o recuperar una partida existente.
 export function createGameState(
     monarch: MonarchRole,
@@ -16,6 +19,22 @@ export function createGameState(
             ...saved,
             monarch,
         };
+
+        // Si el acontecimiento especial ya terminó antes de recargar, recuperar directamente el salón del trono.
+        if (
+            progress.screen === "special-scene" &&
+            progress.specialEvent?.completed === true
+        ) {
+            const restored = finishSpecialScene({
+                progress,
+                phase: "waiting",
+            });
+
+            return {
+                ...restored,
+                phase: "entering",
+            };
+        }
 
         // Recuperar una jornada cuyo cierre económico
         // ya se aplicó antes de recargar el navegador.
@@ -46,11 +65,23 @@ export function createGameState(
         };
     }
 
+    const initialSpecialEvent =
+        getSpecialEventForDay(1, []);
+
     return {
         progress: {
             monarch,
             day: 1,
-            screen: "scene",
+            screen: initialSpecialEvent !== undefined
+                ? "special-scene"
+                : "scene",
+
+            specialEvent: initialSpecialEvent !== undefined
+                ? {
+                    id: initialSpecialEvent.id,
+                    completed: false,
+                }
+                : null,
 
             chapterEndingParagraphIndex: 0,
 

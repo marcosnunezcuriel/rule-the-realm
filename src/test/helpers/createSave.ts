@@ -21,6 +21,8 @@ export function createSave(
             "6", "7", "8", "9", "10",
         ],
 
+        specialEvent: null,
+
         isClosing: false,
         dayClosed: false,
         selectedDecision: null,

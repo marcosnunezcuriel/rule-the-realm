@@ -13,7 +13,8 @@ import { getScreenTransition } from "../game/screenFlow";
 import { getAudiencePresentation } from "../game/getAudiencePresentation";
 import { getSceneBackgrounds } from "../game/getSceneBackgrounds";
 
-import { joustEvent } from "../data/events/chapter1/joust";
+import { getEventById } from "../data/events/eventRegistry";
+import { getSpecialScenePresentation } from "../game/getSpecialScenePresentation";
 
 import { useGameAutosave } from "./useGameAutosave";
 import { useGameSessionState } from "./useGameSessionState";
@@ -72,12 +73,31 @@ export function useGameController(
         gameOverReason,
     } = progress;
 
+    // Recuperar el acontecimiento especial activo.
+    const specialEvent =
+        screen === "special-scene" &&
+        progress.specialEvent !== null
+            ? getEventById(
+                progress.specialEvent.id
+            )
+            : undefined;
+
+    // Seleccionar su fondo y variante narrativa.
+    const specialScene =
+        specialEvent?.scene !== undefined
+            ? getSpecialScenePresentation(
+                specialEvent.scene.id,
+                monarch,
+                storyFlags
+            )
+            : null;
+
     // Preparar la información de la audiencia actual.
     const presentation = getAudiencePresentation({
         monarch,
 
-        dayEvents: screen === "joust"
-            ? [joustEvent]
+        dayEvents: specialEvent !== undefined
+            ? [specialEvent]
             : dayEvents,
 
         audienceIndex: progress.audienceIndex,
@@ -331,8 +351,6 @@ export function useGameController(
         chapterEndingParagraphIndex,
         setChapterEndingParagraphIndex,
 
-        withBrother: storyFlags.includes(
-            "brother-is-advisor"
-        ),
+        specialScene,
     };
 }

@@ -1,7 +1,7 @@
 import {
     closeDay,
     startDay,
-    finishJoust,
+    finishSpecialScene,
 } from "./dayState";
 
 import type { AudienceExit } from "../audienceFlow";
@@ -57,10 +57,9 @@ export type GameAction =
     }
     | {
         type: "START_DAY";
-        target: "scene" | "joust";
     }
     | {
-        type: "FINISH_JOUST";
+        type: "FINISH_SPECIAL_SCENE";
     };
 
 // Incorporar nuevos desbloqueos sin duplicarlos.
@@ -180,7 +179,10 @@ export function gameReducer(
         }
 
         case "COMPLETE_AUDIENCE": {
-            if (state.phase !== "exiting") {
+            if (
+                state.phase !== "exiting" ||
+                progress.specialEvent?.completed === true
+            ) {
                 return state;
             }
 
@@ -211,11 +213,26 @@ export function gameReducer(
 
             const exit = action.exit;
 
-            // La justa conserva la decisión hasta
-            // regresar al salón del trono.
+            // Registrar la finalización del acontecimiento especial
+            // junto con todas sus consecuencias.
             if (exit === null) {
+                if (
+                    progress.screen !== "special-scene" ||
+                    progress.specialEvent === null
+                ) {
+                    return state;
+                }
+
                 return {
-                    progress: updated,
+                    progress: {
+                        ...updated,
+
+                        specialEvent: {
+                            ...progress.specialEvent,
+                            completed: true,
+                        },
+                    },
+
                     phase: "waiting",
                 };
             }
@@ -306,12 +323,9 @@ export function gameReducer(
         }
 
         case "START_DAY":
-            return startDay(
-                state,
-                action.target
-            );
+            return startDay(state);
 
-        case "FINISH_JOUST":
-            return finishJoust(state);
+        case "FINISH_SPECIAL_SCENE":
+            return finishSpecialScene(state);
     }
 }

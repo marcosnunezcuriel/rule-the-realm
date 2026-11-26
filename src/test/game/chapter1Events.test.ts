@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import { chapter1Events } from "../../data/events/chapter1";
+import { getSpecialEventForDay } from "../../data/events/eventRegistry";
+
 import { getDayEvents } from "../../game/getDayEvents";
 
 const byId = new Map(
@@ -39,10 +41,25 @@ describe("Acontecimientos del Capítulo I", () => {
 
     it("requiere desbloquear los eventos condicionados", () => {
         for (const event of chapter1Events) {
-            if (
-                !event.requiresUnlock ||
-                event.id === "2.1"
-            ) {
+            if (!event.requiresUnlock) {
+                continue;
+            }
+
+            if (event.scene !== undefined) {
+                expect(
+                    getSpecialEventForDay(
+                        event.day,
+                        []
+                    )
+                ).toBeUndefined();
+
+                expect(
+                    getSpecialEventForDay(
+                        event.day,
+                        [event.id]
+                    )?.id
+                ).toBe(event.id);
+
                 continue;
             }
 
@@ -113,5 +130,27 @@ describe("Acontecimientos del Capítulo I", () => {
         expect(
             event?.unlocks?.yes ?? []
         ).toEqual([]);
+    });
+
+    it("los desbloqueos conocidos corresponden a jornadas posteriores", () => {
+        for (const event of chapter1Events) {
+            const unlocks = [
+                ...Object.values(
+                    event.unlocks ?? {}
+                ).flat(),
+
+                ...(event.unlocksOnComplete ?? []),
+            ];
+
+            for (const id of unlocks) {
+                const unlockedEvent = byId.get(id);
+
+                if (unlockedEvent !== undefined) {
+                    expect(
+                        unlockedEvent.day
+                    ).toBeGreaterThan(event.day);
+                }
+            }
+        }
     });
 });

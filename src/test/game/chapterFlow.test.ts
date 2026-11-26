@@ -5,6 +5,8 @@ import {
     planDayAdvance,
     planChapterAdvance,
 } from "../../game/chapterFlow";
+import { createGameState } from "../../game/state/createGameState";
+import { gameReducer } from "../../game/state/gameReducer";
 
 import { createSave } from "../helpers/createSave";
 import { createStats } from "../helpers/createStats";
@@ -30,10 +32,6 @@ describe("Progresión de capítulos y jornadas", () => {
                 transition: {
                     action: {
                         type: "START_DAY",
-
-                        target: withJoust
-                            ? "joust"
-                            : "scene",
                     },
 
                     fullScreen: false,
@@ -44,11 +42,39 @@ describe("Progresión de capítulos y jornadas", () => {
                 resetEndingParagraph: false,
             });
 
+            if (plan === null) {
+                throw new Error(
+                    "No se pudo preparar la jornada."
+                );
+            }
+
+            const next = gameReducer(
+                createGameState("king", progress),
+                plan.transition.action
+            );
+
+            expect(next.progress.screen).toBe(
+                withJoust
+                    ? "special-scene"
+                    : "scene"
+            );
+
+            expect(
+                next.progress.specialEvent
+            ).toEqual(
+                withJoust
+                    ? {
+                        id: "2.1",
+                        completed: false,
+                    }
+                    : null
+            );
+
             expect(progress.day).toBe(1);
         }
     );
 
-    it("no celebra la justa si existe una derrota", () => {
+    it("no celebra un escenario especial si existe una derrota", () => {
         const progress = createSave({
             screen: "summary",
 
@@ -65,12 +91,32 @@ describe("Progresión de capítulos y jornadas", () => {
             progress
         );
 
+        if (plan === null) {
+            throw new Error(
+                "No se pudo preparar la jornada."
+            );
+        }
+
         expect(
-            plan?.transition.action
+            plan.transition.action
         ).toEqual({
             type: "START_DAY",
-            target: "scene",
         });
+
+        const next = gameReducer(
+            createGameState("king", progress),
+            plan.transition.action
+        );
+
+        expect(next.progress.screen).toBe("scene");
+
+        expect(
+            next.progress.specialEvent
+        ).toBeNull();
+
+        expect(
+            next.progress.specialAudience
+        ).toBe("defeat");
     });
 
     it("prepara el epílogo y el logro al terminar el capítulo I", () => {

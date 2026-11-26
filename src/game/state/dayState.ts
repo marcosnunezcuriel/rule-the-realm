@@ -42,10 +42,10 @@ export function closeDay(
     };
 }
 
-// Preparar una nueva jornada sin perder el progreso.
+// Preparar una nueva jornada y determinar
+// automáticamente su escenario inicial.
 export function startDay(
-    state: GameState,
-    target: "scene" | "joust"
+    state: GameState
 ): GameState {
     const progress = state.progress;
 
@@ -63,10 +63,18 @@ export function startDay(
         progress.unlockedEventIds
     );
 
+    const specialEvent =
+        plan.specialEventId === null
+            ? null
+            : {
+                id: plan.specialEventId,
+                completed: false,
+            };
+
     const nextSpecialAudience =
         plan.defeat !== null
             ? "defeat"
-            : target === "joust"
+            : specialEvent !== null
                 ? null
                 : getDebtAudience(
                     progress.stats,
@@ -78,7 +86,12 @@ export function startDay(
             ...progress,
 
             day: plan.nextDay,
-            screen: target,
+
+            screen: specialEvent !== null
+                ? "special-scene"
+                : "scene",
+
+            specialEvent,
 
             dayStartStats: {
                 ...progress.stats,
@@ -120,13 +133,17 @@ export function startDay(
     };
 }
 
-// Regresar al salón del trono sin avanzar de día.
-export function finishJoust(
+// Regresar al salón del trono después de completar
+// cualquier acontecimiento especial.
+export function finishSpecialScene(
     state: GameState
 ): GameState {
     const progress = state.progress;
 
-    if (progress.screen !== "joust") {
+    if (
+        progress.screen !== "special-scene" ||
+        progress.specialEvent?.completed !== true
+    ) {
         return state;
     }
 
@@ -147,6 +164,7 @@ export function finishJoust(
             ...progress,
 
             screen: "scene",
+            specialEvent: null,
 
             gameOverReason: defeat,
             specialAudience: nextSpecialAudience,

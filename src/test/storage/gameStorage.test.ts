@@ -304,7 +304,13 @@ describe("Guardado de partidas", () => {
         const save: SaveGame = {
             ...createSave(),
             day: 2,
-            screen: "joust",
+            screen: "special-scene",
+
+            specialEvent: {
+                id: "2.1",
+                completed: false,
+            },
+
             selectedDecision: "yes",
             unlockedEventIds: [
                 "2.1",
@@ -415,6 +421,118 @@ describe("Guardado de partidas", () => {
             storeRaw({
                 ...createSave(),
                 storyFlags: value,
+            });
+
+            expect(loadGame()).toBeNull();
+
+            expect(
+                window.localStorage.getItem(SAVE_KEY)
+            ).toBeNull();
+        }
+    );
+
+    it("conserva la finalización de un acontecimiento especial", () => {
+        const save = createSave({
+            day: 2,
+
+            screen: "special-scene",
+
+            specialEvent: {
+                id: "2.1",
+                completed: true,
+            },
+
+            selectedDecision: "yes",
+
+            unlockedEventIds: [
+                "2.1",
+            ],
+
+            dayEventIds: [
+                "11", "12", "13",
+                "14", "15", "16",
+            ],
+        });
+
+        saveGame(save);
+
+        expect(loadGame()).toEqual(save);
+    });
+
+    it.each([
+        {
+            label: "desconocido",
+            overrides: {
+                specialEvent: {
+                    id: "unknown-event",
+                    completed: false,
+                },
+            },
+        },
+        {
+            label: "de otra jornada",
+            overrides: {
+                day: 3,
+
+                dayEventIds: [
+                    "17", "18", "19",
+                    "20", "21", "22",
+                ],
+            },
+        },
+        {
+            label: "sin desbloquear",
+            overrides: {
+                unlockedEventIds: [],
+            },
+        },
+        {
+            label: "con una finalización inválida",
+            overrides: {
+                specialEvent: {
+                    id: "2.1",
+                    completed: "true",
+                },
+            },
+        },
+        {
+            label: "en una pantalla normal",
+            overrides: {
+                screen: "scene",
+            },
+        },
+        {
+            label: "ausente",
+            overrides: {
+                specialEvent: undefined,
+            },
+        },
+    ])(
+        "rechaza un acontecimiento especial $label",
+        ({ overrides }) => {
+            const save = createSave({
+                day: 2,
+
+                screen: "special-scene",
+
+                specialEvent: {
+                    id: "2.1",
+                    completed: false,
+                },
+
+                unlockedEventIds: [
+                    "2.1",
+                ],
+
+                dayEventIds: [
+                    "11", "12", "13",
+                    "14", "15", "16",
+                ],
+            });
+
+            storeRaw({
+                ...save,
+                ...overrides,
             });
 
             expect(loadGame()).toBeNull();

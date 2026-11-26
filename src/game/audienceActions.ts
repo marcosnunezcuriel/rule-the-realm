@@ -219,7 +219,10 @@ export function planAudienceCompletion(
         timeOfDay,
     }: AudienceCompletionInput
 ): AudienceOperation | null {
-    if (state.phase !== "exiting") {
+    if (
+        state.phase !== "exiting" ||
+        state.progress.specialEvent?.completed === true
+    ) {
         return null;
     }
 
@@ -293,7 +296,7 @@ export function planAudienceCompletion(
             );
     }
 
-    const exit = progress.screen === "joust"
+    const exit = progress.screen === "special-scene"
         ? null
         : getAudienceExit({
             specialAudience:
@@ -326,7 +329,7 @@ export function planAudienceCompletion(
         transition = getScreenTransition(
             progress.screen,
             {
-                type: "FINISH_JOUST",
+                type: "FINISH_SPECIAL_SCENE",
             }
         );
     } else if (exit.kind === "gameover") {

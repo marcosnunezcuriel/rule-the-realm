@@ -3,6 +3,7 @@ import { modifierDefinitions } from "../data/kingdom/modifiers";
 import { statDefinitions } from "../data/kingdom/statDefinitions";
 import { gameOverMessages } from "../data/narrative/gameOverMessages";
 import { isStoryFlagId } from "../data/narrative/storyFlags";
+import { getSpecialEventForDay } from "../data/events/eventRegistry";
 
 import { getDayEvents } from "../game/getDayEvents";
 import { checkGameOver } from "../game/checkGameOver";
@@ -133,6 +134,30 @@ function isDayEventArray(
     );
 }
 
+// Comprobar que el acontecimiento especial guardado
+// existe, pertenece a la jornada y está disponible.
+function isSpecialEventProgress(
+    value: unknown,
+    day: number,
+    unlockedEventIds: string[]
+): boolean {
+    if (!isRecord(value)) {
+        return false;
+    }
+
+    const expectedEvent = getSpecialEventForDay(
+        day,
+        unlockedEventIds
+    );
+
+    return (
+        expectedEvent !== undefined &&
+        typeof value.id === "string" &&
+        value.id === expectedEvent.id &&
+        typeof value.completed === "boolean"
+    );
+}
+
 // Comprobar que el índice apunta a un párrafo existente.
 function isValidParagraphIndex(
     index: unknown,
@@ -179,7 +204,7 @@ export function isSaveGame(
         ) &&
         (
             value.screen === "scene" ||
-            value.screen === "joust" ||
+            value.screen === "special-scene" ||
             value.screen === "sleep" ||
             value.screen === "summary" ||
             value.screen === "gameover" ||
@@ -234,15 +259,19 @@ export function isSaveGame(
         ) &&
         value.audienceIndex <= value.dayEventIds.length &&
         (
-            value.screen !== "joust" ||
-            (
-                day === 2 &&
-                value.audienceIndex === 0 &&
-                value.unlockedEventIds.includes("2.1") &&
-                value.specialAudience === null &&
-                value.isClosing === false &&
-                value.dayClosed === false
-            )
+            value.screen === "special-scene"
+                ? (
+                    isSpecialEventProgress(
+                        value.specialEvent,
+                        day,
+                        value.unlockedEventIds
+                    ) &&
+                    value.audienceIndex === 0 &&
+                    value.specialAudience === null &&
+                    value.isClosing === false &&
+                    value.dayClosed === false
+                )
+                : value.specialEvent === null
         ) &&
         typeof value.isClosing === "boolean" &&
         typeof value.dayClosed === "boolean" &&

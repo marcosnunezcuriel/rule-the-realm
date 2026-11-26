@@ -26,7 +26,7 @@ import type {
     ModifierChange,
 } from "../../types/notifications";
 
-import JoustScene from "../scene/JoustScene";
+import SpecialScene from "../scene/SpecialScene";
 
 import NightRest from "./NightRest";
 
@@ -71,7 +71,7 @@ function GameSession({
     const {
         day,
         screen,
-        withBrother,
+        specialScene,
         phase,
         timeOfDay,
         backgroundMap,
@@ -109,7 +109,7 @@ function GameSession({
 
     const isAudienceScreen =
         screen === "scene" ||
-        screen === "joust";
+        screen === "special-scene";
 
     const lastVisitorSound = useRef<string | null>(null);
     const lastScreenSound = useRef<string | null>(null);
@@ -277,10 +277,11 @@ function GameSession({
                         nextLabel={summaryContinueLabel}
                         onNextDay={handleNextDay}
                     />
-                ) : screen === "joust" ? (
-                    <JoustScene
-                        monarch={monarch}
-                        withBrother={withBrother}
+                ) : screen === "special-scene" &&
+                    specialScene !== null ? (
+                    <SpecialScene
+                        sceneId={specialScene.id}
+                        background={specialScene.background}
                         visitorPhase={phase}
                         visitorImage={visitorImage}
                         visitorName={dialogue.speaker}
@@ -288,7 +289,7 @@ function GameSession({
                         onVisitorAnimationEnd={handleVisitorAnimationEnd}
                     >
                         {dialogueContent}
-                    </JoustScene>
+                    </SpecialScene>
                 ) : (
                     <ThroneScene
                         monarch={monarch}

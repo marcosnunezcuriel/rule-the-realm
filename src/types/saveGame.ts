@@ -28,6 +28,12 @@ export type SaveGame = {
     audienceIndex: number;
     dayEventIds: string[];
 
+    // Acontecimiento especial de la jornada en curso.
+    specialEvent: {
+        id: string;
+        completed: boolean;
+    } | null;
+
     isClosing: boolean;
     dayClosed: boolean;
 

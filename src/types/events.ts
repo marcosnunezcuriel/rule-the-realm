@@ -4,8 +4,11 @@ import type {
 } from "./dialogue";
 
 import type { StatChanges } from "./stats";
+
 import type { ModifierId } from "./modifiers";
+
 import type { StoryFlagId } from "../data/narrative/storyFlags";
+import type { SpecialSceneId } from "../data/scenes/specialSceneRegistry";
 
 export type GameEvent = {
     id: string;
@@ -13,6 +16,12 @@ export type GameEvent = {
     order: number;
     image: string;
     dialogue: DialogueEvent;
+
+    // Escenario alternativo en el que se celebra el evento.
+    scene?: {
+        id: SpecialSceneId;
+        placement: "start-of-day";
+    };
 
     // Consecuencias elegidas por el jugador.
     effects?: Record<Decision, StatChanges>;

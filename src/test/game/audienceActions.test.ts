@@ -264,7 +264,13 @@ describe("Planificación de operaciones de audiencia", () => {
                 "king",
                 createSave({
                     day: 2,
-                    screen: "joust",
+                    screen: "special-scene",
+
+                    specialEvent: {
+                        id: "2.1",
+                        completed: false,
+                    },
+
                     selectedDecision: "yes",
 
                     unlockedEventIds: [
@@ -299,7 +305,7 @@ describe("Planificación de operaciones de audiencia", () => {
 
         expect(plan?.transition).toEqual({
             action: {
-                type: "FINISH_JOUST",
+                type: "FINISH_SPECIAL_SCENE",
             },
 
             fullScreen: false,
@@ -312,6 +318,6 @@ describe("Planificación de operaciones de audiencia", () => {
 
         expect(
             state.progress.screen
-        ).toBe("joust");
+        ).toBe("special-scene");
     });
 });

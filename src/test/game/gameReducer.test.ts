@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { createGameState } from "../../game/state/createGameState";
 import { gameReducer } from "../../game/state/gameReducer";
-
+import { planAudienceCompletion } from "../../game/audienceActions";
 import type { GameAction } from "../../game/state/gameReducer";
+
 import type { ModifierId } from "../../types/modifiers";
 
 import { getEventById } from "../../data/events/eventRegistry";
@@ -322,7 +323,6 @@ describe("Actualizaciones del estado de partida", () => {
             initial,
             {
                 type: "START_DAY",
-                target: "scene",
             }
         );
 
@@ -374,7 +374,6 @@ describe("Actualizaciones del estado de partida", () => {
         expect(
             gameReducer(next, {
                 type: "START_DAY",
-                target: "scene",
             })
         ).toBe(next);
 
@@ -414,7 +413,6 @@ describe("Actualizaciones del estado de partida", () => {
                 initial,
                 {
                     type: "START_DAY",
-                    target: "scene",
                 }
             );
 
@@ -450,7 +448,6 @@ describe("Actualizaciones del estado de partida", () => {
             initial,
             {
                 type: "START_DAY",
-                target: "scene",
             }
         );
 
@@ -495,7 +492,6 @@ describe("Actualizaciones del estado de partida", () => {
             initial,
             {
                 type: "START_DAY",
-                target: "joust",
             }
         );
 
@@ -507,18 +503,69 @@ describe("Actualizaciones del estado de partida", () => {
 
         expect(
             joust.progress.screen
-        ).toBe("joust");
+        ).toBe("special-scene");
+
+        expect(
+            joust.progress.specialEvent
+        ).toEqual({
+            id: "2.1",
+            completed: false,
+        });
 
         expect(
             joust.progress.dayEventIds
         ).toEqual(day2EventIds);
 
-        const throne = gameReducer(
-            joust,
+        // No se puede finalizar un escenario antes de
+        // completar su acontecimiento.
+        expect(
+            gameReducer(joust, {
+                type: "FINISH_SPECIAL_SCENE",
+            })
+        ).toBe(joust);
+
+        const exiting = {
+            ...joust,
+            phase: "exiting" as const,
+        };
+
+        const completion = planAudienceCompletion(
+            exiting,
             {
-                type: "FINISH_JOUST",
+                currentAudience: getEventById("2.1"),
+                morningCount: 1,
+                timeOfDay: "morning",
             }
         );
+
+        if (completion === null) {
+            throw new Error(
+                "No se pudo completar el escenario especial."
+            );
+        }
+
+        const completed = gameReducer(
+            exiting,
+            completion.action
+        );
+
+        expect(
+            completed.progress.specialEvent
+        ).toEqual({
+            id: "2.1",
+            completed: true,
+        });
+
+        const throne = gameReducer(
+            completed,
+            {
+                type: "FINISH_SPECIAL_SCENE",
+            }
+        );
+
+        expect(
+            throne.progress.specialEvent
+        ).toBeNull();
 
         expect(throne.progress.day).toBe(2);
 
