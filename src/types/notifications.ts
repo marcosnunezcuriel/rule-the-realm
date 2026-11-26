@@ -1,4 +1,4 @@
-import type { AchievementId } from "../data/achievements";
+import type { AchievementId } from "../data/registries/achievementRegistry";
 import type { ModifierId } from "./modifiers";
 import type { StatChanges } from "./stats";
 

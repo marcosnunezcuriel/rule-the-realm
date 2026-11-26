@@ -20,7 +20,7 @@ import type { Ref } from "react";
 import { createRoot } from "react-dom/client";
 import type { Root } from "react-dom/client";
 
-import { useGameController } from "../../hooks/useGameController";
+import { useGameController } from "../../hooks/game/useGameController";
 
 import {
     loadGame,
@@ -33,7 +33,7 @@ import type { ModifierId } from "../../types/modifiers";
 import { createSave } from "../helpers/createSave";
 import { createStats } from "../helpers/createStats";
 
-import { getDayEvents } from "../../game/getDayEvents";
+import { getDayEvents } from "../../game/progression/getDayEvents";
 
 import type { MonarchRole } from "../../types/monarch";
 

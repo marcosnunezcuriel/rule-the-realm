@@ -4,7 +4,7 @@ import {
     finishSpecialScene,
 } from "./dayState";
 
-import type { AudienceExit } from "../audienceFlow";
+import type { AudienceExit } from "../audiences/audienceFlow";
 import type { GameState } from "../../types/gameState";
 import type { Decision } from "../../types/dialogue";
 import type { ModifierId } from "../../types/modifiers";

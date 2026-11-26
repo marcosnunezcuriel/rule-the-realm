@@ -1,12 +1,12 @@
-import { getDayEvents } from "../getDayEvents";
-import { getDebtAudience } from "../debtFlow";
-import { initialKingdomValues } from "../initialState";
+import { getDayEvents } from "../progression/getDayEvents";
+import { getDebtAudience } from "../consequences/debtFlow";
+import { initialKingdomValues } from "./initialState";
 
 import type { GameState } from "../../types/gameState";
 import type { SaveGame } from "../../types/saveGame";
 import type { MonarchRole } from "../../types/monarch";
 
-import { getSpecialEventForDay } from "../../data/events/eventRegistry";
+import { getSpecialEventForDay } from "../../data/registries/eventRegistry";
 import { finishSpecialScene } from "./dayState";
 
 // Crear el estado inicial o recuperar una partida existente.

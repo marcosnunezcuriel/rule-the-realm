@@ -1,10 +1,10 @@
-import { getNextDayPlan } from "../dayFlow";
-import { checkGameOver } from "../checkGameOver";
+import { getNextDayPlan } from "../progression/dayFlow";
+import { checkGameOver } from "../consequences/checkGameOver";
 
 import {
     applyDailyModifiersWithDebt,
     getDebtAudience,
-} from "../debtFlow";
+} from "../consequences/debtFlow";
 
 import type { GameState } from "../../types/gameState";
 

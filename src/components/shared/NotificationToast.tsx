@@ -1,11 +1,11 @@
-import { achievements } from "../../data/achievements";
+import { achievements } from "../../data/registries/achievementRegistry";
 import { modifierDefinitions } from "../../data/kingdom/modifiers";
 
 import type { GameNotification } from "../../types/notifications";
 
 import FormattedText from "./FormattedText";
 
-import "../../styles/screens/NotificationToast.css";
+import "../../styles/shared/NotificationToast.css";
 
 type NotificationToastProps = {
     notification: Exclude<

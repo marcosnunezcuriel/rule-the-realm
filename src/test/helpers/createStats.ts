@@ -1,4 +1,4 @@
-import { initialKingdomValues } from "../../game/initialState";
+import { initialKingdomValues } from "../../game/state/initialState";
 
 import type { KingdomValues } from "../../types/stats";
 

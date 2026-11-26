@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import GoldenFrame from "../shared/GoldenFrame";
 
-import { useModalFocus } from "../../hooks/useModalFocus";
+import { useModalFocus } from "../../hooks/modals/useModalFocus";
 
 const MAP_IMAGE =
     "/assets/ui/astaria-map.png";

@@ -3,8 +3,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 import ThroneScene from "../../components/scene/ThroneScene";
 
-import { getSceneBackgrounds } from "../../game/getSceneBackgrounds";
-import { getSceneVisualClassName } from "../../game/getSceneVisualClassName";
+import { getSceneBackgrounds } from "../../game/scenes/getSceneBackgrounds";
+import { getSceneVisualClassName } from "../../game/scenes/getSceneVisualClassName";
 
 import type { MonarchRole } from "../../types/monarch";
 import type {

@@ -1,4 +1,4 @@
-import { useModalFocus } from "../../hooks/useModalFocus";
+import { useModalFocus } from "../../hooks/modals/useModalFocus";
 
 type NewGameConfirmationProps = {
     onConfirm: () => void;

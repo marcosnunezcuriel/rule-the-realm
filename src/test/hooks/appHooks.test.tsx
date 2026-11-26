@@ -20,10 +20,10 @@ import type { Ref } from "react";
 import { createRoot } from "react-dom/client";
 import type { Root } from "react-dom/client";
 
-import { useAppNavigation } from "../../hooks/useAppNavigation";
-import { useGameNotifications } from "../../hooks/useGameNotifications";
-import { useSoundSettings } from "../../hooks/useSoundSettings";
-import { useGameAudio } from "../../hooks/useGameAudio";
+import { useAppNavigation } from "../../hooks/app/useAppNavigation";
+import { useGameNotifications } from "../../hooks/app/useGameNotifications";
+import { useSoundSettings } from "../../hooks/app/useSoundSettings";
+import { useGameAudio } from "../../hooks/game/useGameAudio";
 
 import { soundEngine } from "../../audio/soundEngine";
 

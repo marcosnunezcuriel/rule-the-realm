@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 import SpecialScene from "../../components/scene/SpecialScene";
 
-import { getSpecialScenePresentation } from "../../game/getSpecialScenePresentation";
+import { getSpecialScenePresentation } from "../../game/scenes/getSpecialScenePresentation";
 
 import type { MonarchRole } from "../../types/monarch";
 import type { AudiencePhase } from "../../types/game";

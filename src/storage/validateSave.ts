@@ -3,10 +3,10 @@ import { modifierDefinitions } from "../data/kingdom/modifiers";
 import { statDefinitions } from "../data/kingdom/statDefinitions";
 import { gameOverMessages } from "../data/narrative/gameOverMessages";
 import { isStoryFlagId } from "../data/narrative/storyFlags";
-import { getSpecialEventForDay } from "../data/events/eventRegistry";
+import { getSpecialEventForDay } from "../data/registries/eventRegistry";
 
-import { getDayEvents } from "../game/getDayEvents";
-import { checkGameOver } from "../game/checkGameOver";
+import { getDayEvents } from "../game/progression/getDayEvents";
+import { checkGameOver } from "../game/consequences/checkGameOver";
 
 import type { ModifierId } from "../types/modifiers";
 import type { SaveGame } from "../types/saveGame";

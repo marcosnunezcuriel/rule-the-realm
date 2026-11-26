@@ -9,7 +9,7 @@ import DaySummary from "./DaySummary";
 
 import { toRomanNumber } from "../../data/chapters";
 
-import type { useGameController } from "../../hooks/useGameController";
+import type { useGameController } from "../../hooks/game/useGameController";
 import type { MonarchRole } from "../../types/monarch";
 
 type GameScreenContentProps = {

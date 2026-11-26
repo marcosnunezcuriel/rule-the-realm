@@ -9,10 +9,10 @@ import FadeOverlay from "../shared/FadeOverlay";
 
 import { toRomanNumber } from "../../data/chapters";
 
-import { useGameController } from "../../hooks/useGameController";
-import { useGameAudio } from "../../hooks/useGameAudio";
+import { useGameController } from "../../hooks/game/useGameController";
+import { useGameAudio } from "../../hooks/game/useGameAudio";
 
-import type { AchievementId } from "../../data/achievements";
+import type { AchievementId } from "../../data/registries/achievementRegistry";
 import type { ModifierId } from "../../types/modifiers";
 import type { KingdomValues } from "../../types/stats";
 import type { MonarchRole } from "../../types/monarch";

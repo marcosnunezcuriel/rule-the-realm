@@ -1,15 +1,15 @@
-import MainMenu from "./components/screens/MainMenu";
-import AchievementsScreen from "./components/screens/AchievementsScreen";
+import MainMenu from "./components/menu/MainMenu";
+import AchievementsScreen from "./components/menu/AchievementsScreen";
 import WelcomeIntroduction from "./components/screens/WelcomeIntroduction";
 import GameSession from "./components/screens/GameSession";
-import MonarchSelection from "./components/screens/MonarchSelection";
+import MonarchSelection from "./components/menu/MonarchSelection";
 
 import SoundPanel from "./components/modals/SoundPanel";
 import FadeOverlay from "./components/shared/FadeOverlay";
 
-import { useAppNavigation } from "./hooks/useAppNavigation";
-import { useGameNotifications } from "./hooks/useGameNotifications";
-import { useSoundSettings } from "./hooks/useSoundSettings";
+import { useAppNavigation } from "./hooks/app/useAppNavigation";
+import { useGameNotifications } from "./hooks/app/useGameNotifications";
+import { useSoundSettings } from "./hooks/app/useSoundSettings";
 
 function App() {
     const notifications =

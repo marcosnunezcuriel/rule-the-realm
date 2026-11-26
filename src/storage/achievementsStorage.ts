@@ -1,7 +1,7 @@
 import {
     achievements,
     type AchievementId,
-} from "../data/achievements";
+} from "../data/registries/achievementRegistry";
 
 export const ACHIEVEMENTS_KEY = "rule-the-realm.achievements";
 

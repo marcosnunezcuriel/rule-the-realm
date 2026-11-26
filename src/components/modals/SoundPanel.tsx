@@ -1,8 +1,8 @@
-import { useModalFocus } from "../../hooks/useModalFocus";
+import { useModalFocus } from "../../hooks/modals/useModalFocus";
 
 import type { SoundSettings } from "../../types/audio";
 
-import "../../styles/screens/SoundPanel.css";
+import "../../styles/modals/SoundPanel.css";
 
 type SoundPanelProps = {
     settings: SoundSettings;
