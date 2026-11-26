@@ -22,9 +22,6 @@ import type {
 } from "../../types/notifications";
 import type { KingdomValues } from "../../types/stats";
 
-// Mantener esta duración sincronizada con --duration-notification de los estilos.
-const NOTIFICATION_DURATION = 5000;
-
 // Eliminar la secuencia de cada variante de notificación.
 type WithoutSequence<T> =
     T extends { sequence: number }
@@ -33,6 +30,9 @@ type WithoutSequence<T> =
 
 type NotificationInput =
     WithoutSequence<GameNotification>;
+
+// Mantener esta duración sincronizada con --duration-notification de los estilos.
+const NOTIFICATION_DURATION = 5000;
 
 // Gestionar los avisos y su orden de aparición.
 export function useGameNotifications() {
@@ -43,6 +43,52 @@ export function useGameNotifications() {
 
     const displayedSequenceRef =
         useRef<number | null>(null);
+
+    const handleDismissNotification = useCallback(
+        (sequence: number) => {
+            setNotificationQueue((previous) => {
+                if (
+                    previous[0]?.sequence !== sequence
+                ) {
+                    return previous;
+                }
+
+                return previous.slice(1);
+            });
+        },
+        []
+    );
+
+    const activeNotification =
+        notificationQueue[0] ?? null;
+
+    useEffect(() => {
+        displayedSequenceRef.current =
+            activeNotification?.sequence ?? null;
+
+        if (activeNotification === null) {
+            return;
+        }
+
+        soundEngine.playEffect(
+            getNotificationEffect(
+                activeNotification
+            )
+        );
+
+        const timeoutId = window.setTimeout(() => {
+            handleDismissNotification(
+                activeNotification.sequence
+            );
+        }, NOTIFICATION_DURATION);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [
+        activeNotification,
+        handleDismissNotification,
+    ]);
 
     function enqueueNotification(
         input: NotificationInput
@@ -120,52 +166,6 @@ export function useGameNotifications() {
     function clearNotifications() {
         setNotificationQueue([]);
     }
-
-    const handleDismissNotification = useCallback(
-        (sequence: number) => {
-            setNotificationQueue((previous) => {
-                if (
-                    previous[0]?.sequence !== sequence
-                ) {
-                    return previous;
-                }
-
-                return previous.slice(1);
-            });
-        },
-        []
-    );
-
-    const activeNotification =
-        notificationQueue[0] ?? null;
-
-    useEffect(() => {
-        displayedSequenceRef.current =
-            activeNotification?.sequence ?? null;
-
-        if (activeNotification === null) {
-            return;
-        }
-
-        soundEngine.playEffect(
-            getNotificationEffect(
-                activeNotification
-            )
-        );
-
-        const timeoutId = window.setTimeout(() => {
-            handleDismissNotification(
-                activeNotification.sequence
-            );
-        }, NOTIFICATION_DURATION);
-
-        return () => {
-            window.clearTimeout(timeoutId);
-        };
-    }, [
-        activeNotification,
-        handleDismissNotification,
-    ]);
 
     return {
         activeNotification,

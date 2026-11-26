@@ -4,12 +4,12 @@ import GoldenFrame from "../shared/GoldenFrame";
 
 import { useModalFocus } from "../../hooks/modals/useModalFocus";
 
-const MAP_IMAGE =
-    "/assets/ui/astaria-map.png";
-
 type ExpandedMapProps = {
     onClose: () => void;
 };
+
+const MAP_IMAGE =
+    "/assets/ui/astaria-map.png";
 
 // Ventana ampliada del mapa.
 function ExpandedMap({

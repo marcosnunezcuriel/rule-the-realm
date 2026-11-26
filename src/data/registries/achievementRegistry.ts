@@ -6,15 +6,15 @@ import type { Decision } from "../../types/dialogue";
 type RegisteredAchievement =
     (typeof chapters)[number]["achievements"][number];
 
+export type AchievementId =
+    RegisteredAchievement["id"];
+
 // Registro global de logros.
 export const achievements = chapters.flatMap<
     RegisteredAchievement
 >(
     (chapter) => chapter.achievements
 );
-
-export type AchievementId =
-    RegisteredAchievement["id"];
 
 export function getDecisionAchievements(
     eventId: string,

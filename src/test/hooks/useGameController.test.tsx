@@ -44,13 +44,97 @@ const day2EventIds = [
     "14", "15", "16",
 ];
 
+// Recorridos de integración del Capítulo I.
+// Toda decisión no incluida en rejections será afirmativa.
+const chapterRoutes = [
+    {
+        monarch: "king" as const,
+
+        rejections: [
+            "15.1",
+            "22.1",
+            "34",
+            "12.2",
+            "37",
+            "42",
+        ],
+
+        days: [
+            "1 2 3 4 5 6 7 8 9 10",
+            "2.1 11 12 13 14 15 16",
+            "11.1 15.1 17 18 19 20 21 22",
+            "12.1 22.1 23 24 25 26 27 28",
+            "22.3 26.1 29 30 31 32 33 34",
+            "35 12.2 23.1 24.1 36 37 38 39 40",
+            "11.2 12.3 13.1 14.1 30.1 36.1 37.1 41 42 43 44 45 46",
+        ],
+
+        finalStats: {
+            gold: 362,
+            prestige: 221,
+            faith: 205,
+            population: 175,
+            army: 235,
+        },
+
+        finalModifiers: [
+            "silk-road",
+            "emerald-mine",
+            "modern-windmills",
+            "black-fever",
+        ],
+    },
+    {
+        monarch: "queen" as const,
+
+        rejections: [
+            "2",
+            "3",
+            "8",
+            "11",
+            "12",
+            "13",
+            "15",
+            "22",
+            "22.2",
+            "24",
+            "30",
+            "34",
+            "36",
+            "42",
+        ],
+
+        days: [
+            "1 2 3 4 5 6 7 8 9 10",
+            "3.1 11 12 13 14 15 16",
+            "15.2 17 18 19 20 21 22",
+            "23 24 25 26 27 28",
+            "22.2 26.1 29 30 31 32 33 34",
+            "35 23.1 36 37 38 39 40",
+            "14.1 30.2 36.2 41 42 43 44 45 46",
+        ],
+
+        finalStats: {
+            gold: 406,
+            prestige: 131,
+            faith: 205,
+            population: 105,
+            army: 150,
+        },
+
+        finalModifiers: [
+            "silk-road",
+            "black-fever",
+        ],
+    },
+];
+
 let root: Root | null = null;
 
-function ignoreNotification() {}
-
 const onRewardUnlocked = vi.fn();
-
 const onAchievementUnlocked = vi.fn();
+
+function ignoreNotification() {}
 
 // Componente auxiliar para probar el controlador
 // sin renderizar toda la interfaz del juego.
@@ -195,91 +279,6 @@ async function settleAudience() {
         });
     }
 }
-
-// Recorridos de integración del Capítulo I.
-// Toda decisión no incluida en rejections será afirmativa.
-const chapterRoutes = [
-    {
-        monarch: "king" as const,
-
-        rejections: [
-            "15.1",
-            "22.1",
-            "34",
-            "12.2",
-            "37",
-            "42",
-        ],
-
-        days: [
-            "1 2 3 4 5 6 7 8 9 10",
-            "2.1 11 12 13 14 15 16",
-            "11.1 15.1 17 18 19 20 21 22",
-            "12.1 22.1 23 24 25 26 27 28",
-            "22.3 26.1 29 30 31 32 33 34",
-            "35 12.2 23.1 24.1 36 37 38 39 40",
-            "11.2 12.3 13.1 14.1 30.1 36.1 37.1 41 42 43 44 45 46",
-        ],
-
-        finalStats: {
-            gold: 362,
-            prestige: 221,
-            faith: 205,
-            population: 175,
-            army: 235,
-        },
-
-        finalModifiers: [
-            "silk-road",
-            "emerald-mine",
-            "modern-windmills",
-            "black-fever",
-        ],
-    },
-    {
-        monarch: "queen" as const,
-
-        rejections: [
-            "2",
-            "3",
-            "8",
-            "11",
-            "12",
-            "13",
-            "15",
-            "22",
-            "22.2",
-            "24",
-            "30",
-            "34",
-            "36",
-            "42",
-        ],
-
-        days: [
-            "1 2 3 4 5 6 7 8 9 10",
-            "3.1 11 12 13 14 15 16",
-            "15.2 17 18 19 20 21 22",
-            "23 24 25 26 27 28",
-            "22.2 26.1 29 30 31 32 33 34",
-            "35 23.1 36 37 38 39 40",
-            "14.1 30.2 36.2 41 42 43 44 45 46",
-        ],
-
-        finalStats: {
-            gold: 406,
-            prestige: 131,
-            faith: 205,
-            population: 105,
-            army: 150,
-        },
-
-        finalModifiers: [
-            "silk-road",
-            "black-fever",
-        ],
-    },
-];
 
 describe("Flujo y recuperación de partidas", () => {
     beforeEach(() => {

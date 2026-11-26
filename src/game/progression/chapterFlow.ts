@@ -14,6 +14,12 @@ import type { ScreenTransitionPlan } from "./screenFlow";
 import type { SaveGame } from "../../types/saveGame";
 import type { KingdomValues } from "../../types/stats";
 
+type DayAdvancePlan = {
+    transition: ScreenTransitionPlan;
+    achievements: AchievementId[];
+    resetEndingParagraph: boolean;
+};
+
 // Un capítulo se completa únicamente si el reino
 // sobrevive a su último cierre nocturno.
 export function hasCompletedChapter(
@@ -45,12 +51,6 @@ export function getChapterPresentation(
                 : "Siguiente día",
     };
 }
-
-type DayAdvancePlan = {
-    transition: ScreenTransitionPlan;
-    achievements: AchievementId[];
-    resetEndingParagraph: boolean;
-};
 
 // Determinar si corresponde comenzar otro día
 // o mostrar el epílogo del capítulo.

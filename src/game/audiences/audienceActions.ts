@@ -65,6 +65,12 @@ export type AudienceOperation = {
     transition: ScreenTransitionPlan | null;
 };
 
+type AudienceCompletionInput = {
+    currentAudience: GameEvent | undefined;
+    morningCount: number;
+    timeOfDay: SceneTime;
+};
+
 // Calcular los modificadores resultantes y preparar
 // las notificaciones correspondientes.
 function collectModifierChanges(
@@ -221,12 +227,6 @@ export function planDecision(
         transition: null,
     };
 }
-
-type AudienceCompletionInput = {
-    currentAudience: GameEvent | undefined;
-    morningCount: number;
-    timeOfDay: SceneTime;
-};
 
 // Preparar la finalización de la audiencia actual.
 export function planAudienceCompletion(

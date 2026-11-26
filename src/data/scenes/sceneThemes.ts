@@ -8,6 +8,13 @@ type SceneTheme = {
     backgrounds: SceneBackgroundMap;
 };
 
+// Efectos ambientales que cambian inmediatamente
+// cuando se activa o desactiva un modificador.
+type SceneVisualEffect = {
+    modifierId: ModifierId;
+    className: string;
+};
+
 export const defaultSceneBackgrounds: SceneBackgroundMap = {
     morning: "/assets/backgrounds/background-morning.png",
     evening: "/assets/backgrounds/background-evening.png",
@@ -24,13 +31,6 @@ export const sceneThemes: SceneTheme[] = [
         },
     },
 ];
-
-// Efectos ambientales que cambian inmediatamente
-// cuando se activa o desactiva un modificador.
-type SceneVisualEffect = {
-    modifierId: ModifierId;
-    className: string;
-};
 
 export const sceneVisualEffects: SceneVisualEffect[] = [
     {

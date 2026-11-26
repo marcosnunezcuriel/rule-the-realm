@@ -5,9 +5,6 @@ import type {
     FadeStage,
 } from "../../types/game";
 
-// Duración del cambio de fondo antes de introducir al siguiente visitante.
-const BACKGROUND_TRANSITION_DURATION = 1500;
-
 type GameTransitionsInput = {
     phase: AudiencePhase;
     setPhase: (phase: AudiencePhase) => void;
@@ -22,6 +19,9 @@ type ScreenTransitionRequest = {
     // Operación que se ejecuta al terminar el fundido.
     onLight?: () => void;
 };
+
+// Duración del cambio de fondo antes de introducir al siguiente visitante.
+const BACKGROUND_TRANSITION_DURATION = 1500;
 
 // Gestionar exclusivamente las transiciones visuales.
 export function useGameTransitions({

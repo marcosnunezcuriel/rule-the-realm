@@ -56,6 +56,20 @@ function isStoryFlagArray(
     );
 }
 
+// Todos los modificadores guardados deben existir.
+// También rechazamos modificadores repetidos.
+function isModifierArray(
+    value: unknown
+): value is ModifierId[] {
+    return (
+        isStringArray(value) &&
+        new Set(value).size === value.length &&
+        value.every((id) => {
+            return Object.hasOwn(modifierDefinitions, id);
+        })
+    );
+}
+
 // Comprobar que las estadísticas estén completas.
 function isStats(value: unknown): value is KingdomValues {
     if (!isRecord(value)) {
@@ -88,20 +102,6 @@ function isChanges(value: unknown): boolean {
                 typeof amount === "number" &&
                 Number.isFinite(amount)
             );
-        })
-    );
-}
-
-// Todos los modificadores guardados deben existir.
-// También rechazamos modificadores repetidos.
-function isModifierArray(
-    value: unknown
-): value is ModifierId[] {
-    return (
-        isStringArray(value) &&
-        new Set(value).size === value.length &&
-        value.every((id) => {
-            return Object.hasOwn(modifierDefinitions, id);
         })
     );
 }

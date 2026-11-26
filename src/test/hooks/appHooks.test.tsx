@@ -52,6 +52,9 @@ type AppHooks = {
     audio: ReturnType<typeof useSoundSettings>;
 };
 
+type AudioInput =
+    Parameters<typeof useGameAudio>[0];
+
 const apiRef = createRef<AppHooks>();
 
 let root: Root;
@@ -124,9 +127,6 @@ function finishNavigation() {
         navigation.handleNavigationFadeEnd();
     });
 }
-
-type AudioInput =
-    Parameters<typeof useGameAudio>[0];
 
 function AudioHarness(input: AudioInput) {
     useGameAudio(input);

@@ -6,12 +6,12 @@ import GoldenFrame from "../shared/GoldenFrame";
 
 import "../../styles/screens/NightRest.css";
 
-// Un ciclo del GIF: 4 fotogramas de 650 ms.
-export const NIGHT_REST_DURATION_MS = 2600;
-
 type NightRestProps = {
     onFinish: () => void;
 };
+
+// Un ciclo del GIF: 4 fotogramas de 650 ms.
+export const NIGHT_REST_DURATION_MS = 2600;
 
 function NightRest({ onFinish }: NightRestProps) {
     const onFinishRef = useRef(onFinish);

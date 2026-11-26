@@ -15,6 +15,18 @@ import type {
 
 import { assetUrl } from "../../utils/assetUrl";
 
+type ThroneSceneProps = SceneVisitorProps & {
+    monarch: MonarchRole;
+    timeOfDay: SceneTime;
+
+    visitorKey: string;
+
+    backgroundMap: SceneBackgroundMap;
+    visualClassName?: string;
+
+    children?: ReactNode;
+};
+
 const sceneTimes = [
     "morning",
     "evening",
@@ -42,18 +54,6 @@ const monarchPoses: Record<
         night:
             "/assets/characters/royalty/queen-throne-pose-3.png",
     },
-};
-
-type ThroneSceneProps = SceneVisitorProps & {
-    monarch: MonarchRole;
-    timeOfDay: SceneTime;
-
-    visitorKey: string;
-
-    backgroundMap: SceneBackgroundMap;
-    visualClassName?: string;
-
-    children?: ReactNode;
 };
 
 // Representación del salón del trono.
