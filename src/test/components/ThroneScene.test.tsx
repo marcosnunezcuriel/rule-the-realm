@@ -6,16 +6,23 @@ import ThroneScene from "../../components/scene/ThroneScene";
 import { getSceneBackgrounds } from "../../game/getSceneBackgrounds";
 
 import type { MonarchRole } from "../../types/monarch";
+import type {
+    SceneTime,
+    SceneBackgroundMap,
+} from "../../types/scene";
 
 function renderScene(
     blackFeverActive: boolean,
-    monarch: MonarchRole = "king"
+    monarch: MonarchRole = "king",
+    timeOfDay: SceneTime = "morning",
+    backgroundMap: SceneBackgroundMap =
+        getSceneBackgrounds([])
 ): string {
     return renderToStaticMarkup(
         <ThroneScene
             monarch={monarch}
-            timeOfDay="morning"
-            backgroundMap={getSceneBackgrounds([])}
+            timeOfDay={timeOfDay}
+            backgroundMap={backgroundMap}
             blackFeverActive={blackFeverActive}
             visitorPhase="speaking"
             visitorImage="/assets/characters/courtiers/royal-advisor.png"
@@ -80,6 +87,65 @@ describe("Escenario del salón del trono", () => {
 
         expect(html).toContain(
             'class="throne-stage__dialogue"><p>Diálogo de prueba</p>'
+        );
+    });
+
+    it("mantiene los tres fondos montados para sus transiciones", () => {
+        const html = renderScene(
+            false,
+            "king",
+            "evening"
+        );
+
+        expect(
+            html.match(
+                /class="throne-stage__background(?: |")/g
+            )
+        ).toHaveLength(3);
+
+        expect(
+            html.match(
+                /class="throne-stage__background throne-stage__background--active"/g
+            )
+        ).toHaveLength(1);
+
+        expect(html).toMatch(
+            /class="throne-stage__background throne-stage__background--active"[^>]*src="[^"]*background-evening\.png"/
+        );
+    });
+
+    it("conserva los fondos del circo y la pose correspondiente", () => {
+        const html = renderScene(
+            false,
+            "queen",
+            "evening",
+            getSceneBackgrounds([
+                "traveling-circus",
+            ])
+        );
+
+        expect(html).toContain(
+            "background-morning-circus.png"
+        );
+
+        expect(html).toContain(
+            "background-evening-circus.png"
+        );
+
+        expect(html).toContain(
+            "background-night-circus.png"
+        );
+
+        expect(html).toMatch(
+            /class="throne-stage__background throne-stage__background--active"[^>]*src="[^"]*background-evening-circus\.png"/
+        );
+
+        expect(html).toMatch(
+            /class="character character--monarch character--monarch--active"[^>]*src="[^"]*queen-throne-pose-2\.png"/
+        );
+
+        expect(html).not.toContain(
+            "scene-stage--special"
         );
     });
 });

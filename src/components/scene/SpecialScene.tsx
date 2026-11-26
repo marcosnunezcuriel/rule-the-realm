@@ -1,100 +1,59 @@
 import type { ReactNode } from "react";
 
-import type { AudiencePhase } from "../../types/game";
+import {
+    specialSceneRegistry,
+} from "../../data/scenes/specialSceneRegistry";
 
 import type {
     SpecialSceneId,
 } from "../../data/scenes/specialSceneRegistry";
 
-import { assetUrl } from "../../utils/assetUrl";
+import SceneStage from "./SceneStage";
+import SceneBackground from "./SceneBackground";
+import SceneVisitor from "./SceneVisitor";
 
-import "../../styles/scene/ThroneScene.css";
-import "../../styles/scene/JoustScene.css";
+import type {
+    SceneVisitorProps,
+} from "./SceneVisitor";
 
-type SpecialSceneProps = {
+type SpecialSceneProps = SceneVisitorProps & {
     sceneId: SpecialSceneId;
     background: string;
-
-    visitorPhase: AudiencePhase;
-    visitorImage: string;
-    visitorName: string;
     visitorKey: string;
-
-    onVisitorAnimationEnd: () => void;
 
     children?: ReactNode;
 };
 
-// Representación visual de cualquier escenario especial.
+// Representación de cualquier escenario especial.
 function SpecialScene({
     sceneId,
     background,
-    visitorPhase,
-    visitorImage,
-    visitorName,
     visitorKey,
-    onVisitorAnimationEnd,
     children,
+    ...visitor
 }: SpecialSceneProps) {
-    const showVisitor =
-        visitorPhase === "entering" ||
-        visitorPhase === "speaking" ||
-        visitorPhase === "exiting";
+    const layout =
+        specialSceneRegistry[sceneId].layout;
 
     return (
-        <main
-            className={`throne-scene ${sceneId}-scene`}
-        >
-            <div
-                className={`throne-stage ${sceneId}-stage`}
-            >
-                <div className="throne-stage__visuals">
+        <SceneStage
+            layout={layout}
 
-                    {/* Fondo del escenario especial */}
-                    <img
-                        className="
-                            throne-stage__background
-                            throne-stage__background--active
-                        "
-                        src={assetUrl(background)}
-                        alt=""
-                        aria-hidden="true"
-                        draggable={false}
+            visuals={
+                <>
+                    <SceneBackground
+                        src={background}
                     />
 
-                    {/* Visitante */}
-                    {showVisitor && (
-                        <div
-                            key={visitorKey}
-                            className={
-                                `character character--visitor ` +
-                                `visitor--${visitorPhase}`
-                            }
-                            onAnimationEnd={(event) => {
-                                if (
-                                    event.target ===
-                                    event.currentTarget
-                                ) {
-                                    onVisitorAnimationEnd();
-                                }
-                            }}
-                        >
-                            <img
-                                className="visitor__image"
-                                src={assetUrl(visitorImage)}
-                                alt={visitorName}
-                                draggable={false}
-                            />
-                        </div>
-                    )}
-                </div>
-
-                {/* Diálogo y decisión del monarca */}
-                <div className="throne-stage__dialogue">
-                    {children}
-                </div>
-            </div>
-        </main>
+                    <SceneVisitor
+                        key={visitorKey}
+                        {...visitor}
+                    />
+                </>
+            }
+        >
+            {children}
+        </SceneStage>
     );
 }
 

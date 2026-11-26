@@ -19,4 +19,29 @@ export const joustScene: SpecialSceneDefinition = {
             },
         },
     ],
+
+    layout: {
+        aspectRatio: [3, 2],
+
+        visitor: {
+            right: 2,
+            bottom: 20,
+            width: 26,
+        },
+
+        dialogue: {
+            visitor: {
+                left: 57,
+                bottom: 60,
+                width: 40,
+                tailRight: 14,
+            },
+
+            monarch: {
+                top: 7,
+                left: 25,
+                tailLeft: 12,
+            },
+        },
+    },
 };

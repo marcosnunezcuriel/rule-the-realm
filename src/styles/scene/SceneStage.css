@@ -89,8 +89,10 @@
 }
 
 .character--visitor {
-    right: 6%;
-    width: 33%;
+    right: var(--scene-visitor-right, 6%);
+    bottom: var(--scene-visitor-bottom, 3%);
+    width: var(--scene-visitor-width, 33%);
+
     z-index: 2;
 }
 

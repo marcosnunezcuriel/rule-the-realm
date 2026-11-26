@@ -18,8 +18,39 @@ export type SpecialSceneVariant = {
     backgrounds: SpecialSceneBackgrounds;
 };
 
+// Distribución visual de un escenario especial.
+// Las posiciones y anchuras se expresan en porcentajes.
+export type SpecialSceneLayout = {
+    aspectRatio: readonly [
+        width: number,
+        height: number,
+    ];
+
+    visitor: {
+        right: number;
+        bottom: number;
+        width: number;
+    };
+
+    dialogue: {
+        visitor: {
+            left: number;
+            bottom: number;
+            width: number;
+            tailRight: number;
+        };
+
+        monarch: {
+            top: number;
+            left: number;
+            tailLeft: number;
+        };
+    };
+};
+
 // Configuración visual de un escenario especial.
 export type SpecialSceneDefinition = {
     backgrounds: SpecialSceneBackgrounds;
     variants?: readonly SpecialSceneVariant[];
+    layout: SpecialSceneLayout;
 };

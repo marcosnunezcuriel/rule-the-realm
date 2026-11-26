@@ -15,9 +15,9 @@
 
 @media (min-width: 64.001rem) {
 
-    /* Escenario de la justa */
+    /* Escenarios especiales */
 
-    .joust-scene {
+    .scene--special {
         container-type: size;
 
         /* Reservar espacio para las estadísticas */
@@ -28,36 +28,39 @@
         );
     }
 
-    .joust-stage {
-        aspect-ratio: 3 / 2;
+    .scene-stage--special {
+        aspect-ratio: var(--scene-aspect-ratio);
 
-        width: min(100cqw, 150cqh);
+        width: min(
+            100cqw,
+            var(--scene-stage-width)
+        );
+
         max-width: 100%;
-
         height: auto;
     }
 
-    /* Bocadillo del caballero campeón */
+    /* Bocadillo del visitante */
 
-    .joust-stage .speech-bubble--visitor {
-        left: 57%;
-        bottom: 60%;
-        width: 40%;
+    .scene-stage--special .speech-bubble--visitor {
+        left: var(--scene-dialogue-visitor-left);
+        bottom: var(--scene-dialogue-visitor-bottom);
+        width: var(--scene-dialogue-visitor-width);
     }
 
-    .joust-stage .speech-bubble--visitor::after {
-        right: 14%;
+    .scene-stage--special .speech-bubble--visitor::after {
+        right: var(--scene-dialogue-visitor-tail);
     }
 
     /* Bocadillo de decisión del monarca */
 
-    .joust-stage .speech-bubble--king {
-        top: 7%;
-        left: 25%;
+    .scene-stage--special .speech-bubble--king {
+        top: var(--scene-dialogue-monarch-top);
+        left: var(--scene-dialogue-monarch-left);
     }
 
-    .joust-stage .speech-bubble--king::after {
-        left: 12%;
+    .scene-stage--special .speech-bubble--king::after {
+        left: var(--scene-dialogue-monarch-tail);
     }
 }
 
@@ -68,17 +71,17 @@
 @media (min-width: 64.001rem)
     and (max-height: 43rem) {
 
-    /* Diálogos de la justa */
+    /* Diálogos de escenarios especiales */
 
-    .joust-stage .speech-bubble {
+    .scene-stage--special .speech-bubble {
         padding: var(--space-2) var(--space-3);
     }
 
-    .joust-stage .speech-bubble__speaker {
+    .scene-stage--special .speech-bubble__speaker {
         font-size: var(--font-size-16);
     }
 
-    .joust-stage .speech-bubble__text {
+    .scene-stage--special .speech-bubble__text {
         font-size: var(--font-size-14);
         line-height: 1.3;
     }
@@ -453,10 +456,10 @@
         overflow: hidden;
     }
 
-    /* Escenario especial de la justa */
-
-    .joust-stage .throne-stage__visuals {
-        aspect-ratio: 3 / 2;
+    /* Proporciones de los escenarios especiales */
+    
+    .scene-stage--special .throne-stage__visuals {
+        aspect-ratio: var(--scene-aspect-ratio);
     }
 
     /* Diálogo debajo del escenario */

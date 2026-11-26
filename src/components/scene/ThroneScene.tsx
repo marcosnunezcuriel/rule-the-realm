@@ -1,15 +1,27 @@
 import type { ReactNode } from "react";
 
-import type { AudiencePhase } from "../../types/game";
 import type {
     SceneBackgroundMap,
     SceneTime,
 } from "../../types/scene";
+
 import type { MonarchRole } from "../../types/monarch";
 
 import { assetUrl } from "../../utils/assetUrl";
 
-import "../../styles/scene/ThroneScene.css";
+import SceneStage from "./SceneStage";
+import SceneBackground from "./SceneBackground";
+import SceneVisitor from "./SceneVisitor";
+
+import type {
+    SceneVisitorProps,
+} from "./SceneVisitor";
+
+const sceneTimes = [
+    "morning",
+    "evening",
+    "night",
+] as const;
 
 const monarchPoses: Record<
     MonarchRole,
@@ -34,153 +46,83 @@ const monarchPoses: Record<
     },
 };
 
-type ThroneSceneProps = {
+type ThroneSceneProps = SceneVisitorProps & {
     monarch: MonarchRole;
     timeOfDay: SceneTime;
-    visitorPhase: AudiencePhase;
-    visitorImage: string;
-    visitorName: string;
+
     visitorKey: string;
-    onVisitorAnimationEnd: () => void;
-    children?: ReactNode;
+
     backgroundMap: SceneBackgroundMap;
     blackFeverActive: boolean;
+
+    children?: ReactNode;
 };
 
+// Representación del salón del trono.
 function ThroneScene({
     monarch,
     timeOfDay,
-    visitorPhase,
-    visitorImage,
-    visitorName,
     visitorKey,
-    onVisitorAnimationEnd,
     children,
     backgroundMap,
     blackFeverActive,
+    ...visitor
 }: ThroneSceneProps) {
-    const showVisitor =
-        visitorPhase === "entering" ||
-        visitorPhase === "speaking" ||
-        visitorPhase === "exiting";
-
-    
-    const poses = [
-            {
-                time: "morning",
-                image: monarchPoses[monarch].morning,
-            },
-            {
-                time: "evening",
-                image: monarchPoses[monarch].evening,
-            },
-            {
-                time: "night",
-                image: monarchPoses[monarch].night,
-            },
-        ] as const;
-
-    const backgrounds = [
-        {
-            time: "morning",
-            src: backgroundMap.morning,
-        },
-        {
-            time: "evening",
-            src: backgroundMap.evening,
-        },
-        {
-            time: "night",
-            src: backgroundMap.night,
-        },
-    ] as const;
-
     return (
-        <main className="throne-scene">
-            <div className="throne-stage">
+        <SceneStage
+            visualClassName={
+                blackFeverActive
+                    ? "throne-stage__visuals--black-fever"
+                    : undefined
+            }
 
-                {/* Ilustraciones del escenario */}
-                <div
-                    className={
-                        "throne-stage__visuals" +
-                        (
-                            blackFeverActive
-                                ? " throne-stage__visuals--black-fever"
-                                : ""
-                        )
-                    }
-                >
-                    {backgrounds.map((background) => (
-                        <img
-                            key={background.time}
-                            className={`throne-stage__background ${
-                                timeOfDay === background.time
-                                    ? "throne-stage__background--active"
-                                    : ""
-                            }`}
-                            src={assetUrl(background.src)}
-                            alt=""
-                            aria-hidden="true"
-                            draggable={false}
+            visuals={
+                <>
+                    {/* Fondos según el momento del día */}
+                    {sceneTimes.map((time) => (
+                        <SceneBackground
+                            key={time}
+                            src={backgroundMap[time]}
+                            active={timeOfDay === time}
                         />
                     ))}
 
-                    {/* Poses del monarca según el momento del día */}
-                    {poses.map((pose) => (
+                    {/* Poses del monarca */}
+                    {sceneTimes.map((time) => (
                         <img
-                            key={`${monarch}-${pose.time}`}
+                            key={`${monarch}-${time}`}
                             className={
-                                `character character--monarch ` +
+                                "character character--monarch" +
                                 (
-                                    timeOfDay === pose.time
-                                        ? "character--monarch--active"
+                                    timeOfDay === time
+                                        ? " character--monarch--active"
                                         : ""
                                 )
                             }
-                            src={assetUrl(pose.image)}
+                            src={assetUrl(
+                                monarchPoses[monarch][time]
+                            )}
                             alt={
-                                timeOfDay === pose.time
+                                timeOfDay === time
                                     ? monarch === "king"
                                         ? "Rey de Astaria"
                                         : "Reina de Astaria"
                                     : ""
                             }
-                            aria-hidden={timeOfDay !== pose.time}
+                            aria-hidden={timeOfDay !== time}
                             draggable={false}
                         />
                     ))}
 
-                    {showVisitor && (
-                        <div
-                            key={visitorKey}
-                            className={
-                                `character character--visitor ` +
-                                `visitor--${visitorPhase}`
-                            }
-                            onAnimationEnd={(event) => {
-                                if (
-                                    event.target === event.currentTarget
-                                ) {
-                                    onVisitorAnimationEnd();
-                                }
-                            }}
-                        >
-                            <img
-                                className="visitor__image"
-                                src={assetUrl(visitorImage)}
-                                alt={visitorName}
-                                draggable={false}
-                            />
-                        </div>
-                    )}
-                </div>
-
-                {/* Diálogos: superpuestos en PC, debajo en móvil */}
-                <div className="throne-stage__dialogue">
-                    {children}
-                </div>
-            </div>
-        </main>
+                    <SceneVisitor
+                        key={visitorKey}
+                        {...visitor}
+                    />
+                </>
+            }
+        >
+            {children}
+        </SceneStage>
     );
 }
 
