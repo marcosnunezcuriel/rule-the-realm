@@ -14,6 +14,18 @@ describe("Formato de textos narrativos", () => {
         expect(html).toContain("<em>Fiebre negra</em>");
     });
 
+    it("muestra Libro de las Ocho Virtudes en cursiva", () => {
+        const html = renderToStaticMarkup(
+            <FormattedText
+                text="Os entrego el Libro de las Ocho Virtudes."
+            />
+        );
+
+        expect(html).toContain(
+            "<em>Libro de las Ocho Virtudes</em>"
+        );
+    });
+
     it("reconoce la expresión en minúsculas", () => {
         const html = renderToStaticMarkup(
             <FormattedText text="La fiebre negra amenaza Astaria." />

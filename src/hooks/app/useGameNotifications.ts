@@ -14,6 +14,7 @@ import { getNotificationEffect } from "../../game/notifications/getNotificationE
 import { insertGameNotification } from "../../game/notifications/insertGameNotification";
 
 import { unlockAchievement } from "../../storage/achievementsStorage";
+import { unlockItem } from "../../storage/itemsStorage";
 
 import type { ModifierId } from "../../types/modifiers";
 import type {
@@ -21,6 +22,8 @@ import type {
     ModifierChange,
 } from "../../types/notifications";
 import type { KingdomValues } from "../../types/stats";
+import type { MonarchRole } from "../../types/monarch";
+import type { GameReward } from "../../types/rewards";
 
 // Eliminar la secuencia de cada variante de notificación.
 type WithoutSequence<T> =
@@ -157,9 +160,29 @@ export function useGameNotifications() {
         });
     }
 
+     // Registrar el objeto correspondiente al protagonista.
+    function handleItemReward(
+        reward: Extract<GameReward, { kind: "item" }>,
+        monarch: MonarchRole
+    ) {
+        const id = monarch === "queen"
+            ? reward.queenItemId ?? reward.itemId
+            : reward.itemId;
+
+        if (!unlockItem(id)) {
+            return;
+        }
+
+        enqueueNotification({
+            kind: "item-unlocked",
+            id,
+        });
+    }
+
     function notifyAnthemUnlocked() {
         enqueueNotification({
-            kind: "anthem-unlocked",
+            kind: "item-unlocked",
+            id: "anthem-of-astaria",
         });
     }
 
@@ -174,6 +197,7 @@ export function useGameNotifications() {
         handleModifierChanged,
         handleAchievementUnlocked,
 
+        handleItemReward,
         notifyAnthemUnlocked,
         clearNotifications,
     };

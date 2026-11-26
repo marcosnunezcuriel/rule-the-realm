@@ -135,7 +135,7 @@ export function useSoundSettings(
     }
 
     function handleRewardUnlocked(
-        reward: GameReward
+        reward: Extract<GameReward, { kind: "music" }>
     ) {
         switch (reward.kind) {
             case "music": {

@@ -163,6 +163,18 @@
     left: var(--space-7-5);
 }
 
+/* Botón de objetos encima del botón de logros */
+.main-menu__items {
+    bottom: calc(var(--space-7) + 3.5rem);
+}
+
+/* Igualar la anchura de los botones de las colecciones */
+.main-menu__achievements:not(.main-menu__sound) {
+    width: 13rem;
+
+    justify-content: center;
+}
+
 /* Confirmación de partida nueva */
 .main-menu__backdrop {
     position: absolute;

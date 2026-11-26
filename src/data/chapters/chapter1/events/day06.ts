@@ -90,10 +90,17 @@ export const day06Events: GameEvent[] = [
             introduction: [
                 "¡Por fin está terminado, mi señor! Contemplad vuestro retrato oficial.",
                 "Los nobles murmurarán maravillados y los embajadores extranjeros inclinarán la cabeza con respeto ante el lienzo.",
-                "La obra ya preside el salón principal del castillo para gloria eterna de vuestra corona.",
+                "Os entrego esta obra para que presida el salón principal del castillo, para gloria eterna de vuestra corona.",
             ],
         },
         baseEffects: { prestige: 20 },
+        rewardsOnComplete: [
+            {
+                kind: "item",
+                itemId: "royal-portrait-king",
+                queenItemId: "royal-portrait-queen",
+            },
+        ],
     },
 
     // Evento 24.1 — El himno de Astaria está listo
@@ -110,6 +117,7 @@ export const day06Events: GameEvent[] = [
                 "Durante estos días, los músicos de la corte y yo hemos trabajado sin descanso para componer una melodía digna de nuestro reino.",
                 "Hemos reunido instrumentos de todas las provincias de Astaria y creado una obra que, estoy seguro, emocionará tanto a los nobles como al más humilde de los campesinos.",
                 "Los músicos ya han ensayado la composición y están preparados para interpretarla cuando os plazca.",
+                "Aquí tenéis la partitura original del himno de Astaria. Que esta obra perdure durante generaciones.",
             ],
         },
         baseEffects: { prestige: 20 },
@@ -204,7 +212,8 @@ export const day06Events: GameEvent[] = [
             responses: {
                 yes: [
                     "Sabía que comprenderíais cuándo conviene cerrar los ojos.",
-                    "Aquí tenéis vuestra parte del botín.",
+                    "Aquí tenéis vuestra parte del botín, unas monedas y esta magnífica alfombra de piel de lobo blanco.",
+                    "Vuestros salones estarán mucho más cálidos este invierno, mi señor.",
                 ],
                 no: [
                     "¡Maldita sea vuestra honradez!",
@@ -214,6 +223,14 @@ export const day06Events: GameEvent[] = [
         effects: {
             yes: { gold: 15 },
             no: {},
+        },
+        rewards: {
+            yes: [
+                {
+                    kind: "item",
+                    itemId: "white-wolf-fur-rug",
+                },
+            ],
         },
         unlocks: {
             no: ["37.1"],

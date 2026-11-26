@@ -39,7 +39,8 @@ describe("Sonidos de notificaciones", () => {
 
         expect(getNotificationEffect({
             sequence: 5,
-            kind: "anthem-unlocked",
+            kind: "item-unlocked",
+            id: "anthem-of-astaria",
         })).toBe("notification-achievement");
     });
 });

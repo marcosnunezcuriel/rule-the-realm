@@ -278,22 +278,33 @@ export const day01Events: GameEvent[] = [
             speaker: "Duque de Bosqueencantado",
             introduction: [
                 "¡Qué inmensa alegría contemplar a Vuestra Majestad! Soy el Duque de Bosqueencantado, humilde servidor de la Corona y de la fe.",
-                "No vengo a pediros nada, Majestad. Solo a ofreceros mi lealtad incondicional y a donar un santuario en vuestro honor. ¿Aceptáis mi humilde bendición?",
+                "No vengo a pediros nada, Majestad. Solo a ofreceros mi lealtad incondicional y a obsequiaros con una antigua reliquia que mi familia ha custodiado durante generaciones.",
+                "¿Aceptaréis este humilde presente como muestra de mi devoción hacia la Corona?",
             ],
             responses: {
                 yes: [
-                    "¡Que la estrella de ocho puntas ilumine siempre vuestro trono, mi señor!",
+                    "¡Qué gran honor, mi señor! Aquí os entrego el Libro de las Ocho Virtudes, uno de los textos más venerados de nuestra fe.",
+                    "Sus páginas contienen las enseñanzas que todo buen soberano debería seguir.",
+                    "¡Que la estrella de ocho puntas ilumine siempre vuestro trono!",
                     "Todo el clero y la corte alaban vuestra piedad y cercanía.",
                 ],
                 no: [
-                    "Ah, qué modestia la vuestra al rechazar halagos. ¡Eso os honra aún más!",
+                    "Ah, qué modestia la vuestra al rechazar semejante presente. ¡Eso os honra aún más!",
                     "De todas formas, ya he ordenado rezar por vos en todos los templos. Contad conmigo para siempre.",
                 ],
             },
         },
         effects: {
-            yes: { faith: 10, prestige: 5 },
-            no: { faith: 5, prestige: 10 },
+            yes: { faith: 10 },
+            no: { prestige: 10 },
+        },
+        rewards: {
+            yes: [
+                {
+                    kind: "item",
+                    itemId: "book-of-eight-virtues",
+                },
+            ],
         },
     },
 

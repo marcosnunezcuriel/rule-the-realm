@@ -169,4 +169,59 @@ describe("Acontecimientos del Capítulo I", () => {
             }
         }
     });
+
+    it("concede los objetos mediante las decisiones y acontecimientos correspondientes", () => {
+        expect(
+            byId.get("9")?.rewards?.yes
+        ).toEqual([
+            {
+                kind: "item",
+                itemId: "book-of-eight-virtues",
+            },
+        ]);
+
+        expect(
+            byId.get("9")?.rewards?.no
+        ).toBeUndefined();
+
+        expect(
+            byId.get("12.1")?.rewardsOnComplete
+        ).toEqual([
+            {
+                kind: "item",
+                itemId: "rough-emerald",
+            },
+        ]);
+
+        expect(
+            byId.get("23.1")?.rewardsOnComplete
+        ).toEqual([
+            {
+                kind: "item",
+                itemId: "royal-portrait-king",
+                queenItemId: "royal-portrait-queen",
+            },
+        ]);
+
+        expect(
+            byId.get("37")?.rewards?.yes
+        ).toEqual([
+            {
+                kind: "item",
+                itemId: "white-wolf-fur-rug",
+            },
+        ]);
+
+        expect(
+            byId.get("37")?.rewards?.no
+        ).toBeUndefined();
+
+        expect(
+            byId.get("37")?.unlocks?.yes ?? []
+        ).not.toContain("37.1");
+
+        expect(
+            byId.get("37")?.unlocks?.no
+        ).toContain("37.1");
+    });
 });

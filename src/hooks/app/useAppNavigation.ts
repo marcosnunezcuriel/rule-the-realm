@@ -12,6 +12,7 @@ import type { MonarchRole } from "../../types/monarch";
 type AppView =
     | "menu"
     | "achievements"
+    | "items"
     | "choose-monarch"
     | "intro"
     | "game";

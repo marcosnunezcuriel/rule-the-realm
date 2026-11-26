@@ -71,7 +71,7 @@ const chapterRoutes = [
 
         finalStats: {
             gold: 362,
-            prestige: 221,
+            prestige: 216,
             faith: 205,
             population: 185,
             army: 235,
@@ -117,7 +117,7 @@ const chapterRoutes = [
 
         finalStats: {
             gold: 421,
-            prestige: 111,
+            prestige: 106,
             faith: 205,
             population: 90,
             army: 150,
@@ -1201,20 +1201,53 @@ describe("Flujo y recuperación de partidas", () => {
                 ])
             );
 
-            expect(
-                onRewardUnlocked
-            ).toHaveBeenCalledTimes(
-                monarch === "king" ? 1 : 0
-            );
+            const expectedRewards = [
+                {
+                    kind: "item",
+                    itemId: "book-of-eight-virtues",
+                },
 
-            if (monarch === "king") {
-                expect(
-                    onRewardUnlocked
-                ).toHaveBeenCalledWith({
-                    kind: "music",
-                    track: "anthem",
-                });
-            }
+                ...(monarch === "king"
+                    ? [
+                        {
+                            kind: "item",
+                            itemId: "rough-emerald",
+                        },
+                    ]
+                    : []),
+
+                {
+                    kind: "item",
+                    itemId: "royal-portrait-king",
+                    queenItemId: "royal-portrait-queen",
+                },
+
+                ...(monarch === "king"
+                    ? [
+                        {
+                            kind: "music",
+                            track: "anthem",
+                        },
+                    ]
+                    : [
+                        {
+                            kind: "item",
+                            itemId: "white-wolf-fur-rug",
+                        },
+                    ]),
+            ];
+
+            expect(
+                onRewardUnlocked.mock.calls.map(
+                    ([reward]) => reward
+                )
+            ).toEqual(expectedRewards);
+
+            expect(
+                onAchievementUnlocked.mock.calls.some(
+                    ([id]) => id === "grateful-duke"
+                )
+            ).toBe(monarch === "king");
 
             expect(
                 onAchievementUnlocked

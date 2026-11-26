@@ -7,10 +7,13 @@ import SoundPanel from "./components/modals/SoundPanel";
 import GameSession from "./components/screens/GameSession";
 import WelcomeIntroduction from "./components/screens/WelcomeIntroduction";
 import FadeOverlay from "./components/shared/FadeOverlay";
+import ItemsScreen from "./components/menu/ItemsScreen";
 
 import { useAppNavigation } from "./hooks/app/useAppNavigation";
 import { useGameNotifications } from "./hooks/app/useGameNotifications";
 import { useSoundSettings } from "./hooks/app/useSoundSettings";
+
+import type { GameReward } from "./types/rewards";
 
 function App() {
     const notifications =
@@ -23,6 +26,21 @@ function App() {
     const audio = useSoundSettings(
         notifications.notifyAnthemUnlocked
     );
+
+    // Distribuir las recompensas según su naturaleza.
+    function handleRewardUnlocked(
+        reward: GameReward
+    ) {
+        if (reward.kind === "music") {
+            audio.handleRewardUnlocked(reward);
+            return;
+        }
+
+        notifications.handleItemReward(
+            reward,
+            navigation.monarch
+        );
+    }
 
     function renderView() {
         switch (navigation.view) {
@@ -46,6 +64,9 @@ function App() {
                                 "achievements"
                             );
                         }}
+                        onItems={() => {
+                            navigation.navigateTo("items");
+                        }}
                         onSoundSettings={
                             audio.openSoundPanel
                         }
@@ -61,6 +82,15 @@ function App() {
             case "achievements":
                 return (
                     <AchievementsScreen
+                        onBack={() => {
+                            navigation.navigateTo("menu");
+                        }}
+                    />
+                );
+
+            case "items":
+                return (
+                    <ItemsScreen
                         onBack={() => {
                             navigation.navigateTo("menu");
                         }}
@@ -109,7 +139,7 @@ function App() {
                             notifications.handleAchievementUnlocked
                         }
                         onRewardUnlocked={
-                            audio.handleRewardUnlocked
+                            handleRewardUnlocked
                         }
                         onModifierChanged={
                             notifications.handleModifierChanged

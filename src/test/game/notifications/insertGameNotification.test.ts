@@ -29,7 +29,8 @@ const stats: GameNotification = {
 
 const anthem: GameNotification = {
     sequence: 4,
-    kind: "anthem-unlocked",
+    kind: "item-unlocked",
+    id: "anthem-of-astaria",
 };
 
 describe("Cola de notificaciones", () => {
@@ -122,7 +123,7 @@ describe("Cola de notificaciones", () => {
         expect(queue.map((item) => item.kind)).toEqual([
             "stats",
             "modifier-added",
-            "anthem-unlocked",
+            "item-unlocked",
         ]);
     });
 

@@ -32,6 +32,7 @@ import {
     saveGame,
 } from "../../storage/gameStorage";
 import { loadSoundSettings } from "../../storage/soundSettingsStorage";
+import { loadUnlockedItems } from "../../storage/itemsStorage";
 
 import { createSave } from "../helpers/createSave";
 import { createStats } from "../helpers/createStats";
@@ -478,8 +479,15 @@ describe("Responsabilidades de la aplicación", () => {
         ).toBe(true);
 
         expect(
-            getApp().notifications.activeNotification?.kind
-        ).toBe("anthem-unlocked");
+            getApp().notifications.activeNotification
+        ).toMatchObject({
+            kind: "item-unlocked",
+            id: "anthem-of-astaria",
+        });
+
+        expect(loadUnlockedItems()).toEqual([
+            "anthem-of-astaria",
+        ]);
 
         expect(
             soundEngine.configure
@@ -556,5 +564,87 @@ describe("Responsabilidades de la aplicación", () => {
         expect(
             soundEngine.setAmbientActive
         ).toHaveBeenLastCalledWith(true);
+    });
+
+    it("entrega el retrato correspondiente y no repite objetos conseguidos", () => {
+        mountApp();
+
+        const reward = {
+            kind: "item",
+            itemId: "royal-portrait-king",
+            queenItemId: "royal-portrait-queen",
+        } as const;
+
+        runAction(({ notifications }) => {
+            notifications.handleItemReward(
+                reward,
+                "king"
+            );
+
+            notifications.handleItemReward(
+                reward,
+                "king"
+            );
+
+            notifications.handleItemReward(
+                reward,
+                "queen"
+            );
+        });
+
+        expect(loadUnlockedItems()).toEqual([
+            "royal-portrait-king",
+            "royal-portrait-queen",
+        ]);
+
+        expect(
+            getApp().notifications.activeNotification
+        ).toMatchObject({
+            kind: "item-unlocked",
+            id: "royal-portrait-king",
+        });
+
+        act(() => {
+            vi.advanceTimersByTime(5000);
+        });
+
+        expect(
+            getApp().notifications.activeNotification
+        ).toMatchObject({
+            kind: "item-unlocked",
+            id: "royal-portrait-queen",
+        });
+
+        act(() => {
+            vi.advanceTimersByTime(5000);
+        });
+
+        expect(
+            getApp().notifications.activeNotification
+        ).toBeNull();
+    });
+
+    it("permite abrir la colección y regresar al menú mediante fundidos", () => {
+        mountApp();
+
+        runAction(({ navigation }) => {
+            navigation.navigateTo("items");
+        });
+
+        finishNavigation();
+
+        expect(
+            getApp().navigation.view
+        ).toBe("items");
+
+        runAction(({ navigation }) => {
+            navigation.navigateTo("menu");
+        });
+
+        finishNavigation();
+
+        expect(
+            getApp().navigation.view
+        ).toBe("menu");
     });
 });

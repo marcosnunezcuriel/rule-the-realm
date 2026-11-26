@@ -16,6 +16,7 @@ import {
     sceneThemes,
 } from "../../data/scenes/sceneThemes";
 import { specialSceneRegistry } from "../../data/scenes/specialSceneRegistry";
+import { items } from "../../data/registries/itemRegistry";
 
 // Eventos anunciados cuyo capítulo todavía no está implementado.
 const pendingEventIds = new Set<string>([
@@ -281,6 +282,10 @@ describe("Registro global de capítulos", () => {
                     expect(event.removeStoryFlags).toBeUndefined();
                 }
             }
+        }
+
+        for (const item of Object.values(items)) {
+            expectAsset(item.image);
         }
     });
 

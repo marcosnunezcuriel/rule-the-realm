@@ -8,7 +8,7 @@ import { achievements } from "../../data/registries/achievementRegistry";
 
 import { loadUnlockedAchievements } from "../../storage/achievementsStorage";
 
-import "../../styles/menu/AchievementsScreen.css";
+import "../../styles/shared/CollectionScreen.css";
 
 
 type AchievementsScreenProps = {
@@ -22,29 +22,29 @@ function AchievementsScreen({
     const unlockedSet = new Set(unlocked);
 
     return (
-        <main className="achievements-screen">
-            <div className="achievements-screen__container">
+        <main className="collection-screen">
+            <div className="collection-screen__container">
                 <button
                     type="button"
-                    className="achievements-screen__back realm-button realm-button--hover"
+                    className="collection-screen__back realm-button realm-button--hover"
                     onClick={onBack}
                 >
                     Volver al menú
                 </button>
 
-                <h1 className="achievements-screen__title">
+                <h1 className="collection-screen__title">
                     Logros
                 </h1>
 
-                <p className="achievements-screen__subtitle">
+                <p className="collection-screen__subtitle">
                     Las hazañas de la Corona de las Estrellas
                 </p>
 
-                <p className="achievements-screen__progress">
+                <p className="collection-screen__progress">
                     {unlocked.length} / {achievements.length} conseguidos
                 </p>
 
-                <div className="achievements-screen__grid">
+                <div className="collection-screen__grid">
                     {achievements.map((achievement) => {
                         const isUnlocked = unlockedSet.has(
                             achievement.id
@@ -54,15 +54,15 @@ function AchievementsScreen({
                             <article
                                 key={achievement.id}
                                 className={[
-                                    "achievements-screen__card",
+                                    "collection-screen__card",
                                     isUnlocked
-                                        ? "achievements-screen__card--unlocked"
-                                        : "achievements-screen__card--locked",
+                                        ? "collection-screen__card--unlocked"
+                                        : "collection-screen__card--locked",
                                 ].join(" ")}
                             >
 
                             <svg
-                                className="achievements-screen__icon"
+                                className="collection-screen__icon"
                                 viewBox="0 0 24 24"
                                 fill={isUnlocked ? "currentColor" : "none"}
                                 stroke="currentColor"
@@ -94,11 +94,11 @@ function AchievementsScreen({
                             </svg>
 
                                 <div>
-                                    <h2 className="achievements-screen__name">
+                                    <h2 className="collection-screen__name">
                                         {achievement.name}
                                     </h2>
 
-                                    <p className="achievements-screen__description">
+                                    <p className="collection-screen__description">
                                         {isUnlocked ? (
                                             <FormattedText text={achievement.description} />
                                         ) : (
@@ -106,7 +106,7 @@ function AchievementsScreen({
                                         )}
                                     </p>
 
-                                    <span className="achievements-screen__status">
+                                    <span className="collection-screen__status">
                                         {isUnlocked
                                             ? "Conseguido"
                                             : "Pendiente"}

@@ -14,7 +14,7 @@ function getPriority(
             return 1;
 
         case "achievement":
-        case "anthem-unlocked":
+        case "item-unlocked":
             return 2;
     }
 }

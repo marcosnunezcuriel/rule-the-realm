@@ -18,14 +18,24 @@
 
 /* Dorado: logros y recompensas desbloqueadas */
 .notification-toast--achievement,
-.notification-toast--anthem-unlocked {
+.notification-toast--item-unlocked {
     --notification-color: var(--colour-border-gold);
     --notification-text-color: var(--colour-gold);
 }
 
-/* Recompensa musical: espacio adicional */
-.notification-toast--anthem-unlocked {
+/* Avisos de objetos: espacio para la imagen y la descripción */
+.notification-toast.notification-toast--item-unlocked {
     width: min(24rem, calc(100% - var(--space-6)));
+
+    animation-name: item-toast-motion;
+}
+
+.notification-toast__item-image {
+    width: 3rem;
+    height: 3rem;
+
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 /* Verde: modificador añadido */
@@ -73,4 +83,81 @@
     color: var(--colour-text-muted);
     font-size: var(--font-size-13);
     line-height: var(--line-height-body);
+}
+
+/* Aparición central del objeto conseguido */
+.item-reveal {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+
+    display: grid;
+    place-items: center;
+
+    pointer-events: none;
+
+    animation:
+        item-reveal-motion
+        var(--duration-notification)
+        var(--ease-standard)
+        both;
+}
+
+.item-reveal__image {
+    display: block;
+
+    width: min(42%, 16rem, 45dvh);
+    aspect-ratio: 1;
+
+    object-fit: contain;
+
+    filter: drop-shadow(
+        0 0 1.5rem var(--colour-gold)
+    );
+}
+
+/* Aparición, permanencia breve y desaparición */
+@keyframes item-reveal-motion {
+    0% {
+        opacity: 0;
+        transform: scale(0.65);
+    }
+
+    12%,
+    24% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    34%,
+    100% {
+        opacity: 0;
+        transform: scale(1.15);
+    }
+}
+
+/* Mostrar el aviso después de la aparición del objeto */
+@keyframes item-toast-motion {
+    0%,
+    34% {
+        transform: translateX(
+            calc(-100% - var(--space-9))
+        );
+
+        opacity: 0;
+    }
+
+    46%,
+    80% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(
+            calc(-100% - var(--space-9))
+        );
+
+        opacity: 0;
+    }
 }

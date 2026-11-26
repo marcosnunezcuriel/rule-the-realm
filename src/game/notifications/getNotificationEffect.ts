@@ -17,7 +17,7 @@ export function getNotificationEffect(
             return "notification-modifier-removed";
 
         case "achievement":
-        case "anthem-unlocked":
+        case "item-unlocked":
             return "notification-achievement";
     }
 }

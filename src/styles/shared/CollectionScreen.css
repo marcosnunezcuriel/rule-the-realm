@@ -1,6 +1,6 @@
-/* Distribución visual y estados de los logros. */
+/* Estilos compartidos de las colecciones de logros y objetos. */
 
-.achievements-screen {
+.collection-screen {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
@@ -10,16 +10,16 @@
     color: var(--colour-text);
 }
 
-.achievements-screen__container {
+.collection-screen__container {
     width: min(100%, 75rem);
     margin: 0 auto;
 }
 
-.achievements-screen__back {
+.collection-screen__back {
     padding: var(--space-2-5) var(--space-4);
 }
 
-.achievements-screen__title {
+.collection-screen__title {
     margin: var(--space-7) 0 var(--space-2);
     color: var(--colour-gold);
     font-family: var(--font-display);
@@ -27,19 +27,19 @@
     text-align: center;
 }
 
-.achievements-screen__subtitle,
-.achievements-screen__progress {
+.collection-screen__subtitle,
+.collection-screen__progress {
     color: var(--colour-text-muted);
     text-align: center;
 }
 
-.achievements-screen__progress {
+.collection-screen__progress {
     margin: var(--space-5) 0 var(--space-8);
     color: var(--colour-gold);
     font-weight: var(--font-weight-bold);
 }
 
-.achievements-screen__grid {
+.collection-screen__grid {
     display: grid;
     grid-template-columns: repeat(
         auto-fit,
@@ -48,7 +48,7 @@
     gap: var(--space-4);
 }
 
-.achievements-screen__card {
+.collection-screen__card {
     display: flex;
     align-items: flex-start;
     gap: var(--space-4);
@@ -60,9 +60,8 @@
     border-radius: var(--radius-md);
 }
 
-
 /* Logros conseguidos: borde y resplandor dorados */
-.achievements-screen__card--unlocked {
+.collection-screen__card--unlocked {
     background-color: color-mix(
         in srgb,
         var(--colour-card) 92%,
@@ -80,33 +79,66 @@
         );
 }
 
-.achievements-screen__card--locked {
+.collection-screen__card--locked {
     opacity: 0.55;
     border-color: var(--colour-text-muted);
 }
 
-.achievements-screen__icon {
+.collection-screen__icon {
     flex-shrink: 0;
     width: 2rem;
     height: 2rem;
     color: var(--colour-gold);
 }
 
-.achievements-screen__name {
+.collection-screen__name {
     margin: 0 0 var(--space-2);
     color: var(--colour-gold);
     font-family: var(--font-display);
     font-size: var(--font-size-20);
 }
 
-.achievements-screen__description {
+.collection-screen__description {
     margin: 0 0 var(--space-3);
     font-size: var(--font-size-14);
     line-height: var(--line-height-body);
 }
 
-.achievements-screen__status {
+.collection-screen__status {
     color: var(--colour-gold);
     font-size: var(--font-size-13);
     font-weight: var(--font-weight-bold);
+}
+
+/* Distribución de la colección de objetos */
+.collection-screen--items .collection-screen__grid {
+    grid-template-columns: repeat(
+        3,
+        minmax(0, 1fr)
+    );
+}
+
+.collection-screen--items .collection-screen__card {
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.collection-screen__item-image {
+    display: block;
+
+    width: min(100%, 10rem);
+    aspect-ratio: 1;
+
+    object-fit: contain;
+    flex-shrink: 0;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Objetos todavía no conseguidos */
+.collection-screen__card--locked .collection-screen__item-image {
+    filter: grayscale(100%);
 }

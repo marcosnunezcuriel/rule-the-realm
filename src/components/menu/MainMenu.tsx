@@ -15,6 +15,7 @@ type MainMenuProps = {
     onConfirmNewGame: () => void;
     onCancelNewGame: () => void;
     onAchievements: () => void;
+    onItems: () => void;
     onSoundSettings: () => void;
 };
 
@@ -26,6 +27,7 @@ function MainMenu({
     onConfirmNewGame,
     onCancelNewGame,
     onAchievements,
+    onItems,
     onSoundSettings,
 }: MainMenuProps) {
 
@@ -101,6 +103,35 @@ function MainMenu({
                 </svg>
 
                 Sonido
+            </button>
+
+            {/* Botón de objetos */}
+            <button
+                type="button"
+                className="main-menu__achievements main-menu__items realm-button realm-button--display realm-button--hover"
+                onClick={onItems}
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                >
+                    <rect
+                        x="3"
+                        y="8"
+                        width="18"
+                        height="13"
+                        rx="2"
+                    />
+                    <path d="M3 13h18M12 13v4" />
+                    <path d="M5 8V6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v2" />
+                </svg>
+
+                Tesoro Real
             </button>
 
             {/* Botón de logros */}

@@ -127,7 +127,8 @@
         grid-template-areas:
             "map map"
             "panel panel"
-            "sound achievements"
+            "sound sound"
+            "achievements items"
             "credit credit";
 
         align-content: start;
@@ -225,8 +226,14 @@
 
         justify-self: stretch;
 
+        width: auto;
+
         right: auto;
         bottom: auto;
+    }
+
+    .main-menu__items {
+        grid-area: items;
     }
 
     .main-menu__achievements {
@@ -582,11 +589,20 @@
         padding: var(--space-2) var(--space-3);
     }
 
-    .notification-toast--anthem-unlocked {
+    .notification-toast.notification-toast--item-unlocked {
         width: min(
             19rem,
             calc(100% - 2 * var(--space-2))
         );
+    }
+
+    .notification-toast__item-image {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .item-reveal__image {
+        width: min(50%, 12rem, 45dvh);
     }
 
     .notification-toast__name {
@@ -646,22 +662,35 @@
 
     /* Logros */
 
-    .achievements-screen {
+    .collection-screen {
         padding: var(--space-5);
     }
 
-    .achievements-screen__title {
+    .collection-screen__title {
         margin-top: var(--space-5);
         font-size: var(--font-size-34);
     }
 
-    .achievements-screen__back {
+    .collection-screen__back {
         min-height: 2.75rem;
     }
 
-    .achievements-screen__card {
+    .collection-screen__card {
         min-height: 8rem;
         padding: var(--space-4);
+    }
+
+    /* Colección de objetos */
+
+    .collection-screen--items .collection-screen__grid {
+        grid-template-columns: repeat(
+            2,
+            minmax(0, 1fr)
+        );
+    }
+
+    .collection-screen__item-image {
+        width: min(100%, 8rem);
     }
 
     /* Derrota */
@@ -1065,21 +1094,27 @@
 
     /* Logros */
 
-    .achievements-screen {
+    .collection-screen {
         padding: var(--space-3);
     }
 
-    .achievements-screen__grid {
+    .collection-screen__grid {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .achievements-screen__card {
+    .collection-screen__card {
         min-height: 0;
         padding: var(--space-3);
     }
 
-    .achievements-screen__title {
+    .collection-screen__title {
         font-size: var(--font-size-30);
+    }
+
+    /* Colección de objetos */
+
+    .collection-screen--items .collection-screen__grid {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     /* Pergamino */
@@ -1279,5 +1314,15 @@
 @media (prefers-reduced-motion: reduce) {
     .monarch-selection__option {
         transition: none;
+    }
+
+    .item-reveal {
+        display: none;
+    }
+
+    .notification-toast.notification-toast--item-unlocked {
+        animation: none;
+        opacity: 1;
+        transform: none;
     }
 }

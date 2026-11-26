@@ -15,6 +15,7 @@ export const day04Events: GameEvent[] = [
             introduction: [
                 "Mi señor, las leyendas eran ciertas.",
                 "Hemos descubierto una enorme cueva repleta de esmeraldas.",
+                "He traído conmigo una de las piedras que encontramos durante la expedición. Deseo entregárosla como recuerdo de nuestro descubrimiento.",
                 "Podríamos extraer grandes riquezas si establecemos una mina.",
             ],
             responses: {
@@ -35,6 +36,12 @@ export const day04Events: GameEvent[] = [
         unlocks: {
             yes: ["12.2"],
         },
+        rewardsOnComplete: [
+            {
+                kind: "item",
+                itemId: "rough-emerald",
+            },
+        ],
     },
 
     // Evento 22.1 — La protesta del altar
