@@ -1,34 +1,13 @@
-export type ChapterDefinition = {
-    number: number;
-    title: string;
-    firstDay: number;
-    lastDay: number;
-    endingParagraphs: readonly string[];
-};
+import { chapter1 } from "./chapter1";
 
-export const chapters: ChapterDefinition[] = [
-    {
-        number: 1,
-        title: "Los primeros días de reinado",
-        firstDay: 1,
-        lastDay: 7,
+import type { ChapterDefinition } from "../../types/chapters";
 
-        endingParagraphs: [
-            "Las campanas de la capital ya no repican con la misma ligereza que el primer día de reinado. " +
-            "Las decisiones tomadas, los decretos firmados y los caminos elegidos han trazado el destino de Astaria, " +
-            "dejando una huella imborrable en las arcas, en las murallas y en el alma del pueblo.",
+export type { ChapterDefinition } from "../../types/chapters";
 
-            "Has gobernado entre la lealtad de tus consejeros y las exigencias de la nobleza, " +
-            "respondiendo a las crisis con firmeza o compasión. " +
-            "Cada moneda guardada o gastada, cada vida atendida o ignorada, " +
-            "ha moldeado un reino que hoy se encuentra al borde de su prueba más dura.",
-
-            "Ahora, mientras la fiebre negra cruza las fronteras y amenaza con devorar cada rincón del reino, " +
-            "la corte aguarda en silencio la próxima decisión de Vuestra Majestad. " +
-            "El primer capítulo llega a su fin, Majestad, pero el verdadero juicio de la historia... apenas comienza.",
-        ],
-    },
-];
+// Registro global de capítulos disponibles.
+export const chapters = [
+    chapter1,
+] as const satisfies readonly ChapterDefinition[];
 
 export function getChapterForDay(
     day: number

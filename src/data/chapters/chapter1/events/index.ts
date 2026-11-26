@@ -1,4 +1,4 @@
-import type { GameEvent } from "../../../types/events";
+import type { GameEvent } from "../../../../types/events";
 
 import { day01Events } from "./day01";
 import { joustEvent } from "./joust";

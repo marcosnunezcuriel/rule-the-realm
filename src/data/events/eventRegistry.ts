@@ -1,11 +1,11 @@
 import type { GameEvent } from "../../types/events";
 
-import { chapter1Events } from "./chapter1";
+import { chapters } from "../chapters";
 
 // Registro global de acontecimientos.
-const allEvents: GameEvent[] = [
-    ...chapter1Events,
-];
+const allEvents: GameEvent[] = chapters.flatMap(
+    (chapter) => chapter.events
+);
 
 // Índices de acontecimientos.
 const eventsById = new Map<string, GameEvent>();

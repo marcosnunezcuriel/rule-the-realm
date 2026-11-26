@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { chapter1Events } from "../../data/events/chapter1";
+import { chapter1Events } from "../../data/chapters/chapter1/events";
 import { getSpecialEventForDay } from "../../data/events/eventRegistry";
 
 import { getDayEvents } from "../../game/getDayEvents";

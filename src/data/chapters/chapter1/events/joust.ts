@@ -1,4 +1,4 @@
-import type { GameEvent } from "../../../types/events";
+import type { GameEvent } from "../../../../types/events";
 
 // Evento especial — Torneo de la coronación.
 export const joustEvent: GameEvent = {

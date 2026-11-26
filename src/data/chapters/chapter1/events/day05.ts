@@ -1,4 +1,4 @@
-import type { GameEvent } from "../../../types/events";
+import type { GameEvent } from "../../../../types/events";
 
 // Capítulo I · día 05. Orden y textos del PDF definitivo.
 
