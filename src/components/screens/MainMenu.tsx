@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-
 import { assetUrl } from "../../utils/assetUrl";
 
-import GoldenFrame from "../shared/GoldenFrame";
+import NewGameConfirmation from "../modals/NewGameConfirmation";
+import MapPreview from "../modals/MapPreview";
 
 import "../../styles/screens/MainMenu.css";
 import "../../styles/screens/SoundMenuButton.css";
@@ -29,43 +28,10 @@ function MainMenu({
     onSoundSettings,
 }: MainMenuProps) {
 
-    // Controlar la vista ampliada del mapa.
-    const [isMapOpen, setIsMapOpen] = useState(false);
-
-    // Permitir cerrar el mapa con la tecla Escape.
-    useEffect(() => {
-        if (!isMapOpen) {
-            return;
-        }
-
-        function handleKeyDown(event: KeyboardEvent) {
-            if (event.key === "Escape") {
-                setIsMapOpen(false);
-            }
-        }
-
-        window.addEventListener("keydown", handleKeyDown);
-
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown);
-        };
-    }, [isMapOpen]);
-
     return (
         <main className="main-menu">
             {/* Mapa decorativo de Astaria */}
-            <button
-                type="button"
-                className="main-menu__map"
-                onClick={() => setIsMapOpen(true)}
-                aria-label="Ampliar mapa del reino de Astaria"
-                aria-haspopup="dialog"
-            >
-                <GoldenFrame
-                    image="/assets/ui/astaria-map.png"
-                    alt=""
-                />
-            </button>
+            <MapPreview />
 
             {/* Panel principal centrado */}
             <div className="main-menu__panel">
@@ -161,68 +127,10 @@ function MainMenu({
 
             {/* Confirmación al comenzar otra partida */}
             {showNewGameConfirmation && (
-                <div className="main-menu__backdrop">
-                    <div
-                        className="main-menu__confirmation"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="new-game-title"
-                        aria-describedby="new-game-description"
-                    >
-                        <h2 id="new-game-title">
-                            Nueva partida
-                        </h2>
-
-                        <p id="new-game-description">
-                            Ya existe una partida guardada.
-                            Si comienzas una nueva,
-                            se sobrescribirá.
-                        </p>
-
-                        <div className="main-menu__confirmation-actions">
-                            <button
-                                type="button"
-                                onClick={onCancelNewGame}
-                            >
-                                Cancelar
-                            </button>
-
-                            <button
-                                type="button"
-                                onClick={onConfirmNewGame}
-                            >
-                                Sobrescribir y empezar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Vista ampliada del mapa */}
-            {isMapOpen && (
-                <div className="main-menu__map-overlay">
-                    {/* Zona exterior: cierra el mapa */}
-                    <button
-                        type="button"
-                        className="main-menu__map-dismiss"
-                        onClick={() => setIsMapOpen(false)}
-                        aria-label="Cerrar mapa ampliado"
-                        autoFocus
-                    />
-
-                    {/* Mapa ampliado con su marco original */}
-                    <div
-                        className="main-menu__map-expanded"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label="Mapa ampliado del reino de Astaria"
-                    >
-                        <GoldenFrame
-                            image="/assets/ui/astaria-map.png"
-                            alt="Mapa del reino de Astaria"
-                        />
-                    </div>
-                </div>
+                <NewGameConfirmation
+                    onConfirm={onConfirmNewGame}
+                    onCancel={onCancelNewGame}
+                />
             )}
         </main>
     );

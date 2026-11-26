@@ -1,517 +1,153 @@
-import {
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
-
-import type { MouseEvent } from "react";
-
 import MainMenu from "./components/screens/MainMenu";
 import AchievementsScreen from "./components/screens/AchievementsScreen";
 import WelcomeIntroduction from "./components/screens/WelcomeIntroduction";
 import GameSession from "./components/screens/GameSession";
-import SoundPanel from "./components/shared/SoundPanel";
 import MonarchSelection from "./components/screens/MonarchSelection";
 
-import type { AchievementId } from "./data/achievements";
+import SoundPanel from "./components/modals/SoundPanel";
+import FadeOverlay from "./components/shared/FadeOverlay";
 
-import {
-    clearSavedGame,
-    hasSavedGame,
-    loadGame,
-} from "./storage/gameStorage";
-import {
-    unlockAchievement,
-} from "./storage/achievementsStorage";
-import {
-    loadAnthemUnlocked,
-    unlockAnthem,
-} from "./storage/anthemStorage";
-import {
-    loadSoundSettings,
-    saveSoundSettings,
-} from "./storage/soundSettingsStorage";
-
-import { soundEngine } from "./audio/soundEngine";
-
-import { getNotificationEffect } from "./game/getNotificationEffect";
-import { getStatDifferences } from "./game/getStatDifferences";
-import { insertGameNotification } from "./game/insertGameNotification";
-
-import type {
-    SoundEffect,
-    SoundSettings,
-} from "./types/audio";
-import type { KingdomValues } from "./types/stats";
-import type { FadeStage } from "./types/game";
-import type { ModifierId } from "./types/modifiers";
-import type { MonarchRole } from "./types/monarch";
-import type {
-    GameReward,
-    UnlockableAmbientTrack,
-} from "./types/rewards";
-import type {
-    GameNotification,
-    ModifierChange,
-} from "./types/notifications";
-
-import "./styles/layout/Navigation.css";
-
-type AppView =
-    | "menu"
-    | "achievements"
-    | "choose-monarch"
-    | "intro"
-    | "game";
+import { useAppNavigation } from "./hooks/useAppNavigation";
+import { useGameNotifications } from "./hooks/useGameNotifications";
+import { useSoundSettings } from "./hooks/useSoundSettings";
 
 function App() {
-    const [view, setView] = useState<AppView>("menu");
+    const notifications =
+        useGameNotifications();
 
-    const [monarch, setMonarch] = useState<MonarchRole>(
-        () => loadGame()?.monarch ?? "king"
+    const navigation = useAppNavigation(
+        notifications.clearNotifications
     );
 
-    const [savedAvailable, setSavedAvailable] = useState(
-        () => hasSavedGame()
+    const audio = useSoundSettings(
+        notifications.notifyAnthemUnlocked
     );
 
-    const [confirmNewGame, setConfirmNewGame] =
-        useState(false);
+    function renderView() {
+        switch (navigation.view) {
+            case "menu":
+                return (
+                    <MainMenu
+                        hasSave={
+                            navigation.savedAvailable
+                        }
+                        showNewGameConfirmation={
+                            navigation.confirmNewGame
+                        }
+                        onNewGame={
+                            navigation.startNewGame
+                        }
+                        onContinue={
+                            navigation.continueGame
+                        }
+                        onAchievements={() => {
+                            navigation.navigateTo(
+                                "achievements"
+                            );
+                        }}
+                        onSoundSettings={
+                            audio.openSoundPanel
+                        }
+                        onConfirmNewGame={
+                            navigation.confirmStartNewGame
+                        }
+                        onCancelNewGame={
+                            navigation.cancelNewGame
+                        }
+                    />
+                );
 
-    const [navigationStage, setNavigationStage] =
-        useState<FadeStage>("idle");
+            case "achievements":
+                return (
+                    <AchievementsScreen
+                        onBack={() => {
+                            navigation.navigateTo("menu");
+                        }}
+                    />
+                );
 
-    const [navigationTarget, setNavigationTarget] =
-        useState<AppView | null>(null);
+            case "choose-monarch":
+                return (
+                    <MonarchSelection
+                        onChoose={
+                            navigation.chooseMonarch
+                        }
+                        onBack={() => {
+                            navigation.navigateTo("menu");
+                        }}
+                    />
+                );
 
-    const [discardSaveOnMenu, setDiscardSaveOnMenu] =
-        useState(false);
+            case "intro":
+                return (
+                    <WelcomeIntroduction
+                        monarch={navigation.monarch}
+                        onFinish={() => {
+                            navigation.navigateTo("game");
+                        }}
+                    />
+                );
 
-    // Preferencias de sonido independientes de las partidas.
-    const [soundSettings, setSoundSettings] =
-        useState(loadSoundSettings);
-
-    const [soundPanelOpen, setSoundPanelOpen] =
-        useState(false);
-
-    // El himno es una recompensa musical permanente.
-    const [hymnUnlocked, setHymnUnlocked] = useState(
-        loadAnthemUnlocked
-    );
-
-    useEffect(() => {
-        saveSoundSettings(soundSettings);
-
-        soundEngine.configure(
-            soundSettings,
-            hymnUnlocked
-        );
-    }, [soundSettings, hymnUnlocked]);
-
-    function updateSoundSettings(
-        changes: Partial<SoundSettings>
-    ) {
-        setSoundSettings((previous) => ({
-            ...previous,
-            ...changes,
-        }));
-    }
-
-    // Capturar los clics de todos los botones del juego.
-    function handleAppClick(
-        event: MouseEvent<HTMLDivElement>
-    ) {
-        const target = event.target;
-
-        if (!(target instanceof Element)) {
-            return;
-        }
-
-        const button = target.closest("button");
-
-        if (button === null || button.disabled) {
-            return;
-        }
-
-        let effect: SoundEffect = "ui-click";
-
-        if (
-            button.classList.contains(
-                "speech-bubble__choice--yes"
-            )
-        ) {
-            effect = "decision-yes";
-        } else if (
-            button.classList.contains(
-                "speech-bubble__choice--no"
-            )
-        ) {
-            effect = "decision-no";
-        } else if (
-            button.classList.contains("speech-bubble__next") ||
-            button.classList.contains(
-                "narrative-parchment__button"
-            )
-        ) {
-            effect = "dialogue-next";
-        }
-
-        soundEngine.unlock();
-        soundEngine.playEffect(effect);
-    }
-
-    // Cola común para todas las notificaciones del juego.
-    const [notificationQueue, setNotificationQueue] =
-        useState<GameNotification[]>([]);
-
-    const nextNotificationId = useRef(0);
-
-    const displayedSequenceRef =
-        useRef<number | null>(null);
-
-    function enqueueNotification(
-        notification: GameNotification
-    ) {
-        const displayedSequence =
-            displayedSequenceRef.current;
-
-        setNotificationQueue((previous) => {
-            return insertGameNotification(
-                previous,
-                notification,
-                displayedSequence
-            );
-        });
-    }
-
-    function handleStatsChanged(
-        previous: KingdomValues,
-        next: KingdomValues
-    ) {
-        const changes = getStatDifferences(
-            previous,
-            next
-        );
-
-        if (Object.keys(changes).length === 0) {
-            return;
-        }
-
-        nextNotificationId.current += 1;
-
-        enqueueNotification({
-            sequence: nextNotificationId.current,
-            kind: "stats",
-            changes,
-        });
-    }
-
-    function handleModifierChanged(
-        id: ModifierId,
-        change: ModifierChange
-    ) {
-        nextNotificationId.current += 1;
-
-        enqueueNotification({
-            sequence: nextNotificationId.current,
-
-            kind: change === "added"
-                ? "modifier-added"
-                : "modifier-removed",
-
-            id,
-        });
-    }
-
-    function handleAchievementUnlocked(
-        id: AchievementId
-    ) {
-        if (!unlockAchievement(id)) {
-            return;
-        }
-
-        nextNotificationId.current += 1;
-
-        enqueueNotification({
-            sequence: nextNotificationId.current,
-            kind: "achievement",
-            id,
-        });
-    }
-
-    // El himno es una recompensa musical, no un logro.
-    function handleAnthemUnlocked() {
-        if (hymnUnlocked || !unlockAnthem()) {
-            return;
-        }
-
-        setHymnUnlocked(true);
-
-        nextNotificationId.current += 1;
-
-        enqueueNotification({
-            sequence: nextNotificationId.current,
-            kind: "anthem-unlocked",
-        });
-    }
-
-    // Ejecutar una recompensa permanente utilizando el sistema de almacenamiento correspondiente.
-    function handleRewardUnlocked(
-        reward: GameReward
-    ) {
-        switch (reward.kind) {
-            case "music": {
-                const handlers: Record<
-                    UnlockableAmbientTrack,
-                    () => void
-                > = {
-                    anthem: handleAnthemUnlocked,
-                };
-
-                handlers[reward.track]();
-                break;
-            }
+            case "game":
+                return (
+                    <GameSession
+                        monarch={navigation.monarch}
+                        onOpenMenu={() => {
+                            navigation.navigateTo("menu");
+                        }}
+                        onGameOverMenu={() => {
+                            navigation.navigateTo(
+                                "menu",
+                                true
+                            );
+                        }}
+                        onSoundSettings={
+                            audio.openSoundPanel
+                        }
+                        onAchievementUnlocked={
+                            notifications.handleAchievementUnlocked
+                        }
+                        onRewardUnlocked={
+                            audio.handleRewardUnlocked
+                        }
+                        onModifierChanged={
+                            notifications.handleModifierChanged
+                        }
+                        onStatsChanged={
+                            notifications.handleStatsChanged
+                        }
+                        notification={
+                            notifications.activeNotification
+                        }
+                    />
+                );
         }
     }
-
-    const handleDismissNotification = useCallback(
-        (sequence: number) => {
-            setNotificationQueue((previous) => {
-                if (previous[0]?.sequence !== sequence) {
-                    return previous;
-                }
-
-                return previous.slice(1);
-            });
-        },
-        []
-    );
-
-    const activeNotification =
-        notificationQueue[0] ?? null;
-
-    // Reproducir el sonido cuando aparece el aviso.
-    // Nunca cuando está esperando en la cola.
-    useEffect(() => {
-        displayedSequenceRef.current =
-            activeNotification?.sequence ?? null;
-
-        if (activeNotification === null) {
-            return;
-        }
-
-        soundEngine.playEffect(
-            getNotificationEffect(activeNotification)
-        );
-
-        const timeoutId = window.setTimeout(() => {
-            handleDismissNotification(
-                activeNotification.sequence
-            );
-        }, 5000);
-
-        return () => {
-            window.clearTimeout(timeoutId);
-        };
-    }, [
-        activeNotification,
-        handleDismissNotification,
-    ]);
-
-    function navigateTo(
-        target: AppView,
-        discardSave = false
-    ) {
-        if (navigationStage !== "idle") {
-            return;
-        }
-
-        setDiscardSaveOnMenu(discardSave);
-        setNavigationTarget(target);
-        setNavigationStage("darkening");
-    }
-
-    function startNewGame() {
-        if (savedAvailable) {
-            setConfirmNewGame(true);
-            return;
-        }
-
-        navigateTo("choose-monarch");
-    }
-
-    function confirmStartNewGame() {
-        // Eliminar la partida anterior al confirmar
-        // que se desea comenzar una nueva.
-        clearSavedGame();
-        setSavedAvailable(false);
-
-        setConfirmNewGame(false);
-        navigateTo("choose-monarch");
-    }
-
-    function chooseMonarch(choice: MonarchRole) {
-        setMonarch(choice);
-        navigateTo("intro");
-    }
-
-    function continueGame() {
-        const saved = loadGame();
-
-        if (saved === null) {
-            setSavedAvailable(false);
-            return;
-        }
-
-        setMonarch(saved.monarch);
-
-        navigateTo("game");
-    }
-
-    function handleNavigationFadeEnd() {
-        if (
-            navigationStage === "darkening" &&
-            navigationTarget !== null
-        ) {
-            if (navigationTarget === "menu") {
-                setNotificationQueue([]);
-
-                if (discardSaveOnMenu) {
-                    clearSavedGame();
-                    setSavedAvailable(false);
-                } else {
-                    setSavedAvailable(
-                        hasSavedGame()
-                    );
-                }
-            }
-
-            setView(navigationTarget);
-            setNavigationStage("lightening");
-
-            return;
-        }
-
-        if (navigationStage === "lightening") {
-            setNavigationStage("idle");
-            setNavigationTarget(null);
-            setDiscardSaveOnMenu(false);
-        }
-    }
-
-    const navigationFadeClassName = [
-        "navigation-fade",
-
-        navigationStage === "darkening"
-            ? "navigation-fade--visible"
-            : "",
-
-        navigationStage !== "idle"
-            ? "navigation-fade--active"
-            : "",
-    ].filter(Boolean).join(" ");
 
     return (
         <div
             className="app"
-            onPointerDownCapture={() => {
-                soundEngine.unlock();
-            }}
-            onKeyDownCapture={() => {
-                soundEngine.unlock();
-            }}
-            onClickCapture={handleAppClick}
+            onPointerDownCapture={audio.unlockAudio}
+            onKeyDownCapture={audio.unlockAudio}
+            onClickCapture={audio.handleAppClick}
         >
-            {view === "menu" ? (
-                <MainMenu
-                    hasSave={savedAvailable}
-                    showNewGameConfirmation={confirmNewGame}
-                    onNewGame={startNewGame}
-                    onContinue={continueGame}
-                    onAchievements={() => {
-                        navigateTo("achievements");
-                    }}
-                    onSoundSettings={() => {
-                        setSoundPanelOpen(true);
-                    }}
-                    onConfirmNewGame={
-                        confirmStartNewGame
-                    }
-                    onCancelNewGame={() => {
-                        setConfirmNewGame(false);
-                    }}
-                />
-            ) : view === "achievements" ? (
-                <AchievementsScreen
-                    onBack={() => {
-                        navigateTo("menu");
-                    }}
-                />
-            ) : view === "choose-monarch" ? (
-                <MonarchSelection
-                    onChoose={chooseMonarch}
-                    onBack={() => {
-                        navigateTo("menu");
-                    }}
-                />
-            ) : view === "intro" ? (
-                <WelcomeIntroduction
-                    monarch={monarch}
-                    onFinish={() => {
-                        navigateTo("game");
-                    }}
-                />
-            ) : (
-                <GameSession
-                    monarch={monarch}
-                    onOpenMenu={() => {
-                        navigateTo("menu");
-                    }}
-                    onGameOverMenu={() => {
-                        navigateTo("menu", true);
-                    }}
-                    onSoundSettings={() => {
-                        setSoundPanelOpen(true);
-                    }}
-                    onAchievementUnlocked={
-                        handleAchievementUnlocked
-                    }
-                    onRewardUnlocked={
-                        handleRewardUnlocked
-                    }
-                    onModifierChanged={
-                        handleModifierChanged
-                    }
-                    onStatsChanged={
-                        handleStatsChanged
-                    }
-                    notification={activeNotification}
-                />
-            )}
+            {renderView()}
 
-            {soundPanelOpen && (
+            {audio.soundPanelOpen && (
                 <SoundPanel
-                    settings={soundSettings}
-                    hymnUnlocked={hymnUnlocked}
-                    onChange={updateSoundSettings}
-                    onClose={() => {
-                        setSoundPanelOpen(false);
-                    }}
+                    settings={audio.soundSettings}
+                    hymnUnlocked={audio.hymnUnlocked}
+                    onChange={audio.updateSoundSettings}
+                    onClose={audio.closeSoundPanel}
                 />
             )}
 
-            <div
-                className={navigationFadeClassName}
-                aria-hidden="true"
-                onTransitionEnd={(event) => {
-                    if (
-                        event.target === event.currentTarget &&
-                        event.propertyName === "opacity"
-                    ) {
-                        handleNavigationFadeEnd();
-                    }
-                }}
+            <FadeOverlay
+                variant="navigation"
+                stage={navigation.navigationStage}
+                onFadeEnd={
+                    navigation.handleNavigationFadeEnd
+                }
             />
         </div>
     );

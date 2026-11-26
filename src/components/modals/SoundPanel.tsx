@@ -1,3 +1,5 @@
+import { useModalFocus } from "../../hooks/useModalFocus";
+
 import type { SoundSettings } from "../../types/audio";
 
 import "../../styles/screens/SoundPanel.css";
@@ -60,12 +62,18 @@ function SoundPanel({
     onChange,
     onClose,
 }: SoundPanelProps) {
+    const modalRef = useModalFocus<HTMLElement>(
+        onClose
+    );
+
     return (
         <div
             className="sound-panel__backdrop"
             onClick={onClose}
         >
             <section
+                ref={modalRef}
+                tabIndex={-1}
                 className="sound-panel"
                 role="dialog"
                 aria-modal="true"
