@@ -12,7 +12,7 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Pescador",
             introduction: [
-                "¡Majestad, necesitamos vuestra ayuda!",
+                "Mi señor, necesitamos vuestra ayuda!",
                 "Anoche, una terrible tormenta azotó la Ciudad Portuaria. Las olas destrozaron nuestros aparejos y varias embarcaciones pesqueras quedaron a la deriva, lejos del puerto.",
                 "Algunos barcos han conseguido regresar, pero todavía quedan muchos compañeros desaparecidos.",
                 "Sus familias llevan toda la mañana esperando noticias en los muelles.",
@@ -26,15 +26,15 @@ export const day06Events: GameEvent[] = [
                     "Gracias a vuestra ayuda, numerosas embarcaciones conseguirán regresar a puerto y las familias recibirán con alegría a sus seres queridos.",
                 ],
                 no: [
-                    "Comprendo, Majestad... Pero esos hombres tienen familias que los esperan.",
+                    "Comprendo, ... Pero esos hombres tienen familias que los esperan.",
                     "Intentaremos rescatarlos con los pocos medios de los que disponemos.",
                     "Las horas pasan y muchos pescadores no consiguen regresar. La costa entera llora a sus desaparecidos.",
                 ],
             },
         },
         effects: {
-            yes: { gold: -15, population: 10, prestige: 5 },
-            no: { population: -15, prestige: -15 },
+            yes: { gold: -15, prestige: 10 },
+            no: { prestige: -10 },
         },
     },
 
@@ -48,7 +48,7 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Minero",
             introduction: [
-                "Majestad, ha ocurrido una tragedia.",
+                "Mi señor, ha ocurrido una tragedia.",
                 "Una explosión ha provocado el derrumbe de parte de la mina.",
                 "Varios trabajadores han perdido la vida.",
                 "Los supervisores recomiendan cerrarla.",
@@ -67,7 +67,7 @@ export const day06Events: GameEvent[] = [
         baseEffects: { population: -10 },
         effects: {
             yes: { prestige: 5 },
-            no: { prestige: -15 },
+            no: { prestige: -25 },
         },
         unlocks: {
             no: ["12.3"],
@@ -84,7 +84,7 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Pintor de la corte",
             introduction: [
-                "¡Por fin está terminado, Majestad! Contemplad vuestro retrato oficial.",
+                "¡Por fin está terminado, mi señor! Contemplad vuestro retrato oficial.",
                 "Los nobles murmurarán maravillados y los embajadores extranjeros inclinarán la cabeza con respeto ante el lienzo.",
                 "La obra ya preside el salón principal del castillo para gloria eterna de vuestra corona.",
             ],
@@ -102,10 +102,10 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Músico de la corte",
             introduction: [
-                "¡Majestad! ¡Por fin está terminado!",
+                "Mi rey! ¡Por fin está terminado!",
                 "Durante estos días, los músicos de la corte y yo hemos trabajado sin descanso para componer una melodía digna de nuestro reino.",
                 "Hemos reunido instrumentos de todas las provincias de Astaria y creado una obra que, estoy seguro, emocionará tanto a los nobles como al más humilde de los campesinos.",
-                "Los músicos ya han ensayado la composición y están preparados para interpretarla cuando le plazca.",
+                "Los músicos ya han ensayado la composición y están preparados para interpretarla cuando os plazca.",
             ],
         },
         baseEffects: { prestige: 20 },
@@ -127,13 +127,13 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Cazarrecompensas",
             introduction: [
-                "Majestad, vuestros caminos son un nido de alimañas desde que decidisteis no enviar a la guardia.",
+                "Vuestros caminos son un nido de alimañas desde que decidisteis no enviar a la guardia.",
                 "Los viajeros están desamparados, pero yo no trabajo por honor, sino por monedas.",
                 "Si me pagáis una buena prima y me dais vía libre, limpiaré cada sendero de bandidos. ¿Aceptáis mi trato?",
             ],
             responses: {
                 yes: [
-                    "Trato hecho, Majestad. No tardaréis en oír hablar de mis trofeos en los caminos.",
+                    "Trato hecho. No tardaréis en oír hablar de mis trofeos en los caminos.",
                 ],
                 no: [
                     "Una pena…",
@@ -163,7 +163,7 @@ export const day06Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "Que las estrellas bendigan vuestra infinita compasión, Majestad.",
+                    "Que las estrellas bendigan vuestra infinita compasión, rey de Astaria.",
                     "Jamás olvidaremos esta mano tendida.",
                 ],
                 no: [
@@ -191,15 +191,15 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Cazador furtivo",
             introduction: [
-                "Shhh... Bajad la voz, Majestad.",
+                "Shhh... Bajad la voz, mi señor.",
                 "Mis hombres y yo llevamos semanas cazando en las reservas privadas del duque.",
                 "Tenemos pieles de lobo blanco y ciervos que valen una fortuna en el mercado negro.",
-                "Si hacéis la vista gorda y ordenáis a vuestros guardias que no patrullen esa zona, una gran parte de este cargamento será para la corona.",
+                "Si hacéis la vista gorda y ordenáis a vuestros guardias que no patrullen esa zona, una gran parte de este cargamento será para vos.",
                 "¿Aceptáis mirar a otro lado a cambio de las pieles?",
             ],
             responses: {
                 yes: [
-                    "Sabía que Vuestra Majestad entendería cuándo conviene cerrar los ojos.",
+                    "Sabía que comprenderíais cuándo conviene cerrar los ojos.",
                     "Aquí tenéis vuestra parte del botín.",
                 ],
                 no: [
@@ -225,7 +225,7 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Bruja",
             introduction: [
-                "Majestad, una sombra fría se cierne sobre vuestros aposentos.",
+                "Mi señor, una sombra fría se cierne sobre vuestros aposentos.",
                 "Un espejo de plata en la torre norte ha sido maldecido con magia negra.",
                 "Envenenará el juicio de quien se refleje en él.",
                 "Puedo romper el hechizo ahora mismo con mis ungüentos y conjuros.",
@@ -256,8 +256,8 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Cetrero",
             introduction: [
-                "¡Majestad, las ratas y las plagas de langostas están devorando las reservas de grano de los silos reales!",
-                "Dame un presupuesto para criar y adiestrar a una nueva estirpe de halcones y águilas imperiales.",
+                "Mi señor, las ratas y las plagas de langostas están devorando las reservas de grano de los silos reales!",
+                "Concededme los fondos para criar y adiestrar a una nueva estirpe de halcones y águilas imperiales.",
                 "Mantendré los cielos limpios y las despensas a salvo de alimañas.",
                 "¿Me financiáis el halconero real?",
             ],
@@ -267,7 +267,7 @@ export const day06Events: GameEvent[] = [
                     "No quedará una sola plaga cerca de los graneros.",
                 ],
                 no: [
-                    "Como mandéis, Majestad…",
+                    "Como mandéis…",
                     "Las ratas seguirán festejando a sus anchas en las despensas.",
                 ],
             },
@@ -287,7 +287,7 @@ export const day06Events: GameEvent[] = [
         dialogue: {
             speaker: "Gran Almirante de la Flota Real",
             introduction: [
-                "Majestad, acaba de atracar una galera mercante con la mitad de su tripulación delirando por una fiebre oscura que jamás había visto en alta mar.",
+                "Mi rey, acaba de atracar una galera mercante con la mitad de su tripulación delirando por una fiebre oscura que jamás había visto en alta mar.",
                 "Si sello el puerto y pongo todos los muelles en cuarentena estricta, frenaremos el contagio a tiempo.",
                 "Aunque perderemos una fortuna en aranceles y mercancías pudriéndose en las bodegas.",
                 "¿Ordenáis cerrar el puerto?",
@@ -298,7 +298,7 @@ export const day06Events: GameEvent[] = [
                     "Nadie entrará ni saldrá de los muelles hasta que pase el peligro.",
                 ],
                 no: [
-                    "Como ordenéis, Majestad. El oro seguirá fluyendo hoy hacia el tesoro.",
+                    "Entendido, Majestad. El oro seguirá fluyendo hoy hacia el tesoro.",
                     "Aunque ruego a los dioses que no hayamos abierto las puertas a la muerte.",
                 ],
             },

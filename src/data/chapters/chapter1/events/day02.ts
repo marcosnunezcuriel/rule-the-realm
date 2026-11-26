@@ -13,7 +13,7 @@ export const day02Events: GameEvent[] = [
         dialogue: {
             speaker: "Tabernera",
             introduction: [
-                "¡Majestad, una desgracia! Con los miles de visitantes que han llegado a la capital, mi taberna en el cruce se convirtió en un campo de batalla.",
+                "Mi señor, una desgracia! Con los miles de visitantes que han llegado a la capital, mi taberna en el cruce se convirtió en un campo de batalla.",
                 "Los ánimos se caldearon, rompieron todo el mobiliario y los malhechores escaparon.",
                 "Exijo una compensación por los destrozos y que la guardia persiga a los culpables.",
             ],
@@ -42,17 +42,17 @@ export const day02Events: GameEvent[] = [
         dialogue: {
             speaker: "Consejera Real",
             introduction: [
-                "Majestad, os traigo noticias alegres desde las puertas de la capital.",
+                "Mi señor, os traigo noticias alegres desde las puertas de la capital.",
                 "Un gran circo ambulante ha instalado sus coloridas carpas en las afueras.",
                 "Su director solicita permiso para actuar ante el pueblo y los nobles. ¿Permitimos que ofrezcan sus espectáculos?",
             ],
             responses: {
                 yes: [
-                    "¡Excelente elección, Majestad! Las funciones han comenzado y el dinero entra a raudales en las arcas gracias a las entradas.",
+                    "¡Una excelente elección, Majestad! Las funciones han comenzado y el dinero entra a raudales en las arcas gracias a las entradas.",
                     "Además, he oído que un juglar del circo está tan inspirado que quiere actuar directamente en la plaza mayor.",
                 ],
                 no: [
-                    "Como mandéis, Majestad. He ordenado a la guardia que rechace a los artistas.",
+                    "Como deseéis. He ordenado a la guardia que rechace a los artistas.",
                     "Las calles seguirán tranquilas, aunque el pueblo se ha quedado con ganas de un poco de diversión.",
                 ],
             },
@@ -78,8 +78,9 @@ export const day02Events: GameEvent[] = [
         dialogue: {
             speaker: "Cartógrafo",
             introduction: [
-                "Majestad, durante mis viajes he oído historias sobre las montañas del este.",
-                "Las leyendas hablan de riquezas ocultas entre sus cuevas y barrancos Necesitaré financiación para organizar una expedición. ¿Deseáis apoyarla?",
+                "Mi señor, durante mis viajes he oído historias sobre las montañas del este.",
+                "Las leyendas hablan de riquezas ocultas entre sus cuevas y barrancos.",
+                "Necesitaré financiación para organizar una expedición. ¿Deseáis apoyarla?",
             ],
             responses: {
                 yes: [
@@ -110,7 +111,7 @@ export const day02Events: GameEvent[] = [
         dialogue: {
             speaker: "Mendigo",
             introduction: [
-                "¡Piedad, Majestad! Llevo días sin probar bocado y el frío de las calles cala hasta los huesos.",
+                "¡Piedad, mi señor! Llevo días sin probar bocado y el frío de las calles cala hasta los huesos.",
                 "¿Podríais concederle unas pocas monedas a este humilde súbdito para comprar algo de pan?",
             ],
             responses: {
@@ -118,7 +119,7 @@ export const day02Events: GameEvent[] = [
                     "¡Que los cielos os bendigan, Majestad! Jamás olvidaré vuestra generosidad.",
                 ],
                 no: [
-                    "Entiendo... los reyes tenéis asuntos más importantes que la miseria de un pobre viejo.",
+                    "Entiendo... gobernar un reino debe de ser más importante que la miseria de un pobre viejo.",
                 ],
             },
         },
@@ -140,13 +141,13 @@ export const day02Events: GameEvent[] = [
         dialogue: {
             speaker: "Recaudador de impuestos",
             introduction: [
-                "Majestad, las arcas reales necesitan un respiro. He preparado un nuevo decreto fiscal.",
+                "Mi señor, las arcas reales necesitan un respiro. He preparado un nuevo decreto fiscal.",
                 "Si endurecemos los cobros y aumentamos los impuestos a los comerciantes y al pueblo, ingresaremos mucho más oro de inmediato.",
                 "¿Deseáis que aplique esta nueva medida de recaudación?",
             ],
             responses: {
                 yes: [
-                    "¡Una decisión muy acertada para la economía de la corona, Majestad!",
+                    "¡Una decisión muy acertada para el tesoro de la corona, Majestad!",
                     "Las arcas se llenarán rápidamente, aunque he visto caras muy largas en el mercado.",
                 ],
                 no: [
@@ -175,7 +176,7 @@ export const day02Events: GameEvent[] = [
         dialogue: {
             speaker: "Panadero",
             introduction: [
-                "Majestad, el precio del grano en los mercados se ha disparado por la nubes.",
+                "Mi señor, el precio del grano en los mercados se ha disparado por la nubes.",
                 "El pueblo apenas puede permitirse comprar una simple hogaza de pan.",
                 "¿Os dignaríais a subvencionar el precio del trigo para aliviar nuestra hambre?",
             ],
@@ -186,7 +187,7 @@ export const day02Events: GameEvent[] = [
                 ],
                 no: [
                     "Comprendo… Las arcas reales son sagradas.",
-                    "El hambre en las calles empieza a volverse peligrosa",
+                    "El hambre en las calles empieza a volverse peligrosa.",
                 ],
             },
         },
@@ -200,7 +201,7 @@ export const day02Events: GameEvent[] = [
         },
     },
 
-    // Evento 16 — El primer decreto
+    // Evento 16 — Los primeros decretos de la corona
     {
         id: "16",
         day: 2,
@@ -210,16 +211,16 @@ export const day02Events: GameEvent[] = [
             speaker: "Heraldo Real",
             introduction: [
                 "¡Majestad! Vuestro reinado ha comenzado y los primeros decretos de la corona ya han sido proclamados en la capital.",
-                "Sin embargo, Astaria es un reino extenso. En las aldeas más alejadas, muchos campesinos todavía desconocen las órdenes de la nueva Corona.",
+                "Sin embargo, Astaria es un reino extenso. En las aldeas más alejadas, muchos campesinos todavía desconocen las órdenes de su nuevo rey",
                 "Si me concedéis fondos para contratar mensajeros y escribas, enviaremos copias de vuestros decretos a todos los rincones del reino.",
                 "Así, hasta el más humilde de vuestros súbditos conocerá vuestras leyes y voluntad.",
                 "¿Autorizáis su distribución?",
             ],
             responses: {
                 yes: [
-                    "¡Excelente decisión, Majestad!",
+                    "¡Excelente decisión, Majestad! ¡Así se hará!",
                     "Los escribas comenzarán a trabajar de inmediato y los mensajeros partirán hacia todas las provincias.",
-                    "Pronto no habrá una sola aldea en Astaria que desconozca la autoridad de la Corona.",
+                    "Pronto no habrá una sola aldea en Astaria que desconozca vuestra autoridad.",
                 ],
                 no: [
                     "Como ordenéis, Majestad. Nos limitaremos a proclamar vuestros decretos en la capital.",

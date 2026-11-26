@@ -11,12 +11,11 @@ export const joustEvent: GameEvent = {
         id: "joust",
         placement: "start-of-day",
     },
-
     image: "/assets/characters/commoners/knight-champion.png",
     dialogue: {
         speaker: "Caballero campeón",
         introduction: [
-            "¡Salud, Majestad! Fui yo quien alzó la espada victorioso en el gran torneo de la coronación.",
+            "¡Salud, mi rey! Fui yo quien alzó la espada victorioso en el gran torneo de la coronación.",
             "La gloria está muy bien, pero la sangre derramada y el esfuerzo merecen una recompensa real.",
             "Exijo la bolsa de oro prometida al campeón.",
         ],

@@ -2,7 +2,22 @@ import type { GameEvent } from "../types/events";
 import type { MonarchRole } from "../types/monarch";
 import type { DialogueEvent } from "../types/dialogue";
 
-// Resolver la presentación de cualquier acontecimiento.
+import { royalAddressVariants } from "../data/narrative/royalAddressVariants";
+
+// Adaptar los tratamientos de un diálogo a la reina.
+function adaptText(text: string): string {
+    return royalAddressVariants.reduce(
+        (current, [original, replacement]) => {
+            return current.replaceAll(
+                original,
+                replacement
+            );
+        },
+        text
+    );
+}
+
+// Resolver la presentación según el protagonista.
 export function getEventPresentation(
     event: GameEvent,
     monarch: MonarchRole
@@ -10,41 +25,24 @@ export function getEventPresentation(
     image: string;
     dialogue: DialogueEvent;
 } {
-    const variant =
-        event.monarchVariants?.[monarch];
-
-    if (variant === undefined) {
+    if (monarch === "king") {
         return {
             image: event.image,
             dialogue: event.dialogue,
         };
     }
 
-    const replacements =
-        variant.replacements ?? [];
-
-    function adaptText(text: string): string {
-        return replacements.reduce(
-            (current, [original, replacement]) => {
-                return current.replaceAll(
-                    original,
-                    replacement
-                );
-            },
-            text
-        );
-    }
-
+    const visitor = event.queenVisitor;
     const dialogue = event.dialogue;
 
     return {
-        image: variant.image ?? event.image,
+        image: visitor?.image ?? event.image,
 
         dialogue: {
             ...dialogue,
 
             speaker:
-                variant.speaker ??
+                visitor?.speaker ??
                 dialogue.speaker,
 
             introduction:

@@ -13,9 +13,9 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Juglar",
             introduction: [
-                "¡Salve, oh magnífica Majestad de Astaria! El circo ha llenado las calles de música y alegría.",
+                "¡Salve, oh magnífico rey de Astaria! El circo ha llenado las calles de música y alegría.",
                 "Mi laúd arde con ganas de cantar vuestras glorias.",
-                "Me gustaría montar un escenario en el centro de la plaza mayor para entretener al pueblo con rimas y malabares. ¿Me dais vuestro real permiso para actuar?",
+                "Me gustaría montar un escenario en el centro de la plaza mayor para entretener al pueblo con rimas y malabares. ¿Me concedéis vuestro real permiso para actuar?",
             ],
             responses: {
                 yes: [
@@ -51,7 +51,7 @@ export const day03Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "Agradezco vuestra sensatez al compensar nuestras pérdidas, Majestad.",
+                    "Agradezco vuestra sensatez al compensar nuestras pérdidas, mi señor.",
                     "Así se mantiene la paz en los campos.",
                 ],
                 no: [
@@ -77,7 +77,7 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Conde de Campotrigo",
             introduction: [
-                "Majestad, os muestro mi más profundo agradecimiento por el apoyo en la crisis del grano.",
+                "Mi señor, os muestro mi más profundo agradecimiento por el apoyo en la crisis del grano.",
                 "Habéis demostrado mano dura y respeto por los grandes señores.",
                 "Mis tierras os envían un cargamento extra de suministros.",
             ],
@@ -94,9 +94,9 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Boticaria",
             introduction: [
-                "Majestad, os traigo noticias alarmantes.",
+                "Mi señor, os traigo noticias alarmantes.",
                 "Los pozos de agua de la capital muestran graves indicios de contaminación y las primeras personas ya están enfermando.",
-                "Necesito urgentemente fondos de la corona para purificar el agua y evitar que la infección se extienda por toda la ciudad.",
+                "Necesito urgentemente fondos del tesoro real para purificar el agua y evitar que la infección se extienda por toda la ciudad.",
                 "¿Me concederéis el oro necesario?",
             ],
             responses: {
@@ -105,7 +105,7 @@ export const day03Events: GameEvent[] = [
                     "Pondré a mis aprendices a purificar cada gota de agua de inmediato.",
                 ],
                 no: [
-                    "Es una decisión arriesgada, Majestad…",
+                    "Es una decisión arriesgada…",
                     "Si el agua sigue así, la enfermedad no tardará en convertirse en una plaga en las calles.",
                 ],
             },
@@ -116,7 +116,7 @@ export const day03Events: GameEvent[] = [
         },
     },
 
-    // Evento 18 — Armas para la guardia
+    // Evento 18 — Herramientas para los campesinos
     {
         id: "18",
         day: 3,
@@ -125,19 +125,20 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Herrero",
             introduction: [
-                "¡Saludos, Majestad! Disculpad que me presente ante vos con las manos ennegrecidas, pero apenas he tenido tiempo de apartarme del yunque.",
+                "¡Saludos, mi señor! Disculpad que me presente ante vos con las manos ennegrecidas, pero apenas he tenido tiempo de apartarme del yunque.",
                 "Durante estos últimos días, los campesinos de las aldeas cercanas no han dejado de acudir a mi fragua. Sus arados están rotos, las azadas desgastadas y muchas hoces ya no cortan ni una brizna de trigo.",
                 "Me gustaría fabricar nuevas herramientas para repartirlas entre los agricultores, pero el hierro escasea y la mayoría de esas pobres gentes apenas tiene monedas para pagarme.",
-                "Si la corona me concede algunos fondos, podré contratar ayudantes y poner mis forjas a trabajar para los campesinos del reino. ¿Me concederéis el oro necesario, Majestad?",
+                "Si la Corona me cede algunos fondos, podré contratar ayudantes y poner mis forjas a trabajar para los campesinos del reino.",
+                "¿Me concederéis el oro necesario, Majestad?",
             ],
             responses: {
                 yes: [
-                    "Así se habla, Majestad!",
+                    "¡Así se habla!",
                     "Encenderemos las forjas día y noche hasta que no quede un solo campesino sin sus herramientas.",
                     "Con los campos nuevamente en marcha, algunas familias que habían abandonado sus aldeas regresarán para trabajar la tierra."
                 ],
                 no: [
-                    "Es una lástima, Majestad…",
+                    "Es una lástima…",
                     "Haré cuanto pueda con el poco hierro que me queda, pero no podré ayudar a todos.",
                     "Algunos campesinos tendrán que abandonar sus tierras y buscar trabajo en otras regiones.",
                 ],
@@ -158,7 +159,7 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Maestro de armas",
             introduction: [
-                "¡A vuestras órdenes, Majestad!",
+                "¡A vuestras órdenes, mi rey!",
                 "Las murallas están seguras, pero las filas del ejército necesitan sangre nueva para proteger el reino en estos tiempos de cambio.",
                 "Pido vuestra autorización y oro para abrir una academia de entrenamiento donde convertir a los campesinos novatos en soldados leales y disciplinados. ¿Deseáis financiarla?",
             ],
@@ -186,7 +187,7 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Gran mercader",
             introduction: [
-                "Majestad, cada puesto del mercado usa sus propias pesas y medidas.",
+                "Mi señor, cada puesto del mercado usa sus propias pesas y medidas.",
                 "Esto provoca continuas peleas entre vendedores y compradores.",
                 "Si emitís un decreto real para estandarizar todas las balanzas de la capital, el comercio fluirá con orden y justicia. ¿Lo aprobáis?",
             ],
@@ -216,7 +217,7 @@ export const day03Events: GameEvent[] = [
         dialogue: {
             speaker: "Sumiller de la corte",
             introduction: [
-                "Majestad, disculpad que os moleste con un asunto tan delicado.",
+                "Mi señor, disculpad que os moleste con un asunto tan delicado.",
                 "Durante sus cuarenta años de reinado, vuestro padre reunió una extraordinaria colección de vinos procedentes de todos los rincones del continente.",
                 "En las bodegas del palacio descansan barriles y botellas de cosechas tan antiguas que algunos mercaderes estarían dispuestos a pagar auténticas fortunas por ellas.",
                 "Si me autorizáis a vender una parte de la colección, podríamos ingresar una considerable suma de oro en las arcas reales.",
@@ -229,7 +230,7 @@ export const day03Events: GameEvent[] = [
                     "Aunque debo advertiros que algunos nobles murmurarán que os estáis desprendiendo demasiado pronto de las pertenencias de vuestro padre.",
                 ],
                 no: [
-                    "Una decisión muy respetable, Majestad.",
+                    "Una decisión muy respetable.",
                     "Conservaré cada botella tal y como vuestro padre la dejó.",
                     "Los nobles más cercanos al antiguo rey agradecerán que preservéis una parte de su legado.",
                 ],
@@ -251,7 +252,7 @@ export const day03Events: GameEvent[] = [
             speaker: "Golem de piedra",
             introduction: [
                 "GRRR... La corona ha vuelto a brillar... y mi corazón de piedra vuelve a latir bajo los jardines.",
-                "Soy el antiguo guardián de estas murallas, he despertado para servir a la nueva Corona.",
+                "Soy el antiguo guardián de estas murallas, he despertado para serviros, rey de Astaria.",
                 "Para mantener mi núcleo encendido y aplastar a vuestros enemigos, debéis canalizar hacia mí las plegarias y la devoción de vuestros templos.",
                 "¿Aceptáis vincular mi alma de roca a la energía sagrada de vuestro reino?",
             ],

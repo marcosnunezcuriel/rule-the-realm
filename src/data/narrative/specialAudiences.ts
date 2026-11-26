@@ -18,9 +18,9 @@ export const treasuryWarningDialogue: DialogueEvent = {
     speaker: "Consejera Real",
 
     introduction: [
-        "Majestad, las arcas reales han entrado en números negativos.",
+        "Majestad, debo advertiros que las arcas reales han entrado en números negativos.",
 
-        "La Corona ha comenzado a acumular deudas y nuestros " +
+        "El reino ha comenzado a acumular deudas y nuestros " +
         "acreedores exigen intereses.",
 
         "Hasta que recuperemos el tesoro, deberemos pagar " +
@@ -37,9 +37,9 @@ export const treasuryRecoveryDialogue: DialogueEvent = {
     speaker: "Consejera Real",
 
     introduction: [
-        "¡Majestad, buenas noticias!",
+        "¡Os traigo buenas noticias Majestad!",
 
-        "La Corona ha saldado sus deudas y las arcas reales " +
+        "Hemos saldado nuestras deudas y las arcas reales " +
         "vuelven a llenarse.",
 
         "Nuestros acreedores han quedado satisfechos. " +

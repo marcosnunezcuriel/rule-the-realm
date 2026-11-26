@@ -13,7 +13,7 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Golem de piedra",
             introduction: [
-                "GRRR... Si el trono desprecia mi protección y me niega la devoción que merezco, no tengo nada que hacer en estos jardines.",
+                "GRRR... Si despreciáis mi protección y me negáis la devoción que merezco, no tengo nada que hacer en estos jardines.",
                 "Me marcharé a los caminos del norte, donde los hombres valoran la fuerza de la roca por encima de vuestras leyes.",
                 "Antes de partir, reclamo las vetas de minerales preciosos que sostienen mi armadura.",
                 "¿Me permitís llevarme lo que es mío por derecho?",
@@ -45,10 +45,10 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Golem de piedra",
             introduction: [
-                "GRRR... Has demostrado que tu corona valora la fuerza real por encima de los rezos vacíos.",
+                "GRRR... Habéis demostrado que valoráis la fuerza real por encima de los rezos vacíos.",
                 "Mi tiempo en estos jardines ha concluido, los deberes espirituales de la tierra me obligan a marchar a los caminos del norte.",
-                "Antes de partir, el calor de mi núcleo arcano y la devoción que me entregaste han cristalizado en las profundidades del palacio para bendecir tu reinado.",
-                "Que la piedra te guarde.",
+                "Antes de partir, el calor de mi núcleo arcano y la devoción que me entregasteis han cristalizado en las profundidades del palacio para bendecir vuestro reinado.",
+                "Que la piedra os guarde y protega vuestra familia.",
             ],
         },
         baseEffects: { gold: 100, faith: 50 },
@@ -63,7 +63,7 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Herrero",
             introduction: [
-                "¡Majestad! Me han llegado noticias de que el Caballerizo Mayor ha adquirido una magnífica remesa de caballos para los establos de la corona.",
+                "Mi señor, me han llegado la noticia de que el Caballerizo Mayor ha adquirido una magnífica remesa de caballos para los establos reales.",
                 "He tenido ocasión de echarles un vistazo y debo reconocer que son unas bestias extraordinarias, pero hay un pequeño problema.",
                 "Muchos no tienen herraduras adecuadas y algunos incluso han perdido alguna por el camino viniendo a la capital.",
                 "Puedo fabricarles unas herraduras reforzadas, resistentes y ligeras, para que vuestros mensajeros y soldados cabalguen sin temor a lesionarlos.",
@@ -73,7 +73,7 @@ export const day05Events: GameEvent[] = [
             responses: {
                 yes: [
                     "¡Excelente decisión, Majestad!",
-                    "¡No habrá en todo Astaria un caballo mejor herrado que los de vuestra corona!",
+                    "¡No habrá en todo Astaria un caballo mejor herrado que los de vuestros establos!",
                 ],
                 no: [
                     "Como ordenéis, Majestad.",
@@ -97,7 +97,7 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Constructor",
             introduction: [
-                "¡Malas noticias, Majestad!",
+                "¡Malas noticias, mi señor!",
                 "Las últimas lluvias han debilitado los cimientos del puente de piedra sobre el río principal.",
                 "Esta madrugada el arco central se ha venido abajo.",
                 "Es la ruta clave por la que entran las mercancías a la capital.",
@@ -130,7 +130,7 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Inventor",
             introduction: [
-                "¡Majestad, los astros se han alineado en mi mesa de trabajo!",
+                "Mi rey, los astros se han alineado en mi mesa de trabajo!",
                 "He diseñado un nuevo sistema de aspas angulares y engranajes de hierro que triplica la velocidad de molienda de un molino tradicional.",
                 "Si invertís una suma para construir el primer prototipo en las afueras, el rendimiento del grano se disparará.",
                 "¿Me concedéis el oro para cambiar la historia del reino?",
@@ -165,7 +165,7 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Gran Almirante de la Flota Real",
             introduction: [
-                "Majestad, los informes desde los muelles confirman que los mercantes extranjeros están introduciendo mercancías ilegales sin pagar los aranceles de la corona.",
+                "Mi rey, los informes desde los muelles confirman que los mercantes extranjeros están introduciendo mercancías ilegales sin pagar los aranceles reales.",
                 "Si ordeno a la guardia portuaria registrar cada bodega a fondo, vaciaremos los alijos de contrabando y llenaremos las arcas reales.",
                 "Aunque los mercaderes amenazan con retrasar sus rutas.",
                 "¿Autorizo el registro exhaustivo?",
@@ -177,8 +177,8 @@ export const day05Events: GameEvent[] = [
                     "Aunque los comerciantes extranjeros y estibadores se quejarán de los abusos y retrasos.",
                 ],
                 no: [
-                    "Como mandéis, Majestad.",
-                    "Dejaremos que los barcos atraquen en paz, aunque la corona seguirá perdiendo los tributos que le corresponden.",
+                    "Entendido, Majestad. Dejaremos que los barcos atraquen en paz.",
+                    "Seguiremos perdiendo los tributos que nos corresponden.",
                 ],
             },
         },
@@ -197,7 +197,7 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Geisha",
             introduction: [
-                "Salud y prosperidad, Majestad.",
+                "Salud y prosperidad, soberano de Astaria.",
                 "He cruzado las peligrosas cumbres de las montañas del este en representación del gran Imperio Oriental.",
                 "Buscamos abrir una ruta comercial permanente con vuestro reino para intercambiar sedas, especias y conocimientos.",
                 "Si aceptáis nuestra alianza comercial, las caravanas traerán riquezas constantes a vuestras puertas.",
@@ -232,9 +232,9 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Guardián del bosque",
             introduction: [
-                "Saludos, Majestad de Astaria. Soy el Guardián del Bosque Encantado y he venido a solicitar vuestra protección.",
+                "Saludos, rey de Astaria. Soy el Guardián del Bosque Encantado y he venido a solicitar vuestra protección.",
                 "En lo más profundo de mis dominios se encuentra una arboleda milenaria. Sus árboles han permanecido en pie durante siglos y, bajo sus ramas, generaciones de vuestros súbditos han acudido a rezar a la Estrella de Ocho Puntas.",
-                "Pero un grupo de comerciantes ha descubierto el extraordinario valor de su madera y solicita permiso a la corona para talar los árboles y venderlos en los mercados del continente.",
+                "Pero un grupo de comerciantes ha descubierto el extraordinario valor de su madera y os solicita permiso para talar los árboles y venderlos en los mercados del continente.",
                 "Os ofrecen una generosa suma de oro a cambio de los derechos de explotación.",
                 "Os ruego que no permitáis semejante sacrilegio. Si destináis algunos fondos a proteger la arboleda, podremos preservar este lugar sagrado para las generaciones venideras.",
                 "¿Qué decidís, Majestad? ¿Protegeréis los árboles sagrados?",
@@ -243,11 +243,11 @@ export const day05Events: GameEvent[] = [
                 yes: [
                     "Habéis tomado una sabia decisión, Majestad.",
                     "Con vuestra ayuda, mis guardianes vigilarán la arboleda y ningún mercader podrá acercar un hacha a sus árboles.",
-                    "Los fieles de Astaria recordarán que su Corona protegió uno de los lugares más sagrados del reino.",
+                    "Los fieles de Astaria recordarán que su rey protegió uno de los lugares más sagrados del reino.",
                 ],
                 no: [
-                    "Comprendo vuestra decisión, Majestad, pero temo que el oro no podrá reemplazar lo que estamos a punto de perder.",
-                    "Los comerciantes comenzarán la tala y entregarán a la corona la suma prometida.",
+                    "Comprendo vuestra decisión, Majestad. Pero temo que el oro no podrá reemplazar lo que estamos a punto de perder.",
+                    "Los comerciantes comenzarán la tala y os entregarán la suma prometida.",
                     "Que la Estrella de Ocho Puntas nos perdone por las heridas que sufrirá el bosque.",
                 ],
             },
@@ -275,7 +275,7 @@ export const day05Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "¡Has escuchado la voz del cielo, Majestad!",
+                    "Habéis escuchado la voz del cielo, rey de Astaria!",
                 ],
                 no: [
                     "¡Necio!",

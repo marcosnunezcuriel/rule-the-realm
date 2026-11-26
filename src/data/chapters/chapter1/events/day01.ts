@@ -12,17 +12,17 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Mayordomo",
             introduction: [
-                "Buenos días, Majestad. Seré vuestro humilde mayordomo y me encargaré de que la corte funcione como un reloj.",
+                "Buenos días, mi señor. Seré vuestro humilde mayordomo y me encargaré de que la corte funcione como un reloj.",
                 "El antiguo rey dejó los aposentos reales bastante descuidados y el personal es escaso.",
                 "¿Debo contratar más servidumbre para recibir dignamente a vuestros invitados?",
             ],
             responses: {
                 yes: [
                     "¡Excelente decisión! El castillo brillará como el oro.",
-                    "Los nobles notarán al instante la majestuosidad de vuestra corte.",
+                    "Los nobles quedarán impresionados por el esplendor de vuestra corte.",
                 ],
                 no: [
-                    "Como ordenéis, Majestad. Nos apañaremos con lo que tenemos.",
+                    "Como ordenéis. Nos apañaremos con lo que tenemos.",
                     "Al menos ahorraremos unas cuantas monedas de oro para asuntos más urgentes.",
                 ],
             },
@@ -42,7 +42,7 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Consejera Real",
             introduction: [
-                "Majestad. Seré vuestra consejera real y estaré a vuestro servicio mientras ocupéis el trono.",
+                "Mi señor, seré vuestra consejera real y estaré a vuestro servicio mientras ocupéis el trono.",
                 "Vuestra coronación ha despertado entusiasmo en todo Astaria.",
                 "Los habitantes de la capital esperan celebraciones, banquetes y un torneo.",
                 "¿Deseáis celebrarlos?",
@@ -50,7 +50,7 @@ export const day01Events: GameEvent[] = [
             responses: {
                 yes: [
                     "Los festejos comenzarán al amanecer y durarán varios días.",
-                    "El pueblo le verá con buenos ojos.",
+                    "El pueblo verá con buenos ojos vuestro gesto.",
                 ],
                 no: [
                     "Muchos esperaban algún tipo de celebración.",
@@ -76,7 +76,7 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Comandante de la Guardia Real",
             introduction: [
-                "¡A vuestras órdenes, Majestad!",
+                "¡A vuestras órdenes, mi rey!",
                 "La coronación ha atraído a miles de visitantes de todos los rincones de Astaria. Las calles están abarrotadas y mis hombres apenas pueden mantener el orden.",
                 "Temo que los ladrones y alborotadores aprovechen las celebraciones para causar problemas.",
                 "Solicito vuestro permiso para contratar refuerzos y aumentar la vigilancia durante estos primeros días de reinado.",
@@ -84,13 +84,13 @@ export const day01Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "¡Excelente decisión, Majestad!",
+                    "¡Así se hará!",
                     "Reforzaré las patrullas y colocaré guardias adicionales en las puertas de la ciudad y los alrededores del palacio.",
                     "Vuestros súbditos podrán celebrar la coronación con tranquilidad.",
                 ],
                 no: [
-                    "Como ordenéis, Majestad. Haremos cuanto podamos con los hombres disponibles.",
-                    "Pero si se producen altercados durante las celebraciones, la reputación de la corona podría verse perjudicada.",
+                    "Entendido. Haremos cuanto podamos con los hombres disponibles.",
+                    "Pero si se producen altercados durante las celebraciones, vuestra reputación podría verse perjudicada.",
                 ],
             },
         },
@@ -109,15 +109,6 @@ export const day01Events: GameEvent[] = [
         day: 1,
         order: 4,
         image: "/assets/characters/royalty/princess.png",
-        monarchVariants: {
-            queen: {
-                replacements: [
-                    ["¡Padre!", "¡Madre!"],
-                    ["¡Gracias, padre!", "¡Gracias, madre!"],
-                    ["Pero, padre", "Pero, madre"],
-                ],
-            },
-        },
         dialogue: {
             speaker: "Princesa",
             introduction: [
@@ -153,16 +144,16 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Conde de Campotrigo",
             introduction: [
-                "Mis respetos, Majestad. Soy el Conde de Campotrigo, señor de las tierras fértiles del sur.",
+                "Mis respetos, mi señor. Soy el Conde de Campotrigo, señor de las tierras fértiles del sur.",
                 "Nuestros campos pueden dar mucho más alimento, pero faltan manos para arar. ¿Me autorizáis a financiar la llegada de familias extranjeras para trabajar mis tierras?",
             ],
             responses: {
                 yes: [
                     "¡Sabia elección! Pronto llegarán caravanas de nuevos colonos a Astaria.",
-                    "Nuestras aldeas crecerán, aunque el viaje correrá a cargo de la corona.",
+                    "Nuestras aldeas crecerán, aunque el viaje correrá a cargo de vuestro tesoro.",
                 ],
                 no: [
-                    "Una lástima, Majestad. Los campos seguirán medio vacíos.",
+                    "Una verdadera lástima, Majestad. Los campos seguirán medio vacíos.",
                     "Los terratenientes empezarán a pensar que no os preocupa el futuro del reino.",
                 ],
             },
@@ -179,15 +170,6 @@ export const day01Events: GameEvent[] = [
         day: 1,
         order: 6,
         image: "/assets/characters/royalty/prince.png",
-        monarchVariants: {
-            queen: {
-                replacements: [
-                    ["¡Padre!", "¡Madre!"],
-                    ["¡Gracias, padre!", "¡Gracias, madre!"],
-                    ["¡Pero, padre!", "¡Pero, madre!"],
-                ],
-            },
-        },
         dialogue: {
             speaker: "Príncipe",
             introduction: [
@@ -220,7 +202,7 @@ export const day01Events: GameEvent[] = [
         id: "7",
         day: 1,
         order: 7,
-        image: "/assets/characters/nobles/maquis-firerock.png",
+        image: "/assets/characters/nobles/maquis-firerock.png",        
         dialogue: {
             speaker: "Marqués de Rocafuego",
             introduction: [
@@ -250,17 +232,8 @@ export const day01Events: GameEvent[] = [
         day: 1,
         order: 8,
         image: "/assets/characters/royalty/kings-brother.png",
-        monarchVariants: {
-            queen: {
-                speaker: "Hermano de la reina",
-
-                replacements: [
-                    ["Hermano,", "Hermana,"],
-                    [", hermano!", ", hermana!"],
-                    [", hermano?", ", hermana?"],
-                    [", hermano.", ", hermana."],
-                ],
-            },
+        queenVisitor: {
+            speaker: "Hermano de la reina",
         },
         dialogue: {
             speaker: "Hermano del rey",
@@ -304,12 +277,12 @@ export const day01Events: GameEvent[] = [
         dialogue: {
             speaker: "Duque de Bosqueencantado",
             introduction: [
-                "¡Qué inmensa alegría contemplar a Vuestra Majestad! Soy el Duque de Bosqueencantado, humilde servidor de la corona y de la fe.",
+                "¡Qué inmensa alegría contemplar a Vuestra Majestad! Soy el Duque de Bosqueencantado, humilde servidor de la Corona y de la fe.",
                 "No vengo a pediros nada, Majestad. Solo a ofreceros mi lealtad incondicional y a donar un santuario en vuestro honor. ¿Aceptáis mi humilde bendición?",
             ],
             responses: {
                 yes: [
-                    "¡Que la estrella de ocho puntas ilumine siempre vuestro trono, Majestad!",
+                    "¡Que la estrella de ocho puntas ilumine siempre vuestro trono, mi señor!",
                     "Todo el clero y la corte alaban vuestra piedad y cercanía.",
                 ],
                 no: [
@@ -330,17 +303,9 @@ export const day01Events: GameEvent[] = [
         day: 1,
         order: 10,
         image: "/assets/characters/royalty/queen-standing.png",
-        monarchVariants: {
-            queen: {
-                image: "/assets/characters/royalty/king-standing.png",
-
-                speaker: "Rey",
-
-                replacements: [
-                    ["Gracias, querido.", "Gracias, querida."],
-                    ["no te sientas preparado.", "no te sientas preparada."],
-                ],
-            },
+        queenVisitor: {
+            image: "/assets/characters/royalty/king-standing.png",
+            speaker: "Rey",
         },
         dialogue: {
             speaker: "Reina",
@@ -349,7 +314,7 @@ export const day01Events: GameEvent[] = [
                 "Hoy todos te han llamado Majestad, pero nadie te ha preguntado cómo estás.",
                 "Sé cuánto significaba tu padre para ti. No debe de ser fácil ocupar su lugar tan poco tiempo después de haberlo perdido.",
                 "Esta noche me gustaría que nos reuniéramos en la capilla con los niños para honrar su memoria una última vez.",
-                "Solo nosotros cuatro, en familia, lejos de los nobles y de las obligaciones de la corona.",
+                "Solo nosotros cuatro, en familia, lejos de los nobles y de las obligaciones del trono.",
                 "¿Te parece bien?",
             ],
             responses: {

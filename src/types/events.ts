@@ -4,22 +4,11 @@ import type {
 } from "./dialogue";
 
 import type { StatChanges } from "./stats";
-import type { MonarchRole } from "./monarch";
 import type { ModifierId } from "./modifiers";
 import type { GameReward } from "./rewards";
 
 import type { StoryFlagId } from "../data/narrative/storyFlags";
 import type { SpecialSceneId } from "../data/scenes/specialSceneRegistry";
-
-// Adaptaciones de un acontecimiento según el protagonista.
-export type MonarchEventVariant = {
-    image?: string;
-    speaker?: string;
-
-    replacements?: readonly (
-        readonly [string, string]
-    )[];
-};
 
 export type GameEvent = {
     id: string;
@@ -28,10 +17,11 @@ export type GameEvent = {
     image: string;
     dialogue: DialogueEvent;
 
-    // Variantes narrativas y visuales según el monarca.
-    monarchVariants?: Partial<
-        Record<MonarchRole, MonarchEventVariant>
-    >;
+    // Visitante alternativo cuando gobierna la reina.
+    queenVisitor?: {
+        image?: string;
+        speaker?: string;
+    };
 
     // Escenario alternativo en el que se celebra el evento.
     scene?: {

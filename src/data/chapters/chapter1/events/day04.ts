@@ -13,7 +13,7 @@ export const day04Events: GameEvent[] = [
         dialogue: {
             speaker: "Cartógrafo",
             introduction: [
-                "Majestad, las leyendas eran ciertas.",
+                "Mi señor, las leyendas eran ciertas.",
                 "Hemos descubierto una enorme cueva repleta de esmeraldas.",
                 "Podríamos extraer grandes riquezas si establecemos una mina.",
             ],
@@ -54,11 +54,11 @@ export const day04Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "Sabia rectificación, Majestad.",
+                    "Habéis rectificado a tiempo, mi señor.",
                     "La luz vuelve a reinar en nuestros templos y el orden sagrado queda restaurado.",
                 ],
                 no: [
-                    "¡Que los cielos se apiaden de vuestra alma, Majestad hereje!",
+                    "¡Que los cielos se apiaden de vuestra alma, rey hereje!",
                     "Habéis elegido la piedra fría por encima de la palabra divina.",
                 ],
             },
@@ -82,17 +82,17 @@ export const day04Events: GameEvent[] = [
         dialogue: {
             speaker: "Pintor de la corte",
             introduction: [
-                "¡Majestad! Deberíais inmortalizar vuestro rostro en un lienzo digno de la historia.",
+                "Mi señor, todo gran soberano debería inmortalizar su rostro en un lienzo digno de la historia.",
                 "Si me concedéis fondos para adquirir pigmentos exóticos y pan de oro, dedicaré mis días a pintar vuestro retrato oficial.",
                 "¿Me autorizáis a comenzar la obra?",
             ],
             responses: {
                 yes: [
                     "¡No os arrepentiréis, Majestad!",
-                    "Trabajaré con devoción hasta capturar cada rasgo de vuestra majestad real.",
+                    "Trabajaré con devoción hasta capturar cada rasgo de vuestro rostro.",
                 ],
                 no: [
-                    "Como deseéis, Majestad…",
+                    "Como deseéis…",
                     "Aunque es una lástima dejar las paredes de palacio tan desnudas en un reinado tan prometedor.",
                 ],
             },
@@ -115,7 +115,7 @@ export const day04Events: GameEvent[] = [
         dialogue: {
             speaker: "Músico de la corte",
             introduction: [
-                "¡Majestad! Acabo de tener una idea que podría pasar a la historia de nuestro reino.",
+                "¡Mi rey! Acabo de tener una idea que podría pasar a la historia de nuestro reino.",
                 "Astaria cuenta con canciones populares, marchas militares y cánticos religiosos, pero...",
                 "¿Sabíais que nunca hemos tenido un himno oficial que represente a toda nuestra nación?",
                 "Me gustaría componer un himno en honor a Astaria y la Corona de las Estrellas.",
@@ -123,11 +123,11 @@ export const day04Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "¡Maravilloso, Majestad! ¡Os prometo que será una obra digna de la historia!",
+                    "¡Maravilloso! ¡Os prometo que será una obra digna de la historia!",
                     "Reuniré a los mejores instrumentistas de la corte y comenzaremos a trabajar de inmediato.",
                 ],
                 no: [
-                    "Qué lástima, Majestad... ¡Ya podía escuchar la melodía resonando por los salones del palacio!",
+                    "Qué lástima... ¡Ya podía escuchar la melodía resonando por los salones del palacio!",
                     "Guardaré mis partituras para otra ocasión.",
                 ],
             },
@@ -150,7 +150,7 @@ export const day04Events: GameEvent[] = [
         dialogue: {
             speaker: "Ladrón",
             introduction: [
-                "¡Piedad, Majestad!",
+                "¡Piedad, mi señor!",
                 "Los guardias me atraparon robando en los puestos y el juez ha dictado sentencia.",
                 "Mañana al alba me cortarán la mano en la plaza.",
                 "Admito mis crímenes y os juro por mi vida que estoy arrepentido.",
@@ -159,7 +159,7 @@ export const day04Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "¡Gracias, Majestad, gracias! Jamás volveré a tocar lo que no es mío.",
+                    "¡Gracias, mi señor, gracias! Jamás volveré a tocar lo que no es mío.",
                     "Aquí tenéis hasta la última moneda que escondía.",
                 ],
                 no: [
@@ -183,7 +183,7 @@ export const day04Events: GameEvent[] = [
         dialogue: {
             speaker: "Caballerizo mayor",
             introduction: [
-                "Majestad, los caballos de los establos reales están agotados y las monturas de nuestros mensajeros ya apenas pueden galopar con presteza hacia las fronteras.",
+                "Mi señor, los caballos de los establos reales están agotados y las monturas de nuestros mensajeros ya apenas pueden galopar con presteza hacia las fronteras.",
                 "Necesitamos invertir oro para adquirir nuevas y vigorosas bestias con las que asegurar que vuestros decretos lleguen a tiempo a todos los rincones del reino. ¿Nos daréis los fondos?",
             ],
             responses: {
@@ -213,7 +213,7 @@ export const day04Events: GameEvent[] = [
         dialogue: {
             speaker: "Comandante de la Guardia Real",
             introduction: [
-                "Majestad, los bandidos empiezan a merodear por los caminos secundarios del reino y los viajeros temen ser asaltados.",
+                "Mi rey, los bandidos empiezan a merodear por los caminos secundarios del reino y los viajeros temen ser asaltados.",
                 "Si me dais orden de desplegar patrullas permanentes en las fronteras, mantendremos las rutas despejadas, aunque eso fatigará a nuestras tropas. ¿Ordeno el despliegue?",
             ],
             responses: {
@@ -222,7 +222,7 @@ export const day04Events: GameEvent[] = [
                     "Mis hombres vigilarán cada sendero del reino.",
                 ],
                 no: [
-                    "Como mandéis, Majestad. Mantendremos las tropas descansadas en los cuarteles.",
+                    "Entendido. Mantendremos las tropas descansadas en los cuarteles.",
                     "Aunque los caminos seguirán siendo peligrosos.",
                 ],
             },
@@ -245,7 +245,7 @@ export const day04Events: GameEvent[] = [
         dialogue: {
             speaker: "Monje copista",
             introduction: [
-                "¡Majestad, disculpad la intromisión!",
+                "Mi señor, disculpad la intromisión!",
                 "Mientras transcribía textos antiguos, vi una estrella carmesí surcar el firmamento.",
                 "En los textos antiguos esto se interpreta como un presagio de infortunio.",
                 "El pueblo ya murmura asustado en las calles.",

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getEventById } from "../../data/events/eventRegistry";
+import { chapter1Events } from "../../data/chapters/chapter1/events";
 
 import { getAudiencePresentation } from "../../game/getAudiencePresentation";
 import { getEventPresentation } from "../../game/getEventPresentation";
@@ -149,60 +150,6 @@ describe("Audiencias según el protagonista", () => {
         );
     });
 
-    it("resuelve variantes de acontecimientos sin depender de su identificador", () => {
-        const event: GameEvent = {
-            id: "test-variant",
-            day: 8,
-            order: 1,
-
-            image: "/default.png",
-
-            dialogue: {
-                speaker: "Visitante",
-                introduction: [
-                    "Saludos, Majestad.",
-                ],
-            },
-
-            monarchVariants: {
-                king: {
-                    image: "/alternative.png",
-                    speaker: "Embajador",
-
-                    replacements: [
-                        ["Saludos", "Mis respetos"],
-                    ],
-                },
-            },
-        };
-
-        const king = getEventPresentation(
-            event,
-            "king"
-        );
-
-        const queen = getEventPresentation(
-            event,
-            "queen"
-        );
-
-        expect(king).toEqual({
-            image: "/alternative.png",
-
-            dialogue: {
-                speaker: "Embajador",
-                introduction: [
-                    "Mis respetos, Majestad.",
-                ],
-            },
-        });
-
-        expect(queen).toEqual({
-            image: event.image,
-            dialogue: event.dialogue,
-        });
-    });
-
     it("no modifica el diálogo original al resolver una variante", () => {
         const event = getEventById("8");
 
@@ -260,5 +207,153 @@ describe("Audiencias según el protagonista", () => {
         expect(
             presentation.dialogueKey
         ).toBe("treasury-warning");
+    });
+
+    it("adapta cualquier acontecimiento sin configuración de tratamientos", () => {
+        const event: GameEvent = {
+            id: "test-variant",
+            day: 8,
+            order: 1,
+
+            image: "/default.png",
+
+            dialogue: {
+                speaker: "Visitante",
+
+                introduction: [
+                    "Saludos, mi señor.",
+                ],
+            },
+        };
+
+        const king = getEventPresentation(
+            event,
+            "king"
+        );
+
+        const queen = getEventPresentation(
+            event,
+            "queen"
+        );
+
+        expect(king).toEqual({
+            image: event.image,
+            dialogue: event.dialogue,
+        });
+
+        expect(queen).toEqual({
+            image: event.image,
+
+            dialogue: {
+                speaker: "Visitante",
+
+                introduction: [
+                    "Saludos, mi señora.",
+                ],
+            },
+        });
+    });
+
+    it("adapta también los adjetivos del juglar", () => {
+        const king = presentAudience(
+            "11.1",
+            "king"
+        );
+
+        const queen = presentAudience(
+            "11.1",
+            "queen"
+        );
+
+        expect(
+            king.dialogue.introduction[0]
+        ).toContain(
+            "magnífico rey de Astaria"
+        );
+
+        expect(
+            queen.dialogue.introduction[0]
+        ).toContain(
+            "magnífica reina de Astaria"
+        );
+    });
+
+    it.each(["34", "38"])(
+        "adapta los insultos al protagonista en el evento %s",
+        (eventId) => {
+            const king = presentAudience(
+                eventId,
+                "king"
+            );
+
+            const queen = presentAudience(
+                eventId,
+                "queen"
+            );
+
+            expect(
+                king.dialogue.responses?.no.join(" ")
+            ).toContain("¡Necio!");
+
+            expect(
+                queen.dialogue.responses?.no.join(" ")
+            ).toContain("¡Necia!");
+        }
+    );
+
+    it("conserva las referencias a otros personajes masculinos", () => {
+        const event: GameEvent = {
+            id: "test-family",
+            day: 8,
+            order: 1,
+
+            image: "/default.png",
+
+            dialogue: {
+                speaker: "Visitante",
+
+                introduction: [
+                    "Mi señor, vuestro padre fue un gran rey.",
+                    "Vuestro hermano llegará mañana.",
+                    "El antiguo rey era muy respetado.",
+                ],
+            },
+        };
+
+        const queen = getEventPresentation(
+            event,
+            "queen"
+        );
+
+        expect(
+            queen.dialogue.introduction
+        ).toEqual([
+            "Mi señora, vuestro padre fue un gran rey.",
+            "Vuestro hermano llegará mañana.",
+            "El antiguo rey era muy respetado.",
+        ]);
+    });
+
+    it("adapta los tratamientos de todas las audiencias del capítulo I", () => {
+        const masculineAddress =
+            /\b(mi señor|mi rey|nuestro rey|su rey|rey de Astaria|soberano de Astaria|rey hereje)\b/i;
+
+        for (const event of chapter1Events) {
+            const { dialogue } = getEventPresentation(
+                event,
+                "queen"
+            );
+
+            const paragraphs = [
+                ...dialogue.introduction,
+                ...(dialogue.responses?.yes ?? []),
+                ...(dialogue.responses?.no ?? []),
+            ];
+
+            expect(
+                paragraphs.join(" "),
+                `Tratamiento masculino en el evento ${event.id}`
+            ).not.toMatch(masculineAddress);
+        }
     });
 });

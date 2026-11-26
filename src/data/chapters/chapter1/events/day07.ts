@@ -30,7 +30,7 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Minero",
             introduction: [
-                "Majestad, pese al accidente, la producción ha sido extraordinaria.",
+                "Mi señor, pese al accidente, la producción ha sido extraordinaria.",
                 "Las esmeraldas están siendo vendidas por todo el continente.",
                 "La mina se ha convertido en una importante fuente de riqueza para Astaria.",
             ],
@@ -48,10 +48,10 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Mendigo",
             introduction: [
-                "¡Miradme, Majestad! ¿Os acordáis de mí? ¡Soy el mendigo al que salvasteis del hambre hace unos días!",
+                "¡Miradme, mi señor! ¿Os acordáis de mí? ¡Soy el mendigo al que salvasteis del hambre hace unos días!",
                 "La fortuna ha sonreído a este pobre viejo de la forma más extraña...",
                 "¡He encontrado una bolsa llena monedas de oro!",
-                "Como muestra de eterna gratitud por vuestra bondad, quiero donar una parte a las arcas reales.",
+                "Como muestra de eterna gratitud por vuestra bondad, quiero entregaros una parte de mi fortuna.",
             ],
         },
         baseEffects: { gold: 100 },
@@ -67,7 +67,7 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Recaudador de impuestos",
             introduction: [
-                "Majestad, ya hemos recaudado una buena cantidad, pero persistir en estas tasas ya no dará grandes frutos y podría encender los ánimos.",
+                "Mi señor, ya hemos recaudado una buena cantidad, pero persistir en estas tasas ya no dará grandes frutos y podría encender los ánimos.",
                 "Bajemos los impuestos y volvamos a la normalidad.",
             ],
         },
@@ -84,7 +84,7 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Inventor",
             introduction: [
-                "¡El molino funciona como un reloj divino, Majestad!",
+                "¡El molino funciona como un reloj divino, mi rey!",
                 "Las nuevas aspas aprovechan hasta la brisa más leve.",
                 "Los graneros rebosan de harina fina en tiempo récord.",
             ],
@@ -100,9 +100,9 @@ export const day07Events: GameEvent[] = [
         requiresUnlock: true,
         image: "/assets/characters/courtiers/royal-advisor.png",
         dialogue: {
-            speaker: "Consejera real",
+            speaker: "Consejera Real",
             introduction: [
-                "Majestad, ¿Recordáis al inventor al que negasteis el oro?",
+                "Mi señor, ¿recordáis al inventor al que negasteis el oro?",
                 "Pues ha huido al reino vecino con los planos de su molino bajo el brazo.",
                 "Ahora están construyendo decenas de estas máquinas, arrebatándonos el monopolio del grano y dejando en evidencia nuestra falta de iniciativa.",
             ],
@@ -120,7 +120,7 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Primer visir",
             introduction: [
-                "Majestad, os estamos profundamente agradecidos por el refugio.",
+                "Rey de Astaria, os estamos profundamente agradecidos por el refugio.",
                 "Pero los suburbios están colapsados y la tensión con los lugareños crece por la escasez de agua y alimentos.",
                 "El Primer Visir se arrodilla ante vos.",
                 "Si me concedéis fondos extraordinarios para construir pozos y repartir grano equitativamente, integraremos a mi pueblo sin revueltas.",
@@ -128,7 +128,7 @@ export const day07Events: GameEvent[] = [
             ],
             responses: {
                 yes: [
-                    "¡Habéis gobernado con sabiduría y justicia, Majestad!",
+                    "¡Habéis gobernado con sabiduría y justicia!",
                     "Con este oro, la paz reinará entre vuestros antiguos súbditos y los nuestros.",
                 ],
                 no: [
@@ -152,7 +152,7 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Comandante de la Guardia Real",
             introduction: [
-                "Majestad, recordáis a los refugiados del desierto a los que negamos la entrada…",
+                "Mi rey, recordáis a los refugiados del desierto a los que negamos la entrada…",
                 "Pues al verse condenados al destierro, se han aliado con facciones de bandidos y merodean por nuestra frontera sur exigiendo venganza.",
                 "Quieren saquear las caravanas comerciales como pago por el asilo denegado.",
                 "Podemos enviar al ejército a dispersarlos a la fuerza.",
@@ -161,7 +161,7 @@ export const day07Events: GameEvent[] = [
             responses: {
                 yes: [
                     "¡A vuestras órdenes, Majestad!",
-                    "Les enseñaremos que con la corona no se juega.",
+                    "Les enseñaremos que no se desafía impunemente vuestra autoridad.",
                 ],
                 no: [
                     "El comercio al sur seguirá paralizado por el miedo a sus emboscadas.",
@@ -184,7 +184,7 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Duque de Bosqueencantado",
             introduction: [
-                "Majestad, me han informado de que rechazasteis un jugoso soborno de unos furtivos que saqueaban mis cotos de caza.",
+                "Mi señor, me han informado de que rechazasteis un jugoso soborno de unos furtivos que saqueaban mis cotos de caza.",
                 "En estos tiempos, la lealtad entre nobles es un bien escaso.",
                 "Como muestra de mi más sincero agradecimiento, he ordenado a mis tesoreros que os entreguen el doble de lo que esos criminales os prometieron.",
             ],
@@ -212,8 +212,7 @@ export const day07Events: GameEvent[] = [
                     "El oro ya es vuestro, recordad que la deuda no tardará en llamar a vuestra puerta.",
                 ],
                 no: [
-                    "Como mandéis, Majestad.",
-                    "Buscad una forma de capear los gastos sin recurrir a mis arcas.",
+                    "Como mandéis. Buscaos otra manera de capear los gastos sin recurrir a mis arcas.",
                 ],
             },
         },
@@ -236,7 +235,7 @@ export const day07Events: GameEvent[] = [
             speaker: "Bufón",
             introduction: [
                 "¡Escuchad todos, nobleza de pacotilla!",
-                "¡Vuestra Majestad se sienta en un trono de oro mientras tiene la cabeza llena de lodo!",
+                "¡Nuestro rey se sienta en un trono de oro mientras tiene la cabeza llena de lodo!",
                 "Dame un barril más de vino oscuro, y convertiré esta corte aburrida en un circo de risas.",
                 "¿Me concedéis el vino?",
             ],
@@ -266,7 +265,7 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Mago",
             introduction: [
-                "Majestad, he logrado estabilizar un catalizador alquímico capaz de transmutar el plomo en oro puro de forma indefinida.",
+                "Mi señor, he logrado estabilizar un catalizador alquímico capaz de transmutar el plomo en oro puro de forma indefinida.",
                 "El proceso es volátil y existe un leve riesgo de que una sobrecarga mágica reduzca a cenizas a mis aprendices.",
                 "Pero las riquezas que obtendríamos solucionarían cualquier crisis.",
                 "¿Me dais vuestra autorización para iniciar la prueba?",
@@ -298,14 +297,14 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Hombre lobo",
             introduction: [
-                "GRRR... Tranquilidad, Majestad. No he venido a atacaros. Soy el líder de una manada de hombres lobo que habita en los bosques del norte de Astaria.",
+                "GRRR... Tranquilidad, soberano de Astaria. No he venido a atacaros. Soy el líder de una manada de hombres lobo que habita en los bosques del norte de Astaria.",
                 "Durante años hemos vivido ocultos, perseguidos por cazadores que nos consideran bestias sin inteligencia.",
                 "Pero no somos monstruos. Pensamos, hablamos y sentimos igual que los humanos, aunque bajo la luz de la luna nuestra naturaleza sea diferente.",
                 "He venido a ofreceros un trato.",
                 "Mis hermanos y yo conocemos los bosques mejor que cualquiera de vuestros soldados. Podemos rastrear enemigos a kilómetros de distancia y movernos por la oscuridad sin que nadie nos escuche.",
                 "Si nos permitís vivir en paz y proporcionáis algunos suministros a nuestra manada, nos encargaremos de vigilar los caminos del norte y proteger las fronteras durante la noche.",
-                "Eso sí, debéis saber que muchos de vuestros súbditos nos temen. No todos aceptarán que la Corona confíe la seguridad del reino a criaturas como nosotros.",
-                "¿Qué decís, Majestad? ¿Aceptáis nuestra ayuda?",
+                "Eso sí, debéis saber que muchos de vuestros súbditos nos temen. No todos aceptarán que su rey confíe la seguridad del reino a criaturas como nosotros.",
+                "¿Qué decís? ¿Aceptáis nuestra ayuda?",
             ],
             responses: {
                 yes: [
@@ -315,7 +314,7 @@ export const day07Events: GameEvent[] = [
                 ],
                 no: [
                     "GRRR... Ya veo. Para vos también somos simples bestias.",
-                    "No os preocupéis, Majestad. Mi manada regresará a los bosques y no volveréis a saber de nosotros.",
+                    "No os preocupéis. Mi manada regresará a los bosques y no volveréis a saber de nosotros.",
                 ],
             },
         },
@@ -334,7 +333,7 @@ export const day07Events: GameEvent[] = [
         dialogue: {
             speaker: "Consejera Real",
             introduction: [
-                "Majestad, la enfermedad se extiende sin tregua por los barrios bajos.",
+                "Mi señor, la enfermedad se extiende sin tregua por los barrios bajos.",
                 "Las muertes se cuentan ya por decenas cada amanecer.",
                 "Las gentes en las calles ya la llaman abiertamente la Fiebre negra.",
                 "Si vaciamos el tesoro para contratar a curanderos y médicos itinerantes de allende los mares salvaremos innumerables vidas.",
