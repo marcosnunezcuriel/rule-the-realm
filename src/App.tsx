@@ -14,6 +14,9 @@ import { useAppNavigation } from "./hooks/app/useAppNavigation";
 import { useGameNotifications } from "./hooks/app/useGameNotifications";
 import { useSoundSettings } from "./hooks/app/useSoundSettings";
 
+import { supabase } from "./lib/supabase";
+import { registerWithEmail } from "./lib/authService";
+
 import type { GameReward } from "./types/rewards";
 
 function App() {
@@ -52,6 +55,11 @@ function App() {
                         onGuest={() => {
                             navigation.navigateTo("menu");
                         }}
+                        onRegister={
+                            supabase !== null
+                                ? registerWithEmail
+                                : undefined
+                        }
                     />
                 );
 

@@ -307,6 +307,29 @@
     margin-bottom: 0;
 }
 
+/* Resultado de las operaciones de autenticación */
+.auth-screen__feedback {
+    margin: 0;
+    padding: var(--space-3);
+
+    background: var(--colour-card-inset);
+
+    border: var(--border-thin) solid currentColor;
+    border-radius: var(--radius-sm);
+
+    font-size: var(--font-size-14);
+    line-height: var(--line-height-body);
+    text-align: center;
+}
+
+.auth-screen__feedback--success {
+    color: var(--colour-positive);
+}
+
+.auth-screen__feedback--error {
+    color: var(--colour-negative);
+}
+
 .auth-screen__explanation {
     text-align: center;
 }

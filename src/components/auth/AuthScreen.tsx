@@ -35,10 +35,15 @@ type AuthScreenProps = {
         username: string,
         email: string,
         password: string
-    ) => void;
+    ) => void | Promise<void>;
 
     onRecovery?: (email: string) => void;
     onGoogle?: () => void;
+};
+
+type RegistrationFeedback = {
+    kind: "success" | "error";
+    message: string;
 };
 
 const MAX_USERNAME_LENGTH = 40;
@@ -68,6 +73,12 @@ function AuthScreen({
     const [passwordEvaluator, setPasswordEvaluator] =
         useState<PasswordEvaluator>("idle");
 
+    const [isRegistering, setIsRegistering] =
+        useState(false);
+
+    const [registrationFeedback, setRegistrationFeedback] =
+        useState<RegistrationFeedback | null>(null);
+
     const isRegister = mode === "register";
     const isRecovery = mode === "recovery";
 
@@ -94,6 +105,7 @@ function AuthScreen({
         passwordsMatch;
 
     const canSubmit =
+        !isRegistering &&
         email.trim().length > 0 &&
         (
             isRecovery
@@ -186,16 +198,21 @@ function AuthScreen({
 
     // Conservar el correo, pero nunca las contraseñas al cambiar de formulario.
     function changeMode(nextMode: AuthMode) {
+        if (isRegistering) {
+            return;
+        }
+
         setMode(nextMode);
         setPassword("");
         setRepeatPassword("");
+        setRegistrationFeedback(null);
 
         if (nextMode === "register") {
             loadPasswordEvaluator();
         }
     }
 
-    function handleSubmit(
+    async function handleSubmit(
         event: FormEvent<HTMLFormElement>
     ) {
         event.preventDefault();
@@ -209,12 +226,40 @@ function AuthScreen({
             return;
         }
 
-        if (isRegister) {
-            onRegister?.(
-                username.trim(),
-                email.trim(),
-                password
-            );
+        if (isRegister && onRegister) {
+            setIsRegistering(true);
+            setRegistrationFeedback(null);
+
+            try {
+                await onRegister(
+                    username.trim(),
+                    email.trim(),
+                    password
+                );
+
+                // Eliminar las contraseñas del formulario.
+                setPassword("");
+                setRepeatPassword("");
+
+                // Volver al formulario de inicio de sesión.
+                setMode("login");
+
+                setRegistrationFeedback({
+                    kind: "success",
+                    message:
+                        "Si procede, recibirás un correo para confirmar tu cuenta. Revisa también la carpeta de correo no deseado.",
+                });
+            } catch (error) {
+                setRegistrationFeedback({
+                    kind: "error",
+                    message:
+                        error instanceof Error
+                            ? error.message
+                            : "No se pudo completar el registro.",
+                });
+            } finally {
+                setIsRegistering(false);
+            }
 
             return;
         }
@@ -259,6 +304,7 @@ function AuthScreen({
                             key={mode}
                             className="auth-screen__form"
                             aria-labelledby="auth-form-title"
+                            aria-busy={isRegistering}
                             onSubmit={handleSubmit}
                         >
                             <h2 id="auth-form-title">
@@ -283,6 +329,7 @@ function AuthScreen({
                                     autoComplete="nickname"
                                     maxLength={MAX_USERNAME_LENGTH}
                                     onChange={setUsername}
+                                    disabled={isRegistering}
                                 />
                             )}
 
@@ -294,6 +341,7 @@ function AuthScreen({
                                 value={email}
                                 autoComplete="email"
                                 onChange={setEmail}
+                                disabled={isRegistering}
                             />
 
                             {!isRecovery && (
@@ -315,6 +363,7 @@ function AuthScreen({
                                             : undefined
                                     }
                                     onChange={setPassword}
+                                    disabled={isRegistering}
                                 />
                             )}
 
@@ -343,6 +392,7 @@ function AuthScreen({
                                         autoComplete="new-password"
                                         minLength={MIN_PASSWORD_LENGTH}
                                         onChange={setRepeatPassword}
+                                        disabled={isRegistering}
                                     />
 
                                     <p
@@ -382,10 +432,28 @@ function AuthScreen({
                                 className="auth-screen__submit realm-button realm-button--display realm-button--hover"
                                 disabled={!canSubmit}
                             >
-                                {isRecovery
-                                    ? "Enviar enlace"
-                                    : title}
+                                {isRegistering
+                                    ? "Creando cuenta..."
+                                    : isRecovery
+                                        ? "Enviar enlace"
+                                        : title}
                             </button>
+
+                            {registrationFeedback && (
+                                <p
+                                    className={
+                                        `auth-screen__feedback ` +
+                                        `auth-screen__feedback--${registrationFeedback.kind}`
+                                    }
+                                    role={
+                                        registrationFeedback.kind === "error"
+                                            ? "alert"
+                                            : "status"
+                                    }
+                                >
+                                    {registrationFeedback.message}
+                                </p>
+                            )}
 
                             {!isRecovery ? (
                                 <>
@@ -396,7 +464,7 @@ function AuthScreen({
                                     <button
                                         type="button"
                                         className="auth-screen__google realm-button realm-button--hover"
-                                        disabled={!onGoogle}
+                                        disabled={!onGoogle || isRegistering}
                                         onClick={onGoogle}
                                     >
                                         <svg
@@ -455,6 +523,7 @@ function AuthScreen({
                                                     : "register"
                                             );
                                         }}
+                                        disabled={isRegistering}
                                     >
                                         {isRegister
                                             ? "Iniciar sesión"
@@ -503,6 +572,7 @@ function AuthScreen({
                                             : "register"
                                     );
                                 }}
+                                disabled={isRegistering}
                             >
                                 {isRegister
                                     ? "Iniciar sesión"
@@ -525,6 +595,7 @@ function AuthScreen({
                         type="button"
                         className="realm-button realm-button--display realm-button--hover"
                         onClick={onGuest}
+                        disabled={isRegistering}
                     >
                         Jugar como invitado
                     </button>

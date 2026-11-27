@@ -143,7 +143,9 @@ describe("Pantalla de acceso", () => {
         expect(onRegister).not.toHaveBeenCalled();
         setField("repeat-password", "vQ7!zM2#pL9@xR4$kT8");
         expect(isSubmitDisabled()).toBe(false);
-        submit();
+        await act(async () => {
+            submit();
+        });
         expect(onRegister).toHaveBeenCalledExactlyOnceWith("Soberano", "prueba@example.com", "vQ7!zM2#pL9@xR4$kT8");
     });
 
@@ -252,6 +254,87 @@ describe("Pantalla de acceso", () => {
         await act(async () => {
             await vi.dynamicImportSettled();
         });
+
+        expect(isSubmitDisabled()).toBe(false);
+    });
+
+    it("bloquea el envío durante el registro y muestra la confirmación", async () => {
+        let finishRegistration = () => {};
+
+        const pendingRegistration =
+            new Promise<void>((resolve) => {
+                finishRegistration = resolve;
+            });
+
+        const onRegister = vi.fn(
+            () => pendingRegistration
+        );
+
+        mountScreen({ onRegister });
+        await openRegistration();
+
+        setField("username", "Soberano");
+        setField("email", "prueba@example.com");
+        setField("password", "vQ7!zM2#pL9@xR4$kT8");
+        setField("repeat-password", "vQ7!zM2#pL9@xR4$kT8");
+
+        submit();
+
+        expect(isSubmitDisabled()).toBe(true);
+
+        expect(
+            getElement(".auth-screen__submit").textContent
+        ).toBe("Creando cuenta...");
+
+        submit();
+
+        expect(onRegister).toHaveBeenCalledTimes(1);
+
+        await act(async () => {
+            finishRegistration();
+        });
+
+        expect(
+            getElement("#auth-form-title").textContent
+        ).toBe("Iniciar sesión");
+
+        expect(
+            getElement(".auth-screen__feedback--success")
+                .textContent
+        ).toContain("confirmar tu cuenta");
+
+        expect(
+            getElement<HTMLInputElement>(
+                'input[name="password"]'
+            ).value
+        ).toBe("");
+    });
+
+    it("muestra el error de registro y permite volver a intentarlo", async () => {
+        const onRegister = vi.fn().mockRejectedValue(
+            new Error("No se pudo completar el registro.")
+        );
+
+        mountScreen({ onRegister });
+        await openRegistration();
+
+        setField("username", "Soberano");
+        setField("email", "prueba@example.com");
+        setField("password", "vQ7!zM2#pL9@xR4$kT8");
+        setField("repeat-password", "vQ7!zM2#pL9@xR4$kT8");
+
+        await act(async () => {
+            submit();
+        });
+
+        expect(
+            getElement("#auth-form-title").textContent
+        ).toBe("Crear cuenta");
+
+        expect(
+            getElement(".auth-screen__feedback--error")
+                .textContent
+        ).toBe("No se pudo completar el registro.");
 
         expect(isSubmitDisabled()).toBe(false);
     });

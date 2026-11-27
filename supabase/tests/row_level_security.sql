@@ -6,10 +6,22 @@
 begin;
 
 -- Identidades ficticias, sin contraseñas ni sesiones reales.
-insert into auth.users (id, email)
+insert into auth.users (
+    id,
+    email,
+    raw_user_meta_data
+)
 values
-    ('f0000000-0000-4000-8000-000000000001', 'rtr-rls-a@example.invalid'),
-    ('f0000000-0000-4000-8000-000000000002', 'rtr-rls-b@example.invalid');
+    (
+        'f0000000-0000-4000-8000-000000000001',
+        'rtr-rls-a@example.invalid',
+        '{"username":"  Soberano  "}'::jsonb
+    ),
+    (
+        'f0000000-0000-4000-8000-000000000002',
+        'rtr-rls-b@example.invalid',
+        '{}'::jsonb
+    );
 
 set local role authenticated;
 
@@ -32,16 +44,43 @@ declare
     reign_a constant uuid := 'f0000000-0000-4000-8000-000000000011';
     reign_b constant uuid := 'f0000000-0000-4000-8000-000000000012';
 begin
-    -- Crear perfiles, reinados y recompensas con los permisos reales
-    -- de cada jugador. El JSON mínimo prueba el esquema, no SaveGame.
+    -- Recuperar los perfiles creados automáticamente
+    -- y crear reinados y recompensas con los permisos
+    -- reales de cada jugador.
     foreach player_id in array array[player_a, player_b] loop
         perform set_config('request.jwt.claim.sub', player_id::text, true);
         perform set_config('request.jwt.claims',
             jsonb_build_object('sub', player_id, 'role', 'authenticated')::text, true);
 
-        insert into public.profiles (user_id, username)
-        values (player_id, 'Jugador de prueba')
-        returning progress_epoch into own_epoch;
+        select progress_epoch
+        into strict own_epoch
+        from public.profiles
+        where user_id = player_id;
+
+        -- Comprobar la creación automática del perfil.
+        if not exists (
+            select 1
+            from public.profiles
+            where user_id = player_id
+                and username = case
+                    when player_id = player_a
+                        then 'Soberano'
+                    else 'Jugador'
+                end
+        ) then
+            raise exception
+                'El perfil no se ha creado correctamente';
+        end if;
+
+        -- Comprobar que el navegador ya no puede crear perfiles.
+        if has_any_column_privilege(
+            current_user,
+            'public.profiles',
+            'INSERT'
+        ) then
+            raise exception
+                'Se permite la creación manual de perfiles';
+        end if;
 
         if player_id = player_a then
             epoch_a := own_epoch;

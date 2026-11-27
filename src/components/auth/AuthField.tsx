@@ -15,6 +15,7 @@ type AuthFieldProps = {
     minLength?: number;
     maxLength?: number;
     onChange: (value: string) => void;
+    disabled?: boolean;
 };
 
 function AuthField({
@@ -28,6 +29,7 @@ function AuthField({
     minLength,
     maxLength,
     onChange,
+    disabled,
 }: AuthFieldProps) {
     const id = useId();
 
@@ -109,6 +111,7 @@ function AuthField({
                     onChange={(event) => {
                         onChange(event.target.value);
                     }}
+                    disabled={disabled}
                 />
 
                 {isPassword && (
@@ -125,6 +128,7 @@ function AuthField({
                                 (previous) => !previous
                             );
                         }}
+                        disabled={disabled}
                     >
                         <svg
                             viewBox="0 0 24 24"
