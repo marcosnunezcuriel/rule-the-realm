@@ -1,5 +1,6 @@
 // Coordina la navegación, las preferencias de sonido y las notificaciones de la aplicación.
 
+import AuthScreen from "./components/auth/AuthScreen";
 import AchievementsScreen from "./components/menu/AchievementsScreen";
 import MainMenu from "./components/menu/MainMenu";
 import MonarchSelection from "./components/menu/MonarchSelection";
@@ -20,7 +21,8 @@ function App() {
         useGameNotifications();
 
     const navigation = useAppNavigation(
-        notifications.clearNotifications
+        notifications.clearNotifications,
+        "auth"
     );
 
     const audio = useSoundSettings(
@@ -44,9 +46,21 @@ function App() {
 
     function renderView() {
         switch (navigation.view) {
+            case "auth":
+                return (
+                    <AuthScreen
+                        onGuest={() => {
+                            navigation.navigateTo("menu");
+                        }}
+                    />
+                );
+
             case "menu":
                 return (
                     <MainMenu
+                        onAccess={() => {
+                            navigation.navigateTo("auth");
+                        }}
                         hasSave={
                             navigation.savedAvailable
                         }

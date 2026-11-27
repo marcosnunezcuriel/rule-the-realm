@@ -175,6 +175,32 @@
     justify-content: center;
 }
 
+/* Acceso a la cuenta en la esquina superior izquierda */
+.main-menu__account {
+    position: absolute;
+    top: var(--space-7);
+    left: var(--space-7-5);
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2-5);
+
+    min-width: 13rem;
+    padding: var(--space-3-5) var(--space-5-5);
+
+    font-size: var(--font-size-15);
+    letter-spacing: var(--tracking-1);
+    text-transform: uppercase;
+}
+
+.main-menu__account svg {
+    width: var(--size-stat-icon);
+    height: var(--size-stat-icon);
+    flex-shrink: 0;
+}
+
 /* Confirmación de partida nueva */
 .main-menu__backdrop {
     position: absolute;

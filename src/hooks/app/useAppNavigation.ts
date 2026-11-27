@@ -10,6 +10,7 @@ import type { FadeStage } from "../../types/game";
 import type { MonarchRole } from "../../types/monarch";
 
 type AppView =
+    | "auth"
     | "menu"
     | "achievements"
     | "items"
@@ -24,10 +25,11 @@ type NavigationRequest = {
 
 // Navegación entre las pantallas principales.
 export function useAppNavigation(
-    onReturnToMenu: () => void
+    onReturnToMenu: () => void,
+    initialView: AppView = "menu"
 ) {
     const [view, setView] =
-        useState<AppView>("menu");
+        useState<AppView>(initialView);
 
     const [monarch, setMonarch] =
         useState<MonarchRole>(

@@ -116,6 +116,24 @@
         -webkit-tap-highlight-color: transparent;
     }
 
+    /* Pantalla de acceso */
+
+    .auth-screen {
+        padding:
+            max(var(--space-4), env(safe-area-inset-top))
+            var(--space-3)
+            max(var(--space-4), env(safe-area-inset-bottom));
+    }
+
+    .auth-screen__form-side,
+    .auth-screen__parchment {
+        padding: var(--space-5);
+    }
+
+    .auth-screen__parchment-content h2 {
+        font-size: var(--font-size-26);
+    }
+
     /* Menú principal */
 
     .main-menu {
@@ -125,6 +143,7 @@
             minmax(0, 1fr);
 
         grid-template-areas:
+            "account account"
             "map map"
             "panel panel"
             "sound sound"
@@ -145,6 +164,20 @@
 
         overflow-x: hidden;
         overflow-y: auto;
+    }
+
+    .main-menu__account {
+        grid-area: account;
+
+        position: static;
+
+        justify-self: stretch;
+
+        min-width: 0;
+        min-height: 2.75rem;
+        padding: var(--space-2);
+
+        font-size: var(--font-size-13);
     }
 
     .main-menu__map {
@@ -875,6 +908,194 @@
 }
 
 /* ==========================================
+   AUTENTICACIÓN — DISEÑO VERTICAL
+   ========================================== */
+
+@media (max-width: 48rem) {
+
+    .auth-screen__content {
+        width: min(100%, 30rem);
+        gap: 0;
+
+        background: var(--colour-panel);
+
+        border: var(--border-medium) solid var(--colour-border-gold);
+        border-radius: var(--radius-2xl);
+
+        overflow: hidden;
+
+        box-shadow: var(--shadow-menu);
+    }
+
+    /* Cabecera decorativa de pergamino */
+    .auth-screen__brand {
+        position: relative;
+
+        padding: var(--space-5) var(--space-3);
+        margin-bottom: 3rem;
+
+        background: var(--colour-parchment-middle);
+
+        border-radius: 0;
+    }
+
+    /* Ondas decorativas superiores */
+    .auth-screen__brand::before,
+    .auth-screen__brand::after {
+        content: "";
+
+        position: absolute;
+        top: 100%;
+        left: 0;
+
+        width: 100%;
+        height: 3rem;
+
+        pointer-events: none;
+    }
+
+    .auth-screen__brand::before {
+        background: var(--colour-parchment-dark);
+
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 56' preserveAspectRatio='none'%3E%3Cpath d='M0 0H360V22C260 -20 150 90 0 36Z'/%3E%3C/svg%3E")
+            center / 100% 100% no-repeat;
+    }
+
+    .auth-screen__brand::after {
+        background: var(--colour-parchment-middle);
+
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 56' preserveAspectRatio='none'%3E%3Cpath d='M0 0H360V9C260 -33 150 77 0 23Z'/%3E%3C/svg%3E")
+            center / 100% 100% no-repeat;
+    }
+
+    .auth-screen__brand h1 {
+        color: var(--colour-parchment-text);
+        font-size: var(--font-size-30);
+    }
+
+    .auth-screen__brand p {
+        color: var(--colour-parchment-muted);
+        font-size: var(--font-size-11);
+        letter-spacing: var(--tracking-1);
+    }
+
+    .auth-screen__emblem {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    /* Una única columna para el formulario */
+    .auth-screen__panel {
+        display: block;
+
+        min-height: 0;
+        overflow: visible;
+
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .auth-screen__form-side {
+        padding: var(--space-2) var(--space-5);
+
+        transition: none;
+    }
+
+    .auth-screen__panel--register .auth-screen__form-side {
+        transform: none;
+    }
+
+    .auth-screen__form h2 {
+        font-size: var(--font-size-24);
+    }
+
+    .auth-screen__parchment {
+        display: none;
+    }
+
+    .auth-screen__mobile-switch {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-1);
+
+        color: var(--colour-text-muted);
+        font-size: var(--font-size-14);
+        text-align: center;
+    }
+
+    /* Decoración inferior y acceso de invitado */
+    .auth-screen__guest {
+        position: relative;
+
+        margin-top: 3rem;
+        padding: var(--space-2) var(--space-4) var(--space-5);
+
+        background: var(--colour-parchment-dark);
+
+        border-radius: 0;
+    }
+
+    /* Ondas decorativas inferiores */
+    .auth-screen__guest::before,
+    .auth-screen__guest::after {
+        content: "";
+
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+
+        width: 100%;
+        height: 3rem;
+
+        pointer-events: none;
+    }
+
+    .auth-screen__guest::before {
+        background: var(--colour-gold-dim);
+
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 56' preserveAspectRatio='none'%3E%3Cpath d='M0 24C120 90 245 -12 360 15V56H0Z'/%3E%3C/svg%3E")
+            center / 100% 100% no-repeat;
+    }
+
+    .auth-screen__guest::after {
+        background: var(--colour-parchment-dark);
+
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 56' preserveAspectRatio='none'%3E%3Cpath d='M0 38C120 104 245 2 360 29V56H0Z'/%3E%3C/svg%3E")
+            center / 100% 100% no-repeat;
+    }
+
+    .auth-screen__availability {
+        color: var(--colour-parchment-text);
+    }
+
+    .auth-field__control,
+    .auth-field__visibility,
+    .auth-screen__submit,
+    .auth-screen__google,
+    .auth-screen__guest button {
+        min-height: 2.75rem;
+    }
+
+    .auth-screen__guest button {
+        background: var(--colour-parchment-button);
+        color: var(--colour-parchment-button-text);
+        border-color: var(--colour-parchment-button-border);
+    }
+
+    .auth-screen__guest button:hover {
+        background: var(--colour-parchment-button-hover);
+    }
+
+    .auth-screen__password-info summary {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+}
+
+/* ==========================================
    TELÉFONOS — HASTA 640 PX
    ========================================== */
 
@@ -1324,5 +1545,14 @@
         animation: none;
         opacity: 1;
         transform: none;
+    }
+
+    .auth-screen__form-side,
+    .auth-screen__parchment {
+        transition: none;
+    }
+
+    .auth-screen__form {
+        animation: none;
     }
 }

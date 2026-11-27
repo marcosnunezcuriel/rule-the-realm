@@ -8,6 +8,7 @@ import { assetUrl } from "../../utils/assetUrl";
 import "../../styles/menu/MainMenu.css";
 
 type MainMenuProps = {
+    onAccess: () => void;
     hasSave: boolean;
     showNewGameConfirmation: boolean;
     onNewGame: () => void;
@@ -20,6 +21,7 @@ type MainMenuProps = {
 };
 
 function MainMenu({
+    onAccess,
     hasSave,
     showNewGameConfirmation,
     onNewGame,
@@ -35,6 +37,28 @@ function MainMenu({
         <main className="main-menu">
             {/* Mapa decorativo de Astaria */}
             <MapPreview />
+
+            {/* Acceso a la cuenta del jugador */}
+            <button
+                type="button"
+                className="main-menu__account realm-button realm-button--display realm-button--hover"
+                onClick={onAccess}
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                >
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
+                </svg>
+
+                Iniciar sesión
+            </button>
 
             {/* Panel principal centrado */}
             <div className="main-menu__panel realm-panel">

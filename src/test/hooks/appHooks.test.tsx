@@ -647,4 +647,40 @@ describe("Responsabilidades de la aplicación", () => {
             getApp().navigation.view
         ).toBe("menu");
     });
+
+    it("permite navegar entre la pantalla de acceso y el menú mediante fundidos", () => {
+        mountApp();
+
+        runAction(({ navigation }) => {
+            navigation.navigateTo("auth");
+        });
+
+        expect(
+            getApp().navigation.navigationStage
+        ).toBe("darkening");
+
+        finishNavigation();
+
+        expect(
+            getApp().navigation.view
+        ).toBe("auth");
+
+        runAction(({ navigation }) => {
+            navigation.navigateTo("menu");
+        });
+
+        expect(
+            getApp().navigation.navigationStage
+        ).toBe("darkening");
+
+        finishNavigation();
+
+        expect(
+            getApp().navigation.view
+        ).toBe("menu");
+
+        expect(
+            getApp().navigation.navigationStage
+        ).toBe("idle");
+    });
 });
