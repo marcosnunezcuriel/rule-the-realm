@@ -126,7 +126,8 @@ export const day04Events: GameEvent[] = [
                 "Astaria cuenta con canciones populares, marchas militares y cánticos religiosos, pero...",
                 "¿Sabíais que nunca hemos tenido un himno oficial que represente a toda nuestra nación?",
                 "Me gustaría componer un himno en honor a Astaria y la Corona de las Estrellas.",
-                "Solo necesitaré unas monedas para contratar a los mejores músicos y dedicarme por completo a la composición. ¿Me concedéis vuestro permiso para crear el himno de Astaria?",
+                "Solo necesitaré unas monedas para contratar a los mejores músicos y dedicarme por completo a la composición.",
+                "¿Me concedéis vuestro permiso para componer el himno de Astaria?",
             ],
             responses: {
                 yes: [

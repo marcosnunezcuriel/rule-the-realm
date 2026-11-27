@@ -15,7 +15,7 @@ export const day03Events: GameEvent[] = [
             introduction: [
                 "¡Salve, oh magnífico rey de Astaria! El circo ha llenado las calles de música y alegría.",
                 "Mi laúd arde con ganas de cantar vuestras glorias.",
-                "Me gustaría montar un escenario en el centro de la plaza mayor para entretener al pueblo con rimas y malabares. ¿Me concedéis vuestro real permiso para actuar?",
+                "Me gustaría que montarais un escenario en el centro de la plaza mayor para entretener al pueblo con rimas y malabares. ¿Me concedéis vuestro real permiso para actuar?",
             ],
             responses: {
                 yes: [
@@ -221,7 +221,7 @@ export const day03Events: GameEvent[] = [
                 "Durante sus cuarenta años de reinado, vuestro padre reunió una extraordinaria colección de vinos procedentes de todos los rincones del continente.",
                 "En las bodegas del palacio descansan barriles y botellas de cosechas tan antiguas que algunos mercaderes estarían dispuestos a pagar auténticas fortunas por ellas.",
                 "Si me autorizáis a vender una parte de la colección, podríamos ingresar una considerable suma de oro en las arcas reales.",
-                "Sin embargo, algunos nobles consideran aquellos vinos parte del legado del difunto monarca y podrían interpretar su venta como una falta de respeto hacia su memoria.",
+                "Sin embargo, algunos nobles considerarán aquellos vinos parte del legado del difunto monarca y podrían interpretar su venta como una falta de respeto hacia su memoria.",
                 "¿Deseáis que pongamos la colección a la venta?",
             ],
             responses: {

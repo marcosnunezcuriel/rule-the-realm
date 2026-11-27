@@ -16,7 +16,8 @@ export const day06Events: GameEvent[] = [
                 "Anoche, una terrible tormenta azotó la Ciudad Portuaria. Las olas destrozaron nuestros aparejos y varias embarcaciones pesqueras quedaron a la deriva, lejos del puerto.",
                 "Algunos barcos han conseguido regresar, pero todavía quedan muchos compañeros desaparecidos.",
                 "Sus familias llevan toda la mañana esperando noticias en los muelles.",
-                "Los marineros más experimentados estamos dispuestos a salir en su busca, pero necesitamos fondos para preparar embarcaciones de rescate, conseguir provisiones y contratar tripulaciones. Los vientos están empeorando y, si no partimos antes del anochecer, temo que sea demasiado tarde.",
+                "Los marineros más experimentados estamos dispuestos a salir en su busca, pero necesitamos fondos para preparar embarcaciones de rescate, conseguir provisiones y contratar tripulaciones.",
+                "Los vientos están empeorando y, si no partimos antes del anochecer, temo que sea demasiado tarde.",
                 "¿Nos concederéis los recursos necesarios para organizar el rescate?",
             ],
             responses: {
@@ -205,9 +206,9 @@ export const day06Events: GameEvent[] = [
             introduction: [
                 "Shhh... Bajad la voz, mi señor.",
                 "Mis hombres y yo llevamos semanas cazando en las reservas privadas del duque.",
-                "Tenemos pieles de lobo blanco y ciervos que valen una fortuna en el mercado negro.",
+                "Tenemos pieles de lobo blanco y ciervo que valen una fortuna en el mercado negro.",
                 "Si hacéis la vista gorda y ordenáis a vuestros guardias que no patrullen esa zona, una gran parte de este cargamento será para vos.",
-                "¿Aceptáis mirar a otro lado a cambio de las pieles?",
+                "¿Aceptáis mirar a otro lado?",
             ],
             responses: {
                 yes: [

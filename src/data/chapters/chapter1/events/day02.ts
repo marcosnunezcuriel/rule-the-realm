@@ -148,7 +148,7 @@ export const day02Events: GameEvent[] = [
             responses: {
                 yes: [
                     "¡Una decisión muy acertada para el tesoro de la corona, Majestad!",
-                    "Las arcas se llenarán rápidamente, aunque he visto caras muy largas en el mercado.",
+                    "Las arcas se llenarán rápidamente, aunque veremos caras muy largas en el mercado.",
                 ],
                 no: [
                     "Como mandéis, Majestad. Dejaremos las tasas como están por ahora.",
@@ -211,7 +211,7 @@ export const day02Events: GameEvent[] = [
             speaker: "Heraldo Real",
             introduction: [
                 "¡Majestad! Vuestro reinado ha comenzado y los primeros decretos de la corona ya han sido proclamados en la capital.",
-                "Sin embargo, Astaria es un reino extenso. En las aldeas más alejadas, muchos campesinos todavía desconocen las órdenes de su nuevo rey",
+                "Sin embargo, Astaria es un reino extenso. En las aldeas más alejadas, muchos campesinos todavía desconocen las órdenes de su nuevo rey.",
                 "Si me concedéis fondos para contratar mensajeros y escribas, enviaremos copias de vuestros decretos a todos los rincones del reino.",
                 "Así, hasta el más humilde de vuestros súbditos conocerá vuestras leyes y voluntad.",
                 "¿Autorizáis su distribución?",

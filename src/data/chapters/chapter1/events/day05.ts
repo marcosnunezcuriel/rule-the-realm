@@ -63,7 +63,7 @@ export const day05Events: GameEvent[] = [
         dialogue: {
             speaker: "Herrero",
             introduction: [
-                "Mi señor, me han llegado la noticia de que el Caballerizo Mayor ha adquirido una magnífica remesa de caballos para los establos reales.",
+                "Mi señor, me han llegado noticias de que el Caballerizo Mayor ha adquirido una magnífica remesa de caballos para los establos reales.",
                 "He tenido ocasión de echarles un vistazo y debo reconocer que son unas bestias extraordinarias, pero hay un pequeño problema.",
                 "Muchos no tienen herraduras adecuadas y algunos incluso han perdido alguna por el camino viniendo a la capital.",
                 "Puedo fabricarles unas herraduras reforzadas, resistentes y ligeras, para que vuestros mensajeros y soldados cabalguen sin temor a lesionarlos.",
@@ -206,7 +206,7 @@ export const day05Events: GameEvent[] = [
             responses: {
                 yes: [
                     "¡Que los vientos del este favorezcan nuestros lazos, Majestad!",
-                    "Las primeras caravanas ya están en camino.",
+                    "Las primeras caravanas comenzarán a llegar hoy mismo.",
                 ],
                 no: [
                     "Comprendo vuestra cautela, Majestad.",

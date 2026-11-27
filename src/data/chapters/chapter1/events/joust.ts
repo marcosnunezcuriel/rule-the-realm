@@ -15,7 +15,7 @@ export const joustEvent: GameEvent = {
     dialogue: {
         speaker: "Caballero campeón",
         introduction: [
-            "¡Salud, mi rey! Fui yo quien alzó la espada victorioso en el gran torneo de la coronación.",
+            "¡Salud, mi rey! Fui yo quien alzó la espada victorioso en el Gran Torneo de la Coronación.",
             "La gloria está muy bien, pero la sangre derramada y el esfuerzo merecen una recompensa real.",
             "Exijo la bolsa de oro prometida al campeón.",
         ],

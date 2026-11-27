@@ -145,12 +145,12 @@ export const day01Events: GameEvent[] = [
             speaker: "Conde de Campotrigo",
             introduction: [
                 "Mis respetos, mi señor. Soy el Conde de Campotrigo, señor de las tierras fértiles del sur.",
-                "Nuestros campos pueden dar mucho más alimento, pero faltan manos para arar. ¿Me autorizáis a financiar la llegada de familias extranjeras para trabajar mis tierras?",
+                "Nuestros campos pueden dar mucho más alimento, pero faltan manos para arar. ¿Me finanziáis la llegada de familias extranjeras para trabajar mis tierras?",
             ],
             responses: {
                 yes: [
-                    "¡Sabia elección! Pronto llegarán caravanas de nuevos colonos a Astaria.",
-                    "Nuestras aldeas crecerán, aunque el viaje correrá a cargo de vuestro tesoro.",
+                    "¡Sabia elección, Majestad!",
+                    "Pronto llegarán caravanas de nuevos colonos a Astaria y nuestras aldeas crecerán.",
                 ],
                 no: [
                     "Una verdadera lástima, Majestad. Los campos seguirán medio vacíos.",
@@ -249,7 +249,7 @@ export const day01Events: GameEvent[] = [
             responses: {
                 yes: [
                     "¡Sabía que podía contar contigo, hermano!",
-                    "Prepararé una reunión con los principales señores del reino. Un buen banquete y unas cuantas conversaciones privadas nos ayudarán a ganarnos su confianza.",
+                    "Me reuniré con los principales señores del reino. Un buen banquete y unas cuantas conversaciones privadas nos ayudarán a ganarnos su confianza.",
                     "Ya verás, juntos conseguiremos que los nobles estén de nuestra parte.",
                 ],
                 no: [
