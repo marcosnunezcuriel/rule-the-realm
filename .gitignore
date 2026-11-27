@@ -31,3 +31,7 @@ dist-ssr
 # Resultados temporales de pruebas
 .vitest/
 coverage/
+
+# Archivos temporales de Supabase
+supabase/.temp/
+supabase/.branches/
