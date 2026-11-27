@@ -2,8 +2,11 @@
 
 import { useId, useState } from "react";
 
+import type { ReactNode } from "react";
+
 type AuthFieldProps = {
     label: string;
+    labelExtra?: ReactNode;
     placeholder: string;
     name: string;
     type: "text" | "email" | "password";
@@ -16,6 +19,7 @@ type AuthFieldProps = {
 
 function AuthField({
     label,
+    labelExtra,
     placeholder,
     name,
     type,
@@ -34,12 +38,16 @@ function AuthField({
 
     return (
         <div className="auth-field">
-            <label
-                className="auth-field__label"
-                htmlFor={id}
-            >
-                {label}
-            </label>
+            <div className="auth-field__heading">
+                <label
+                    className="auth-field__label"
+                    htmlFor={id}
+                >
+                    {label}
+                </label>
+
+                {labelExtra}
+            </div>
 
             <div className="auth-field__control">
                 <svg

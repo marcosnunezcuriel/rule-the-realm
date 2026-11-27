@@ -113,6 +113,15 @@
     min-width: 0;
 }
 
+/* Etiqueta y elementos informativos del campo */
+.auth-field__heading {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
 .auth-field__label {
     color: var(--colour-text-muted);
     font-size: var(--font-size-15);
@@ -204,12 +213,7 @@
 
 /* Indicador de seguridad de la contraseña */
 .auth-screen__strength {
-    position: relative;
-
     display: flex;
-    align-items: center;
-    gap: var(--space-2);
-
     min-height: 1.25rem;
     margin-top: calc(-1 * var(--space-2));
 }
@@ -273,7 +277,7 @@
     z-index: 10;
 
     width: min(100%, 20rem);
-    max-height: 50dvh;
+    max-height: min(15rem, 50dvh);
     overflow-y: auto;
 
     padding: var(--space-3);

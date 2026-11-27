@@ -110,7 +110,60 @@ function AuthScreen({
         : isRecovery
             ? "Recuperar contraseña"
             : "Iniciar sesión";
+    
+    const passwordInfo = (
+        <details className="auth-screen__password-info">
+            <summary
+                aria-label="Información sobre la seguridad de las contraseñas"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                    aria-hidden="true"
+                >
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 11v5" />
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="0.75"
+                        fill="currentColor"
+                    />
+                </svg>
+            </summary>
 
+            <div className="auth-screen__password-info-bubble">
+                <strong>Haga su contraseña más segura:</strong>
+
+                <ul>
+                    <li>
+                        Al menos {MIN_PASSWORD_LENGTH}
+                        {" "}caracteres.
+                    </li>
+                    <li>
+                        Combina letras mayúsculas y minúsculas.
+                    </li>
+                    <li>
+                        Añade números y caracteres especiales.
+                    </li>
+                    <li>
+                        Utiliza varias palabras aleatorias.
+                    </li>
+                    <li>
+                        Evita nombres, fechas y secuencias
+                        predecibles.
+                    </li>
+                    <li>
+                        No reutilices contraseñas de
+                        otras cuentas.
+                    </li>
+                </ul>
+            </div>
+        </details>
+    );
     // Cargar el evaluador únicamente cuando sea necesario.
     function loadPasswordEvaluator() {
         if (
@@ -246,6 +299,7 @@ function AuthScreen({
                             {!isRecovery && (
                                 <AuthField
                                     label="Contraseña"
+                                    labelExtra={isRegister ? passwordInfo : undefined}
                                     placeholder="Introduzca su contraseña"
                                     name="password"
                                     type="password"
@@ -266,73 +320,19 @@ function AuthScreen({
 
                             {isRegister && (
                                 <>
-                                    <div className="auth-screen__strength">
-                                        <details className="auth-screen__password-info">
-                                            <summary
-                                                aria-label="Información sobre la seguridad de las contraseñas"
-                                            >
-                                                <svg
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.7"
-                                                    strokeLinecap="round"
-                                                    aria-hidden="true"
-                                                >
-                                                    <circle cx="12" cy="12" r="9" />
-                                                    <path d="M12 11v5" />
-                                                    <circle
-                                                        cx="12"
-                                                        cy="8"
-                                                        r="0.75"
-                                                        fill="currentColor"
-                                                    />
-                                                </svg>
-                                            </summary>
-
-                                            <div className="auth-screen__password-info-bubble">
-                                                <strong>Requisitos de seguridad para una contraseña más segura</strong>
-
-                                                <ul>
-                                                    <li>
-                                                        Al menos {MIN_PASSWORD_LENGTH}
-                                                        {" "}caracteres.
-                                                    </li>
-                                                    <li>
-                                                        Combina letras mayúsculas y minúsculas.
-                                                    </li>
-                                                    <li>
-                                                        Añade números y caracteres especiales.
-                                                    </li>
-                                                    <li>
-                                                        Utiliza varias palabras aleatorias.
-                                                    </li>
-                                                    <li>
-                                                        Evita nombres, fechas y secuencias
-                                                        predecibles.
-                                                    </li>
-                                                    <li>
-                                                        No reutilices contraseñas de
-                                                        otras cuentas.
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </details>
-
-                                        <p
-                                            className={
-                                                `auth-screen__strength-message ` +
-                                                `auth-screen__strength-message--${passwordStrength}`
-                                            }
-                                            aria-live="polite"
-                                        >
-                                            {passwordEvaluator === "loading"
-                                                ? "Cargando comprobador de contraseñas..."
-                                                : passwordEvaluator === "error"
-                                                    ? "No se pudo cargar. Recarga la página."
-                                                    : passwordStrengthLabels[passwordStrength]}
-                                        </p>
-                                    </div>
+                                    <p
+                                        className={
+                                            `auth-screen__strength-message ` +
+                                            `auth-screen__strength-message--${passwordStrength}`
+                                        }
+                                        aria-live="polite"
+                                    >
+                                        {passwordEvaluator === "loading"
+                                            ? "Cargando comprobador de contraseñas..."
+                                            : passwordEvaluator === "error"
+                                                ? "No se pudo cargar. Recarga la página."
+                                                : passwordStrengthLabels[passwordStrength]}
+                                    </p>
 
                                     <AuthField
                                         label="Repetir contraseña"

@@ -203,6 +203,18 @@ describe("Pantalla de acceso", () => {
             ".auth-screen__password-info"
         );
 
+        const heading = info.closest(".auth-field__heading");
+
+        expect(
+            heading?.querySelector("label")?.textContent
+        ).toBe("Contraseña");
+
+        expect(
+            container.querySelector(
+                ".auth-screen__strength .auth-screen__password-info"
+            )
+        ).toBeNull();
+
         expect(info.open).toBe(false);
 
         click(".auth-screen__password-info summary");
